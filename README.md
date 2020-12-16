@@ -8,7 +8,7 @@
 
         ROGUE AGENT
         -------------------------------------------------------
-        git clone https://github.com/BroadbentT/rogue-agent.git
+        https://github.com/BroadbentT/ROGUE-AGENT.git
         python3 install.py
 <br>
 
