@@ -1863,6 +1863,7 @@ while True:
             command("tput sgr0")            
             command("sed -i /'is an IPv6 address'/d shares.tmp")
             command("sed -i /'no workgroup'/d shares.tmp")
+            command("sed -i /'NT_STATUS_LOGON_FAILURE'/d shares.tmp")
             command("sed -i /Sharename/d shares.tmp")
             command("sed -i /---------/d shares.tmp")
             command("sed -i '/^$/d' shares.tmp")
@@ -3471,7 +3472,12 @@ while True:
          checkParams = testFour("1433")
       
       if checkParams != 1:
-          command(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "\\" + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
+         if PAS[:1] != " ":
+            command(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
+         else:
+            if NTM[:1] != " ":
+               print("[i] Using HASH value as password credential...")
+               command(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes " + NTM.rstrip(" ") + " -windows-auth")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
