@@ -1502,7 +1502,7 @@ while True:
       checkParams = testTwo()        
        
       if checkParams != 1:
-            command(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
+         command(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2144,9 +2144,13 @@ while True:
                command("echo " + line + " >> authorised.tmp")
                
       count = len(open('authorised.tmp').readlines())      
+      
       if count == 0:
-         print("[+] The authorised user file is empty...")
-         checkParams = 1
+         print("[+] The authorised user file is empty, so I am authorising everyone in the list..")
+         with open(dataDir + "/usernames.txt", "r") as read:
+            for x in range(0, maxUser):
+               line = read.readline().rstrip("\n")
+               command("echo " + line + " >> authorised.tmp")
          
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2550,9 +2554,7 @@ while True:
       try:
          null = input("\nPress ENTER to continue...")
       except EOFError as e:
-         print("[!] Crackmap is generating this error: " + e + "...")
-         
-      prompt()
+         print(e)
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
