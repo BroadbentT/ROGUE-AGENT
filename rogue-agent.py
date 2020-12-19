@@ -139,6 +139,7 @@ def spacePadding(variable,value):
    variable = variable[:value]
    while len(variable) < value:
       variable += " "
+   variable = variable[:value]
    return variable
 
 def dotPadding(variable,value):
@@ -146,6 +147,7 @@ def dotPadding(variable,value):
    variable = variable[:value] 
    while len(variable) < value:
       variable += "."
+   variable = variable[:value]
    return variable
 
 def getTime():
@@ -1062,6 +1064,7 @@ while True:
       BAK = NTM
       NTM = input("[*] Please enter hash value: ")
       if NTM != "":
+         NTM = NTM.rstrip(" ")
          NTM = spacePadding(NTM, COL1)
       else:
          NTM = BAK
@@ -1243,7 +1246,7 @@ while True:
          command("xdotool type 'clear; cat " + dataDir + "/banner1.txt'; xdotool key Return")
          command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
-#      prompt()
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1608,7 +1611,8 @@ while True:
       
       if checkParams != 1:
          print("[*] Enumerating, please wait....")
-         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > domain.tmp")                  
+         
+         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > domain.tmp")                           
          command("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
 
          with open("sid.tmp", "r") as read:
@@ -1686,14 +1690,16 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         print("[*] Enumerating users, please wait this can take sometime...")         
+         print("[*] Enumerating users, please wait this can take sometime...")   
+               
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password authentication...\n")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
             print("")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > users.tmp")                           
-         count = os.path.getsize("users.tmp")   
+       
+         count = len(open('users.tmp').readlines(  ))
                
          if count == 0:
             print("[+] File users.tmp is empty...")
@@ -1708,12 +1714,12 @@ while True:
                   break        
                   
          if checkParams != 1:
-            command("rm " + dataDir + "/usernames.txt")          
-            command("rm " + dataDir + "/hashes.txt")                        
-            command("touch " + dataDir + "/hashes.txt")                      
+            command("rm " + dataDir + "/usernames.txt")
+            command("rm " + dataDir + "/hashes.txt")            
+            command("touch " + dataDir + "/usernames.txt")
+            command("touch " + dataDir + "/hashes.txt")
             command("sed -i -n '/Found user: /p' users.tmp")
             command("cat users.tmp | sort > users2.tmp")
-            
             wipeTokens(VALD)
             
             with open("users2.tmp", "r") as read:
