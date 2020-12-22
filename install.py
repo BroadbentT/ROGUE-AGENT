@@ -10,7 +10,7 @@
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Load any required imports.
+# Details : Load any required imports
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -21,9 +21,21 @@ import os.path
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Check running as root 
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+if os.geteuid() != 0:
+   print("\n[*] Please run this python3 script as root...")
+   exit(1)
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Define system colours.
+# Details : Define system colours
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -35,7 +47,7 @@ Reset  = '\e[0m'
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Display product banner. 
+# Details : Display product banner
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -56,14 +68,24 @@ os.system("echo '" + Reset + "'")
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Create program banners.
+# Details : Create program directories
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+dirList = ["ROGUEAGENT", "TREADSTONE", "BLACKBRIAR", "OUTCOME", "LARX"]
+for x in range(0, len(dirList)):
+   if not os.path.exists(dirList[x]):
+      os.system("mkdir " + dirList[x])
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Create program banners
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
 print("\n\n[*] Creating program banners, please wait...")
-
-if not os.path.exists("ROGUEAGENT"):
-   os.system("mkdir ROGUEAGENT")
 
 os.chdir("ROGUEAGENT")
 
@@ -133,7 +155,7 @@ os.chdir("..")
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Install system requirements.
+# Details : Install system requirements
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -166,11 +188,7 @@ if not os.path.exists("/usr/share/doc/python3-impacket/examples/windapsearch.py"
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-print("[*] Installing windows and linux exploits, please wait...")
-
-if not os.path.exists("TREADSTONE"):
-   os.system("mkdir TREADSTONE")
-
+print("[*] Installing windows and linux exploits, please wait...")   
 os.chdir("TREADSTONE")
 
 os.system("wget https://download.sysinternals.com/files/Procdump.zip -O Procdump.zip > log.tmp 2>&1")
@@ -182,10 +200,10 @@ os.remove("procdump64a.exe")
 os.system("wget 'https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/raw/master/winPEAS/winPEASexe/winPEAS/bin/Obfuscated%20Releases/winPEASx64.exe' -O winpeas64.exe >> log.tmp 2>&1")
 os.system("wget 'https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/raw/master/winPEAS/winPEASexe/winPEAS/bin/Obfuscated%20Releases/winPEASx86.exe' -O winpeas32.exe >> log.tmp 2>&1")
 os.system("wget 'https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe' -O sharphound.exe >> log.tmp 2>&1")
-os.system("wget 'https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1' -O sharphound.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1' -O azurehound.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1' -O ../LARX/sharphound.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1' -O ../LARX/azurehound.ps1 >> log.tmp 2>&1")
 os.system("git clone https://github.com/TsukiCTF/Lovely-Potato.git >> log.tmp 2>&1")
-os.system("mv ./Lovely-Potato/Invoke-LovelyPotato.ps1 ./lovelypotato.ps1 >> log.tmp 2>&1")
+os.system("mv ./Lovely-Potato/Invoke-LovelyPotato.ps1 ../LARX/lovelypotato.ps1 >> log.tmp 2>&1")
 os.system("mv ./Lovely-Potato/JuicyPotato-Static.exe ./juicypotato.exe >> log.tmp 2>&1")
 os.system("mv ./Lovely-Potato/test_clsid.bat ./ >> log.tmp 2>&1")
 os.remove("./Lovely-Potato/README.md")
@@ -196,15 +214,15 @@ if os.path.exists("RoguePotato.zip"):
    os.remove("RoguePotato.zip")
 os.system("mv ./RogueOxidResolver.exe ./rogueoxidresolver.exe >> log.tmp 2>&1")
 os.system("mv ./RoguePotato.exe ./roguepotato.exe >> log.tmp 2>&1")
-os.system("wget 'https://raw.githubusercontent.com/fox-it/Invoke-ACLPwn/master/Invoke-ACLPwn.ps1' -O aclpwn.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/411Hall/JAWS/raw/master/jaws-enum.ps1' -O jawsenum.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/besimorhino/powercat/raw/master/powercat.ps1' -O powercat.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/HarmJ0y/PowerUp/raw/master/PowerUp.ps1' -O powerup.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/S3cur3Th1sSh1t/WinPwn/raw/master/WinPwn.ps1' -O winpwn.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Exfiltration/Out-Minidump.ps1' -O mimidump.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Exfiltration/Invoke-Mimikatz.ps1' -O mimikatz.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Recon/PowerView.ps1' -O powerview.ps1 >> log.tmp 2>&1")
-os.system("wget 'https://github.com/Kevin-Robertson/Powermad/raw/master/Powermad.ps1' -O powermad.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://raw.githubusercontent.com/fox-it/Invoke-ACLPwn/master/Invoke-ACLPwn.ps1' -O ../LARX/aclpwn.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/411Hall/JAWS/raw/master/jaws-enum.ps1' -O ../LARX/jawsenum.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/besimorhino/powercat/raw/master/powercat.ps1' -O ../LARX/powercat.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/HarmJ0y/PowerUp/raw/master/PowerUp.ps1' -O ../LARX/powerup.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/S3cur3Th1sSh1t/WinPwn/raw/master/WinPwn.ps1' -O ../LARX/winpwn.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Exfiltration/Out-Minidump.ps1' -O ../LARX/mimidump.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Exfiltration/Invoke-Mimikatz.ps1' -O ../LARX/mimikatz.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/PowerShellMafia/PowerSploit/raw/master/Recon/PowerView.ps1' -O ../LARX/powerview.ps1 >> log.tmp 2>&1")
+os.system("wget 'https://github.com/Kevin-Robertson/Powermad/raw/master/Powermad.ps1' -O ../LARX/powermad.ps1 >> log.tmp 2>&1")
 os.system("wget 'https://github.com/jpillora/chisel/releases/download/v1.7.2/chisel_1.7.2_windows_amd64.gz' -O chisel.gz >> log.tmp 2>&1")
 os.system("gunzip chisel.gz")
 os.system("mv chisel win_chisel64.exe >> log.tmp 2>&1")
@@ -235,15 +253,29 @@ os.system("wget 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0
 os.system("wget 'https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64' -O pspy64 >> log.tmp 2>&1")
 os.system("wget 'https://raw.githubusercontent.com/kkamagui/linux-kernel-exploits/master/kernel-4.4.0-31-generic/CVE-2016-5195/compile.sh' -O naughtycowcompile.sh >> log.tmp 2>&1")
 os.system("wget 'https://raw.githubusercontent.com/kkamagui/linux-kernel-exploits/master/kernel-4.4.0-31-generic/CVE-2016-5195/naughtyc0w.c' -O naughthycow.c >> log.tmp 2>&1")
+os.system("chmod +X *.*")
+
+os.chdir("..")
+os.chdir("LARX")
+os.system("sed -i -e '/<#/,/#>/c\\' *.ps1")
+os.system("sed -i -e 's/^[[:space:]]*#.*$//g' *.ps1")
+os.chdir ("..")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Enable and finish install.
+# Details : Install obfuscation software
 # Modified: N/A
 # -------------------------------------------------------------------------------------
-os.system("chmod +X *.*")
+
+print("[*] Installing exploit obfuscation software, please wait...")
+os.chdir("OUTCOME")
+os.system("git clone https://github.com/phra/PEzor.git >> log.tmp 2>&1")
+os.chdir("PEzor")
+os.system("bash install.sh >> log.tmp 2>&1")
+os.system("export PATH=$PATH:~/go/bin/:/OUTCOME/PEzor:/OUTCOME/PEzor/deps/donut_v0.9.3/:/OUTCOME/PEzor/deps/wclang/_prefix_PEzor_/bin/")
+os.chdir("..")
 os.chdir("..")
 print("[*] All done!!...")
 #EoF
