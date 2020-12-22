@@ -763,14 +763,26 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='0':   
-      checkParams = testOne()      
+      checkParams = testOne()
+      
+      if (checkParams != 1) and (POR[:1] == ""):
+         print("[*] Attempting to enumerate live ports, please wait as this can take sometime...")
+         command("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
+         PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
+         POR = spacePadding(PTS, COL1)
+
+         if POR[:1] == "":
+            print("[+] Unable to enumerate any port information, good luck!!...")
+         else:
+            print("[+] Found live ports...\n")
+            print(colored(PTS,colour6))
       
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
          else:
-            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
+            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
 # -----
          errorCheck = linecache.getline("lsaquery.tmp", 1)                  
          if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
@@ -820,7 +832,7 @@ while True:
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
             else:
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
 # -----
             errorCheck = linecache.getline("shares.tmp", 1)
   
@@ -853,7 +865,7 @@ while True:
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
             else:
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
 # -----
             errorCheck = linecache.getline("domusers.tmp", 1)
             if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
