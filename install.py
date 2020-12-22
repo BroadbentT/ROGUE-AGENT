@@ -273,8 +273,13 @@ print("[*] Installing exploit obfuscation software, please wait...")
 os.chdir("OUTCOME")
 os.system("git clone https://github.com/phra/PEzor.git >> log.tmp 2>&1")
 os.chdir("PEzor")
-os.system("bash install.sh >> log.tmp 2>&1")
-os.system("export PATH=$PATH:~/go/bin/:/OUTCOME/PEzor:/OUTCOME/PEzor/deps/donut_v0.9.3/:/OUTCOME/PEzor/deps/wclang/_prefix_PEzor_/bin/")
+os.system("bash install.sh >> keepme.txt 2>&1")
+
+path = open("keepme.txt", "r")
+last_line = path.readlines()[-1]
+path.close()
+os.system(last_line)
+
 os.chdir("..")
 os.chdir("..")
 print("[*] All done!!...")
