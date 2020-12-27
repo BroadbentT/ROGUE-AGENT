@@ -580,6 +580,7 @@ def options():
 
 Red    = '\e[1;91m'
 Yellow = '\e[1;93m'
+Green  = '\e[0;32m'
 Reset  = '\e[0m'
 
 command("echo '" + Red + "'")
@@ -885,8 +886,7 @@ while True:
                         USER[x] = USER[x].replace("rid","")                     
                         if USER[x][:5] != "Error":
                            USER[x] = spacePadding(USER[x], COL3)
-                           HASH[x] = ""
-                           HASH[x] = dotPadding(HASH[x], COL4)
+                           HASH[x] = spacePadding("", COL4)
                            if USER[x][:1] != " ":
                               write1.write(USER[x].rstrip(" ") + "\n")
                               write2.write(HASH[x].rstrip(" ") + "\n")                                                         
@@ -1424,9 +1424,11 @@ while True:
          if dateTime != "":
             date, time = dateTime.split(" ")
             time = time.rstrip(")")
-            print("[+] Synchronised with remote server...\n")
+            print("[+] Synchronised with remote server...")
+            command("echo '" + Green + "'")
             command("timedatectl set-time " + date)
             command("date --set=" + time)
+            command("echo '" + Reset + "'")
             LTM = time
             SKEW = 1
          else:
@@ -1750,10 +1752,10 @@ while True:
                      if USER[x] != "":
                        print(colored(USER[x],colour6))
                        command("echo " + USER[x] + " >> " + dataDir + "/usernames.txt")
-                       HASH[x] = "."*COL4
+                       HASH[x] = " "*COL4
                      else:
                         USER[x] = " "*COL3
-                        HASH[x] = "."*COL4
+                        HASH[x] = " "*COL4
                   else:
                      USER[x] = " "*COL3
                      HASH[x] = " "*COL4   
@@ -2029,7 +2031,7 @@ while True:
          checkParams = testFour("88")
       
       if checkParams != 1:
-         print("[*] Enumerating remote server, please wait...")
+         print("[*] Enumerating remote server for valid usernames, please wait...")
          command("nmap " + IP46 + " -p 88 --script=krb5-enum-users --script-args=krb5-enum-users.realm=\'" + DOM.rstrip(" ") + ", userdb=" + dataDir + "/usernames.txt\' " + TIP.rstrip(" ") + " >> users.tmp")
 
          command("sed -i '/@/!d' users.tmp")							# PARSE FILE 1
@@ -2059,6 +2061,8 @@ while True:
                         HASH.insert(0, HASH.pop(x))
                         VALD.insert(0, VALD.pop(x))
                         break
+                     if HASH[x][:1] == " ":
+                        HASH[x] = "."*COL4
                         
             with open(dataDir + "/usernames.txt", "w") as write1, open(dataDir + "/hashes.txt", "w") as write2, open(dataDir + "/tokens.txt", "w") as write3:
                for x in range(0, maxUser):
@@ -2067,7 +2071,7 @@ while True:
                      write2.write(HASH[x].rstrip(" ") + "\n")
                      write3.write(VALD[x].rstrip(" ") + "\n")
          else:
-            print("[-] No valid usernames was enumerated...")
+            print("[-] No valid usernames were found...")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
