@@ -2864,18 +2864,11 @@ while True:
             print("[+] User list generated via ip address...")
             
          if os.path.exists("/usr/share/ncrack/minimal.usr"):
-            command("cat /usr/share/ncrack/minimal.usr >> usernames.txt 2>&1")
-            command("sed -i '/#/d' usernames.txt 2>&1")
-            command("sed -i '/Email addresses found/d' usernames.txt 2>&1")
-            command("sed -i '/---------------------/d' usernames.txt 2>&1")
+            command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
+            command("sed -i '/#/d' " + dataDir + "/usernames.txt 2>&1")
+            command("sed -i '/Email addresses found/d' " + dataDir + "/usernames.txt 2>&1")
+            command("sed -i '/---------------------/d' " + dataDir + "/usernames.txt 2>&1")
 
-            if os.path.exists("/usr/share/ncrack/minimal.usr"):
-               print("[+] Adding NCrack minimal.usr list as well...")
-               command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
-               command("sed -i '/#/d' " + dataDir + "/passwords.txt 2>&1")
-               command("sed -i '/Email addresses found/d' " + dataDir + "/passwords.txt 2>&1")
-               command("sed -i '/---------------------/d' " + dataDir + "/passwords.txt 2>&1")
-            
          for x in range (0,maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x+1).rstrip(" ")
             USER[x] = spacePadding(USER[x], COL3)
@@ -2899,7 +2892,14 @@ while True:
             print("[+] Password list generated via website...")
          else:
             command("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + TIP.rstrip(" ") + " 2>&1")
-            print("[+] Password list generated via ip address...")            
+            print("[+] Password list generated via ip address...")
+
+         if os.path.exists("/usr/share/ncrack/minimal.usr"):
+            print("[+] Adding NCrack minimal.usr list as well...")
+            command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
+            command("sed -i '/#/d' " + dataDir + "/passwords.txt 2>&1")
+            command("sed -i '/Email addresses found/d' " + dataDir + "/passwords.txt 2>&1")
+            command("sed -i '/---------------------/d' " + dataDir + "/passwords.txt 2>&1")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
