@@ -1578,6 +1578,9 @@ while True:
 
    if selection =='32':
       checkParams = testTwo()
+      
+      if checkParams != 1:
+         checkParams = testFour("2049")
 
       if checkParams != 1:
          command("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
@@ -1605,6 +1608,9 @@ while True:
 
    if selection == '33':
       checkParams = testTwo()
+      
+      if checkParams != 1:
+         checkParams = testFour("2049")
 
       if checkParams != 1:
          mount = input("[*] Please enter NFS name : ")
