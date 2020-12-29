@@ -781,7 +781,7 @@ while True:
             print("[+] Unable to enumerate any port information, good luck!!...")
          else:
             print("[+] Found live ports...\n")
-            print(colored(PTS,colour6))
+            print(colored(PTS,colour6) + "\n")
       
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2142,7 +2142,7 @@ while True:
                
          if found == 0:
             print("\n[*] Now trying all users against password list, please wait as this could take sometime...")            
-            command("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp > log.tmp")                 
+            command("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
             test3 = linecache.getline("password3.tmp", 1)
             
             if test3 != "":
