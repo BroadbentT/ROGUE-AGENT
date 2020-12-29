@@ -325,7 +325,7 @@ def display():
 
 # -----
  
-   print('\u2551' + " DNS  SERVER  " + '\u2551', end=' ')
+   print('\u2551' + " DNS ADDRESS  " + '\u2551', end=' ')
    if DNS[:5] == "EMPTY":
       print(colored(DNS[:COL1],colour7), end=' ')
    else:
@@ -346,7 +346,7 @@ def display():
    
 # -----
 
-   print('\u2551' + " REMOTE   IP  " + '\u2551', end=' ')
+   print('\u2551' + " IP  ADDRESS  " + '\u2551', end=' ')
    if TIP[:5] == "EMPTY":
       print(colored(TIP[:COL1],colour7), end=' ')
    else:
@@ -389,7 +389,7 @@ def display():
    
 # -----
 
-   print('\u2551' + " WEB ADDRESS  " + '\u2551', end=' ')
+   print('\u2551' + " WEBSITE URL  " + '\u2551', end=' ')
    if WEB[:5] == "EMPTY":
       print(colored(WEB[:COL1],colour7), end=' ')
    else:
@@ -565,16 +565,16 @@ def display():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS  SERVER (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
-   print('\u2551' + "(02) Re/Set REMOTE   IP (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
+   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
+   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) WhoIs DNS SERVER (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) Dig   DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra POP3 (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Enum  DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra SMTP (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) Hydra  TOM (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon TOM (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon OWA (97) WinRm    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon RCE (98) RemDesk  " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra POP3 (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra SMTP (94) SQSH     " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) Hydra  TOM (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon TOM (96) MySQL    " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live IPorts (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon OWA (97) WinRm    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap IP Services (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon RCE (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88)            (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
