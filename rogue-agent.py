@@ -225,8 +225,9 @@ def keys():
    print("\tHKEY_CURRENT_CONFIG HKCC")
    return
    
-def checkInterface(variable):
+def checkInterface(variable, COMP):
    print("[*] Checking network interface...")
+   
    try:      
       authLevel = RPC_C_AUTHN_LEVEL_NONE
       
@@ -243,18 +244,26 @@ def checkInterface(variable):
       bindings = objExporter.ServerAlive2()
       
       print("")
+      checkParams = 0
+      
       for binding in bindings:
          NetworkAddr = binding['aNetworkAddr']
          print(colored("Address: " + NetworkAddr, colour6))
+                  
+         if checkParams == 0:
+            if "." not in NetworkAddr:
+               COMP = spacePadding(NetworkAddr,16+1) # UNKNOWN REASON WHY +1
+               checkParams = 1
          
    except:
       print("[-] No responce from network interface, checking connection instead...\n")
+      COMP = spacePadding("UNKNOWN",16)
       
       if variable == "DNS":
            command("ping -c 5 " + DNS.rstrip(" "))
       if variable == "TIP":
            command("ping -c 5 " + TIP.rstrip(" "))
-   return   
+   return COMP  
    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
@@ -323,7 +332,17 @@ def fileCheck(variable):
 
 def display():
    print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
-   print('\u2551' + (" ")*4 + colored(LTM[:6],colour7) + (" ")*4 + '\u2551' + " " + colored("REMOTE SYSTEM",colour5) +  (" ")*28 + '\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551') 
+   print('\u2551' + " TIME ", end =' ')   
+   if SKEW == 0:
+      print(colored(LTM[:6],colour7), end=' ')
+   else:
+      print(colored(LTM[:6],colour6), end=' ')      
+   print('\u2551' + " " + colored("REMOTE COMPUTER NAME",colour5), end=' ')   
+   if COMP[:7] == "UNKNOWN":
+      print(colored(COMP.upper(),colour7), end=' ')
+   else:
+      print(colored(COMP.upper(),colour6), end=' ')      
+   print((" ")*3 + '\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')
 
 # -----
@@ -669,6 +688,8 @@ USER = [" "*COL3]*maxUser		# USER NAMES
 HASH = [" "*COL4]*maxUser		# NTLM HASH
 VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
+COMP = "UNKNOWN         "		# REMOTE SERVER NAME
+
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
@@ -947,7 +968,7 @@ while True:
             command("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
             DNSC = 1
     
-         checkInterface("DNS")       
+         COMP = checkInterface("DNS", COMP)
          prompt()    
 
 # ------------------------------------------------------------------------------------- 
@@ -991,7 +1012,7 @@ while True:
             command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
             DOMC = 1
 
-         checkInterface("TIP")
+         COMP = checkInterface("TIP", COMP)
          prompt()
 
 # ------------------------------------------------------------------------------------- 
