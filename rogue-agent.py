@@ -1047,6 +1047,8 @@ while True:
          for x in range(0, maxUser):
             if USER[x].rstrip(" ") == USR.rstrip(" "):
                NTM = HASH[x]
+               if NTM[:1] == " ":
+                  NTM = "EMPTY"
          NTM = spacePadding(NTM, COL1)
 
 # ------------------------------------------------------------------------------------- 
@@ -1248,7 +1250,7 @@ while True:
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
       command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
-      command("xdotool type 'impacket-smbserver C:\\tmp " + httpDir + "/ -smb2support'; xdotool key Return")
+      command("xdotool type 'impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
@@ -3161,17 +3163,28 @@ while True:
          checkParams = testFour("80")
       
       if checkParams != 1:
+         if WEB[:5] == "EMPTY":
+            print("[-] Web url not specified...")
+            checkParams = 1
+
+      if checkParams != 1:
+         try:
+            null, target = WEB.split(TIP.rstrip(" "))
+         except:
+            print(colored("[!] WARNING!!! - Huston, we encountered a problem with the url... just letting you know!!...", colour0))
+            checkParams = 1
+
+      if checkParams != 1:
          fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt") 
+         fileCheck(dataDir + "/passwords.txt")
 
-      null, target = WEB.split(TIP.rstrip(" "))
-      command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " http-post-form '" + target.rstrip(" ") + ":username=^USER^&password=^PASS^:Invalid' -t 64 -V")
-
-      for x in range (0,maxUser):
-         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-         USER[x] = spacePadding(USER[x], COL3)            
-      wipeTokens(VALD)  
-
+         for x in range (0,maxUser):
+            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+            USER[x] = spacePadding(USER[x], COL3)            
+         wipeTokens(VALD)  
+     
+      if checkParams != 1:
+         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " http-post-form '" + target.rstrip(" ") + ":username=^USER^&password=^PASS^:Invalid' -t 64 -V")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
