@@ -1736,10 +1736,13 @@ while True:
                   
          if os.path.getsize("users.tmp") != 0:
             command("rm " + dataDir + "/usernames.txt")
+            command("rm " + dataDir + "/hashes.txt")
+            command("touch " + dataDir + "/hashes.txt")
             wipeTokens(VALD)
                 
             with open("users.tmp", "r") as read:
                for x in range(0, maxUser):
+                  HASH[x] = " "*COL4
                   line1 = read.readline()                  
                   if line1 != "":
                      try:
@@ -2114,7 +2117,8 @@ while True:
                         HASH.insert(0, HASH.pop(x))
                         VALD.insert(0, VALD.pop(x))
                         break
-                     if HASH[x][:1] == " ":
+                  for x in range(0, maxUser):
+                     if (USER[x][:1] != " ") and (HASH[x][:1] == " "):
                         HASH[x] = "."*COL4
                         
             with open(dataDir + "/usernames.txt", "w") as write1, open(dataDir + "/hashes.txt", "w") as write2, open(dataDir + "/tokens.txt", "w") as write3:
