@@ -166,7 +166,7 @@ list1 = ["bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "cr
 for x in range(0, len(list1)):
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")
 
-list2 = ["bloodhound", "kerbrute", "smtp-user-enum", "termcolor", "adidnsdump"]
+list2 = ["bloodhound", "kerbrute", "smtp-user-enum", "termcolor"]
 
 for x in range(0, len(list2)):
   os.system("pip3 install " + list2[x] + " >> log.txt 2>&1")
