@@ -18,6 +18,7 @@ import os
 import sys
 import shutil
 import os.path
+import sqlite3
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -77,6 +78,37 @@ dirList = ["ROGUEAGENT", "TREADSTONE", "BLACKBRIAR", "OUTCOME", "LARX"]
 for x in range(0, len(dirList)):
    if not os.path.exists(dirList[x]):
       os.system("mkdir " + dirList[x])
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Create program database and tables
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+conn = sqlite3.connect('ROGUEAGENT/config.db')
+
+conn.execute('''CREATE TABLE REMOTETARGET
+         (IDS INT PRIMARY KEY	NOT NULL,
+         COM		TEXT	NOT NULL,
+         DNS		TEXT	NOT NULL,
+         TIP		TEXT	NOT NULL,
+         PTS		TEXT	NOT NULL,
+         WEB		TEXT	NOT NULL,
+         USR		TEXT	NOT NULL,
+         PAS		TEXT	NOT NULL,
+         NTM		TEXT	NOT NULL,
+         TGT		TEXT	NOT NULL,
+         DOM		TEXT	NOT NULL,
+         SID		TEXT	NOT NULL,
+         TSH		TEXT	NOT NULL);''')
+         
+conn.execute("INSERT INTO REMOTETARGET (IDS,COM,DNS,TIP,PTS,WEB,USR,PAS,NTM,TGT,DOM,SID,TSH) \
+      VALUES (1, 'UNKNOWN', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', '""', '""', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY' )");
+      
+conn.commit()
+conn.close()
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    

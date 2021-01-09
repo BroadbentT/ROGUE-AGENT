@@ -23,6 +23,7 @@ import string
 import random
 import hashlib
 import os.path
+import sqlite3
 import binascii
 import datetime
 import requests
@@ -96,6 +97,17 @@ if netWork not in str(up):
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
    localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Connect to local database
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+conn = sqlite3.connect(dataDir + "/config.db")
+curs = conn.cursor()
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -186,18 +198,19 @@ def wipeTokens(VALD):
    
 def saveParams():
    print("[+] Backing up data...")
-   with open(dataDir + "/config.txt", "w") as config:
-      config.write(DNS + "\n")
-      config.write(TIP + "\n")
-      config.write(PTS + "\n")
-      config.write(WEB + "\n")
-      config.write(USR + "\n")
-      config.write(PAS + "\n")
-      config.write(NTM + "\n")
-      config.write(TGT + "\n")
-      config.write(DOM + "\n")
-      config.write(SID + "\n")
-      config.write(TSH + "\n")
+   conn.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1")
+   conn.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1")
+   conn.commit()
    return
    
 def privCheck(TGT):
@@ -225,7 +238,7 @@ def keys():
    print("\tHKEY_CURRENT_CONFIG HKCC")
    return
    
-def checkInterface(variable, COMP):
+def checkInterface(variable, COM):
    print("[*] Checking network interface...")
    
    try:      
@@ -252,18 +265,20 @@ def checkInterface(variable, COMP):
                   
          if checkParams == 0:
             if "." not in NetworkAddr:
-               COMP = spacePadding(NetworkAddr,16+1) # UNKNOWN REASON WHY +1
+               COM = NetworkAddr
+               COM = COM.replace(chr(0), '')
+               COM = spacePadding(COM, 19)
                checkParams = 1
          
    except:
       print("[-] No responce from network interface, checking connection instead...\n")
-      COMP = spacePadding("UNKNOWN",16)
+      COM = spacePadding("UNKNOWN",16)
       
       if variable == "DNS":
            command("ping -c 5 " + DNS.rstrip(" "))
       if variable == "TIP":
            command("ping -c 5 " + TIP.rstrip(" "))
-   return COMP  
+   return COM
    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
@@ -338,11 +353,11 @@ def display():
    else:
       print(colored(LTM[:6],colour6), end=' ')      
    print('\u2551' + " " + colored("REMOTE COMPUTER NAME",colour5), end=' ')   
-   if COMP[:7] == "UNKNOWN":
-      print(colored(COMP.upper(),colour7), end=' ')
+   if COM[:7] == "UNKNOWN":
+      print(colored(COM.upper(),colour7), end=' ')
    else:
-      print(colored(COMP.upper(),colour6), end=' ')      
-   print((" ")*3 + '\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551') 
+      print(colored(COM.upper(),colour6), end=' ')      
+   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')
 
 # -----
@@ -688,8 +703,6 @@ USER = [" "*COL3]*maxUser		# USER NAMES
 HASH = [" "*COL4]*maxUser		# NTLM HASH
 VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
-COMP = "UNKNOWN         "		# REMOTE SERVER NAME
-
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
@@ -698,8 +711,9 @@ COMP = "UNKNOWN         "		# REMOTE SERVER NAME
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
-if not os.path.exists(dataDir + "/config.txt"):
+if not os.path.exists(dataDir + "/config.db"):
    print("[-] Configuration file not found - using defualt values...")
+   COM = "UNKNOWN            "									# REMOTE SERVER NAME
    DNS = "EMPTY              "						                        # DNS IP
    TIP = "EMPTY              " 						                        # REMOTE IP
    POR = "EMPTY              " 						                        # LIVE PORTS
@@ -713,18 +727,25 @@ if not os.path.exists(dataDir + "/config.txt"):
    TSH = "EMPTY              " 						                        # SESSIOM SHARE
 else:
    print("[+] Configuration file found - restoring saved data....")
-   DNS = linecache.getline(dataDir + "/config.txt", 1).rstrip("\n")
-   TIP = linecache.getline(dataDir + "/config.txt", 2).rstrip("\n")
-   POR = linecache.getline(dataDir + "/config.txt", 3).rstrip("\n")
-   WEB = linecache.getline(dataDir + "/config.txt", 4).rstrip("\n")
-   USR = linecache.getline(dataDir + "/config.txt", 5).rstrip("\n")
-   PAS = linecache.getline(dataDir + "/config.txt", 6).rstrip("\n")
-   NTM = linecache.getline(dataDir + "/config.txt", 7).rstrip("\n")
-   TGT = linecache.getline(dataDir + "/config.txt", 8).rstrip("\n")
-   DOM = linecache.getline(dataDir + "/config.txt", 9).rstrip("\n")	
-   SID = linecache.getline(dataDir + "/config.txt", 10).rstrip("\n")
-   TSH = linecache.getline(dataDir + "/config.txt", 11).rstrip("\n")
-
+   
+   curs.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1")
+   data = curs.fetchone() 
+   
+   IDS = data[0]
+   COM = data[1].rstrip("'")
+   DNS = data[2].rstrip("'")
+   TIP = data[3].rstrip("'")
+   POR = data[4].rstrip("'")
+   WEB = data[5].rstrip("'")
+   USR = data[6].rstrip("'")
+   PAS = data[7].rstrip("'")
+   NTM = data[8].rstrip("'")
+   TGT = data[9].rstrip("'")
+   DOM = data[10].rstrip("'")
+   SID = data[11].rstrip("'")
+   TSH = data[12]
+   
+COM = spacePadding(COM, 19)
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
 PTS = POR                                                               # KEEP FULL SCANNED IP LIST IN MEMORY
@@ -737,6 +758,14 @@ TGT = spacePadding(TGT, COL1)
 DOM = spacePadding(DOM, COL1)
 SID = spacePadding(SID, COL1)
 TSH = spacePadding(TSH, COL1)
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Check the other files for stored variables.
+# Modified: N/A                                                               	
+# -------------------------------------------------------------------------------------
 
 with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2, open(dataDir + "/tokens.txt", "r") as read3, open(dataDir + "/shares.txt", "r") as read4:
    for x in range(0, maxUser):
@@ -968,7 +997,7 @@ while True:
             command("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
             DNSC = 1
     
-         COMP = checkInterface("DNS", COMP)
+         COM = checkInterface("DNS", COM)
          prompt()    
 
 # ------------------------------------------------------------------------------------- 
@@ -1012,7 +1041,7 @@ while True:
             command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
             DOMC = 1
 
-         COMP = checkInterface("TIP", COMP)
+         COM = checkInterface("TIP", COM)
          prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1377,7 +1406,7 @@ while True:
             if POR[:1] == "":
                print("[+] Unable to enumerate any port information, good luck!!...")
             else:
-               print("[+] Found live ports...\n")
+               print("[+] Found live ports...\n")               
                print(colored(PTS,colour6))        
       prompt()
       
@@ -3647,6 +3676,8 @@ while True:
          print("[+] Removing dns server from /etc/resolv.conf...")
          command("sed -i '$d' /etc/resolv.conf")     
          
+      conn.close()
+
       print("[*] Program sucessfully terminated...")
       exit(1)        
       
