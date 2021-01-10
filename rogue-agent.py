@@ -266,7 +266,6 @@ def checkInterface(variable, COM):
             if "." not in NetworkAddr:
                COM = NetworkAddr
                COM = COM.replace(chr(0), '')
-               COM = spacePadding(COM, COL0)
                checkParams = 1
          
    except:
@@ -277,6 +276,8 @@ def checkInterface(variable, COM):
            command("ping -c 5 " + DNS.rstrip(" "))
       if variable == "TIP":
            command("ping -c 5 " + TIP.rstrip(" "))
+
+   COM = spacePadding(COM, COL0)
    return COM
    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
