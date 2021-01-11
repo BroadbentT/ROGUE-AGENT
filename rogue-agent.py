@@ -1137,6 +1137,8 @@ while True:
       if USR == "":
          USR = BAK
       else:
+         if USR == "''":
+            USR = '""'
          USR = spacePadding(USR, COL1)
          NTM = "EMPTY"
          for x in range(0, maxUser):
@@ -1160,6 +1162,8 @@ while True:
       if PAS == "":
          PAS = BAK
       else:
+         if PAS == "''":
+            PAS = '""'
          PAS = spacePadding(PAS, COL1)
          NTM = spacePadding("EMPTY", COL1)
 
