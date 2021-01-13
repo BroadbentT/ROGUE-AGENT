@@ -106,7 +106,7 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-conn = sqlite3.connect(dataDir + "/config.db")
+conn = sqlite3.connect(dataDir + "/RA.db")
 curs = conn.cursor()
 
 # -------------------------------------------------------------------------------------
@@ -343,6 +343,16 @@ def fileCheck(variable):
          command("sed -i '/---------------------/d' " + variable + " 2>&1")
    else:
       print("[!] Checked file " + variable + " contains data...")
+   return
+   
+def banner(variable):
+   blank = ""
+   for x in range(1, 6):
+      curs.execute("SELECT BANNER FROM " + variable + " WHERE IDS = " + str(x))
+      data = curs.fetchone()
+      blank = blank + data[0] + "\n"
+   with open("banner.tmp","w") as banner:
+      banner.write(blank)
    return
 
 def display():
@@ -631,7 +641,8 @@ Reset  = '\e[0m'
 
 command("echo '" + Red + "'")
 command("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
-command("clear; cat " + dataDir + "/banner1.txt")
+banner("BANNER1")
+command("clear; cat banner.tmp")
 command("echo '" + Yellow + "'")
 print("\t\t\t\t\t\t               T R E A D S T O N E  E D I T I O N                \n")
 command("echo '" + Reset + "'")
@@ -712,7 +723,7 @@ VALD = ["0"*COL5]*maxUser		# USER TOKENS
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
-if not os.path.exists(dataDir + "/config.db"):
+if not os.path.exists(dataDir + "/RA.db"):
    print("[-] Configuration file not found - using defualt values...")
    COM = "UNKNOWN            "									# REMOTE SERVER NAME
    DNS = "EMPTY              "						                        # DNS IP
@@ -1333,7 +1344,9 @@ while True:
       if HTTP != 1:
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-         command("xdotool type 'clear; cat " + dataDir + "/banner2.txt'; xdotool key Return")
+#         banner("BANNER2")
+#         command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         command("xdotool type 'cat " + dataDir + "/banner2.txt'; xdotool key Return") # TEMP
          command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
 
@@ -1348,7 +1361,8 @@ while True:
    if selection == '14':
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
-      command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
+      banner("BANNER3")
+      command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       command("xdotool type 'impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")
       
@@ -1363,8 +1377,10 @@ while True:
    if selection == '15':
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'RESPONDER'; xdotool key Return")
-#      command("xdotool type 'clear; cat " + dataDir + "/banner3.txt'; xdotool key Return")
+#      banner("BANNERX")
+#      command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       command("xdotool type 'responder -I " + netWork + " -v'; xdotool key Return")
+      time.sleep(10)
       command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
@@ -3500,13 +3516,15 @@ while True:
             write.write("set LHOST " + localIP + "\n")
             write.write("set LPORT " + checkParams + "\n")
             write.write("clear\n")
-            write.write("cat " + dataDir + "/banner4.txt\n")
+            write.write("cat banner.tmp\n")
             write.write("run\n")
             
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         command("xdotool key Ctrl+Tab")   
+         banner("BANNER4")
+         time.sleep(10)
+         command("xdotool key Ctrl+Tab")         
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    

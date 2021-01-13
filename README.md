@@ -25,10 +25,11 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 **TESTED: Kali Linux 2019** <br>
 **USAGE : python3 rogue-agent.py**
 
-| LANGUAGE  | FILENAME       | MD5 Hash                         | Description     | Version    |
-|------     |-------         | -------                          | ----            |  ----       |
-| python3   | install.py     | c5518e327882906b51a34f3789b1f315 | Install Program | TREADSTONE |
-| python3   | rogue-agent.py | ca67e085bcd110f161a561eb27b34279 | Command Centre  | TREADSTONE |
+| LANGUAGE  | FILENAME       | MD5 Hash                         | Description      | Version    |
+|------     |-------         | -------                          | ----             |  ----      |
+| python3   | install.py     | f24e3d34f1b25dbe050d64c6974085b7 | Install Program  | TREADSTONE |
+| python3   | rogue-agent.py | 9152526297513587628069f10733f2ec | Command Centre   | TREADSTONE |
+| SQLite3   | RA.db          | 83f4a67acef7f62d2506b6cd57a6b921 | Program Database | TREADSTONE |
        
 ## CONSOLE DISPLAY AND VIDEO LINK
 

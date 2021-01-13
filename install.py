@@ -90,13 +90,6 @@ for x in range(0, len(dirList)):
 print("\n\n[*] Creating program banners, please wait...")
 os.chdir("ROGUEAGENT")
 
-with open("banner1.txt","w") as banner:
-   banner.write("\t\t\t\t\t\t ____   ___   ____ _   _ _____      _    ____ _____ _   _ _____             \n")
-   banner.write("\t\t\t\t\t\t|  _ \ / _ \ / ___| | | | ____|    / \  / ___| ____| \ | |_   _|            \n")
-   banner.write("\t\t\t\t\t\t| |_) | | | | |  _| | | |  _|     / _ \| |  _|  _| |  \| | | |              \n")
-   banner.write("\t\t\t\t\t\t|  _ <| |_| | |_| | |_| | |___   / ___ \ |_| | |___| |\  | | |              \n")
-   banner.write("\t\t\t\t\t\t|_| \_\\\\___/ \____|\___/|_____| /_/   \_\____|_____|_| \_| |_|            \n")
-
 with open("banner2.txt", "w") as banner:
    banner.write("\t\t\t\t\t\t _   _ _____ _____ ____    ____  _____ ______     _______ ____              \n")
    banner.write("\t\t\t\t\t\t| | | |_   _|_   _|  _ \  / ___|| ____|  _ \ \   / / ____|  _ \             \n")
@@ -125,28 +118,6 @@ with open("banner2.txt", "w") as banner:
    banner.write("linenumplus.sh                                                                          \n")
    banner.write("linpe.sh                                                                                \n")
    banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-
-with open("banner3.txt", "w") as banner:
-   banner.write("\t\t\t\t\t\t ____  __  __ ____    ____  _____ ______     _______ ____                   \n") 
-   banner.write("\t\t\t\t\t\t/ ___||  \/  | __ )  / ___|| ____|  _ \ \   / / ____|  _ \                  \n")
-   banner.write("\t\t\t\t\t\t\___ \| |\/| |  _ \  \___ \|  _| | |_) \ \ / /|  _| | |_) |                 \n")
-   banner.write("\t\t\t\t\t\t ___) | |  | | |_) |  ___) | |___|  _ < \ V / | |___|  _ <                  \n")
-   banner.write("\t\t\t\t\t\t|____/|_|  |_|____/  |____/|_____|_| \_\ \_/  |_____|_| \_\                 \n")
-
-with open("banner4.txt", "w") as banner:
-   banner.write("\t\t\t\t\t\t __  __ _____ _____ _____ ____  ____  ____  _____ _____ _____ ____         \n")
-   banner.write("\t\t\t\t\t\t|  \/  | ____|_   _| ____|  _ \|  _ \|  _ \| ____|_   _| ____|  _ \        \n")
-   banner.write("\t\t\t\t\t\t| |\/| |  _|   | | |  _| | |_) | |_) | |_) |  _|   | | |  _| | |_) |       \n")
-   banner.write("\t\t\t\t\t\t| |  | | |___  | | | |___|  _ <|  __/|  _ <| |___  | | | |___|  _ <        \n")
-   banner.write("\t\t\t\t\t\t|_|  |_|_____| |_| |_____|_| \_\_|   |_| \_\_____| |_| |_____|_| \_\       \n")
-   banner.write("\t\t\t\t\t\t                                                                         \n\n")
-
-with open("banner5.txt", "w") as banner:
-   banner.write("\t\t\t\t\t\t  ____  ___  _   _ _____   ____  _   _ ___ ____  _   _ ___ _   _  ____     \n")
-   banner.write("\t\t\t\t\t\t / ___|/ _ \| \ | | ____| |  _ \| | | |_ _/ ___|| | | |_ _| \ | |/ ___|    \n")
-   banner.write("\t\t\t\t\t\t| |  _| | | |  \| |  _|   | |_) | |_| || |\___ \| |_| || ||  \| | |  _     \n")
-   banner.write("\t\t\t\t\t\t| |_| | |_| | |\  | |___  |  __/|  _  || | ___) |  _  || || |\  | |_| |    \n")
-   banner.write("\t\t\t\t\t\t \____|\___/|_| \_|_____| |_|   |_| |_|___|____/|_| |_|___|_| \_|\____|    \n")
 
 os.chdir("..")
 
@@ -180,39 +151,6 @@ if not os.path.exists("/usr/share/doc/python3-impacket/examples/windapsearch.py"
    os.system("git clone https://github.com/ropnop/windapsearch.git >> log.txt 2>&1")
    os.system("mv windapsearch/windapsearch.py /usr/share/doc/python3-impacket/examples/windapsearch.py >> log.txt 2>&1")
    shutil.rmtree("windapsearch")
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Create program database and tables
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-print("[*] Creating program database, please wait...")
-
-conn = sqlite3.connect('ROGUEAGENT/config.db')
-
-conn.execute('''CREATE TABLE REMOTETARGET
-         (IDS INT PRIMARY KEY	NOT NULL,
-         COM		TEXT	NOT NULL,
-         DNS		TEXT	NOT NULL,
-         TIP		TEXT	NOT NULL,
-         PTS		TEXT	NOT NULL,
-         WEB		TEXT	NOT NULL,
-         USR		TEXT	NOT NULL,
-         PAS		TEXT	NOT NULL,
-         NTM		TEXT	NOT NULL,
-         TGT		TEXT	NOT NULL,
-         DOM		TEXT	NOT NULL,
-         SID		TEXT	NOT NULL,
-         TSH		TEXT	NOT NULL);''')
-         
-conn.execute("INSERT INTO REMOTETARGET (IDS,COM,DNS,TIP,PTS,WEB,USR,PAS,NTM,TGT,DOM,SID,TSH) \
-      VALUES (1, 'UNKNOWN', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', '\"\"', '\"\"', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY', 'EMPTY' )");
-      
-conn.commit()
-conn.close()
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -328,6 +266,8 @@ os.system("echo 'Use command = ./Pezor -unhook -syscall -sgn executable' >> keep
 
 os.chdir("..")
 os.chdir("..")
+
+os.system("mv RA.db ./ROGUEAGENT/RA.db")
 
 print("[*] All done!!...")
 #EoF
