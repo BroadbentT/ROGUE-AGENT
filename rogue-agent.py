@@ -128,7 +128,7 @@ def testTwo():
       print("[-] REMOTE IP has not been specified...")
       return 1
    if DOM[:5] == "EMPTY":
-      print("[-] DOMAIN NAME has not been specified...")
+      print("[-] DOMAIN name has not been specified...")
       return 1
    return 0  
    
@@ -144,6 +144,13 @@ def testThree():
 def testFour(variable):
    if variable not in PTS:
       print("[-] Port " + variable + " not found in live ports...")
+      return 1
+   else:
+      return 0
+
+def testFive():
+   if TSH[:5] == "EMPTY":
+      print("[-] SHARE name has not been specified...")
       return 1
    else:
       return 0
@@ -2061,6 +2068,9 @@ while True:
       if IP46 == "-6":
          print(colored("[!] WARNING!!! - Not compatable with IP 6...",colour0))		# IT MIGHT BE POSSIBLE TO USE DOMAIN NAME BUT NEED REWRITE!!
          checkParams = 1   
+
+      if checkParams != 1:
+         checkParams = testFive()
                        
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2105,6 +2115,9 @@ while True:
       if IP46 == "-6":
          print(colored("[!] WARNING!!! - Not compatable with IP 6...", colour0)) 
          checkParams = 1       
+
+      if checkParams != 1:
+         checkParams = testFive()
          
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2127,9 +2140,8 @@ while True:
    if selection == '44':
       checkParams = testOne()      
       
-      if TSH[:5] == "EMPTY":
-         print("[+] SHARE NAME has not been specified...")
-         checkParams = 1      
+      if checkParams != 1:
+         checkParams = testFive()    
          
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2804,6 +2816,9 @@ while True:
       
       if checkParams != 1:
          checkParams = testFour("873")
+
+      if checkParams != 1:
+         checkParams = testFive()
       
       if checkParams != 1:
          command("rsync -av rsync://" + TIP.rstrip(" ") +  ":873/" + TSH.rstrip(" ") + " " + TSH.rstrip(" "))
