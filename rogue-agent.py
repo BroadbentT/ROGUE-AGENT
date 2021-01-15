@@ -1144,6 +1144,9 @@ while True:
       USR = input("[*] Please enter username: ")
       if USR == "":
          USR = BAK
+         
+      if USR.find("'") != -1:
+         print(colored("[!] CAUTION!!! - Password contains a character that may break other parts of this program...", colour0))
 
       if USR[:2] == '""':
          USR = "''"
@@ -1174,8 +1177,13 @@ while True:
       PAS = input("[*] Please enter password: ")
       if PAS == "":
          PAS = BAK
+         
+      if PAS.find("'") != -1:
+         print(colored("[!] CAUTION!!! - Password contains a character that may break other parts of this program...", colour0))
+         
       if PAS[:2] == '""':
          PAS = "''"
+         
       if PAS.find("\"") != -1:
          print(colored("[!] WARNING!!! - Password contains an illegal character...", colour0))
          PAS = BAK
