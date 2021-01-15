@@ -1144,12 +1144,13 @@ while True:
       USR = input("[*] Please enter username: ")
       if USR == "":
          USR = BAK
+
       if USR[:2] == '""':
          USR = "''"
-      if '"' in PAS:
-         print("[-] Password contains an illegal character...")
-         PAS = BAK
-         prompt()
+
+      if USR.find("\"") != -1:
+         print(colored("[!] WARNING!!! - Password contains an illegal character...", colour0))
+         USR = BAK
       USR = spacePadding(USR, COL1)
       NTM = "EMPTY"
       for x in range(0, maxUser):
@@ -1158,6 +1159,7 @@ while True:
             if NTM[:1] == " ":
                NTM = "EMPTY"
       NTM = spacePadding(NTM, COL1)
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1174,12 +1176,12 @@ while True:
          PAS = BAK
       if PAS[:2] == '""':
          PAS = "''"
-      if '"' in PAS:
-         print("[-] Password contains an illegal character...")
+      if PAS.find("\"") != -1:
+         print(colored("[!] WARNING!!! - Password contains an illegal character...", colour0))
          PAS = BAK
-         prompt()
       PAS = spacePadding(PAS, COL1)
       NTM = spacePadding("EMPTY", COL1)
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
