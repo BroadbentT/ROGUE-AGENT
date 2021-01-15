@@ -205,18 +205,18 @@ def wipeTokens(VALD):
    
 def saveParams():
    print("[+] Backing up data...")
-   connection.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set COM = \"" + COM + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set DNS = \"" + DNS + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TIP = \"" + TIP + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set PTS = \"" + PTS + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set WEB = \"" + WEB + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set USR = \"" + USR + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set PAS = \"" + PAS + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set NTM = \"" + NTM + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TGT = \"" + TGT + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set DOM = \"" + DOM + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set SID = \"" + SID + "\" where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TSH = \"" + TSH + "\" where IDS = 1")
    connection.commit()
    return
    
@@ -1144,10 +1144,8 @@ while True:
       USR = input("[*] Please enter username: ")
       if USR == "":
          USR = BAK
-      if USR == "''":
-         USR = "\"\""
-      if USR == "'":
-         USR = "\""
+      if USR[:2] == '""':
+	        USR = "''"
       USR = spacePadding(USR, COL1)
       NTM = "EMPTY"
       for x in range(0, maxUser):
@@ -1170,10 +1168,8 @@ while True:
       PAS = input("[*] Please enter password: ")
       if PAS == "":
          PAS = BAK
-      if PAS == "''":
-         PAS = "\"\""
-      if PAS == "'":
-         PAS = "\""
+      if PAS[:2] == '""':
+         PAS = "''"
       PAS = spacePadding(PAS, COL1)
       NTM = spacePadding("EMPTY", COL1)
 
