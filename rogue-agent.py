@@ -106,8 +106,8 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-conn = sqlite3.connect(dataDir + "/RA.db")
-curs = conn.cursor()
+connection = sqlite3.connect(dataDir + "/RA.db")
+cursor	   = connection.cursor()
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -205,18 +205,19 @@ def wipeTokens(VALD):
    
 def saveParams():
    print("[+] Backing up data...")
-   conn.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1"); conn.commit()
-   conn.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1"); conn.commit()
+   connection.execute("UPDATE REMOTETARGET set COM = '" + COM + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set DNS = '" + DNS + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TIP = '" + TIP + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set PTS = '" + PTS + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set WEB = '" + WEB + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set USR = '" + USR + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set PAS = '" + PAS + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set NTM = '" + NTM + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TGT = '" + TGT + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set DOM = '" + DOM + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set SID = '" + SID + "' where IDS = 1")
+   connection.execute("UPDATE REMOTETARGET set TSH = '" + TSH + "' where IDS = 1")
+   connection.commit()
    return
    
 def privCheck(TGT):
@@ -355,8 +356,8 @@ def fileCheck(variable):
 def banner(variable):
    blank = ""
    for x in range(1, 6):
-      curs.execute("SELECT BANNER FROM " + variable + " WHERE IDS = " + str(x))
-      data = curs.fetchone()
+      cursor.execute("SELECT BANNER FROM " + variable + " WHERE IDS = " + str(x))
+      data = cursor.fetchone()
       blank = blank + data[0] + "\n"
    with open("banner.tmp","w") as banner:
       banner.write(blank)
@@ -627,8 +628,8 @@ def options():
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra POP3 (94) SQSH     " + '\u2551')
    print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenListPass (84) Hydra  RDP (95) MSSQL    " + '\u2551')
    print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) GenPhishCod (85) Hydra  TOM (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap Live IPorts (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon TOM (97) WinRm    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap IP Services (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon OWA (98) RemDesk  " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon TOM (97) WinRm    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon OWA (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88) MSFCon RCE (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
@@ -731,37 +732,26 @@ VALD = ["0"*COL5]*maxUser		# USER TOKENS
 # -------------------------------------------------------------------------------------
 
 if not os.path.exists(dataDir + "/RA.db"):
-   print("[-] Configuration file not found - using defualt values...")
-   COM = "UNKNOWN            "									# REMOTE SERVER NAME
-   DNS = "EMPTY              "						                        # DNS IP
-   TIP = "EMPTY              " 						                        # REMOTE IP
-   POR = "EMPTY              " 						                        # LIVE PORTS
-   WEB = "EMPTY              " 						                        # WEB ADDRESS
-   USR = "\"\"                 " 						                # SESSION USERNAME
-   PAS = "\"\"                 "						                # SESSION PASSWORD       
-   NTM = "EMPTY              " 						                        # SESSION HASH
-   TGT = "EMPTY              "						                        # SESSION TICKET-NAME
-   DOM = "EMPTY              " 						                        # SESSION DOMAIN-NAME
-   SID = "EMPTY              " 						                        # SESSION DOMAIN-SID
-   TSH = "EMPTY              " 						                        # SESSIOM SHARE
+   print(colored("[!] WARNING!!! - Unable to connect to database...", colour0))
+   exit(1)
 else:
-   print("[+] Configuration data found - restoring saved data....")
+   print("[+] Configuration database found - restoring saved data....")
    
-   curs.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1")
-   data = curs.fetchone() 
+   cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1")
+   col = cursor.fetchone() 
    
-   COM = data[1].rstrip("'")
-   DNS = data[2].rstrip("'")
-   TIP = data[3].rstrip("'")
-   POR = data[4].rstrip("'")
-   WEB = data[5].rstrip("'")
-   USR = data[6].rstrip("'")
-   PAS = data[7].rstrip("'")
-   NTM = data[8].rstrip("'")
-   TGT = data[9].rstrip("'")
-   DOM = data[10].rstrip("'")
-   SID = data[11].rstrip("'")
-   TSH = data[12].rstrip("'")
+   COM = col[1].rstrip("'")
+   DNS = col[2].rstrip("'")
+   TIP = col[3].rstrip("'")
+   POR = col[4].rstrip("'")
+   WEB = col[5].rstrip("'")
+   USR = col[6].rstrip("'")
+   PAS = col[7].rstrip("'")
+   NTM = col[8].rstrip("'")
+   TGT = col[9].rstrip("'")
+   DOM = col[10].rstrip("'")
+   SID = col[11].rstrip("'")
+   TSH = col[12].rstrip("'")
    
 COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
@@ -3760,7 +3750,7 @@ while True:
          print("[+] Removing dns server from /etc/resolv.conf...")
          command("sed -i '$d' /etc/resolv.conf")     
          
-      conn.close()
+      connection.close()
 
       print("[*] Program sucessfully terminated...")
       exit(1)        
