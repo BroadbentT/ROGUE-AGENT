@@ -1145,7 +1145,11 @@ while True:
       if USR == "":
          USR = BAK
       if USR[:2] == '""':
-	        USR = "''"
+         USR = "''"
+      if '"' in PAS:
+         print("[-] Password contains an illegal character...")
+         PAS = BAK
+         prompt()
       USR = spacePadding(USR, COL1)
       NTM = "EMPTY"
       for x in range(0, maxUser):
@@ -1170,6 +1174,10 @@ while True:
          PAS = BAK
       if PAS[:2] == '""':
          PAS = "''"
+      if '"' in PAS:
+         print("[-] Password contains an illegal character...")
+         PAS = BAK
+         prompt()
       PAS = spacePadding(PAS, COL1)
       NTM = spacePadding("EMPTY", COL1)
 
