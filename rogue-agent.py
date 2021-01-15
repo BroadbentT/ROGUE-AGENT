@@ -3048,7 +3048,8 @@ while True:
          print("[*] Starting phishing server...")      
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-         command("xdotool type 'clear; cat " + dataDir + "/banner5.txt'; xdotool key Return")
+         banner("BANNER5")
+         command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")      
       
