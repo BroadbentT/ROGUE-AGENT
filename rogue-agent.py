@@ -97,7 +97,7 @@ if netWork not in str(up):
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
    localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
-
+   
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
@@ -106,8 +106,12 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-connection = sqlite3.connect(dataDir + "/RA.db")
-cursor	   = connection.cursor()
+if not os.path.exists(dataDir + "/RA.db"):
+   print(colored("[!] WARNING!!! - Unable to connect to database...", colour0))
+   exit(1)
+else:
+   connection = sqlite3.connect(dataDir + "/RA.db")
+   cursor = connection.cursor()
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -203,23 +207,51 @@ def wipeTokens(VALD):
       VALD[x] = "0"
    return
    
-def saveParams():
+def saveParams(COM, DNS, TIP, PTS, WEB, USR, PAS, NTM, TGT, DOM, SID, TSH):
    print("[+] Backing up data...")
-   connection.execute("UPDATE REMOTETARGET set COM = \"" + COM + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set DNS = \"" + DNS + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TIP = \"" + TIP + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set PTS = \"" + PTS + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set WEB = \"" + WEB + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set USR = \"" + USR + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set PAS = \"" + PAS + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set NTM = \"" + NTM + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TGT = \"" + TGT + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set DOM = \"" + DOM + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set SID = \"" + SID + "\" where IDS = 1")
-   connection.execute("UPDATE REMOTETARGET set TSH = \"" + TSH + "\" where IDS = 1")
+     
+   command("echo " + COM + " | base64 >  base64.tmp")
+   command("echo " + DNS + " | base64 >> base64.tmp")
+   command("echo " + TIP + " | base64 >> base64.tmp")   
+   command("echo " + PTS + " | base64 >> base64.tmp")
+   command("echo " + WEB + " | base64 >> base64.tmp")
+   command("echo " + USR + " | base64 >> base64.tmp")
+   command("echo " + PAS + " | base64 >> base64.tmp")
+   command("echo " + NTM + " | base64 >> base64.tmp")
+   command("echo " + TGT + " | base64 >> base64.tmp")   
+   command("echo " + DOM + " | base64 >> base64.tmp")
+   command("echo " + SID + " | base64 >> base64.tmp")
+   command("echo " + TSH + " | base64 >> base64.tmp")   
+   
+   COM2 = linecache.getline("base64.tmp", 1).rstrip("\n")
+   DNS2 = linecache.getline("base64.tmp", 2).rstrip("\n")
+   TIP2 = linecache.getline("base64.tmp", 3).rstrip("\n")
+   PTS2 = linecache.getline("base64.tmp", 4).rstrip("\n")
+   WEB2 = linecache.getline("base64.tmp", 5).rstrip("\n")
+   USR2 = linecache.getline("base64.tmp", 6).rstrip("\n")
+   PAS2 = linecache.getline("base64.tmp", 7).rstrip("\n")
+   NTM2 = linecache.getline("base64.tmp", 8).rstrip("\n")
+   TGT2 = linecache.getline("base64.tmp", 9).rstrip("\n")
+   DOM2 = linecache.getline("base64.tmp", 10).rstrip("\n")
+   SID2 = linecache.getline("base64.tmp", 11).rstrip("\n")
+   TSH2 = linecache.getline("base64.tmp", 12).rstrip("\n")
+           
+   cursor.execute("UPDATE REMOTETARGET SET COM = '" + str(COM2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET DNS = '" + str(DNS2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET TIP = '" + str(TIP2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET PTS = '" + str(PTS2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET WEB = '" + str(WEB2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET USR = '" + str(USR2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET PAS = '" + str(PAS2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET NTM = '" + str(NTM2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET TGT = '" + str(TGT2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET DOM = '" + str(DOM2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET SID = '" + str(SID2) + "' WHERE IDS = 1")
+   cursor.execute("UPDATE REMOTETARGET SET TSH = '" + str(TSH2) + "' WHERE IDS = 1")
+   
    connection.commit()
    return
-   
+     
 def privCheck(TGT):
    command("ls  | grep ccache > ticket.tmp")
    count = len(open('ticket.tmp').readlines())
@@ -278,7 +310,7 @@ def checkInterface(variable, COM):
          
    except:
       print("[-] No responce from network interface, checking connection instead...\n")
-      COM = spacePadding("UNKNOWN",16)
+      COM = spacePadding("UNKNOWN", COL0)
       
       if variable == "DNS":
            command("ping -c 5 " + DNS.rstrip(" "))
@@ -731,33 +763,48 @@ VALD = ["0"*COL5]*maxUser		# USER TOKENS
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
-if not os.path.exists(dataDir + "/RA.db"):
-   print(colored("[!] WARNING!!! - Unable to connect to database...", colour0))
-   exit(1)
-else:
-   print("[+] Configuration database found - restoring saved data....")
+print("[+] Configuration database found - restoring saved data....")
+
+col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1").fetchone()
+
+command("echo " + col[1]  + " | base64 -d >  ascii.tmp")
+command("echo " + col[2]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[3]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[4]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[5]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[6]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[7]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[8]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[9]  + " | base64 -d >> ascii.tmp")
+command("echo " + col[10] + " | base64 -d >> ascii.tmp")
+command("echo " + col[11] + " | base64 -d >> ascii.tmp")
+command("echo " + col[12] + " | base64 -d >> ascii.tmp")
+
+COM = linecache.getline("ascii.tmp", 1).rstrip("\n")
+DNS = linecache.getline("ascii.tmp", 2).rstrip("\n")
+TIP = linecache.getline("ascii.tmp", 3).rstrip("\n")
+POR = linecache.getline("ascii.tmp", 4).rstrip("\n")
+WEB = linecache.getline("ascii.tmp", 5).rstrip("\n")
+USR = linecache.getline("ascii.tmp", 6).rstrip("\n")
+PAS = linecache.getline("ascii.tmp", 7).rstrip("\n")
+NTM = linecache.getline("ascii.tmp", 8).rstrip("\n")
+TGT = linecache.getline("ascii.tmp", 9).rstrip("\n")
+DOM = linecache.getline("ascii.tmp", 10).rstrip("\n")
+SID = linecache.getline("ascii.tmp", 11).rstrip("\n")
+TSH = linecache.getline("ascii.tmp", 12).rstrip("\n")
+  
+if USR == "":
+   USR = "''"
    
-   cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1")
-   col = cursor.fetchone() 
-   
-   COM = col[1].rstrip("'")
-   DNS = col[2].rstrip("'")
-   TIP = col[3].rstrip("'")
-   POR = col[4].rstrip("'")
-   WEB = col[5].rstrip("'")
-   USR = col[6].rstrip("'")
-   PAS = col[7].rstrip("'")
-   NTM = col[8].rstrip("'")
-   TGT = col[9].rstrip("'")
-   DOM = col[10].rstrip("'")
-   SID = col[11].rstrip("'")
-   TSH = col[12].rstrip("'")
-   
+if PAS == "":
+   PAS = "''"
+
+PTS = POR
+
 COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
-PTS = POR                                                               # KEEP FULL SCANNED IP LIST IN MEMORY
-POR = spacePadding(POR, COL1)                                           # PARTIAL IP LIST
+POR = spacePadding(POR, COL1)
 WEB = spacePadding(WEB, COL1)
 USR = spacePadding(USR, COL1)
 PAS = spacePadding(PAS, COL1)
@@ -807,16 +854,16 @@ time.sleep(5)
 # -------------------------------------------------------------------------------------
 
 while True: 
-   saveParams()							# PARAM'S SAVED
-   command("rm *.tmp")						# CLEAR GARBAGE
-   linecache.clearcache()					# CLEARS CACHES
-   checkParams = 0						# RESET'S VALUE
-   checkFile = ""						# RESET'S VALUE
-   LTM = getTime()						# GET CLOCKTIME
-   command("clear")						# CLEARS SCREEN
-   display()							# DISPLAY UPPER
-   options()							# DISPLAY LOWER
-   selection=input("[*] Please select an option: ")		# SELECT CHOICE
+   saveParams(COM, DNS, TIP, PTS, WEB, USR, PAS, NTM, TGT, DOM, SID, TSH)								 	# PARAM'S SAVED
+   command("rm *.tmp")								# CLEAR GARBAGE
+   linecache.clearcache()							# CLEARS CACHES
+   checkParams = 0								# RESET'S VALUE
+   checkFile = ""								# RESET'S VALUE
+   LTM = getTime()								# GET CLOCKTIME
+   command("clear")								# CLEARS SCREEN
+   display()									# DISPLAY UPPER
+   options()									# DISPLAY LOWER
+   selection=input("[*] Please select an option: ")				# SELECT CHOICE
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3759,7 +3806,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '99':        
-      saveParams()      
+      saveParams(COM, DNS, TIP, PTS, WEB, USR, PAS, NTM, TGT, DOM, SID, TSH)
+      command("rm *.tmp")      
       
       if DOMC == 1:
          print("[+] Removing domain name from /etc/hosts...")
