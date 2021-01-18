@@ -268,8 +268,7 @@ def privCheck(TGT):
    return (TGT)
 
 def keys():
-   print("\nRegistry Hives:-\n")
-   print("\tHKEY_CLASSES_ROOT   HKCR")
+   print("\n\tHKEY_CLASSES_ROOT   HKCR")
    print("\tHKEY_CURRENT_USER   HKCU")
    print("\tHKEY_LOCAL_MACHINE  HKLM")
    print("\tHKEY_USERS          HKU ")
@@ -1837,14 +1836,14 @@ while True:
          with open("sid.tmp", "r") as read:
             line1 =  read.readline()
 
-         if line1 != "":
-            if SID[:5] == "EMPTY":
-               SID = line1.replace('[*] Domain SID is: ',"")
-               print("[+] Domain SID found...\n")
-               command("echo " + SID + "\n")
+         if "Domain SID is:" in line1:
+            SID = line1.replace('[*] Domain SID is: ',"")
+            print("[+] Found DOMAIN SID...\n")
+            print(colored(" " + SID, colour6))
+            SID = spacePadding(SID, COL1)
                
          if SID[:5] == "EMPTY":
-            print("[+] Unable to find domain SID...")        
+            print("[+] Unable to find domain SID...")
              
          command("sed -i /*/d domain.tmp")
          command("sed -i 's/.*://g' domain.tmp")   
@@ -1912,34 +1911,36 @@ while True:
       checkParams = testTwo()
       
       if checkParams != 1:
-         print(colored("[*] Enumerating users, please wait this can take sometime...", colour3))         
+         print(colored("[*] Enumerating users, please wait this can take sometime...", colour3))      
+   
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password authentication...\n")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
-            print("")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")                           
-         count = os.path.getsize("users.tmp")   
-               
-         if count == 0:
-            print("[+] File users.tmp is empty...")
-            checkParams = 1         
-            
-         with open("users.tmp", "r") as read:
-            for x in range(0, count):
-               line = read.readline()
-               if "[+] SMB SessionError:" in line:
-                  checkParams = 1
-                  command("cat users.tmp")
-                  break        
+         
+         test = linecache.getline("users.tmp", 5)
+         if "[*] No entries received." in test:
+            print("[-] No usernames were found...")
+            checkParams = 1
+
+         if checkParams != 1:
+            count = sum(1 for line in open('users.tmp'))
+
+            with open("users.tmp", "r") as read:
+               for x in range(0, count):
+                  line = read.readline()
+                  if "[+] SMB SessionError:" in line:
+                     checkParams = 1
+                     command("cat users.tmp")
+                     break        
                   
          if checkParams != 1:
             command("rm " + dataDir + "/usernames.txt")          
             command("rm " + dataDir + "/hashes.txt")                        
             command("touch " + dataDir + "/hashes.txt")                      
             command("sed -i -n '/Found user: /p' users.tmp")
-            command("cat users.tmp | sort > users2.tmp")
-            
+            command("cat users.tmp | sort > users2.tmp")            
             wipeTokens(VALD)
             
             with open("users2.tmp", "r") as read:
@@ -1959,9 +1960,7 @@ while True:
                         HASH[x] = " "*COL4
                   else:
                      USER[x] = " "*COL3
-                     HASH[x] = " "*COL4   
-         else:
-            print ("[*] No entries were found...")
+                     HASH[x] = " "*COL4
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1979,7 +1978,7 @@ while True:
       if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password authentication...")
             
-      print("[i] For your information, registry key format looks like this...")
+      print("[i] Valid registry hives are shown below...")
       keys()                
       
       if checkParams != 1:
