@@ -1917,23 +1917,17 @@ while True:
             print("[i] Using HASH value as password authentication...\n")
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
-            command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")                           
-         
-         test = linecache.getline("users.tmp", 5)
-         if "[*] No entries received." in test:
-            print("[-] No usernames were found...")
-            checkParams = 1
+            command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")
 
-         if checkParams != 1:
-            count = sum(1 for line in open('users.tmp'))
+         count = sum(1 for line in open('users.tmp'))
 
-            with open("users.tmp", "r") as read:
-               for x in range(0, count):
-                  line = read.readline()
-                  if "[+] SMB SessionError:" in line:
-                     checkParams = 1
-                     command("cat users.tmp")
-                     break        
+         with open("users.tmp", "r") as read:
+            for x in range(0, count):
+               line = read.readline()
+               if "[-] SMB SessionError:" in line:
+                  checkParams = 1
+                  command("cat users.tmp")
+                  break
                   
          if checkParams != 1:
             command("rm " + dataDir + "/usernames.txt")          
@@ -1942,7 +1936,8 @@ while True:
             command("sed -i -n '/Found user: /p' users.tmp")
             command("cat users.tmp | sort > users2.tmp")            
             wipeTokens(VALD)
-            
+
+            print("[+] Found usernames...\n")            
             with open("users2.tmp", "r") as read:
                for x in range (0, maxUser):
                   USER[x] = read.readline()                  
