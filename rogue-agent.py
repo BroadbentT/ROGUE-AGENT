@@ -592,10 +592,10 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-netWork = "tun0"                                               # LOCAL INTERFACE
-maxUser = 5000                                                 # UNLIMITED VALUE
+netWork = "tun0"						# LOCAL INTERFACE
+maxUser = 5000							# UNLIMITED VALUE
 
-colour0 = "red"                                                # DISPLAY COLOURS
+colour0 = "red"							# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
 colour3 = "blue"
@@ -605,14 +605,19 @@ colour6 = "green"
 colour7 = "yellow"
 colour8 = "magenta"
 
-dataDir = "ROGUEAGENT"                                         # LOCAL DIRECTORY
+Yellow  = '\e[1;93m'						# CATTING FILE COL
+Green   = '\e[0;32m'
+Reset   = '\e[0m'
+Red     = '\e[1;91m'
+
+dataDir = "ROGUEAGENT"						# LOCAL DIRECTORYS
 httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
 
-fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf"         # FILE EXTENSIONS
-keyPath = "python3 /usr/share/doc/python3-impacket/examples/"  # PATH 2 IMPACKET
+fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf"		# FILE EXTENSIONS
+keyPath = "python3 /usr/share/doc/python3-impacket/examples/"	# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -626,7 +631,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 596 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 595 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -872,126 +877,131 @@ while True:
             print("[-] Server synchronisation did not occur...")
             checkParams = 0                                     
 
-            if NTM[:5] != "EMPTY": 
-               print("[i] Using HASH value as password credential...")
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
-            else:
-               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
-            errorCheck = linecache.getline("lsaquery.tmp", 1)                              
-            if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-               print("[-] Unable to connect to RPC data...")
-               checkParams = 1      
+         if NTM[:5] != "EMPTY": 
+            print("[i] Using HASH value as password credential...")
+            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
+         else:
+            command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
+         
+         errorCheck = linecache.getline("lsaquery.tmp", 1)                              
+         if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
+            print("[-] Unable to connect to RPC data...")
+            checkParams = 1      
             
-            if checkParams != 1:
-               print(colored("[*] Attempting to enumerate domain name...", colour3))               
-               try:
-                  null,DOM = errorCheck.split(":")
-                  SID = " "*COL1
-               except ValueError:
-                  DOM = "EMPTY"
-               DOM = DOM.lstrip(" ")
-               DOM = spacePadding(DOM, COL1)                  
-               if DOM[:5] == "EMPTY":
-                  print("[+] Unable to enumerate domain name...")
-               else:
-                  print("[+] Found domain name...\n")
-                  print(colored(DOM,colour6))                      
-               if DOMC == 1:
-                  print("\n[*] Resetting current domain associated host...")
-                  command("sed -i '$d' /etc/hosts")
-                  command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-                  print("[+] Domain " + DOM.rstrip(" ") + " has successfully been added to /etc/hosts...")
-               else:
-                  command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-                  print("\n[+] Domain " + DOM.rstrip(" ") + " successfully added to /etc/hosts...")
-                  DOMC = 1                    
+         if checkParams != 1:
+            print(colored("[*] Attempting to enumerate domain name...", colour3))               
+            try:
+               null,DOM = errorCheck.split(":")
+               SID = " "*COL1
+            except ValueError:
+               DOM = "EMPTY"
+    
+            DOM = DOM.lstrip(" ")
+            DOM = spacePadding(DOM, COL1)                  
+            if DOM[:5] == "EMPTY":
+               print("[+] Unable to enumerate domain name...")
+            else:
+               print("[+] Found domain name...\n")
+               print(colored(DOM,colour6))                      
+    
+            if DOMC == 1:
+               print("\n[*] Resetting current domain associated host...")
+               command("sed -i '$d' /etc/hosts")
+               command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+               print("[+] Domain " + DOM.rstrip(" ") + " has successfully been added to /etc/hosts...")
+            else:
+               command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+               print("\n[+] Domain " + DOM.rstrip(" ") + " successfully added to /etc/hosts...")
+               DOMC = 1                    
                
-               print(colored("[*] Attempting to enumerate domain SID...", colour3))                        
-               line2 = linecache.getline("lsaquery.tmp", 2)
-               try:
-                   null,SID = line2.split(":") 
-               except ValueError:
-                  SID = "EMPTY"        
-               SID = SID.lstrip(" ")          
-               SID = spacePadding(SID, COL1)                        
-               if SID[:5] == "EMPTY":
-                  print("[+] Unable to enumerate domain SID...")
+            print(colored("[*] Attempting to enumerate domain SID...", colour3))                        
+            line2 = linecache.getline("lsaquery.tmp", 2)
+            try:
+                null,SID = line2.split(":") 
+            except ValueError:
+               SID = "EMPTY"        
+            SID = SID.lstrip(" ")          
+            SID = spacePadding(SID, COL1)                        
+    
+            if SID[:5] == "EMPTY":
+               print("[+] Unable to enumerate domain SID...")
+            else:
+               print("[+] Found SID...\n")
+               print(colored(SID,colour6) + "\n")        
+           
+            print(colored("[*] Attempting to enumerate shares...", colour3))                  
+            if NTM[:5] != "EMPTY":
+                print("[i] Using HASH value as password credential...")
+                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
+            else:
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")               
+            errorCheck = linecache.getline("shares.tmp", 1)
+    
+            if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
+               print("[-] Unable to connect to RPC data...")
+            else:
+               for x in range(0, maxUser):
+                  SHAR[x] = " "*COL2
+               command("sed -i -n '/netname: /p' shares.tmp")
+               command("sed -i '/^$/d' shares.tmp")
+               command("cat shares.tmp | sort > sshares.tmp")                        
+               count = sum(1 for line in open('sshares.tmp'))
+               if count != 0:
+                  print("[+] Found shares...\n")
+                  with open("sshares.tmp") as read:
+                     for x in range(0, count):
+                        SHAR[x]  = read.readline()
+                        SHAR[x] = SHAR[x].replace(" ","")
+                        try:
+                           null, SHAR[x] = SHAR[x].split(":")
+                        except ValueError:
+                           SHAR[x] = "Error..."
+                        print(colored(SHAR[x].rstrip("\n"),colour6))
+                        SHAR[x] = dotPadding(SHAR[x], COL2)
+                     print("")         
+            
+            print(colored("[*] Attempting to enumerate domain users...", colour3))
+            if NTM[:5] != "EMPTY":
+               print("[i] Using HASH value as password credential...")
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
+            else:
+               command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
+            errorCheck = linecache.getline("domusers.tmp", 1)
+            if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
+               print("[-] Unable to connect to RPC data...")
+            else:               
+               command("rm " + dataDir + "/usernames.txt")
+               command("rm " + dataDir + "/hashes.txt")                   
+               command("sort domusers.tmp > sdomusers.tmp")
+               command("sed -i '/^$/d' sdomusers.tmp")
+               count2 = sum(1 for line in open('sdomusers.tmp')) 
+               if count2 != 0:
+                   print ("[+] Found users...\n")
+                   with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
+                      for x in range(0, count2):
+                         line = read.readline()
+                         if "user:[Guest]" in line:
+                            null,rid = line.split("rid:")
+                            rid = rid.replace("[","")
+                            rid = rid.replace("]","")
+                         try:
+                            null1,USER[x],null2 = line.split(":")
+                         except ValueError:
+                            USER[x] = "Error..."                           
+                         USER[x] = USER[x].replace("[","")
+                         USER[x] = USER[x].replace("]","")
+                         USER[x] = USER[x].replace("rid","")                     
+                         if USER[x][:5] != "Error":
+                            USER[x] = spacePadding(USER[x], COL3)
+                            HASH[x] = spacePadding("", COL4)
+                            if USER[x][:1] != " ":
+                               write1.write(USER[x].rstrip(" ") + "\n")
+                               write2.write(HASH[x].rstrip(" ") + "\n")                                                         
+                               print(colored(USER[x],colour6))
                else:
-                  print("[+] Found SID...\n")
-                  print(colored(SID,colour6) + "\n")        
-              
-               print(colored("[*] Attempting to enumerate shares...", colour3))                  
-               if NTM[:5] != "EMPTY":
-                   print("[i] Using HASH value as password credential...")
-                   command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
-               else:
-                  command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")               
-               errorCheck = linecache.getline("shares.tmp", 1)
-               if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-                  print("[-] Unable to connect to RPC data...")
-               else:
-                  for x in range(0, maxUser):
-                     SHAR[x] = " "*COL2
-                  command("sed -i -n '/netname: /p' shares.tmp")
-                  command("sed -i '/^$/d' shares.tmp")
-                  command("cat shares.tmp | sort > sshares.tmp")                        
-                  count = sum(1 for line in open('sshares.tmp'))
-                  if count != 0:
-                     print("[+] Found shares...\n")
-                     with open("sshares.tmp") as read:
-                        for x in range(0, count):
-                           SHAR[x]  = read.readline()
-                           SHAR[x] = SHAR[x].replace(" ","")
-                           try:
-                              null, SHAR[x] = SHAR[x].split(":")
-                           except ValueError:
-                              SHAR[x] = "Error..."
-                           print(colored(SHAR[x].rstrip("\n"),colour6))
-                           SHAR[x] = dotPadding(SHAR[x], COL2)
-                        print("")         
-               
-               print(colored("[*] Attempting to enumerate domain users...", colour3))
-               if NTM[:5] != "EMPTY":
-                  print("[i] Using HASH value as password credential...")
-                  command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
-               else:
-                  command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
-               errorCheck = linecache.getline("domusers.tmp", 1)
-               if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-                  print("[-] Unable to connect to RPC data...")
-               else:               
-                  command("rm " + dataDir + "/usernames.txt")
-                  command("rm " + dataDir + "/hashes.txt")                   
-                  command("sort domusers.tmp > sdomusers.tmp")
-                  command("sed -i '/^$/d' sdomusers.tmp")
-                  count2 = sum(1 for line in open('sdomusers.tmp')) 
-                  if count2 != 0:
-                      print ("[+] Found users...\n")
-                      with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
-                         for x in range(0, count2):
-                            line = read.readline()
-                            if "user:[Guest]" in line:
-                               null,rid = line.split("rid:")
-                               rid = rid.replace("[","")
-                               rid = rid.replace("]","")
-                            try:
-                               null1,USER[x],null2 = line.split(":")
-                            except ValueError:
-                               USER[x] = "Error..."                           
-                            USER[x] = USER[x].replace("[","")
-                            USER[x] = USER[x].replace("]","")
-                            USER[x] = USER[x].replace("rid","")                     
-                            if USER[x][:5] != "Error":
-                               USER[x] = spacePadding(USER[x], COL3)
-                               HASH[x] = spacePadding("", COL4)
-                               if USER[x][:1] != " ":
-                                  write1.write(USER[x].rstrip(" ") + "\n")
-                                  write2.write(HASH[x].rstrip(" ") + "\n")                                                         
-                                  print(colored(USER[x],colour6))
-                  else:
-                     print("[+] Unable to enumerate domain users...")   
-               
-               print(colored("\n[*] Attempting to enumerate Guest policy...", colour3))
+                  print("[+] Unable to enumerate domain users...")   
+            
+               print(colored("\n[*] Attempting to enumerate Guest password policy...", colour3))
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'getusrdompwinfo " + rid + "' > policy.tmp")
                command("sed -i '/ &info: struct samr_PwInfo/d' policy.tmp 2>&1")  
                command("sed -i '/^s*$/d' policy.tmp 2>&1")
