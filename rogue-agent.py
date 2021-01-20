@@ -627,7 +627,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 574 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 596 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -867,6 +867,7 @@ while True:
             print(colored("[*] Attempting to synchronise time with remote server...", colour3))                        
             command("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
             dateTime = linecache.getline("time.tmp", 1).rstrip("\n")      
+
             if dateTime != "":
                date, time = dateTime.split(" ")
                time = time.rstrip(")")
@@ -877,9 +878,10 @@ while True:
                command("echo '" + Reset + "'")
                LTM = time
                SKEW = 1
-            else:
-               print("[-] Server synchronisation did not occur...")                        
-            
+         else:
+            print("[-] Server synchronisation did not occur...")
+            checkParams = 0                                     
+
             if NTM[:5] != "EMPTY": 
                print("[i] Using HASH value as password credential...")
                command("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
