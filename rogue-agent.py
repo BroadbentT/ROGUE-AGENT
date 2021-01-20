@@ -2490,9 +2490,9 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '52':
-      checkParam = test_IP()
+      checkParams = test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if checkParams != 1:
@@ -2584,7 +2584,7 @@ while True:
    if selection =='55':
       checkParams = test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if checkParams != 1:
@@ -2658,7 +2658,7 @@ while True:
    if selection =='58':
       checkParams != test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if checkParams != 1:
@@ -2682,7 +2682,7 @@ while True:
    if selection =='59':
       checkParams = test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if checkParams != 1:
@@ -2748,7 +2748,7 @@ while True:
    if selection =='60':
       checkParams = test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if (PAS[:2] == "''") and (NTM[:5] == "EMPTY"):
