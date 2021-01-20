@@ -2606,7 +2606,7 @@ while True:
    if selection =='56':
       checkParams = test_IP()
       
-      if checkParam != 1:
+      if checkParams != 1:
          checkParams = test_Domain()      
          
       if checkParams != 1:
