@@ -148,18 +148,18 @@ def wipeTokens(VALD):
    return
    
 def saveParams():
-   command("echo " + COM + " | base64 --wrap=0 >  base64.tmp")
-   command("echo " + DNS + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + TIP + " | base64 --wrap=0 >> base64.tmp")   
-   command("echo " + PTS + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + WEB + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + USR + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + PAS + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + NTM + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + TGT + " | base64 --wrap=0 >> base64.tmp")   
-   command("echo " + DOM + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + SID + " | base64 --wrap=0 >> base64.tmp")
-   command("echo " + TSH + " | base64 --wrap=0 >> base64.tmp")    
+   command("echo '" + COM + "' | base64 --wrap=0 >  base64.tmp")
+   command("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp")   
+   command("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp")   
+   command("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp")    
      
    COM2 = linecache.getline("base64.tmp", 1).rstrip("\n")
    DNS2 = linecache.getline("base64.tmp", 2).rstrip("\n")
@@ -3633,7 +3633,7 @@ while True:
          checkParams = test_Port("22")        
          
       if checkParams != 1:
-         command("sshpass -p '" + PAS.rstrip(" ") + "' ssh " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
+         command("sshpass -p '" + PAS.rstrip(" ") + "' ssh -o 'StrictHostKeyChecking no' " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
