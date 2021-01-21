@@ -60,7 +60,7 @@ print(colored("\t\tT R E A D S T O N E  E D I T I O N\n\n", "yellow", attrs=['bo
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-print("[*] Creating directories...")
+print("[*] Creating directories, please wait...")
 
 dirList = ["ROGUEAGENT", "TREADSTONE", "BLACKBRIAR", "OUTCOME", "LARX"]
 

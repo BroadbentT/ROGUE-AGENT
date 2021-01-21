@@ -765,11 +765,11 @@ TGT = linecache.getline("ascii.tmp", 9).rstrip("\n")
 DOM = linecache.getline("ascii.tmp", 10).rstrip("\n")
 SID = linecache.getline("ascii.tmp", 11).rstrip("\n")
 TSH = linecache.getline("ascii.tmp", 12).rstrip("\n")
-  
-if USR == "":
-   USR = "''"   
-if PAS == "":
-   PAS = "''"
+
+if USR.rstrip(" ") == "":
+   USR = "\'\'"   
+if PAS.rstrip(" ") == '':
+   PAS = "\'\'"
 POR = PTS
 
 COM = spacePadding(COM, COL0)
