@@ -77,7 +77,7 @@ for x in range(0, len(dirList)):
 # -------------------------------------------------------------------------------------
 
 print("[*] Installing system requirements I, please wait...")
-list1 = ["sqlite3", "bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "seclists"]
+list1 = ["sqlite3", "bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "seclists", "sshpass"]
 for x in range(0, len(list1)):
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")
 

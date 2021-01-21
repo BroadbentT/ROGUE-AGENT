@@ -3633,7 +3633,7 @@ while True:
          checkParams = test_Port("22")        
          
       if checkParams != 1:
-         command("ssh -l " + USR.rstrip(" ") + " " + TIP.rstrip(" ") + " -p 22")
+         command("sshpass -p '" + PAS.rstrip(" ") + "' ssh " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
