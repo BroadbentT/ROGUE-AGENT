@@ -954,8 +954,9 @@ while True:
                command("sed -i -n '/netname: /p' shares.tmp")
                command("sed -i '/^$/d' shares.tmp")
                command("cat shares.tmp | sort > sshares.tmp")                        
+               
                count = sum(1 for line in open('sshares.tmp'))
-               if count != 0:
+               if count > 0:
                   print("[+] Found shares...\n")
                   with open("sshares.tmp") as read:
                      for x in range(0, count):
@@ -984,7 +985,7 @@ while True:
                command("sort domusers.tmp > sdomusers.tmp")
                command("sed -i '/^$/d' sdomusers.tmp")
                count2 = sum(1 for line in open('sdomusers.tmp')) 
-               if count2 != 0:
+               if count2 > 0:
                    print ("[+] Found users...\n")
                    with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
                       for x in range(0, count2):
@@ -1915,13 +1916,15 @@ while True:
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")
          
          count = sum(1 for line in open('users.tmp'))
-         with open("users.tmp", "r") as read:
-            for x in range(0, count):
-               line = read.readline()
-               if "[-] SMB SessionError:" in line:
-                  checkParams = 1
-                  command("cat users.tmp")
-                  break   
+         
+         if count > 0:
+            with open("users.tmp", "r") as read:
+               for x in range(0, count):
+                  line = read.readline()
+                  if "[-] SMB SessionError:" in line:
+                     checkParams = 1
+                     command("cat users.tmp")
+                     break
                                  
          if checkParams != 1:
             command("rm " + dataDir + "/usernames.txt")          
@@ -2386,13 +2389,13 @@ while True:
                   command("echo " + line + " >> authorised.tmp")      
                   
          count = sum(1 for line in open('authorised.tmp'))                 
-         if count == 0:
-            print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
-            
+         if count > 0:           
             with open(dataDir + "/usernames.txt", "r") as read:
                for x in range(0, maxUser):
                   line = read.readline().rstrip("\n")
                   command("echo " + line + " >> authorised.tmp")      
+         else:
+            print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
                      
          if checkParams != 1:
             if NTM[:5] != "EMPTY":
