@@ -855,7 +855,16 @@ while True:
                print("[+] Unable to enumerate any port information, good luck!!...")
             else:
                print("[+] Found live ports...\n")
-               print(colored(PTS,colour6) + "\n")                 
+               print(colored(PTS,colour6) + "\n")   
+               
+         if "3128" in PTS:
+            print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
+            command("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp 2>&1")
+            temp = '"'
+            command("awk '/" + temp + "/' squid.tmp > ports.tmp")
+            command("echo '" + Green + "'")
+            command("cat ports.tmp")
+            command("echo '" + Reset + "'")                      
          
          checkParams = test_Port("88")
          if checkParams != 1:
@@ -1491,7 +1500,16 @@ while True:
                print("[+] Unable to enumerate any port information, good luck!!...")
             else:
                print("[+] Found live ports...\n")               
-               print(colored(PTS,colour6))        
+               print(colored(PTS,colour6))
+
+      if "3128" in PTS:
+         print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
+         command("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
+         temp = '"'
+         command("awk '/" + temp + "/' squid.tmp > ports.tmp")
+         command("echo '" + Green + "'")
+         command("cat ports.tmp")
+         command("echo '" + Reset + "'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
