@@ -100,14 +100,14 @@ def test_Share():
       return 0
       
 def lineCount(variable):
-   command("cat " + variable + " wc -m > count1.tmp")
-   count = int(linecache.getline("count1.tmp", 1).rstrip("\n"))
+   command("cat " + variable + " | wc -m > count1.tmp")
+   count = (linecache.getline("count1.tmp", 1).rstrip("\n"))
    if count == 0:
-      return count
+      return int(count)
    else:
-      command("cat " + variable + " wc -l > count2.tmp")
-      count = int(linecache.getline("count2.tmp", 1).rstrip("\n"))
-   return count
+      command("cat " + variable + " | wc -l > count2.tmp")
+      count = (linecache.getline("count2.tmp", 1).rstrip("\n"))
+   return int(count)
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
