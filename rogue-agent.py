@@ -2449,7 +2449,7 @@ while True:
          checkParams = 1         
          
       if checkParams != 1:       
-         count = sum(1 for line in open(dataDir + '/hashes.tmp'))
+         count = sum(1 for line in open(dataDir + '/hashes.txt'))
          counter = 0         
          
          if count > 12:
