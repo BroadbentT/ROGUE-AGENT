@@ -98,6 +98,16 @@ def test_Share():
       return 1
    else:
       return 0
+      
+def lineCount(variable):
+   command("cat " + variable + " wc -m > count1.tmp")
+   count = int(linecache.getline("count1.tmp", 1).rstrip("\n"))
+   if count == 0:
+      return count
+   else:
+      command("cat " + variable + " wc -l > count2.tmp")
+      count = int(linecache.getline("count2.tmp", 1).rstrip("\n"))
+   return count
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
@@ -190,7 +200,8 @@ def saveParams():
      
 def privCheck():
    command("ls  | grep ccache > ticket.tmp")   
-   count = sum(1 for line in open('ticket.tmp'))
+   count = lineCount("ticket.tmp")
+   
    if count > 1:
       print("[i] More than one ticket was found...") 
            
@@ -858,7 +869,7 @@ while True:
                print(colored(PTS,colour6) + "\n")   
                
          if "3128" in PTS:
-            print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
+            print(colored("[*] Checking squid proxy for hidden ports...", colour3))
             command("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp 2>&1")
             temp = '"'
             command("awk '/" + temp + "/' squid.tmp > ports.tmp")
@@ -955,7 +966,8 @@ while True:
                command("sed -i '/^$/d' shares.tmp")
                command("cat shares.tmp | sort > sshares.tmp")                        
                
-               count = sum(1 for line in open('sshares.tmp'))
+               count = lineCount("sshares.tmp")               
+               
                if count > 0:
                   print("[+] Found shares...\n")
                   with open("sshares.tmp") as read:
@@ -984,7 +996,9 @@ while True:
                command("rm " + dataDir + "/hashes.txt")                   
                command("sort domusers.tmp > sdomusers.tmp")
                command("sed -i '/^$/d' sdomusers.tmp")
-               count2 = sum(1 for line in open('sdomusers.tmp')) 
+               
+               count2 = lineCount("sdomusers.tmp") 
+               
                if count2 > 0:
                    print ("[+] Found users...\n")
                    with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
@@ -1915,7 +1929,7 @@ while True:
          else:
             command(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")
          
-         count = sum(1 for line in open('users.tmp'))
+         count = lineCount("users.tmp")
          
          if count > 0:
             with open("users.tmp", "r") as read:
@@ -2256,7 +2270,8 @@ while True:
                if username != "":
                   parse.write(username + "\n")
                   
-         count = sum(1 for line in open('validusers.tmp'))                                        
+         count = lineCount("validusers.tmp")
+         
          if count > 0:
             print("[+] Found valid usernames...\n")      
                                    
@@ -2388,7 +2403,8 @@ while True:
                if VALD[x] == "1":
                   command("echo " + line + " >> authorised.tmp")      
                   
-         count = sum(1 for line in open('authorised.tmp'))                 
+         count = lineCount("authorised.tmp")
+                       
          if count > 0:           
             with open(dataDir + "/usernames.txt", "r") as read:
                for x in range(0, maxUser):
@@ -2452,7 +2468,7 @@ while True:
          checkParams = 1         
          
       if checkParams != 1:       
-         count = sum(1 for line in open(dataDir + '/hashes.txt'))
+         count = lineCount(dataDir + "/hashes.txt")         
          counter = 0         
          
          if count > 12:
@@ -2717,7 +2733,8 @@ while True:
             
          command("sed -i '/:::/!d' secrets.tmp")
          command("sort -u secrets.tmp > ssecrets.tmp")
-         count = sum(1 for line in open('ssecrets.tmp'))   
+         
+         count = lineCount("ssecrets.tmp")
                	
          if count > 0:               
             command("rm " + dataDir + "/usernames.txt")
