@@ -18,10 +18,10 @@ import os
 import sys
 import os.path
 
+os.system("apt-get install python3-pip")
 os.system("pip3 install pyfiglet")
 os.system("pip3 install termcolor")
 os.system("pip3 install shutil")
-os.system("clear")
 
 import shutil
 import pyfiglet 
@@ -47,6 +47,7 @@ if os.geteuid() != 0:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
+os.system("clear")
 banner = pyfiglet.figlet_format("ROGUE  AGENT") 
 banner = banner.rstrip("\n")
 print(colored(banner,"red", attrs=['bold']))
@@ -77,10 +78,9 @@ for x in range(0, len(dirList)):
 # -------------------------------------------------------------------------------------
 
 print("[*] Installing system requirements I, please wait...")
-list1 = ["sqlite3", "bloodhound", "hashcat", "python3-pip", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "seclists", "sshpass"]
+list1 = ["sqlite3", "bloodhound", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass"]
 for x in range(0, len(list1)):
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")
-
 
 print("[*] Installing system requirements II, please wait...")
 list2 = ["bloodhound", "kerbrute", "smtp-user-enum"]
@@ -93,6 +93,7 @@ os.system("python3 -m pip install 'neo4j==1.7.0' --force-reinstall >> log.txt 2>
 os.system("python3 -m pip install -U ldap3 >> log.txt 2>&1")
 os.system("python3 -m pip install aclpwn >> log.txt 2>&1")
 os.system("gem install evil-winrm >> log.txt 2>&1")
+
 if not os.path.exists("/usr/share/doc/python3-impacket/examples/windapsearch.py"):
    os.system("git clone https://github.com/ropnop/windapsearch.git >> log.txt 2>&1")
    os.system("mv windapsearch/windapsearch.py /usr/share/doc/python3-impacket/examples/windapsearch.py >> log.txt 2>&1")
@@ -193,6 +194,7 @@ os.system("bash install.sh >> keepme.txt 2>&1")
 os.system("echo 'Use command = ./Pezor -unhook -syscall -sgn executable' >> keepme.txt")
 os.chdir("..")
 os.chdir("..")
+
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
 print("[*] All done!!...")
 
