@@ -1444,7 +1444,7 @@ while True:
    if selection == '16':
       checkParams = test_DNS()         
       if checkParams != 1:
-         print("[+] Checking DNS Server...\n")
+         print(colored("[*] Checking DNS Server...\n", colour3))         
          command("whois -I "  + DNS.rstrip(" "))
       prompt()
 
@@ -1452,29 +1452,33 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - dig DNS
+# Details : Menu option selected - dig authority DNS +noedms
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '17':
-      checkParams = test_DNS()         
+      checkParams = test_DNS()
       if checkParams != 1:
-         print("[+] Checking DNS Server...\n")
-         command("dig authority " + DNS.rstrip(" ") + " +noedns")
+         checkParams = test_Domain()
+                  
+      if checkParams != 1:
+         print(colored("[*] Checking DNS Server...", colour3))
+         command("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
       prompt()  
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - dnsenum
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='18':
       checkParams = test_Domain()
+      
       if checkParams != 1:
-         print("[+] Checking DOMAIN server...\n")
+         print(colored("[*] Checking DOMAIN Server...", colour3))
          command("dnsenum " + DOM.rstrip(" "))
       prompt()
       
@@ -1487,10 +1491,23 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '19':
-      checkParams = test_Domain()         
+      checkParams = test_IP()
       if checkParams != 1:
-         print("[+] Checking DOMAIN server...\n")
-         command("fierce --dom " + DOM.rstrip(" "))
+         checkParams = test_Domain()
+         
+      if checkParams != 1:
+         print(colored("[*] Checking DOMAIN zone transfer...", colour3))
+         command("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")
+         
+         print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
+         command("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
+
+#         print(colored("[*] Checking DOMAIN ranges, please wait this can take sometime...", colour3))
+#         if IP46 == "-4":
+#            bit1,bit2,bit3,bit3 = TIP.split(".")
+#            command("dnsrecon -n " + TIP.rstrip(" ") + " -r " + bit1 + ".0.0.0/8 -d " + DOM.rstrip(" "))
+#         command("dnsrecon -n " + TIP.rstrip(" ") + " -r 172.16.0.0/12 -d "  + DOM.rstrip(" "))
+#         command("dnsrecon -n " + TIP.rstrip(" ") + " -r 192.168.0.0/16 -d " + DOM.rstrip(" "))
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
