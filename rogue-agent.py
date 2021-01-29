@@ -815,11 +815,17 @@ with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt
       HASH[x] = spacePadding(HASH[x], COL4)    
       VALD[x] = spacePadding(VALD[x], COL5)
 
+if DNS[:5] != "EMPTY":
+   command("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
+   DNSC = 1  
+
 if DOM[:5] != "EMPTY":
    command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-   DOMC = 1
+   DOMC = 1                 
 
-if ":" in TIP:
+count = TIP.count(':')
+      
+if count > 1:
    IP46 = "-6"
 else:
    IP46 = "-4"   
@@ -1051,18 +1057,14 @@ while True:
       else:
          DNS = spacePadding(DNS, COL1)
          
-         count = DNS.count('.')
-         if count == 1:
-            IP46 = input("[?] Please enter IP protocol type -4 or -6: ")
-            if IP46 != "-6":
-               count = 3         
+         count = DNS.count(':')
        
-         if count == 3:
-            print("[+] Defualting to IP 4...")
-            IP46 = "-4"
-         else:
-            print("[+] Defaulting to IP 6...")
+         if count > 1:
+            print("[+] Defualting to IP 6...")
             IP46 = "-6"
+         else:
+            print("[+] Defaulting to IP 4...")
+            IP46 = "-4"
             
          if DNSC == 1:
             print("\n[+] Resetting current DNS IP association...")
@@ -1071,7 +1073,7 @@ while True:
             DNS = spacePadding(DNS, COL1)
             DNSC = 0
             
-         if DNS[:5] != "EMPTY":
+         if DNSC == 0:
             print("[+] Adding DNS IP " + DNS.rstrip(" ") + " to /etc/resolv.conf...")
             command("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
             DNSC = 1
@@ -1096,18 +1098,14 @@ while True:
       else:
          TIP = spacePadding(TIP, COL1)
                   
-         count = TIP.count('.')
-         if count == 1:
-            IP46 = input("[?] Please enter IP protocol type -4 or -6: ")
-            if IP46 != "-6":
-               count = 3         
-               
-         if count == 3:
-            print("[+] Defualting to IP 4...")
-            IP46 = "-4"
-         else:
-            print("[+] Defaulting to IP 6...")
+         count = TIP.count(':')
+
+         if count > 1:
+            print("[+] Defualting to IP 6...")
             IP46 = "-6"
+         else:
+            print("[+] Defaulting to IP 4...")
+            IP46 = "-4"
          
          if DOMC == 1:
             print("[+] Resetting current domain " + BAK.rstrip(" ") + " association...")
@@ -1116,7 +1114,7 @@ while True:
             DOM = spacePadding(DOM, COL1)
             DOMC = 0
             
-         if DOM[:5] != "EMPTY":
+         if DOMC == 0:
             print("[+] Adding domain " + DOM.rstrip(" ") + " to /etc/hosts...")
             command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
             DOMC = 1
@@ -1559,7 +1557,8 @@ while True:
       if checkParams != 1:
          checkParams = test_Domain()
       if checkParams != 1:
-         command("nmap " + IP46 + " --script http-vhosts --script-args http-vhosts.domain=" + DOM.rstrip(" ") + " " + TIP.rstrip(" "))
+         print(colored("[*] Scanning for subdomains, please wait...", colour3))
+         command("nmap " + IP46 + " --script dns-brute --script-args dns-brute.domain=" + DOM.rstrip(" ") + ",dns-brute.threads=6,dns-brute.hostlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt,newtargets -sS -p 80")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
