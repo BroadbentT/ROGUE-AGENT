@@ -1106,18 +1106,6 @@ while True:
          else:
             print("[+] Defaulting to IP 4...")
             IP46 = "-4"
-         
-         if DOMC == 1:
-            print("[+] Resetting current domain " + BAK.rstrip(" ") + " association...")
-            command("sed -i '$d' /etc/hosts")
-            DOM = "EMPTY"
-            DOM = spacePadding(DOM, COL1)
-            DOMC = 0
-            
-         if DOMC == 0:
-            print("[+] Adding domain " + DOM.rstrip(" ") + " to /etc/hosts...")
-            command("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-            DOMC = 1
 
          COM = checkInterface("TIP", COM)
          prompt()
