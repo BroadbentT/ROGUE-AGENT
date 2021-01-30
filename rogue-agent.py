@@ -261,6 +261,20 @@ def checkInterface(variable, COM):
    COM = spacePadding(COM, COL0)
    return COM
    
+def checkBios():
+   print(colored("\n[*] Checking NETBIOS information...", colour3))
+   command("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+   command("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+   command("sed -i '/^$/d' ./bios.tmp")
+   nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+   if nullTest == "":
+      print("[-] No bios information was found...")
+   else:
+      command("echo '" + Green + "'")
+      command("cat bios.tmp")
+      command("echo '" + Reset + "'")
+   return         
+   
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
    
@@ -1106,8 +1120,10 @@ while True:
          else:
             print("[+] Defaulting to IP 4...")
             IP46 = "-4"
-
+            
          COM = checkInterface("TIP", COM)
+         checkBios()
+                  
          prompt()
 
 # ------------------------------------------------------------------------------------- 
