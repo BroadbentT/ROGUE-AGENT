@@ -84,7 +84,7 @@ for x in range(0, len(dirList)):
 
 print("[*] Installing system requirements I, please wait...")
 
-list1 = ["bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
+list1 = ["proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
 
 for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
