@@ -137,7 +137,7 @@ def getPort():
    if port.isdigit():
       return port
    else:
-      print("[-] Sorry, I did not understand the value " + port + "...")
+      print("[-] Sorry, I do not understand the value " + port + "...")
       return 1
 
 def command(variable):
@@ -259,21 +259,7 @@ def checkInterface(variable, COM):
       if variable == "TIP":
            command("ping -c 5 " + TIP.rstrip(" "))
    COM = spacePadding(COM, COL0)
-   return COM
-   
-def checkBios():
-   print(colored("\n[*] Checking NETBIOS information...", colour3))
-   command("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
-   command("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-   command("sed -i '/^$/d' ./bios.tmp")
-   nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-   if nullTest == "":
-      print("[-] No bios information was found...")
-   else:
-      command("echo '" + Green + "'")
-      command("cat bios.tmp")
-      command("echo '" + Reset + "'")
-   return         
+   return COM       
    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
@@ -581,10 +567,10 @@ def display():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
-   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra SMTP (91) SSHKeyID " + '\u2551')
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra HTTP (92) Telnet   " + '\u2551')
+   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) FILE Editor (78) Hydra  FTP (89) FTP      " + '\u2551')
+   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68)             (79) Hydra  SSH (90) SSH      " + '\u2551')
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69)             (80) Hydra SMTP (91) SSHKeyID " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70)             (81) Hydra HTTP (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  SMB (93) Netcat   " + '\u2551')
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra POP3 (94) SQSH     " + '\u2551')
    print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenListPass (84) Hydra  RDP (95) MSSQL    " + '\u2551')
@@ -1122,7 +1108,18 @@ while True:
             IP46 = "-4"
             
          COM = checkInterface("TIP", COM)
-         checkBios()
+         
+         print(colored("\n[*] Checking NETBIOS information...", colour3))
+         command("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+         command("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+         command("sed -i '/^$/d' ./bios.tmp")
+         nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+         if nullTest == "":
+            print("[-] No bios information was found...")
+         else:
+            command("echo '" + Green + "'")
+            command("cat bios.tmp")
+            command("echo '" + Reset + "'")
                   
          prompt()
 
@@ -3045,59 +3042,85 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Nano usernames.txt
+# Details : Menu option selected - Nano editor
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      command("nano " + dataDir + "/usernames.txt")            
+      checkParam = 0
+      print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG")
+      subChoice = input("[?] Please select the file you wish to edit: ")
       
-      for x in range (0, maxUser):
-         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-         USER[x] = spacePadding(USER[x], COL3)         
-      wipeTokens(VALD)                                       
+      if subChoice == "1":
+         command("nano " + dataDir + "/usernames.txt")            
+   
+         for x in range (0, maxUser):
+            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+            USER[x] = spacePadding(USER[x], COL3)         
+         wipeTokens(VALD)
+         checkParam = 1
+         
+      if subChoice == "2":
+         command("nano " + dataDir + "/passwords.txt")
+         checkParam = 1
+         
+      if subChoice == "3":
+         command("nano " + dataDir + "/hashes.txt")                 
+   
+         for x in range (0, maxUser):
+               HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
+               HASH[x] = spacePadding(HASH[x], COL4)            
+         wipeTokens(VALD)
+         checkParam = 1
+         
+      if subChoice == "4":
+         command("nano /etc/hosts")
+         checkParam = 1
+         
+      if subChoice == "5":
+         command("nano /etc/resolv.conf")
+         checkParam = 1
+         
+      if subChoice == "6":
+         command("nano /etc/proxychains.conf")
+         checkParam = 1
+         
+      if checkParam == 0:
+         print("[-] Sorry, I do not understand the value " + subChoice + "...")    
       prompt()
-            
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Nano passwords.txt
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='68':
-      command("nano " + dataDir + "/passwords.txt")      
-      prompt()
-
+      exit(1)
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Editor  hashes.txt
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='69':
-      command("nano " + dataDir + "/hashes.txt")                 
+      exit(1)
       
-      for x in range (0, maxUser):
-            HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
-            HASH[x] = spacePadding(HASH[x], COL4)            
-      wipeTokens(VALD)                              
-      prompt()
-
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Editor hosts.conf
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='70':
-      command("nano /etc/hosts")
-      prompt()    
+      exit(1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
