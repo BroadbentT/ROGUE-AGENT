@@ -250,7 +250,7 @@ os.chdir("..")
 # -------------------------------------------------------------------------------------
 
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
-os.system("sed -i 's/sed/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
+os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 
 print("[*] All done!!...")
 #EoF
