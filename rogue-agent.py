@@ -582,7 +582,7 @@ def display():
    
 def options():
    print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) Editor USER (78) Hydra  FTP (89) FTP      " + '\u2551')
-   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start HTTPServer (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
+   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68) Editor PASS (79) Hydra  SSH (90) SSH      " + '\u2551')
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) Editor HASH (80) Hydra SMTP (91) SSHKeyID " + '\u2551')
    print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) Editor HOST (81) Hydra HTTP (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  SMB (93) Netcat   " + '\u2551')
@@ -641,7 +641,7 @@ workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
 
-fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf"		# FILE EXTENSIONS
+fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
 keyPath = "python3 /usr/share/doc/python3-impacket/examples/"	# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
@@ -1559,10 +1559,10 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            command("nmap " + IP46 + " -p " + PTS + " -sC -sV " + TIP.rstrip(" "))
+            command("nmap " + IP46 + " -p " + PTS + " -sT -sV -Pn " + TIP.rstrip(" "))
          else:
             print(colored("[*] Fast scanning all ports, please wait...", colour3))
-            command("nmap " + IP46 + " -T4 -F " + TIP.rstrip(" "))
+            command("nmap " + IP46 + " -T4 -sT -sV -Pn " + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3270,7 +3270,8 @@ while True:
             print(colored("[*] Starting phishing server...", colour3))                   
             command("xdotool key Ctrl+Shift+T")
             command("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-            command("xdotool type 'clear; cat " + dataDir + "/banner5.txt'; xdotool key Return")
+            banner("BANNER5")
+            command("xdotool type 'clear; cat banner5.tmp'; xdotool key Return")
             command("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
             command("xdotool key Ctrl+Tab")                  
             

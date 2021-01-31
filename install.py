@@ -245,11 +245,12 @@ os.chdir("..")
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Activate database.
+# Details : Activate database and configure proxychains.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
+os.system("sed -i 's/sed/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 
 print("[*] All done!!...")
 #EoF
