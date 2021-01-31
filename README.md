@@ -23,11 +23,11 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 </p>
 
 **TESTED: Kali Linux 2019** <br>
-**USAGE : proxychains -f /etc/proxychains.conf python3 rogue-agent.py**
+**USAGE : proxychains python3 rogue-agent.py**
 
 | LANGUAGE  | FILENAME       | MD5 Hash                         | Description      | Version    |
 |------     |-------         | -------                          | ----             |  ----      |
-| python3   | install.py     | f8d8cd1de7305b1b221f923bda5d8428 | Install Program  | TREADSTONE |
+| python3   | install.py     | 39f16e33c041f6a5f09453e7f3824335 | Install Program  | TREADSTONE |
 | python3   | rogue-agent.py | 06beda6d8d035b5b6ab7801bae1c1a76 | Command Centre   | TREADSTONE |
 | SQLite3   | RA.db          | 476988427c4ac48a2d38cf28531b1d99 | Program Database | TREADSTONE |
        
