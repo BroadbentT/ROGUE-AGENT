@@ -24,7 +24,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 
 **TESTED: Kali Linux 2019** <br>
 **USAGE : python3 rogue-agent.py** <br>
-        : proxychains4 python3 rogue-agent.py proxychains**
+**USAGE : proxychains4 python3 rogue-agent.py proxychains** <br>
 
 | LANGUAGE  | FILENAME       | MD5 Hash                         | Description      | Version    |
 |------     |-------         | -------                          | ----             |  ----      |
