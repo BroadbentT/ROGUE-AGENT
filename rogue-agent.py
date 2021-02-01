@@ -141,6 +141,9 @@ def getPort():
       return 1
 
 def command(variable):
+   if proxyChains == 1:
+      if "nmap" in variable:
+         print("[i] Proxychains enabled...")
    if bugHunt == 1:
       print(colored(variable, colour5))
    os.system(variable)
@@ -215,21 +218,7 @@ def privCheck():
       else:
          print("[-] Unable to find a valid ticket...")
       return
-      
-def squidCheck():
-   if "3128" in PTS:
-      print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
-      if proxyChains != 1:
-         command("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
-         temp = '"'
-         command("awk '/" + temp + "/' squid.tmp > ports.tmp")
-         command("echo '" + Green + "'")
-         command("cat ports.tmp")
-         command("echo '" + Reset + "'")
-      else:
-         print("[-] Unable to enumerate ports, proxychains enabled...") 
-   return
-   
+         
 def checkPorts(PTS, POR):
    checkParams = test_IP()  
    if checkParams != 1:
@@ -243,6 +232,21 @@ def checkPorts(PTS, POR):
          print("[+] Found live ports...\n")               
          print(colored(PTS,colour6))
    return PTS
+
+def squidCheck():
+   if "3128" in PTS:
+      print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
+      if proxyChains != 1:
+         command("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
+         temp = '"'
+         command("awk '/" + temp + "/' squid.tmp > ports.tmp")
+         command("echo '" + Green + "'")
+         command("cat ports.tmp")
+         command("echo '" + Reset + "'")
+      else:
+         print("[-] Unable to enumerate ports, proxychains have been enabled...") 
+   return
+
    
 def checkInterface(variable, COM):
    print(colored("[*] Checking network interface...", colour3))  
@@ -1561,18 +1565,10 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            if proxyChains != 1:
-               command("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
-            else:
-               print("[i] Using proxychains...")
-               command("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            command("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            if proxyChains != 1:
-               command("nmap " + IP46 + " -p- -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
-            else:
-               print("[i] Using proxychains...")
-               command("nmap " + IP46 + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            command("nmap " + IP46 + " -p- -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
