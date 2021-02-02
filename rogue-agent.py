@@ -234,6 +234,7 @@ def checkPorts(PTS, POR):
             
       if PTS[:1] == "":
          print("[+] Unable to enumerate any port information, good luck!!...")
+         PTS = "EMPTY"
       else:
          print("[+] Found live ports...\n")               
          print(colored(PTS,colour6))
@@ -1085,29 +1086,30 @@ while True:
          DNS = BAK
       else:
          DNS = spacePadding(DNS, COL1)
-         
-         count = DNS.count(':')
-       
-         if count > 1:
-            print("[+] Defualting to IP 6...")
-            IP46 = "-6"
-         else:
-            print("[+] Defaulting to IP 4...")
-            IP46 = "-4"
             
          if DNSC == 1:
-            print("\n[+] Resetting current DNS IP association...")
+            print("[+] Resetting current DNS IP association...")
             localCommand("sed -i '$d' /etc/resolv.conf")
-            DNS = "EMPTY"
-            DNS = spacePadding(DNS, COL1)
             DNSC = 0
             
          if DNSC == 0:
-            print("[+] Adding DNS IP " + DNS.rstrip(" ") + " to /etc/resolv.conf...")
-            localCommand("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
-            DNSC = 1
-    
-         COM = checkInterface("DNS", COM)
+            if DNS[:5] != "EMPTY":
+               count = DNS.count(':')
+       
+               if count > 1:
+                  print("[+] Defualting to IP 6...")
+                  IP46 = "-6"
+               else:
+                  print("[+] Defaulting to IP 4...")
+                  IP46 = "-4"
+                  
+               print("[+] Adding DNS IP " + DNS.rstrip(" ") + " to /etc/resolv.conf...")
+               localCommand("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
+               DNSC = 1
+               
+         if DNSC == 1:
+            COM = checkInterface("DNS", COM)
+            
          prompt()    
 
 # ------------------------------------------------------------------------------------- 
@@ -1126,31 +1128,33 @@ while True:
          TIP = BAK
       else:
          TIP = spacePadding(TIP, COL1)
-                  
-         count = TIP.count(':')
-
-         if count > 1:
-            print("[+] Defualting to IP 6...")
-            IP46 = "-6"
-         else:
-            print("[+] Defaulting to IP 4...")
-            IP46 = "-4"
             
-         COM = checkInterface("TIP", COM)
+         if TIP[:5] != "EMPTY":
+            count = TIP.count(':')
+            
+            if count > 1:
+               print("[+] Defualting to IP 6...")
+               IP46 = "-6"
+            else:
+               print("[+] Defaulting to IP 4...")
+               IP46 = "-4"                 
          
-         print(colored("\n[*] Checking NETBIOS information...", colour3))
-         remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+            COM = checkInterface("TIP", COM)
          
-         localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-         localCommand("sed -i '/^$/d' ./bios.tmp")
-         nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-         if nullTest == "":
-            print("[-] No bios information was found...")
-         else:
-            localCommand("echo '" + Green + "'")
-            localCommand("cat bios.tmp")
-            localCommand("echo '" + Reset + "'")
+            print(colored("\n[*] Checking NETBIOS information...", colour3))
+            remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
                   
+            localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+            localCommand("sed -i '/^$/d' ./bios.tmp")
+            nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+         
+            if nullTest == "":
+               print("[-] No bios information was found...")
+            else:
+               localCommand("echo '" + Green + "'")
+               localCommand("cat bios.tmp")
+               localCommand("echo '" + Reset + "'")
+                              
          prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1310,12 +1314,14 @@ while True:
          if DOMC == 1:
             print("[+] Removing previous domain name " + BAK.rstrip(" ") + " from /etc/hosts...")
             localCommand("sed -i '$d' /etc/hosts")
+            DOMC = 0
             
-         if DOM[:5] != "EMPTY":
-            localCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-            print("[+] Domain " + DOM.rstrip(" ") + " has been added to /etc/hosts...")
-            DOMC = 1
-         prompt()
+         if DOMC == 0:
+            if DOM[:5] != "EMPTY":
+               localCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+               print("[+] Domain " + DOM.rstrip(" ") + " has been added to /etc/hosts...")
+               DOMC = 1
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1553,7 +1559,9 @@ while True:
    if selection == '20':
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
-      squidCheck()
+      if "3128" in PTS:
+         print("[+] Squid port identified...")
+         squidCheck()
       prompt()
       
 # ------------------------------------------------------------------------------------- 
