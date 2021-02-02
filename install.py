@@ -42,9 +42,6 @@ from termcolor import colored
 if os.geteuid() != 0:
    print("[*] Please run this python3 script as root...")
    exit(1)
-else:
-   os.system("echo 'export DEBIAN_FRONTEND=noninteractive' > bash.sh")
-   os.system("bash bash.sh")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -87,11 +84,15 @@ for x in range(0, len(dirList)):
 
 print("[*] Installing system requirements I, please wait...")
 
-list1 = ["krb5-user", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
+list1 = ["proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
 
 for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")   
+
+os.environ["DEBIAN_FRONTEND"] = "noninteractive"
+os.system("apt-get install krb5-user -y >> log.txt 2>&1")
+os.environ["DEBIAN_FRONTEND"] = "interactive"
 
 print("[*] Installing system requirements II, please wait...")
 
@@ -257,8 +258,5 @@ os.system("mv RA.db ./ROGUEAGENT/RA.db")
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 os.system("sed -i 's/proxy_dns/#proxy_dns/' /etc/proxychains.conf")
 
-os.system("echo 'export DEBIAN_FRONTEND=interactive' > bash.sh")
-os.system("bash bash.sh")
-os.system("rm bash.sh")
 print("[*] All done!!...")
 #EoF
