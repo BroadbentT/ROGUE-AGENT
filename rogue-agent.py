@@ -241,19 +241,15 @@ def checkPorts(PTS, POR):
    return PTS
 
 def squidCheck():
-   if "3128" in PTS:
-      print(colored("\n[*] Checking squid proxy for hidden ports...", colour3))
-      if proxyChains != 1:
-         remCommand("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
-         temp = '"'
-         localCommand("awk '/" + temp + "/' squid.tmp > ports.tmp")
-         localCommand("echo '" + Green + "'")
-         localCommand("cat ports.tmp")
-         localCommand("echo '" + Reset + "'")
-      else:
-         print("[-] Unable to enumerate ports, proxychains has been enabled...") 
+   print(colored("\n[*] Enumerating squid proxy for hidden ports...", colour3))
+   if proxyChains == 0:
+      remCommand("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
+      localCommand("echo '" + Green + "'")
+      localCommand("cat squid.tmp | grep '\"' ")
+      localCommand("echo '" + Reset + "'")
+   else:
+      print("[-] Unable to enumerate hidden ports, proxychains enabled...")
    return
-
    
 def checkInterface(variable, COM):
    print(colored("[*] Checking network interface...", colour3))  
@@ -1560,7 +1556,6 @@ while True:
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
       if "3128" in PTS:
-         print("[+] Squid port identified...")
          squidCheck()
       prompt()
       
