@@ -43,7 +43,8 @@ if os.geteuid() != 0:
    print("[*] Please run this python3 script as root...")
    exit(1)
 else:
-   os.system("export DEBIAN_FRONTEND=noninteractive")
+   os.system("echo 'export DEBIAN_FRONTEND=noninteractive' > bash.sh")
+   os.system("bash bash.sh")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -256,6 +257,8 @@ os.system("mv RA.db ./ROGUEAGENT/RA.db")
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 os.system("sed -i 's/proxy_dns/#proxy_dns/' /etc/proxychains.conf")
 
-os.system("export DEBIAN_FRONTEND=noninteractive")
+os.system("echo 'export DEBIAN_FRONTEND=interactive' > bash.sh")
+os.system("bash bash.sh")
+os.system("rm bash.sh")
 print("[*] All done!!...")
 #EoF
