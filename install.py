@@ -90,6 +90,7 @@ for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
    os.system("apt-get install " + list1[x] + " -y >> log.txt 2>&1")   
 
+print("\t[+] Installing krb5...")
 os.environ["DEBIAN_FRONTEND"] = "noninteractive"
 os.system("apt-get install krb5-user -y >> log.txt 2>&1")
 os.environ["DEBIAN_FRONTEND"] = "interactive"
