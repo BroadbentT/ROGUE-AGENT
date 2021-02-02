@@ -3051,13 +3051,6 @@ while True:
       if subChoice == "7":
          localCommand("nano /etc/krb5.conf")
          checkParams = 1
-         
-#[libdefaults]
-#	default_realm = REALCORP.HTB
-#[realms]
-#	REALCORP.HTB = {
-#	kdc = 10.10.10.224
-#	}
 
       if checkParams == 0:
          print("[-] Sorry, I do not understand the value " + subChoice + "...")    
