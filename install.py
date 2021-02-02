@@ -164,7 +164,7 @@ if os.path.exists("Procdump.zip"):
    os.remove("Procdump.zip")
 if os.path.exists("Eula.txt"):
    os.remove("Eula.txt")
-if os.path.exsists("procdump64a.exe"):
+if os.path.exists("procdump64a.exe"):
    os.remove("procdump64a.exe")
 
 print("\t[+] Installing winpeas...               ")
