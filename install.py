@@ -117,7 +117,8 @@ os.system("gem install evil-winrm >> log.txt 2>&1")
 print("\t[+] Installing windapsearch...")
 os.system("git clone https://github.com/ropnop/windapsearch.git >> log.txt 2>&1")
 os.system("mv windapsearch/windapsearch.py /usr/share/doc/python3-impacket/examples/windapsearch.py >> log.txt 2>&1")
-shutil.rmtree("windapsearch")
+if os.path.exists("windapsearch"):
+   shutil.rmtree("windapsearch")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -161,8 +162,10 @@ os.system("wget https://download.sysinternals.com/files/Procdump.zip -O Procdump
 os.system("unzip Procdump.zip >> log.txt 2>&1")
 if os.path.exists("Procdump.zip"):
    os.remove("Procdump.zip")
-os.remove("Eula.txt")
-os.remove("procdump64a.exe")
+if os.path.exists("Eula.txt"):
+   os.remove("Eula.txt")
+if os.path.exsists("procdump64a.exe"):
+   os.remove("procdump64a.exe")
 
 print("\t[+] Installing winpeas...               ")
 os.system("wget 'https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/raw/master/winPEAS/winPEASexe/winPEAS/bin/Obfuscated%20Releases/winPEASx64.exe' -O winpeas64.exe >> log.txt 2>&1")
@@ -250,7 +253,7 @@ os.chdir("..")
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Activate database, configure proxychains and tidyup.
+# Details : Activate database and configure proxychains.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
