@@ -56,6 +56,13 @@ def test_IP():
       return 1
    else:
       return 0
+      
+def test_WEB():
+   if WEB[:5] == "EMPTY":
+      print("[-] Website url has not been specified...")
+      return 1
+   else:
+      return 0
    
 def test_Domain():
    if DOM[:5] == "EMPTY":
@@ -619,7 +626,7 @@ def options():
    print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) AutoPhisher (85) Hydra  TOM (96) MySQL    " + '\u2551')
    print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) DIR Searchs (86) MSFCon TOM (97) WinRm    " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) Nikto Scans (87) MSFCon OWA (98) RemDesk  " + '\u2551')
-   print('\u2551' + "(11) Re/Set SHARE  NAME (22) Nmap Sub DOMAINS (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) KBR5 Ticket (77) NTDSDECRYPT (88) MSFCon RCE (99) Exit     " + '\u2551')
+   print('\u2551' + "(11) Re/Set SHARE  NAME (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) KBR5 Ticket (77) NTDSDECRYPT (88) MSFCon RCE (99) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -907,7 +914,8 @@ while True:
    if selection =='0':  
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)
-      squidCheck()                  
+      if "3128" in PTS:
+         squidCheck()
          
       checkParams = test_Port("88")
       if checkParams != 1:
@@ -1486,7 +1494,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - dig authority DNS +noedms
+# Details : Menu option selected - dig authority DNS +noedms 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1497,7 +1505,8 @@ while True:
                   
       if checkParams != 1:
          print(colored("[*] Checking DNS Server...", colour3))
-         remCommand("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
+#        remCommand("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
+         remCommand("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
       prompt()  
 
 # ------------------------------------------------------------------------------------- 
@@ -1563,7 +1572,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Intense quick TCP scan.
+# Details : Menu option selected - nmap options
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1588,13 +1597,36 @@ while True:
 
    if selection == '22':
       checkParams = test_IP()
+      
+      if checkParams != 1:
+         checkParams = test_DNS()
+         
       if checkParams != 1:
          checkParams = test_Domain()
+         
       if checkParams != 1:
-         print(colored("[*] Scanning for subdomains, please wait...", colour3))
-         remCommand("nmap " + IP46 + " --script dns-brute --script-args dns-brute.domain=" + DOM.rstrip(" ") + ",dns-brute.threads=6,dns-brute.hostlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt,newtargets -sS -p 80")
-      prompt()
+         print("[!] (1) SubDOMAINS (2) VHOSTS")
+   
+         subChoice = input("[?] Please select which one you wish to enumerate: ")
+         
+         if subChoice == "1":
+            print(colored("[*] Scanning for subdomains,please wait this can take sometime...", colour3))
+            remCommand("gobuster dns --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
+            checkParams = 1
+         
+         if subChoice == "2":
+            checkParams = test_WEB()
       
+            if checkParams != 1:
+               print(colored("[*] Scanning for vhosts,please wait this can take sometime...", colour3))
+               remCommand("gobuster vhost -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
+               checkParams = 1
+
+         if checkParams == 0:
+            print("[-] Sorry, I do not understand the value " + subChoice + "...")  
+           
+      prompt()
+            
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
 # CONTRACT: GitHub
@@ -2997,9 +3029,18 @@ while True:
          checkParams = test_Username()
 
       if checkParams != 1:
-         print(colored("[*] Trying to create ticket for user " + USR.rstrip(" ") + "...\n", colour3))
+         print(colored("[*] Attempting to create kerberus ticket for user " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "...\n", colour3))
+         localCommand("mv /etc/krb5.conf /etc/krb5.conf.bak")
+         localCommand("echo '[libdefaults]' > /etc/krb5.conf")
+         localCommand("echo '	default_realm = " + DOM.rstrip(" ") + "' >> /etc/krb5.conf")
+         localCommand("echo '[realms]' >> /etc/krb5.conf")
+         localCommand("echo '	" + DOM.rstrip(" ") + " = {' >> /etc/krb5.conf")
+         localCommand("echo '	kdc = " + TIP.rstrip(" ") + "' >> /etc/krb5.conf")
+         localCommand("echo '	}' >> /etc/krb5.conf")
          localCommand("kinit " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
          localCommand("klist")
+         localCommand("rm /etc/krb5.conf")
+         localCommand("mv /etc/krb5.conf.bak /etc/krb5.conf")
 
       prompt()
       
