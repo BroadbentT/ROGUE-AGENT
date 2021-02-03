@@ -1196,6 +1196,23 @@ while True:
          WEB = spacePadding(WEB, COL1)
       else:
          WEB = BAK
+               
+      if proxyChains != 1:      
+         print(colored("[*] Enumerating website url for verbs...", colour3))
+       
+         if "80" in PTS:
+            remCommand("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + ":80 > verbs.tmp 2>&1")
+            localCommand("echo '" + Green + "'")
+            localCommand("cat verbs.tmp | grep '\"' ")
+            localCommand("echo '" + Reset + "'")
+         
+         if "3128" in PTS:
+            remCommand("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + ":3128 > verbs.tmp 2>&1")
+            localCommand("echo '" + Green + "'")
+            localCommand("cat verbs.tmp | grep '\"' ")
+            localCommand("echo '" + Reset + "'")      
+          
+      prompt()
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
