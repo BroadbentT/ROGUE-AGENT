@@ -244,18 +244,22 @@ def checkPorts(PTS, POR):
          PTS = "EMPTY"
       else:
          print("[+] Found live ports...\n")               
-         print(colored(PTS,colour6))
+         print(colored(PTS,colour6) + "\n")
    return PTS
 
 def squidCheck():
-   print(colored("\n[*] Enumerating squid proxy for hidden ports...", colour3))
-   if proxyChains == 0:
-      remCommand("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
-      localCommand("echo '" + Green + "'")
-      localCommand("cat squid.tmp | grep '\"' ")
-      localCommand("echo '" + Reset + "'")
+   print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
+   checkParams = test_Port("3128")   
+   if checkParams == 1:
+      return
    else:
-      print("[-] Unable to enumerate hidden ports, proxychains enabled...")
+      if proxyChains == 0:
+         remCommand("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
+         localCommand("echo '" + Green + "'")
+         localCommand("cat squid.tmp | grep '\"' ")
+         localCommand("echo '" + Reset + "'")
+      else:
+         print("[-] Unable to enumerate hidden ports, proxychains enabled...")
    return
    
 def checkInterface(variable, COM):
@@ -302,7 +306,7 @@ def checkInterface(variable, COM):
    return COM       
    
 def checkBIOS():
-   print(colored("[*] Checking windows network neighborhood protocol...", colour3))
+   print(colored("\n[*] Checking windows network neighborhood protocol...", colour3))
    remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
    localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
    localCommand("sed -i '/^$/d' ./bios.tmp")
@@ -314,6 +318,30 @@ def checkBIOS():
       localCommand("cat bios.tmp")
       localCommand("echo '" + Reset + "'")
    return
+   
+def timeSync(SKEW):
+   print(colored("[*] Attempting to synchronise time with remote server...", colour3))
+   checkParams = test_Port("88")
+   
+   if checkParams == 1:
+      return
+   else:
+      remCommand("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
+      dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
+
+      if dateTime != "":
+         print("[+] Synchronised with remote server...")
+         date, time = dateTime.split(" ")
+         time = time.rstrip(")")
+         localCommand("echo '" + Green + "'")
+         localCommand("timedatectl set-time " + date)
+         localCommand("date --set=" + time)
+         localCommand("echo '" + Reset + "'")
+         LTM = time
+         SKEW = 1
+      else:
+         print("[-] Server synchronisation did not occur...")
+   return SKEW                     
 
 def keys():
    print("\tHKEY_CLASSES_ROOT   HKCR")
@@ -714,7 +742,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 595 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 706 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -934,31 +962,14 @@ while True:
 
    if selection =='0':  
       PTS = checkPorts(PTS, POR)
-      POR = spacePadding(PTS, COL1)
-      if "3128" in PTS:
-         squidCheck()
-         
-      checkParams = test_Port("88")
-      if checkParams != 1:
-         print(colored("[*] Attempting to synchronise time with remote server...", colour3))                        
-         remCommand("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
-         dateTime = linecache.getline("time.tmp", 1).rstrip("\n")      
-
-         if dateTime != "":
-            date, time = dateTime.split(" ")
-            time = time.rstrip(")")
-            print("[+] Synchronised with remote server...")
-            localCommand("echo '" + Green + "'")
-            localCommand("timedatectl set-time " + date)
-            localCommand("date --set=" + time)
-            localCommand("echo '" + Reset + "'")
-            LTM = time
-            SKEW = 1
-      else:
-         print("[-] Server synchronisation did not occur...")
-         checkParams = 0                                     
+      POR = spacePadding(PTS, COL1)      
+      squidCheck()
+      SKEW = timeSync(SKEW)
+      
+      print(colored("[*] Attempting to connect to rpcclient...", colour3))
+                                             
       if NTM[:5] != "EMPTY": 
-         print("[i] Using HASH value as password credential...")
+         print("[i] Using HASH value as password credential for rpcclient...")
          remCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
       else:
          remCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
@@ -1134,6 +1145,7 @@ while True:
                
          if DNSC == 1:
             COM = checkInterface("DNS", COM)
+            checkBIOS()
             
          prompt()    
 
@@ -1604,8 +1616,8 @@ while True:
    if selection == '20':
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
-      if "3128" in PTS:
-         squidCheck()
+      squidCheck()
+      SKEW = timeSync(SKEW)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1676,25 +1688,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '23':
-      checkParams = test_IP()      
-      if checkParams != 1:
-         checkParams = test_Port("88")
-      if checkParams != 1:
-         remCommand("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")     
-         dateTime = linecache.getline("time.tmp", 1).rstrip("\n")   
-            
-         if dateTime != "":
-            date, time = dateTime.split(" ")
-            time = time.rstrip(")")
-            print("[+] Synchronised with remote server...")
-            localCommand("echo '" + Green + "'")
-            localCommand("timedatectl set-time " + date)
-            localCommand("date --set=" + time)
-            localCommand("echo '" + Reset + "'")
-            LTM = time
-            SKEW = 1
-         else:
-            print("[-] Server synchronisation did not occur...")                 
+      SKEW = timeSync(SKEW)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -4016,6 +4010,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '100':
-      print("ROGUE AGENT (c)2021 Terence Broadbent")
+      banner("ROGUE AGENT",1)
+      print(colored("C O P Y R I G H T  2 0 2 1  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
       prompt()      
 # Eof...	
