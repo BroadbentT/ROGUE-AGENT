@@ -287,7 +287,8 @@ def checkInterface(variable, COM):
                COM = NetworkAddr
                COM = COM.replace(chr(0), '')
                checkParams = 1               
-         print(colored("Address: " + NetworkAddr, colour6))   
+         print(colored("Address: " + NetworkAddr, colour6))  
+      print("") 
                
    except:
       print("[-] No responce from network interface, checking connection instead...")
@@ -306,7 +307,7 @@ def checkInterface(variable, COM):
    return COM       
    
 def checkBIOS():
-   print(colored("\n[*] Checking windows network neighborhood protocol...", colour3))
+   print(colored("[*] Checking windows network neighborhood protocol...", colour3))
    remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
    localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
    localCommand("sed -i '/^$/d' ./bios.tmp")
@@ -3326,7 +3327,7 @@ while True:
             print(colored("[*] Checking for valid usernames, please wait...", colour3))
             fileCheck(dataDir + "/usernames.txt")
             
-            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m EXPN " + DOM.rstrip(" ") + " 25  -V  > valid1.tmp")
+            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m VRFY " + DOM.rstrip(" ") + " 25 -V > valid1.tmp")
             localCommand("cat valid1.tmp | grep SUCC > valid2.tmp")             
             localCommand("tr -cd '\11\12\15\40-\176' < valid2.tmp > valid.tmp")         
          
