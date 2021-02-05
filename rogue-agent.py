@@ -405,13 +405,31 @@ def powershell(ip, port):
    return payload
    
 def fileCheck(variable):
-   if os.path.getsize(variable) == 0:
-      if os.path.exists("/usr/share/ncrack/minimal.usr"):
-         print("[+] Adding mimimal userlist to " + variable + "...")
-         localCommand("cat /usr/share/ncrack/minimal.usr >> " + variable + " 2>&1")
-         localCommand("sed -i '/#/d' " + variable + " 2>&1")
-         localCommand("sed -i '/Email addresses found/d' " + variable + " 2>&1")
-         localCommand("sed -i '/---------------------/d' " + variable + " 2>&1")
+   count = lineCount(variable)
+   if count == 0:
+      if USR[:1] != "'":
+         print("[+] Adding user " + USR.rstrip(" ") + " to " + variable + "...")
+         localCommand("echo " + USR.rstrip(" ") + " > " + variable)
+         if PAS[:1] != "'":
+            print("[+] Adding password " + USR.rstrip(" ") + " to " + variable + "...")
+            localCommand("echo " + PAS.rstrip(" ") + " > " + variable)
+      else:
+         if os.path.exists("/usr/share/ncrack/minimal.usr"):
+            print("[+] Adding mimimal userlist to " + variable + "...")
+            localCommand("cat /usr/share/ncrack/minimal.usr >> " + variable + " 2>&1")
+            localCommand("sed -i '/#/d' " + variable + " 2>&1")
+            localCommand("sed -i '/Email addresses found/d' " + variable + " 2>&1")
+            localCommand("sed -i '/---------------------/d' " + variable + " 2>&1")
+         else:
+            print("[+] Adding username Administrator to " + variable + "...")
+            localCommand("echo 'Administrator' > " + variable)
+            print("[+] Adding password Admin to " + variable + "...")
+            localCommand("echo 'Admin' > " + variable)
+            
+      for x in range (0, maxUser):
+         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+         USER[x] = spacePadding(USER[x], COL3)         
+      wipeTokens(VALD)
    else:
       print("[!] Checked file " + variable + " contains data...")
    return
@@ -3100,7 +3118,7 @@ while True:
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
             USER[x] = spacePadding(USER[x], COL3)         
          wipeTokens(VALD)
-         checkParam = 1
+         checkParams = 1
          
       if subChoice == "2":
          localCommand("nano " + dataDir + "/passwords.txt")
@@ -3306,9 +3324,11 @@ while True:
             localCommand("echo '" + Reset + "'")
                       
             print(colored("[*] Checking for valid usernames, please wait...", colour3))
+            fileCheck(dataDir + "/usernames.txt")
             
-            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m VRFY " + DOM.rstrip(" ") + " 25 | grep SUCC > valid1.tmp")                 
-            localCommand("tr -cd '\11\12\15\40-\176' < valid1.tmp > valid.tmp")         
+            remCommand("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m EXPN " + DOM.rstrip(" ") + " 25  -V  > valid1.tmp")
+            localCommand("cat valid1.tmp | grep SUCC > valid2.tmp")             
+            localCommand("tr -cd '\11\12\15\40-\176' < valid2.tmp > valid.tmp")         
          
             match = 0                           
             
