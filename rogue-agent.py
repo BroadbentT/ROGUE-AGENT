@@ -43,6 +43,14 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
+def cutLine(variable1, variable2):
+   localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
+   return
+   
+def parFile(variable):
+   localCOM("sed -i '/^$/d' ./" + variable)
+   return
+
 def test_DNS():
    if DNS[:5] == "EMPTY":
       print("[-] DNS has not been specified...")
@@ -296,15 +304,15 @@ def checkInterface(variable, COM):
       if variable == "TIP":
            remotCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")
            
-      localCOM("sed -i '/PING/d' ./ping.tmp")
-      localCOM("sed -i '/statistics/d' ./ping.tmp")
+      cutLine("PING","ping.tmp")
+      cutLine("statistics","ping.tmp")
+      parFile("ping.tmp")
       localCOM("sed -i '$d' ./ping.tmp")
       
       count = lineCount("ping.tmp")
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-
       localCOM("sed -i '$d' ./ping.tmp")
-      localCOM("sed -i '/^[[:space:]]*$/d' ./ping.tmp")
+      
       catsFile("ping.tmp")      
       print ("[+] " + nullTest + "...")
       
@@ -328,8 +336,8 @@ def networkSweep():
       return
    else:
       bit1, bit2, bit3, bit4 = TIP.split(".")
-      print(colored("[*] Attempting to enumerate all live hosts on network, please wait...", colour3))
-      remotCOM("nmap -v -sn " + bit1 + "." + bit2 + "." + bit3 + ".1-254 -oG pingsweep.tmp > temp.txt 2>&1")
+      print(colored("[*] Attempting to enumerate network hosts, please wait...", colour3))
+      remotCOM("nmap -v -sn " + bit1 + "." + bit2 + "." + bit3 + ".1-254 -oG pingsweep.tmp > temp.tmp 2>&1")
       localCOM('grep Up pingsweep.tmp | cut -d " " -f 2 > hosts.tmp')
       nullTest = linecache.getline("hosts.tmp", 1).rstrip("\n")
       if nullTest == "":
@@ -1923,7 +1931,7 @@ while True:
          
          if not os.path.exists(mount):
             localCOM("mkdir " + mount)
-         remotCOM("mount -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
+         remotCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
          print("[+] NFS " + mount + " mounted...")
       prompt()
 
