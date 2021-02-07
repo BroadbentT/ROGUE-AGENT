@@ -245,7 +245,7 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
+      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
             
       if PTS[:1] == "":
@@ -724,7 +724,7 @@ def options():
       print(menuName, end= ' ')
    print("(79) Hydra  SSH (90) SSH      " + '\u2551')
      
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69)             (80) Hydra SMTP (91) SSHKeyID " + '\u2551')   
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) SNMP Walker (80) Hydra SMTP (91) SSHKeyID " + '\u2551')   
    print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) GenSSHKeyID (81) Hydra HTTP (92) Telnet   " + '\u2551')
    print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenListUser (82) Hydra  SMB (93) Netcat   " + '\u2551')
    print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListPass (83) Hydra POP3 (94) SQSH     " + '\u2551')
@@ -1687,9 +1687,13 @@ while True:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
             remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            if "500" in PTS:
+               remotCOM("ike-scan -M " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remotCOM("nmap " + IP46 + " -sT -Pn " + TIP.rstrip(" "))
+            remotCOM("nmap " + IP46 + " -sT -sU -Pn " + TIP.rstrip(" "))
+            if "500" in PTS:
+               remotCOM("ike-scan -M " + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3201,12 +3205,58 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - SNMP
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='69':
-      exit(1)
+      print(colored("[*] Checking all communities...", colour3))
+      localCOM("echo 'public' > community.tmp")
+      localCOM("echo 'private' >> community.tmp")
+      localCOM("echo 'manager' >> community.tmp")
+      remotCOM("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
+      catsFile("161.tmp")
+      
+      print(colored("[*] Enumerating public v2c communities only...", colour3))
+      
+      print("[+] Checking system processes...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking running processes...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking running systems...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking storage units...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking software names...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking user accounts...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Checking local ports...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
+      catsFile("walk.tmp")
+      
+      print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
+      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
+      print("[+] Interesting finds...")
+      localCOM("grep password walk.tmp > find.tmp")
+      localCOM("grep user walk.tmp >> find.tmp")
+      catsFile("find.tmp")
+      
+      print("[+] Enumeration file temporary saved as walk.tmp for manual perusal...")
+      
+      prompt()      
             
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
