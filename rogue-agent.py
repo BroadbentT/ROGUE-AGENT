@@ -248,14 +248,16 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | tee > ports.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
+      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > ports.tmp")
+
+      localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
             
       if PTS[:1] == "":
          print("[+] Unable to enumerate any port information, good luck!!...")
          PTS = "EMPTY"
       else:
-         print("[+] Found live ports...\n")               
+         print("[+] Found live ports...\n")      
          print(colored(PTS,colour6) + "\n")
    return PTS
 
