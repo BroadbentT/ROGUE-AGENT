@@ -3166,7 +3166,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -p " + PTS  + "--script exploit " + TIP.rstrip(" ") + " --reason")
+            remotCOM("nmap -p " + PTS  + " --script exploit " + TIP.rstrip(" ") + " --reason")
          else:
             print("[-] No ports to scan...")
       prompt()
