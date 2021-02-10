@@ -692,21 +692,21 @@ def dispMenu():
    
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (12) Re/Set SHARENAME (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) ServScanner (78) FILE Editor (89) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Boot LOCALSERVER (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Initiate SERVICE (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')      
    print("(90) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (14) Boot   Responder (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) ExplSearchs (81) GenListUser (92) Telnet  " + '\u2551')
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreater (82) GenListPass (93) Netcat  " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84) Hail  HYDRA (95) MSSQL   " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Enum  SubDOMAINS (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76)             (87)             (98) RemDesk " + '\u2551')
-   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) EnumVirtualHOSTS (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77)             (88) MSF Console (99) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Enum  SubDOMAINS (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76) Hail! HYDRA (87)             (98) RemDesk " + '\u2551')
+   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) EnumVirtualHOSTS (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77) MSF Console (88)             (99) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1422,7 +1422,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (6) Exit Menu")
+      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) Responder (07) Exit SubMenu")
       checkParams = 0
       subChoice = input("[?] Please select an option: ")
       if subChoice == "1":
@@ -1449,13 +1449,16 @@ while True:
             choice = "python3  /usr/lib/python3.9/smtpd.py -n -c DebuggingServer " + localIP + ":" + HTTP
             checkParams = 1
       if subChoice == "6":
+         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
+         checkParams = 1
+      if subChoice == "7":
          pass         
       if checkParams != 0:
         if HTTP != "":
-            print(colored("[*] Specified local server started...", colour3))
+            print(colored("[*] Specified local service started...", colour3))
             localCOM("xdotool key Ctrl+Shift+T")
-            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVER'; xdotool key Return")
-            dispBanner("LOCAL SERVER",0) 
+            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
+            dispBanner("LOCAL SERVICE",0) 
             localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
             localCOM("xdotool type '" + choice + "'; xdotool key Return")
             localCOM("xdotool key Ctrl+Tab")         
@@ -1465,18 +1468,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start Responder -i 192.168.1.202 -w On -r On -f On
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '14':
-      print(colored("[*] Responder started...", colour3))
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'RESPONDER'; xdotool key Return")
-      dispBanner("RESPONDER",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'responder -I " + netWork + " -w On -r ONn -f On -v'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab")
       prompt()      
 
 # ------------------------------------------------------------------------------------- 
@@ -3204,22 +3200,24 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Hail Hydra
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='76':    
+      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Meterpreter
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='77':      
+   if selection =='77':    
+      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3231,7 +3229,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='78':
-      dispSubMenu(" (01) USER NAMES (02) PASS WORDS (03) NTLM HASHES (04) HOSTS CONFIG (05) RESOLV CONFIG (06) PROXYCHAINS CONFIG (07) KERB5 CONFIG (08) Exit Menu")
+      dispSubMenu(" (01) USER NAMES (02) PASS WORDS (03) NTLM HASHES (04) HOSTS CONFIG (05) RESOLV CONFIG (06) PROXYCHAINS CONFIG (07) KERB5 CONFIG (08) Exit SubMenu")
       checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
       if subChoice == "1":
@@ -3419,12 +3417,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hail Hydra
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
-      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3464,12 +3461,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - metersploit server
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='88':
-      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
