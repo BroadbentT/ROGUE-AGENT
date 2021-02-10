@@ -462,7 +462,7 @@ def fileCheck(variable):
    else:
       print("[+] Checked file " + variable + ", the file contains data...")
    return
-   
+      
 def dispBanner(variable,flash):
    ascii_banner = pyfiglet.figlet_format(variable).upper()
    ascii_banner = ascii_banner.rstrip("\n")
@@ -470,6 +470,15 @@ def dispBanner(variable,flash):
       localCOM("clear")
       print(colored(ascii_banner,colour0, attrs=['bold']))
    localCOM("pyfiglet " + variable + " > banner.tmp")
+   return
+   
+def dispSubMenu1():
+   localCOM("clear")
+   dispMenu()
+   options()
+   print('\u2554' + ('\u2550')*163 + '\u2557')
+   print('\u2551' + "(01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server" + (' ')*98+ '\u2551')
+   print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
 def dispMenu():
@@ -712,21 +721,21 @@ def dispMenu():
    
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (12) Re/Set SHARENAME (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) ServScanner (78) FILE Editor (89) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Start WEB Server (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Boot LOCALSERVER (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')      
    print("(90) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (14) Start SMB Server (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) Start  Responder (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) ExplSearchs (81) GenListUser (92) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (16) who  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreater (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Dig  DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (18) Enum DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84) Hail  HYDRA (95) MSSQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (19) Reco DNS ADDRESS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap LIVE  PORTS (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Nmap PORTService (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76)             (87)             (98) RemDesk " + '\u2551')
-   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) SubDOMAINS/VHOST (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77)             (88) MSF Console (99) Exit    " + '\u2551')
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (14) Boot   Responder (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) ExplSearchs (81) GenListUser (92) Telnet  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreater (82) GenListPass (93) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84) Hail  HYDRA (95) MSSQL   " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Enum  SubDOMAINS (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76)             (87)             (98) RemDesk " + '\u2551')
+   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) EnumVirtualHOSTS (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77)             (88) MSF Console (99) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1443,56 +1452,62 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      HTTP = getPort()      
-      if HTTP != 1:
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-         dispBanner("HTTP SERVER",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type 'python3 -m http.server --bind " + localIP + " " + HTTP + "'; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")
+      dispSubMenu1()
+      checkParams = 0
+      getChoice = input("[?] Please select an option: ")
+      getPortValie   = input("[?] Please select a port value: ")
+      if getChoice == "1":
+         choice = "python3 -m http.server --bind " + localIP + " " + getPortValue
+         checkParams = 1
+      if getChoice == "2":
+         choice = "impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support"
+         checkParams = 1
+      if getChoice == "3":
+         choice = "php -S 0.0.0.0:" + getPortValue    
+         checkParams = 1
+      if getChoice == "4":
+         choice = "ruby -run -e httpd . -p " + getPortValue
+         checkParams = 1
+      if checkParams == 0:
+         print("[-] Sorry, I did not understand the value " + getChoice)
+      else:
+        if getPortValue != "":
+            print(colored("[*] Specified local server started...", colour3))
+            localCOM("xdotool key Ctrl+Shift+T")
+            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVER'; xdotool key Return")
+            dispBanner("LOCAL SERVER",0) 
+            localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+            localCOM("xdotool type '" + choice + "'; xdotool key Return")
+            localCOM("xdotool key Ctrl+Tab")         
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Start SMB server.
+# Details : Menu option selected - Start Responder -i 192.168.1.202 -w On -r On -f On
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '14':
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'SMB SERVER'; xdotool key Return")
-      dispBanner("SMB SERVER",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab")
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Start Responder
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '15':
+      print(colored("[*] Responder started...", colour3))
       localCOM("xdotool key Ctrl+Shift+T")
       localCOM("xdotool key Alt+Shift+S; xdotool type 'RESPONDER'; xdotool key Return")
       dispBanner("RESPONDER",0) 
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'responder -I " + netWork + " -v'; xdotool key Return")
+      localCOM("xdotool type 'responder -I " + netWork + " -w On -r ONn -f On -v'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab")
+      prompt()      
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - whois 
+# Details : Menu option selected -
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '16':
+   if selection == '15':
       checkParams = test_DNS()         
       if checkParams != 1:
          print(colored("[*] Checking DNS Server...\n", colour3))         
@@ -1507,7 +1522,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '17':
+   if selection == '16':
       checkParams = test_DNS()
       if checkParams != 1:
          checkParams = test_DOM()                  
@@ -1525,7 +1540,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='18':
+   if selection =='17':
       checkParams = test_DOM()      
       if checkParams != 1:
          print(colored("[*] Checking DOMAIN Server...", colour3))
@@ -1536,11 +1551,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - fierce -dom DOMAIN.
+# Details : Menu option selected - dnsrecon
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '19':
+   if selection == '18':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()         
@@ -1559,7 +1574,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '20':
+   if selection == '19':
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
       squidCheck()
@@ -1574,7 +1589,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '21':
+   if selection == '20':
       checkParams = test_TIP()      
       if checkParams != 1:
          if POR[:5] != "EMPTY":
@@ -1597,28 +1612,28 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '22':
-      checkParams = test_TIP()      
+   if selection == '21':
+      checkParams = test_DNS()
       if checkParams != 1:
-         checkParams = test_DNS()         
+         checkParams = test_DOM()         
       if checkParams != 1:
-         checkParams = test_DOM()
-         
-      if checkParams != 1:
-         print("[!] (1) SubDOMAINS (2) VHOSTS")   
-         subChoice = input("[?] Please select which one you wish to enumerate: ")         
-         if subChoice == "1":
             print(colored("[*] Scanning for subdomains,please wait this can take sometime...", colour3))
             remotCOM("gobuster dns --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
-            checkParams = 1         
-         if subChoice == "2":
-            checkParams = test_WEB()      
-            if checkParams != 1:
-               print(colored("[*] Scanning for vhosts,please wait this can take sometime...", colour3))
-               remotCOM("gobuster vhost -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
-               checkParams = 1
-         if checkParams == 0:
-            print("[-] Sorry, I do not understand the value " + subChoice + "...")             
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - nmap IP46 -p 80 --script http-vhosts --script-args http-vhosts.domain=DOMAIN IP.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '22':
+      checkParams = test_WEB()
+      if checkParams != 1:
+         print(colored("[*] Scanning for vhosts,please wait this can take sometime...", colour3))
+         remotCOM("gobuster vhost -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
       prompt()
             
 # ------------------------------------------------------------------------------------- 
