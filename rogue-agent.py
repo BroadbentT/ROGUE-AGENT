@@ -700,8 +700,8 @@ def options():
    print("(90) SSH     " + '\u2551')   
    print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreater (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreator (82) GenListPass (93) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Search  DIR (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
@@ -1422,7 +1422,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) Responder (07) Exit SubMenu")
+      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
       checkParams = 0
       subChoice = input("[?] Please select an option: ")
       if subChoice == "1":
@@ -1449,10 +1449,14 @@ while True:
             choice = "python3  /usr/lib/python3.9/smtpd.py -n -c DebuggingServer " + localIP + ":" + HTTP
             checkParams = 1
       if subChoice == "6":
-         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
+         HTTP = input("[?] Please select a port value: ")
+         choice = "rlwrap nc -nvlp " + HTTP
          checkParams = 1
       if subChoice == "7":
-         pass         
+         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
+         checkParams = 1
+      if subChoice == "8":
+         pass
       if checkParams != 0:
         if HTTP != "":
             print(colored("[*] Specified local service started...", colour3))
@@ -3110,6 +3114,12 @@ while True:
          if checkParams != 1:
             checkParams = getPort()                 
             if checkParams != 1:
+               print("\n- - - - - - - - - - - - - - - - - - - - - - -")
+               print("Target  : " + TIP.rstrip(" "))
+               print("Sender  : " + USR.rstrip(" "))
+               print("Receiver: usernames.txt")
+               print("Domain  : " + DOM.strip(" "))
+               print("- - - - - - - - - - - - - - - - - - - - - - -\n")
                print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                try:
@@ -3229,7 +3239,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='78':
-      dispSubMenu(" (01) USER NAMES (02) PASS WORDS (03) NTLM HASHES (04) HOSTS CONFIG (05) RESOLV CONFIG (06) PROXYCHAINS CONFIG (07) KERB5 CONFIG (08) Exit SubMenu")
+      dispSubMenu(" (01) User Names (02) Pass Words (03) NTLM Hashes (04) Hosts Config (05) Resolv Config (06) Proxychains Config (07) Kerb5 Config (08) Quit")
       checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
       if subChoice == "1":
