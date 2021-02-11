@@ -692,7 +692,7 @@ def dispMenu():
    
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (12) Re/Set SHARENAME (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) ServScanner (78) FILE Editor (89) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Initiate SERVICE (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Re/Start SERVICE (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
