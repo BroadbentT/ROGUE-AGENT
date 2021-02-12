@@ -293,7 +293,7 @@ def checkInterface(variable, COM):
          print(colored("Address: " + NetworkAddr, colour6))  
       print("")                
    except:
-      print("[-] No responce from network interface, checking connection instead...")
+      print("[-] No responce from network interface, checking remote host instead...")
       COM = spacePadding("UNKNOWN", COL0)      
       if variable == "DNS":
            remotCOM("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
@@ -305,9 +305,12 @@ def checkInterface(variable, COM):
       localCOM("sed -i '$d' ./ping.tmp")      
       count = lineCount("ping.tmp")
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-      localCOM("sed -i '$d' ./ping.tmp")      
-      catsFile("ping.tmp")      
-      print ("[+] " + nullTest + "...")      
+      localCOM("sed -i '$d' ./ping.tmp")
+      catsFile("ping.tmp") 
+      if nullTest != "":
+         print ("[+] " + nullTest + "...")
+      else:
+         print("[-] No responce from host...")
    COM = spacePadding(COM, COL0)
    return COM       
    
@@ -332,7 +335,7 @@ def networkSweep():
       return
    else:
       bit1, bit2, bit3, bit4 = TIP.split(".")
-      print(colored("[*] Attempting to enumerate network hosts, please wait...", colour3))
+      print(colored("[*] Attempting to enumerate all hosts on this network range, please wait...", colour3))
       remotCOM("nmap -v -sn " + bit1 + "." + bit2 + "." + bit3 + ".1-254 -oG pingsweep.tmp > temp.tmp 2>&1")
       localCOM('grep Up pingsweep.tmp | cut -d " " -f 2 > hosts.tmp')
       nullTest = linecache.getline("hosts.tmp", 1).rstrip("\n")
@@ -345,7 +348,9 @@ def networkSweep():
    
 def catsFile(variable):
    localCOM("echo '" + Green + "'")
-   localCOM("cat " + variable)
+   count = lineCount(variable)
+   if count > 0:
+      localCOM("cat " + variable)
    localCOM("echo '" + Reset + "'")
    return   
    
@@ -701,7 +706,7 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreator (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Search  DIR (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) DIR  Search (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
@@ -1259,13 +1264,10 @@ while True:
       else:
          WEB = BAK               
       if proxyChains != 1:      
-         print(colored("[*] Enumerating website url for verbs...", colour3))       
-         if "80" in PTS:
-            remotCOM("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + ":80 > verbs.tmp 2>&1")
-            catsFile("verbs.tmp")         
-         if "3128" in PTS:
-            remotCOM("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + ":3128 > verbs.tmp 2>&1")
-            catsFile("verbs.tmp")          
+         print(colored("[*] Enumerating website url for verbs...", colour3))
+         remotCOM("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > verbs.tmp 2>&1")
+         cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
+         catsFile("verbs.tmp")
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -3000,19 +3002,16 @@ while True:
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - GOBUSTER WEB ADDRESS/IP common.txt
 # Modified: N/A
-# Note    : Alternative dictionary - /usr/share/dirb/wordlists/common.txt
+# Note    : Alternative dictionary - alternative /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt 
 # -------------------------------------------------------------------------------------
 
    if selection =='72':
       checkParams = test_TIP()      
       if checkParams != 1:
          if WEB[:5] == "EMPTY":
-            remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x "   + fileExt + " -f -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50")
+            remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x "   + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50")
          else:
-            if (WEB[:5] == "https") or (WEB[:5] == "HTTPS"):
-               remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u '" + WEB.rstrip(" ") + "' -x " + fileExt + " -f -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50") 
-            else: 
-               remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x "   + fileExt + " -f -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50")
+            remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u '" + WEB.rstrip(" ") + "' -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50") 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
