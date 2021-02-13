@@ -347,11 +347,11 @@ def networkSweep():
    return      
    
 def catsFile(variable):
-   localCOM("echo '" + Green + "'")
    count = lineCount(variable)
    if count > 0:
+      localCOM("echo '" + Green + "'")
       localCOM("cat " + variable)
-   localCOM("echo '" + Reset + "'")
+      localCOM("echo '" + Reset + "'")
    return   
    
 def timeSync(SKEW):
@@ -706,7 +706,7 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreator (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) DIR  Search (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) DirecFinder (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
