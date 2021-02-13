@@ -3300,7 +3300,10 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='80':
-      print(colored("[*] Generating Keys...\n", colour3))
+      print(colored("[*] Generating Keys...", colour3))
+      if os.path.exists("id_rsa.pub"):
+         localCOM("rm id_rsa")
+         localCOM("rm id_rsa.pub")
       localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
       catsFile("id_rsa.pub")
       print("[+] Now insert the above into authorized_Keys on the victim's machine...")            
