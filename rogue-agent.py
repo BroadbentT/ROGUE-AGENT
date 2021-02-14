@@ -194,7 +194,8 @@ def saveParams():
    localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp")   
    localCOM("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp")
    localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp")
-   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp")         
+   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp")   
+   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp")     
    OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
    DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
@@ -207,7 +208,8 @@ def saveParams():
    TGT2 = linecache.getline("base64.tmp", 10).rstrip("\n")
    DOM2 = linecache.getline("base64.tmp", 11).rstrip("\n")
    SID2 = linecache.getline("base64.tmp", 12).rstrip("\n")
-   TSH2 = linecache.getline("base64.tmp", 13).rstrip("\n")      
+   FIL2 = linecache.getline("base64.tmp", 13).rstrip("\n")
+   TSH2 = linecache.getline("base64.tmp", 14).rstrip("\n")      
    cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + OSF2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + DNS2 + "\" WHERE IDS = 1"); connection.commit()
@@ -220,6 +222,7 @@ def saveParams():
    cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + DOM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET SID = \"" + SID2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit()   
    return
      
@@ -669,49 +672,67 @@ def dispMenu():
    else:
       print(colored(USER[10],colour6), end=' ')
       print(colored(HASH[10],colour6), end=' ')         
-   print('\u2551')   
+   print('\u2551')    
+   print('\u2551' + " FILE   NAME  " + '\u2551', end=' ')
+   if FIL[:5] == "EMPTY":
+      print(colored(FIL[:COL1],colour7), end=' ')
+   else:
+      print(colored(FIL[:COL1],colour6), end=' ')
+   print('\u2551', end=' ')   
+   if TSH.rstrip(" ") in SHAR[11]:
+      print(colored(SHAR[11],colour3), end=' ')
+   else:
+      print(colored(SHAR[11],colour6), end=' ')   
+   print('\u2551', end=' ')   
+   if VALD[10] == "1":
+      print(colored(USER[11],colour2), end=' ')
+      print(colored(HASH[11],colour2), end=' ')
+   else:
+      print(colored(USER[11],colour6), end=' ')
+      print(colored(HASH[11],colour6), end=' ')         
+   print('\u2551') 
+   
    print('\u2551' + " SHARE  NAME  " + '\u2551', end=' ')
    if TSH[:5] == "EMPTY":
       print(colored(TSH[:COL1],colour7), end=' ')
    else:
       print(colored(TSH[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in SHAR[11]:
-      print(colored(SHAR[11],colour3), end=' ')
+   if TSH.rstrip(" ") in SHAR[12]:
+      print(colored(SHAR[12],colour3), end=' ')
    else:
-      print(colored(SHAR[11],colour6), end=' ')      
+      print(colored(SHAR[12],colour6), end=' ')      
    print('\u2551', end=' ')   
    if VALD[11] == "1":
-      print(colored(USER[11],colour2), end=' ')
-      print(colored(HASH[11],colour2), end=' ')
+      print(colored(USER[12],colour2), end=' ')
+      print(colored(HASH[12],colour2), end=' ')
    else:
-      if USER[12][:1] != "":
-         print(colored(USER[11],colour0), end=' ')
-         print(colored(HASH[11],colour0), end=' ')      
+      if USER[13][:1] != "":
+         print(colored(USER[12],colour0), end=' ')
+         print(colored(HASH[12],colour0), end=' ')      
       else:
-         print(colored(USER[11],colour6), end=' ')
-         print(colored(HASH[11],colour6), end=' ')
-   print('\u2551')   
+         print(colored(USER[12],colour6), end=' ')
+         print(colored(HASH[12],colour6), end=' ')
+   print('\u2551')      
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2563')
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (12) Re/Set SHARENAME (23) SyncTime (34) WinLDAP Search (45) Kerberos Info (56) GoldenDCPAC (67) ServScanner (78) FILE Editor (89) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (13) Re/Start SERVICE (24) Get Arch (35) Look up SecIDs (46) Kerberos Auth (57) Domain Dump (68) VulnScanner (79)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (21) Get Arch (31) WinLDAP Search (41) Kerberos Info (51) Gold Ticket (61) ServScanner (71) FILE Editor (81) FTP     " + '\u2551')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (22) Net View (32) Look up SecIDs (42) Kerberos Auth (52) Gold DC PAC (62) VulnScanner (72)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
-      print(menuName, end= ' ')      
-   print("(90) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreator (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (21) Enum  SubDOMAINS (32) NFS List (43) Smb Dump Files (54) Silver Ticket (65) Remote Sync (76) Hail! HYDRA (87)             (98) RemDesk " + '\u2551')
-   print('\u2551' + "(11) Re/Set DOMAIN  SID (22) EnumVirtualHOSTS (33) NFSMount (44) SmbMount SHARE (55) Golden Ticket (66) RSync Dumps (77) MSF Console (88)             (99) Exit    " + '\u2551')
+      print(menuName, end= ' ')
+   print("(82) SSH     " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Start SERVICE (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap  LIVE PORTS (26) PS  Exec (36) RpcClient Serv (46) PASSWORD2HASH (56) SecretsDump (66) Directories (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (17) Enum PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) Binary RopTricks (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70)             (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -774,7 +795,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 757 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 760 of the rogue-agent.py file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -888,6 +909,7 @@ localCOM("echo " + col[10] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[11] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[12] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[13] + " | base64 -d >> ascii.tmp")
+localCOM("echo " + col[14] + " | base64 -d >> ascii.tmp")
 OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
 COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
 DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
@@ -900,7 +922,8 @@ NTM = linecache.getline("ascii.tmp", 9).rstrip("\n")
 TGT = linecache.getline("ascii.tmp", 10).rstrip("\n")
 DOM = linecache.getline("ascii.tmp", 11).rstrip("\n")
 SID = linecache.getline("ascii.tmp", 12).rstrip("\n")
-TSH = linecache.getline("ascii.tmp", 13).rstrip("\n")
+FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
+TSH = linecache.getline("ascii.tmp", 14).rstrip("\n")
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
 if PAS.rstrip(" ") == '':
@@ -918,6 +941,7 @@ NTM = spacePadding(NTM, COL1)
 TGT = spacePadding(TGT, COL1)
 DOM = spacePadding(DOM, COL1)
 SID = spacePadding(SID, COL1)
+FIL = spacePadding(FIL, COL1)
 TSH = spacePadding(TSH, COL1)
 
 # -------------------------------------------------------------------------------------
@@ -1398,6 +1422,22 @@ while True:
          SID = spacePadding(SID, COL1)
       else:
          SID = BAK
+         
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Change the File name.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '12':
+      BAK = FIL
+      FIL = input("[?] Please enter file name: ")      
+      if FIL != "":
+         FIL = spacePadding(FIL,COL1)
+      else:
+         FIL = BAK    
  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1407,7 +1447,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '12':
+   if selection == '13':
       BAK = TSH
       TSH = input("[?] Please enter share name: ")      
       if TSH != "":
@@ -1419,11 +1459,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Start HTTP server.
+# Details : Menu option selected - Start HTTP servers
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '13':
+   if selection == '14':
       dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
       checkParams = 0
       subChoice = input("[?] Please select an option: ")
@@ -1468,18 +1508,7 @@ while True:
             localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
             localCOM("xdotool type '" + choice + "'; xdotool key Return")
             localCOM("xdotool key Ctrl+Tab")         
-      prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '14':
-      prompt()      
+      prompt()    
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1490,78 +1519,40 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '15':
-      checkParams = test_DNS()         
-      if checkParams != 1:
-         print(colored("[*] Checking DNS Server...\n", colour3))         
-         remotCOM("whois -I "  + DNS.rstrip(" "))
-      prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - dig authority DNS +noedms 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '16':
-      checkParams = test_DNS()
-      if checkParams != 1:
-         checkParams = test_DOM()                  
-      if checkParams != 1:
-         print(colored("[*] Checking DNS Server...", colour3))
-#        remotCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
-         remotCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
-      prompt()  
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - dnsenum
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='17':
-      checkParams = test_DOM()      
-      if checkParams != 1:
-         print(colored("[*] Checking DOMAIN Server...", colour3))
-         remotCOM("dnsenum " + DOM.rstrip(" "))
-      prompt()
+      dispSubMenu(" (01) Who (02) Dig (03) Enum (04) Reco (05) Quit")
+      checkParams = 0
+      subChoice = input("[?] Please select an option: ")
       
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - dnsrecon
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '18':
-      checkParams = test_TIP()
-      if checkParams != 1:
-         checkParams = test_DOM()         
-      if checkParams != 1:
-         print(colored("[*] Checking DOMAIN zone transfer...", colour3))
-         remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
-         print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
-         remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
+      if subChoice == "1":
+         checkParams = test_DNS()         
+         if checkParams != 1:
+            print(colored("[*] Checking DNS Server...\n", colour3))         
+            remotCOM("whois -I "  + DNS.rstrip(" "))
+      if subChoice == "2":
+         checkParams = test_DNS()
+         if checkParams != 1:
+            checkParams = test_DOM()
+         if checkParams != 1:
+            print(colored("[*] Checking DNS Server...", colour3))
+#           remotCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
+            remotCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
+      if subChoice == "3":
+         checkParams = test_DOM()      
+         if checkParams != 1:
+            print(colored("[*] Checking DOMAIN Server...", colour3))
+            remotCOM("dnsenum " + DOM.rstrip(" "))        
+      if subChoice == "4":
+         checkParams = test_TIP()
+         if checkParams != 1:
+            checkParams = test_DOM()         
+         if checkParams != 1:
+            print(colored("[*] Checking DOMAIN zone transfer...", colour3))
+            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
+            print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
+            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
+      if subChoice == "5":
+         pass           
       prompt()      
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - exit(1)
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '19':
-      PTS = checkPorts(PTS, POR)
-      POR = spacePadding(PTS, COL1)      
-      squidCheck()
-      SKEW = timeSync(SKEW)
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1571,7 +1562,30 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '20':
+   if selection == '16':
+      checkParams = test_TIP()      
+      if checkParams != 1:
+         if POR[:5] != "EMPTY":
+            print(colored("[*] Scanning specified live ports only, please wait...", colour3))
+            remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            if "500" in PTS:
+               remotCOM("ike-scan -M " + TIP.rstrip(" "))
+         else:
+            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
+            remotCOM("nmap " + IP46 + " -sT -sU -Pn " + TIP.rstrip(" "))
+            if "500" in PTS:
+               remotCOM("ike-scan -M " + TIP.rstrip(" "))
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+# 
+   if selection == '17':
       checkParams = test_TIP()      
       if checkParams != 1:
          if POR[:5] != "EMPTY":
@@ -1594,7 +1608,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '21':
+   if selection == '18':
       checkParams = test_DNS()
       if checkParams != 1:
          checkParams = test_DOM()         
@@ -1611,25 +1625,39 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '22':
+   if selection == '19':
       checkParams = test_WEB()
       if checkParams != 1:
          print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
          remotCOM("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
       prompt()
-            
+
 # ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                           
+# AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Reset local TIME to match kerberos skew. 
+# Details : Menu option selected - Binary & Rop Tricks.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '23':
-      SKEW = timeSync(SKEW)
-      prompt()
-      
+   if selection == '20':
+      subChoice = ""
+      while subChoice != "3":
+         dispSubMenu(" (01) Check Directory (02) File Type (03) Quit",)
+         subChoice = input("[?] Please select an option: ")
+         if subChoice == "1":
+            print(colored("[*] Scanning for files in " + workDir + "...", colour3))
+            localCOM("ls -la " + workDir + " > dir.tmp")
+            catsFile("dir.tmp")
+         if subChoice == "2":
+            if FIL[:5] != "EMPTY":
+               print(colored("[*] Scanning file " + FIL.rstrip(" ") + "...", colour3))
+               localCOM("file " + workDir + "/" + FIL.rstrip(" ") + " > file.tmp")
+               catsFile("file.tmp")
+            else:
+               print("[-] No file name has been specified..")
+         prompt()
+                  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -1639,7 +1667,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '24':
+   if selection == '21':
       checkParams = test_TIP()      
       if checkParams != 1:
          print(colored("[*] Attempting to enumerate architecture...", colour3))
@@ -1662,7 +1690,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='25':
+   if selection =='22':
       checkParama = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -1678,7 +1706,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='26':
+   if selection =='23':
       checkParams = test_TIP
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -1694,7 +1722,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '27':
+   if selection == '24':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -1710,7 +1738,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '28':
+   if selection == '25':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1726,7 +1754,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '29':
+   if selection == '26':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1742,7 +1770,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '30':
+   if selection == '27':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()            
@@ -1758,7 +1786,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '31':
+   if selection == '28':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -1774,7 +1802,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='32':
+   if selection =='29':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1802,7 +1830,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '33':
+   if selection == '30':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1824,7 +1852,7 @@ while True:
 # Modified: 08/12/2020 - Currently Using DOM rather than TIP as command has issues with IP6.
 # -------------------------------------------------------------------------------------
 
-   if selection =='34':
+   if selection =='31':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                  
@@ -1855,7 +1883,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='35':
+   if selection =='32':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1923,7 +1951,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='36':
+   if selection =='33':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -1980,7 +2008,7 @@ while True:
 # Note    : Needs a structure rewrite!!!
 # -------------------------------------------------------------------------------------
 
-   if selection =='37':
+   if selection =='34':
       checkParams = test_TIP()     
       if checkParams != 1:
          checkParams = test_DOM()                  
@@ -2010,25 +2038,13 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='38':
+   if selection =='35':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
          remotCOM(keyPath + "rpcdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" "))
-      prompt()
 
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - rpcmap.py -debug -auth-transport DOM/USER:PASSWORD \
-# Modified: N/A
-# Note    : Needs a strcuture rewrite!!!
-# -------------------------------------------------------------------------------------
-
-   if selection == '39':
-      checkParams = test_TIP()      
       stringBindings = input("[?] Enter a valid stringbinding value, such as 'ncacn_ip_tcp:" + DOM.rstrip(" ") + "[135]' : ")            
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2052,7 +2068,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '40':
+   if selection == '36':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                     
@@ -2072,7 +2088,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='41':
+   if selection =='37':
       checkParams = test_TIP()      
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
@@ -2112,7 +2128,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '42':
+   if selection == '38':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                   
@@ -2153,7 +2169,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '43':
+   if selection == '39':
       checkParama = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()             
@@ -2183,7 +2199,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '44':
+   if selection == '40':
       checkParams = test_TIP()           
       if checkParams != 1:
          checkParams = test_TSH()                  
@@ -2203,7 +2219,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '45':
+   if selection == '41':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2223,7 +2239,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '46':
+   if selection == '42':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2277,7 +2293,7 @@ while True:
 # Modified: NOTE - THIS DOES NOT CURRENTLY DEAL WITH FOUND MULTIPLE USERS!!!
 # -------------------------------------------------------------------------------------
 
-   if selection =='47':
+   if selection =='43':
       checkParams = test_TIP()
       found = 0            
       if checkParams != 1:
@@ -2321,7 +2337,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '48':
+   if selection == '44':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                     
@@ -2346,7 +2362,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='49':
+   if selection =='45':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()          
@@ -2384,7 +2400,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '50':
+   if selection == '46':
       checkParams = test_PAS()
       if checkParams != 1:    
          NTM = hashlib.new("md4", PAS.rstrip(" ").encode("utf-16le")).digest()
@@ -2408,7 +2424,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '51':
+   if selection == '47':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                             
@@ -2464,7 +2480,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '52':
+   if selection == '48':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2488,7 +2504,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='53':
+   if selection =='49':
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()
@@ -2519,7 +2535,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '54':
+   if selection == '50':
       checkParams = test_TIP()     
       if checkParams != 1:
          checkParams = test_DOM()         
@@ -2546,7 +2562,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '55':
+   if selection == '51':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()         
@@ -2573,7 +2589,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='56':
+   if selection =='52':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2595,7 +2611,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='57':
+   if selection =='53':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2615,7 +2631,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='58':
+   if selection =='54':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()                     
@@ -2639,7 +2655,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='59':
+   if selection =='55':
       checkParams != test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2660,7 +2676,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='60':
+   if selection =='56':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2717,7 +2733,7 @@ while True:
 # Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
-   if selection =='61':
+   if selection =='57':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2776,7 +2792,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='62':
+   if selection =='58':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2793,7 +2809,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='63':
+   if selection =='59':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
@@ -2810,7 +2826,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='64':
+   if selection =='60':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()         
@@ -2823,45 +2839,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - rsync -av rsync://IP:873/SHARENAME SHARENAME
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='65':
-      checkParams = test_TIP()            
-      if checkParams != 1:
-         checkParams = test_PRT("873")         
-      if checkParams != 1:
-         checkParams = test_TSH()               
-      if checkParams != 1:
-         remotCOM("rsync -av rsync://" + TIP.rstrip(" ") +  ":873/" + TSH.rstrip(" ") + " " + TSH.rstrip(" "))
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - rsync -a rsync://IP:873
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='66':
-      checkParams = test_TIP()      
-      if checkParams != 1:
-         checkParams = test_PRT("873")         
-      if checkParams != 1:
-         remotCOM("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")   
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
 # Details : Menu option selected - Nikto scan
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='67':
+   if selection =='61':
       print(colored("[*] Service scanning host, please wait this can take sometime...", colour3))
       checkParams = test_WEB()
       if checkParams != 1:
@@ -2889,7 +2871,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='68':
+   if selection =='62':
       checkParams = test_TIP()
       if checkParams != 1:
          if POR[:5] != "EMPTY":
@@ -2907,7 +2889,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='69':
+   if selection =='63':
       checkParams = test_TIP()
       if checkParams != 1:
          if POR[:5] != "EMPTY":
@@ -2925,7 +2907,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '70':
+   if selection == '64':
       services = input("[?] Please enter service name: ")
       localCOM("searchsploit '" + services + "' > sploit.tmp")      
       nullTest = linecache.getline("sploit.tmp",1)      
@@ -2947,7 +2929,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='71':                 
+   if selection =='65':                 
       checkParams = getPort()      
       if checkParams != 1:
          if OSF == "WINDOWS":
@@ -3009,7 +2991,7 @@ while True:
 # Note    : Alternative dictionary - alternative /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt 
 # -------------------------------------------------------------------------------------
 
-   if selection =='72':
+   if selection =='66':
       print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
       checkParams = test_WEB()
       if checkParams != 1:
@@ -3029,7 +3011,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='73':
+   if selection =='67':
       checkParams = test_PRT("161")      
       if checkParams != 1:
          print(colored("[*] Checking all communities...", colour3))
@@ -3077,7 +3059,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='74':
+   if selection =='68':
       checkParams = getPort()
       if HTTP == 0:
          print("[-] You need to start the HTTP server first...")
@@ -3110,7 +3092,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='75':
+   if selection =='69':
       if HTTP != 0:
          checkParams = test_TIP()      
          if checkParams != 1:
@@ -3210,32 +3192,19 @@ while True:
                         print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
       else:
          print("[-] You need to start the smtpd server first...")
-      prompt()      
+      prompt()     
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Hail Hydra
+# Details : Menu option selected - 
 # Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='76':    
-      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
-      prompt()
-      
 # ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Meterpreter
-# Modified: N/A
-# -------------------------------------------------------------------------------------
 
-   if selection =='77':    
-      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
+   if selection =='70':
       prompt()
-      
+     
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3244,7 +3213,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='78':
+   if selection =='71':
       dispSubMenu(" (01) User Names (02) Pass Words (03) NTLM Hashes (04) Hosts Config (05) Resolv Config (06) Proxychains Config (07) Kerb5 Config (08) Quit")
       checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
@@ -3289,7 +3258,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='79':        
+   if selection =='72':        
       if proxyChains == 0:
          proxyChains = 1
          print("[+] Proxychains activated...")
@@ -3306,7 +3275,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='80':
+   if selection =='73':
       print(colored("[*] Generating Keys...", colour3))
       if os.path.exists("id_rsa.pub"):
          localCOM("rm id_rsa")
@@ -3328,7 +3297,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='81':
+   if selection =='74':
       checkParams = test_PRT("80")
       if checkParams != 1:
          checkParams = test_WEB()
@@ -3360,7 +3329,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='82':
+   if selection =='75':
       checkParams = test_PRT("80")
       if checkParams != 1:
          checkParams = test_WEB()
@@ -3387,7 +3356,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='83':
+   if selection =='76':
       print(colored("[*] Checking " + workDir + " for relevant files...", colour3))            
       if os.path.exists("./" + workDir + "/ntds.dit"):
          print("[+] File ntds.dit found...")
@@ -3440,7 +3409,8 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='84':
+   if selection =='77':
+      print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3451,18 +3421,8 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='85':          
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='86':
+   if selection =='78':          
+      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3473,9 +3433,16 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '87':
+   if selection =='79':
+      checkParams = test_TIP()            
+      if checkParams != 1:
+         checkParams = test_PRT("873")         
+      if checkParams != 1:
+         checkParams = test_TSH()               
+      if checkParams != 1:
+         remotCOM("rsync -av rsync://" + TIP.rstrip(" ") +  ":873/" + TSH.rstrip(" ") + " " + TSH.rstrip(" "))
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3484,7 +3451,12 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='88':
+   if selection == '80':
+      checkParams = test_TIP()      
+      if checkParams != 1:
+         checkParams = test_PRT("873")         
+      if checkParams != 1:
+         remotCOM("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")  
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3495,7 +3467,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='89':
+   if selection =='81':
       checkParams = test_TIP()            
       if checkParams != 1:
          checkParams = test_PRT("21")                 
@@ -3511,7 +3483,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='90':
+   if selection =='82':
       checkParams = test_TIP()            
       if checkParams != 1:
          checkParams = test_PRT("22")                 
@@ -3527,7 +3499,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='91':
+   if selection =='83':
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_PRT("22")          
@@ -3543,7 +3515,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='92':
+   if selection =='84':
       checkParams = test_TIP()                  
       if checkParams != 1:
          checkParams = test_PRT("23")                 
@@ -3559,28 +3531,12 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='93':
+   if selection =='85':
       checkParams = test_TIP()            
       if checkParams != 1:
          checkParams = getPort()               
       if checkParams != 1:
          remotCOM("nc " + TIP.rstrip(" ") + " " + checkParams)
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - SQSH uses port 1433
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='94':
-      checkParams = test_TIP()      
-      if checkParams != 1:
-         checkParams = test_PRT("1433")                 
-      if checkParams != 1:
-         remotCOM("sqsh -S " + TIP.rstrip(" ") + " -L user=" + USR.rstrip(" ") + " -L password=" + PAS.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3591,7 +3547,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='95':
+   if selection =='86':
       checkParams = test_DOM()            
       if checkParams != 1:
          checkParams = test_PRT("1433")               
@@ -3612,7 +3568,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='96':
+   if selection =='87':
       checkParams = test_TIP()                  
       if checkParams != 1:
          checkParams = test_PRT("3306")            
@@ -3628,7 +3584,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='97':
+   if selection =='88':
       if IP46 == "-4":
          checkParams = test_TIP()
       else:
@@ -3657,7 +3613,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '98':
+   if selection == '89':
       checkParams = test_TIP()            
       if checkParams != 1:
          checkParams = test_PRT("3389")                     
@@ -3673,7 +3629,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '99':        
+   if selection == '90':        
       saveParams()
       localCOM("rm *.tmp")      
       if DOMC == 1:
