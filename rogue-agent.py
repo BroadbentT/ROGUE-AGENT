@@ -706,7 +706,7 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (14)                  (25) Net View (36) Sam Dump Users (47) KerberosBrute (58) Blood Hound (69) ExplScanner (80) GenSSHKeyID (91) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (15) who  DNS ADDRESS (26) Services (37) REGistry Hives (48) KerbeRoasting (59) BH ACL PAWN (70) Expl Finder (81) GenListUser (92) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (16) Dig  DNS ADDRESS (27) AT  Exec (38) Find EndPoints (49) ASREPRoasting (60) SecretsDump (71) ExplCreator (82) GenListPass (93) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) DirecFinder (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (17) Enum DNS ADDRESS (28) DComExec (39) Enum End Point (50) PASSWORD2HASH (61) CrackMapExe (72) Directories (83) NTDSDECRYPT (94) SQSH    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (18) Reco DNS ADDRESS (29) PS  Exec (40) RpcClient Serv (51) Pass the HASH (62) PSExec HASH (73) SNMP Walker (84)             (95) MSSQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (19) Nmap LIVE  PORTS (30) SMB Exec (41) SmbClient Serv (52) OverPass HASH (63) SmbExecHASH (74) ManPhishCod (85)             (96) MySQL   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (20) Nmap PORTService (31) WMI Exec (42) Smb Map SHARES (53) Kerbe5 Ticket (64) WniExecHASH (75) AutoPhisher (86)             (97) WinRm   " + '\u2551')
@@ -1265,7 +1265,7 @@ while True:
          WEB = BAK               
       if proxyChains != 1:      
          print(colored("[*] Enumerating website url for verbs...", colour3))
-         remotCOM("wfuzz -z list,GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > verbs.tmp 2>&1")
+         remotCOM("wfuzz -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > verbs.tmp 2>&1")
          cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
          catsFile("verbs.tmp")
       prompt()
@@ -1599,8 +1599,8 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()         
       if checkParams != 1:
-            print(colored("[*] Scanning for subdomains,please wait this can take sometime...", colour3))
-            remotCOM("gobuster dns --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
+            print(colored("[*] Scanning for subdomains, please wait this can take sometime...", colour3))
+            remotCOM("gobuster dns -q --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1614,8 +1614,8 @@ while True:
    if selection == '22':
       checkParams = test_WEB()
       if checkParams != 1:
-         print(colored("[*] Scanning for vhosts,please wait this can take sometime...", colour3))
-         remotCOM("gobuster vhost -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
+         print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
+         remotCOM("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt")
       prompt()
             
 # ------------------------------------------------------------------------------------- 
@@ -2862,19 +2862,23 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      if IP46 == "-4":
-         checkParams = test_TIP()
-      else:
-         checkParams = test_DOM()         
+      print(colored("[*] Service scanning host, please wait this can take sometime...", colour3))
+      checkParams = test_WEB()
       if checkParams != 1:
-         if ":" in TIP:
-            remotCOM("nikto -h " + DOM.rstrip(" "))	# IP 6 ISSUES
-            checkParams = 1            
-         if checkParams != 1:
-            if WEB[:5] != "EMPTY":
-               remotCOM("nikto -h " + WEB.rstrip(" "))
+         if WEB[:5].upper() == "HTTPS":
+            remotCOM("nikto -ssl   -h " + WEB.rstrip(" "))
+         else:
+            remotCOM("nikto -nossl -h " + WEB.rstrip(" "))
+      else:
+         if IP46 == "-4":
+            checkParams = test_TIP()
+         else:
+            checkParams = test_DOM()
+         if checkParams != 1:   
+            if ":" in TIP:
+               remotCOM("nikto -h " + DOM.rstrip(" "))	# IP 6 ISSUES
             else:
-               remotCOM("nikto -h " + TIP.rstrip(" "))              
+               remotCOM("nikto -h " + TIP.rstrip(" "))
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
@@ -3006,12 +3010,15 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='72':
-      checkParams = test_TIP()      
+      print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
+      checkParams = test_WEB()
       if checkParams != 1:
-         if WEB[:5] == "EMPTY":
-            remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x "   + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50")
-         else:
-            remotCOM("gobuster dir -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u '" + WEB.rstrip(" ") + "' -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50") 
+         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50 > dir.tmp") 
+      else:       
+         checkParams = test_TIP()
+         if checkParams != 1:
+            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50 > dir.tmp")
+      catsFile("dir.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
