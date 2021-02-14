@@ -30,6 +30,7 @@ import pyfiglet
 import datetime
 import requests
 import linecache
+
 from termcolor import colored
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
@@ -1642,20 +1643,35 @@ while True:
 
    if selection == '20':
       subChoice = ""
-      while subChoice != "3":
-         dispSubMenu(" (01) Check Directory (02) File Type (03) Quit",)
+      while subChoice != "6":
+         dispSubMenu(" (01) Check Directory (02) Select File (03) chmod +X (04) File Type (05) Find Fault Offset (06) Quit")
          subChoice = input("[?] Please select an option: ")
          if subChoice == "1":
             print(colored("[*] Scanning for files in " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
             catsFile("dir.tmp")
-         if subChoice == "2":
+         if subChoice == "2":         
+            print(colored("[*] Scanning for files in " + workDir + "...", colour3))
+            localCOM("ls -la " + workDir + " > dir.tmp")
+            catsFile("dir.tmp")
+            BAK = FIL
+            FIL = input("[?] Please enter file name: ")      
+            if FIL != "":
+               FIL = spacePadding(FIL,COL1)
+            else:
+               FIL = BAK         
+         if subChoice == "3":
+            localCOM("chmod +X " + workDir + "/" + FIL.rstrip(" "))
+            print("[+] File changed...")
+         if subChoice == "4":
             if FIL[:5] != "EMPTY":
                print(colored("[*] Scanning file " + FIL.rstrip(" ") + "...", colour3))
                localCOM("file " + workDir + "/" + FIL.rstrip(" ") + " > file.tmp")
                catsFile("file.tmp")
             else:
                print("[-] No file name has been specified..")
+         if subChoice == "5":           
+            localCOM("python3 " + workDir + "/RopCrasher.py " + workDir + "/" + FIL.rstrip(" ") + " info")
          prompt()
                   
 # ------------------------------------------------------------------------------------- 
