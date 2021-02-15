@@ -1644,54 +1644,71 @@ while True:
    if selection == '20':
       subChoice = ""
       fileName = workDir + "/" + FIL.rstrip(" ")
-      while subChoice != "7":
-         dispSubMenu(" (01) Search (02) Select (03) Chmod +X (04) Description (05) Checksec (6) Fault Offset (07) Quit")
+      while subChoice != "6":
+         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Checksec File (06) Quit")
          subChoice = input("[?] Please select an option: ")         
-         
          if subChoice == "1":
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
             catsFile("dir.tmp")
             prompt()            
-            
          if subChoice == "2":         
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
             catsFile("dir.tmp")
             BAK = FIL
             FIL = input("\n[?] Please enter file name: ")      
             if FIL != "":
                FIL = spacePadding(FIL,COL1)
+               fileName = workDir + "/" + FIL.rstrip(" ")
             else:
-               FIL = BAK
-            
+               FIL = BAK               
          if subChoice == "3":
-            localCOM("chmod +X " + fileName)
-            print("[+] File attributes sucessfully changed...")
-            prompt()  
-                      
+            if FIL[:5].upper() != "EMPTY":         
+               print(colored("[*] Scanning file " + fileName + "...", colour3))
+               localCOM("chmod +x " + fileName)
+               print("[+] File attributes sucessfully changed...")
+               prompt()
+            else:
+               print("[-] No file name has been specified..") 
+               prompt()                      
          if subChoice == "4":
-            if FIL[:5] != "EMPTY":
+            if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Scanning file " + fileName + "...", colour3))
                localCOM("file " + fileName + " > file.tmp")
                catsFile("file.tmp")
-               SB = linecache.getline("file.tmp", 1)
-               if "LSB" in SB:
-                  print("[+] Little Indian Machine...")
+               binary = linecache.getline("file.tmp", 1)               
+               if "ELF" in binary:
+                  print("[i] Linux binary file...")
+               if "64-bit" in binary:
+                  print("[i] 64 bit architecture...")
                else:
-                  if "MSB" in SB:
-                     print("[+] Big Indian Machine...")
+                  if "32-bit" in binary:
+                     print("[i] 32 bit architecture...")               
+               if "LSB" in binary:
+                  print("[i] Data stored as Little Indian...")
+               else:
+                  if "MSB" in binary:
+                     print("[+] Data stored as Big Indian...")
+               if "not stripped" in binary:
+                  print("[i] Debugging information built in...")
+               else:
+                  print("[i] Debugging information has been removed...")               
             else:
                print("[-] No file name has been specified..") 
-            prompt()         
-               
+            prompt()                      
          if subChoice == "5":
-            print(colored("[*] Scanning file " + fileName + "...", colour3))
-            localCOM("checksec " + fileName)
-            prompt()               
-            
-         if subChoice == "6":           
-            localCOM("python3 " + workDir + "/RopCrasher.py " + fileName + " warn")
+            if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Scanning file " + fileName + "...", colour3))
+               localCOM("checksec " + fileName)
+            else:
+               print("[-] No file name has been specified..") 
             prompt()
                   
 # ------------------------------------------------------------------------------------- 
