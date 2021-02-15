@@ -3191,8 +3191,8 @@ while True:
    if selection =='70':
       subChoice = ""
       fileName = workDir + "/" + FIL.rstrip(" ")
-      while subChoice != "7":
-         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) Quit")
+      while subChoice != "8":
+         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) GHex Editor (08) Quit")
          subChoice = input("[?] Please select an option: ")         
          if subChoice == "1":
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
@@ -3256,7 +3256,6 @@ while True:
             prompt()
          if subChoice == "6":
             if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Scanning file " + fileName + "...", colour3))
                print("\n[i] If NIX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
                print("[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
                print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
@@ -3264,6 +3263,13 @@ while True:
                localCOM("checksec " + fileName)
             else:
                print("[-] No file name has been specified..") 
+               prompt()
+         if subChoice == "7":
+            if FIL[:5].upper() != "EMPTY":
+               localCOM("ghex " + fileName)
+            else:
+               print("[-] No file name has been specified..") 
+               prompt()               
             prompt()
      
 # ------------------------------------------------------------------------------------- 

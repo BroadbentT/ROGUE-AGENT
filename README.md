@@ -27,8 +27,8 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 
 | LANGUAGE  | FILENAME       | MD5 Hash                         | Description      | Version    |
 |------     |-------         | -------                          | ----             |  ----      |
-| python3   | install.py     | 510b9725a0b194d74e1a5b961e8eae10 | Install Program  | TREADSTONE |
-| python3   | rogue-agent.py | 0aad2a3a4f0cdc516b666f24d6c23b0e | Command Centre   | TREADSTONE | 
+| python3   | install.py     | b2955096afc080e957bb98ad6592ae38 | Install Program  | TREADSTONE |
+| python3   | rogue-agent.py | 83b7402cdb6fd2cbc315934a6892b6e5 | Command Centre   | TREADSTONE | 
 | SQLite3   | RA.db          | be589f34b52d3ad12497409460b47974 | Program Database | TREADSTONE |
 
        
