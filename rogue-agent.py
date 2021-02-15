@@ -1643,36 +1643,56 @@ while True:
 
    if selection == '20':
       subChoice = ""
-      while subChoice != "6":
-         dispSubMenu(" (01) Check Directory (02) Select File (03) chmod +X (04) File Type (05) Find Fault Offset (06) Quit")
-         subChoice = input("[?] Please select an option: ")
+      fileName = workDir + "/" + FIL.rstrip(" ")
+      while subChoice != "7":
+         dispSubMenu(" (01) Search (02) Select (03) Chmod +X (04) Description (05) Checksec (6) Fault Offset (07) Quit")
+         subChoice = input("[?] Please select an option: ")         
+         
          if subChoice == "1":
-            print(colored("[*] Scanning for files in " + workDir + "...", colour3))
+            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
             catsFile("dir.tmp")
+            prompt()            
+            
          if subChoice == "2":         
-            print(colored("[*] Scanning for files in " + workDir + "...", colour3))
+            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
             catsFile("dir.tmp")
             BAK = FIL
-            FIL = input("[?] Please enter file name: ")      
+            FIL = input("\n[?] Please enter file name: ")      
             if FIL != "":
                FIL = spacePadding(FIL,COL1)
             else:
-               FIL = BAK         
+               FIL = BAK
+            
          if subChoice == "3":
-            localCOM("chmod +X " + workDir + "/" + FIL.rstrip(" "))
-            print("[+] File changed...")
+            localCOM("chmod +X " + fileName)
+            print("[+] File attributes sucessfully changed...")
+            prompt()  
+                      
          if subChoice == "4":
             if FIL[:5] != "EMPTY":
-               print(colored("[*] Scanning file " + FIL.rstrip(" ") + "...", colour3))
-               localCOM("file " + workDir + "/" + FIL.rstrip(" ") + " > file.tmp")
+               print(colored("[*] Scanning file " + fileName + "...", colour3))
+               localCOM("file " + fileName + " > file.tmp")
                catsFile("file.tmp")
+               SB = linecache.getline("file.tmp", 1)
+               if "LSB" in SB:
+                  print("[+] Little Indian Machine...")
+               else:
+                  if "MSB" in SB:
+                     print("[+] Big Indian Machine...")
             else:
-               print("[-] No file name has been specified..")
-         if subChoice == "5":           
-            localCOM("python3 " + workDir + "/RopCrasher.py " + workDir + "/" + FIL.rstrip(" ") + " info")
-         prompt()
+               print("[-] No file name has been specified..") 
+            prompt()         
+               
+         if subChoice == "5":
+            print(colored("[*] Scanning file " + fileName + "...", colour3))
+            localCOM("checksec " + fileName)
+            prompt()               
+            
+         if subChoice == "6":           
+            localCOM("python3 " + workDir + "/RopCrasher.py " + fileName + " warn")
+            prompt()
                   
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
