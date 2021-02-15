@@ -3192,7 +3192,7 @@ while True:
       subChoice = ""
       fileName = workDir + "/" + FIL.rstrip(" ")
       while subChoice != "9":
-         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) GHex Editor (08) GDB File (09) Quit")
+         dispSubMenu(" (01) Show Files (02) Select File (03) Examine File (04) Run File (05) GHex Editor (06) GDB File (07) ObjectDump File (08) ROPGadgets File (09) Quit")
          subChoice = input("[?] Please select an option: ")         
          if subChoice == "1":
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
@@ -3214,18 +3214,11 @@ while True:
             if FIL != "":
                FIL = spacePadding(FIL,COL1)
                fileName = workDir + "/" + FIL.rstrip(" ")
+               localCOM("chmod +x " + fileName)
             else:
                FIL = BAK
-            prompt()               
+            prompt()                                  
          if subChoice == "3":
-            if FIL[:5].upper() != "EMPTY":         
-               print(colored("[*] Updating file " + fileName + "...", colour3))
-               localCOM("chmod +x " + fileName)
-               print("[+] File attributes sucessfully changed...")
-            else:
-               print("[-] No file name has been specified..")
-            prompt()                      
-         if subChoice == "4":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Examining file " + fileName + "...", colour3))
                localCOM("file " + fileName + " > file.tmp")
@@ -3246,40 +3239,55 @@ while True:
                if "not stripped" in binary:
                   print("[i] Debugging information built in...")
                else:
-                  print("[i] Debugging information has been removed...")               
+                  print("[i] Debugging information has been removed...\n")   
+               localCOM("checksec " + fileName)               
+               print("\n[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
+               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
+               print("[i] If NX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
+               print("[i] If PIE is disabled, then the program memory locations will stay the same.")
+               print("[i] If RELRO is enabled,...")
             else:
                print("[-] No file name has been specified..") 
             prompt()              
-         if subChoice == "5":
+         if subChoice == "4":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Running file " + fileName + "...\n", colour3))            
                localCOM("./" + fileName)
             else: 
                print("[-] No file name has been specified..") 
-            prompt()           
-         if subChoice == "6":
-            if FIL[:5].upper() != "EMPTY":
-               print("\n[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
-               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
-               print("[i] If NX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
-               print("[i] If PIE is disabled, then the program memory locations will stay the same.")
-               print("[i] If RELRO is enabled,...\n")
-               localCOM("checksec " + fileName)
-            else:
-               print("[-] No file name has been specified..") 
             prompt()
-         if subChoice == "7":
+         if subChoice == "5":
             if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Hex editoring file " + fileName + "...", colour3))
                localCOM("ghex " + fileName)
             else:
                print("[-] No file name has been specified..") 
             prompt()
-         if subChoice == "8":
+         if subChoice == "6":
             if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Examining file " + fileName + "...", colour3))
                localCOM("gdb " + fileName)
             else:
                print("[-] No file name has been specified..") 
-            prompt()     
+            prompt()            
+         if subChoice == "7":
+            if FIL[:5].upper() != "EMPTY":   
+               print(colored("[*] Examining file " + fileName + "...", colour3))          
+               localCOM("objdump -D " + fileName + " > gadgets.tmp")
+               catsFile("gadgets.tmp")
+               print(colored("[*] Finding interesting gadgets...\n", colour3))
+               localCOM("cat gadgets.tmp | grep 'system'")
+            else:
+               print("[-] No file name has been specified..") 
+            prompt()       
+         if subChoice == "8": 
+            if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Examining file " + fileName + "...", colour3))          
+               localCOM("ROPgadget --binary " + fileName + " > gadgets.tmp")
+               catsFile("gadgets.tmp")
+            else:
+               print("[-] No file name has been specified..") 
+            prompt()                  
      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
