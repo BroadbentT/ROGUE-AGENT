@@ -733,7 +733,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Enum PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) Binary RopTricks (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70)             (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20)                  (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) Binary Rops (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1637,79 +1637,12 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Binary & Rop Tricks.
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '20':
-      subChoice = ""
-      fileName = workDir + "/" + FIL.rstrip(" ")
-      while subChoice != "6":
-         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Checksec File (06) Quit")
-         subChoice = input("[?] Please select an option: ")         
-         if subChoice == "1":
-            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
-            localCOM("ls -la " + workDir + " > dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            catsFile("dir.tmp")
-            prompt()            
-         if subChoice == "2":         
-            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
-            localCOM("ls -la " + workDir + " > dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            catsFile("dir.tmp")
-            BAK = FIL
-            FIL = input("\n[?] Please enter file name: ")      
-            if FIL != "":
-               FIL = spacePadding(FIL,COL1)
-               fileName = workDir + "/" + FIL.rstrip(" ")
-            else:
-               FIL = BAK               
-         if subChoice == "3":
-            if FIL[:5].upper() != "EMPTY":         
-               print(colored("[*] Scanning file " + fileName + "...", colour3))
-               localCOM("chmod +x " + fileName)
-               print("[+] File attributes sucessfully changed...")
-               prompt()
-            else:
-               print("[-] No file name has been specified..") 
-               prompt()                      
-         if subChoice == "4":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Scanning file " + fileName + "...", colour3))
-               localCOM("file " + fileName + " > file.tmp")
-               catsFile("file.tmp")
-               binary = linecache.getline("file.tmp", 1)               
-               if "ELF" in binary:
-                  print("[i] Linux binary file...")
-               if "64-bit" in binary:
-                  print("[i] 64 bit architecture...")
-               else:
-                  if "32-bit" in binary:
-                     print("[i] 32 bit architecture...")               
-               if "LSB" in binary:
-                  print("[i] Data stored as Little Indian...")
-               else:
-                  if "MSB" in binary:
-                     print("[+] Data stored as Big Indian...")
-               if "not stripped" in binary:
-                  print("[i] Debugging information built in...")
-               else:
-                  print("[i] Debugging information has been removed...")               
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()                      
-         if subChoice == "5":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Scanning file " + fileName + "...", colour3))
-               localCOM("checksec " + fileName)
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()
+      prompt()
                   
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3251,12 +3184,87 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Rop Tricks
 # Modified: N/A
 # ------------------------------------------------------------------------------------- 
 
    if selection =='70':
-      prompt()
+      subChoice = ""
+      fileName = workDir + "/" + FIL.rstrip(" ")
+      while subChoice != "7":
+         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) Quit")
+         subChoice = input("[?] Please select an option: ")         
+         if subChoice == "1":
+            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
+            localCOM("ls -la " + workDir + " > dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            catsFile("dir.tmp")
+            prompt()            
+         if subChoice == "2":         
+            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
+            localCOM("ls -la " + workDir + " > dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            localCOM("sed -i '1d' ./dir.tmp")
+            catsFile("dir.tmp")
+            BAK = FIL
+            FIL = input("\n[?] Please enter file name: ")      
+            if FIL != "":
+               FIL = spacePadding(FIL,COL1)
+               fileName = workDir + "/" + FIL.rstrip(" ")
+            else:
+               FIL = BAK               
+         if subChoice == "3":
+            if FIL[:5].upper() != "EMPTY":         
+               print(colored("[*] Updating file " + fileName + "...", colour3))
+               localCOM("chmod +x " + fileName)
+               print("[+] File attributes sucessfully changed...")
+               prompt()
+            else:
+               print("[-] No file name has been specified..") 
+               prompt()                      
+         if subChoice == "4":
+            if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Examining file " + fileName + "...", colour3))
+               localCOM("file " + fileName + " > file.tmp")
+               catsFile("file.tmp")
+               binary = linecache.getline("file.tmp", 1)               
+               if "ELF" in binary:
+                  print("[i] Linux binary file...")
+               if "64-bit" in binary:
+                  print("[i] 64 bit architecture...")
+               else:
+                  if "32-bit" in binary:
+                     print("[i] 32 bit architecture...")               
+               if "LSB" in binary:
+                  print("[i] Data stored as Little Indian...")
+               else:
+                  if "MSB" in binary:
+                     print("[+] Data stored as Big Indian...")
+               if "not stripped" in binary:
+                  print("[i] Debugging information built in...")
+               else:
+                  print("[i] Debugging information has been removed...")               
+            else:
+               print("[-] No file name has been specified..") 
+            prompt()              
+         if subChoice == "5":
+            print(colored("[*] Running file " + fileName + "...\n", colour3))            
+            localCOM("./" + fileName)        
+            prompt()
+         if subChoice == "6":
+            if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Scanning file " + fileName + "...", colour3))
+               print("\n[i] If NIX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
+               print("[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
+               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
+               print("[i] If PIE is disabled, then the program memory locations will stay the same.\n")
+               localCOM("checksec " + fileName)
+            else:
+               print("[-] No file name has been specified..") 
+            prompt()
      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
