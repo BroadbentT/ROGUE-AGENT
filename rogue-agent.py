@@ -3191,8 +3191,8 @@ while True:
    if selection =='70':
       subChoice = ""
       fileName = workDir + "/" + FIL.rstrip(" ")
-      while subChoice != "8":
-         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) GHex Editor (08) Quit")
+      while subChoice != "9":
+         dispSubMenu(" (01) Show Files (02) Select File (03) Enable File (04) Examine File (05) Run File (6) Checksec File (07) GHex Editor (08) GDB File (09) Quit")
          subChoice = input("[?] Please select an option: ")         
          if subChoice == "1":
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
@@ -3215,16 +3215,16 @@ while True:
                FIL = spacePadding(FIL,COL1)
                fileName = workDir + "/" + FIL.rstrip(" ")
             else:
-               FIL = BAK               
+               FIL = BAK
+            prompt()               
          if subChoice == "3":
             if FIL[:5].upper() != "EMPTY":         
                print(colored("[*] Updating file " + fileName + "...", colour3))
                localCOM("chmod +x " + fileName)
                print("[+] File attributes sucessfully changed...")
-               prompt()
             else:
-               print("[-] No file name has been specified..") 
-               prompt()                      
+               print("[-] No file name has been specified..")
+            prompt()                      
          if subChoice == "4":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Examining file " + fileName + "...", colour3))
@@ -3251,26 +3251,35 @@ while True:
                print("[-] No file name has been specified..") 
             prompt()              
          if subChoice == "5":
-            print(colored("[*] Running file " + fileName + "...\n", colour3))            
-            localCOM("./" + fileName)        
-            prompt()
+            if FIL[:5].upper() != "EMPTY":
+               print(colored("[*] Running file " + fileName + "...\n", colour3))            
+               localCOM("./" + fileName)
+            else: 
+               print("[-] No file name has been specified..") 
+            prompt()           
          if subChoice == "6":
             if FIL[:5].upper() != "EMPTY":
-               print("\n[i] If NIX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
-               print("[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
+               print("\n[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
                print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
-               print("[i] If PIE is disabled, then the program memory locations will stay the same.\n")
+               print("[i] If NX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
+               print("[i] If PIE is disabled, then the program memory locations will stay the same.")
+               print("[i] If RELRO is enabled,...\n")
                localCOM("checksec " + fileName)
             else:
                print("[-] No file name has been specified..") 
-               prompt()
+            prompt()
          if subChoice == "7":
             if FIL[:5].upper() != "EMPTY":
                localCOM("ghex " + fileName)
             else:
                print("[-] No file name has been specified..") 
-               prompt()               
             prompt()
+         if subChoice == "8":
+            if FIL[:5].upper() != "EMPTY":
+               localCOM("gdb " + fileName)
+            else:
+               print("[-] No file name has been specified..") 
+            prompt()     
      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
