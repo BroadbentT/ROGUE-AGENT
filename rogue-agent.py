@@ -3225,27 +3225,29 @@ while True:
                catsFile("file.tmp")
                binary = linecache.getline("file.tmp", 1)               
                if "ELF" in binary:
-                  print("[i] Linux binary file...")
+                  print("[+] Linux binary file...")
                if "64-bit" in binary:
-                  print("[i] 64 bit architecture...")
+                  print("[+] 64 bit architecture...")
                else:
                   if "32-bit" in binary:
-                     print("[i] 32 bit architecture...")               
+                     print("[+] 32 bit architecture...")               
                if "LSB" in binary:
                   print("[i] Data stored as Little Indian...")
                else:
                   if "MSB" in binary:
                      print("[+] Data stored as Big Indian...")
                if "not stripped" in binary:
-                  print("[i] Debugging information built in...")
+                  print("[+] Debugging information built in...\n")
                else:
-                  print("[i] Debugging information has been removed...\n")   
-               localCOM("checksec " + fileName)               
-               print("\n[i] If CANARY is enabled, then the program checks to see if the stack has been smashed.")
-               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow.")
-               print("[i] If NX is enabled, then the stack is read-only and you will need to use a return to libc exploit.")
-               print("[i] If PIE is disabled, then the program memory locations will stay the same.")
-               print("[i] If RELRO is enabled,...")
+                  print("[i] Debugging information has been removed..\n")   
+               localCOM("checksec " + fileName)
+               print("\n[i] If RELRO is set to full, then the entire GOT is read-only which removes the ability to perform a 'GOT overwrite' attack...")
+               print("[i] If CANARY is found, then the program checks to see if the stack has been smashed...")
+               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow...")
+               print("[i] If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
+               print("[i] If PIE is enabled, then the programs memory locations will not stay the same...")
+               print("[i] If RWX has segments, then these are writeable and executable at the same time...")
+
             else:
                print("[-] No file name has been specified..") 
             prompt()              
