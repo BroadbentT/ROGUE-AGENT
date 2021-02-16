@@ -84,7 +84,7 @@ for x in range(0, len(dirList)):
 
 print("[*] Installing system requirements I, please wait...")
 
-list1 = ["gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
+list1 = ["default-jdk", "gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists"]
 
 for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
@@ -241,18 +241,39 @@ os.chdir ("..")
 
 print("[*] Installing exploit obfuscation software, please wait...")
 print("\t[+] Installing Pezor...                          ")
-os.chdir("OUTCOME")
-os.system("git clone https://github.com/phra/PEzor.git >> log.txt 2>&1")
-os.chdir("PEzor")
-os.system("bash install.sh >> keepme.txt 2>&1")
-os.system("echo 'Use command = ./Pezor -unhook -syscall -sgn executable' >> keepme.txt")
-os.chdir("..")
-os.chdir("..")
+if os.path.exists("/opt/Pezor"):
+   print("[-] Pezor already installed...")
+else: 
+   os.chdir("OUTCOME")
+   os.system("git clone https://github.com/phra/PEzor.git >> log.txt 2>&1")
+   os.system("mv PEzor /opt/PEzor >> log.txt 2>&1")
+   os.system("bash /opt/PEzor/install.sh >> keepme.txt 2>&1")
+   os.system("echo 'Use command = ./Pezor -unhook -syscall -sgn executable' >> /opt/PEzor/PEzorkeepme.txt")
+   os.system("mv log.txt /opt/PEzor/log.txt 2>&1")
+   os.chdir("..")
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Install de-obfuscation software
+# Modified: N/A
+# -------------------------------------------------------------------------------------
 
 print("[*] Installing de-obfuscation software, please wait...")
 print("\t[+] Installing Peda...                          ")
-os.system("git clone https://github.com/longld/peda.git ~/peda")
+os.system("git clone https://github.com/longld/peda.git ~/peda >> log.txt 2>&1")
 os.system("echo 'source ~/peda/peda.py' >> ~/.gdbinit")
+
+print("\t[+] Installing Ghidra...                        ")
+if os.path.exists("/opt/ghidra_9.2.2_PUBLIC"):
+   print("[-] Ghidra already installed...")
+else:
+   os.system("wget https://www.ghidra-sre.org/ghidra_9.2.2_PUBLIC_20201229.zip -O ghidra_9.2.2_PUBLIC_20201229.zip >> log.txt 2>&1")
+   os.system("unzip ghidra_9.2.2_PUBLIC_20201229.zip >> log.txt 2>&1")
+   os.system("mv ghidra_9.2.2_PUBLIC /opt/ghidra_9.2.2_PUBLIC >> log.txt 2>&1")
+   if os.path.exists("ghidra_9.2.2_PUBLIC_20201229.zip"):
+      shutil.rmtree("ghidra_9.2.2_PUBLIC_20201229.zip")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -263,9 +284,9 @@ os.system("echo 'source ~/peda/peda.py' >> ~/.gdbinit")
 # -------------------------------------------------------------------------------------
 
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
-
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 os.system("sed -i 's/proxy_dns/#proxy_dns/' /etc/proxychains.conf")
+os.system("updatedb")
 
 print("[*] All done!!...")
 #EoF
