@@ -460,6 +460,11 @@ def dispSubMenu(variable):
    print('\u2551' + variable + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
+   
+def clearClutter():
+   localCOM("rm *.tmp")
+   linecache.clearcache()
+   return
 
 def dispMenu():
    print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
@@ -986,8 +991,7 @@ time.sleep(5)
 
 while True: 
    saveParams()
-   localCOM("rm *.tmp")							# CLEAR GARBAGE
-   linecache.clearcache()						# CLEARS CACHES
+   clearClutter()
    checkParams = 0							# RESET'S VALUE
    LTM = getTime()							# GET CLOCKTIME
    localCOM("clear")							# CLEARS SCREEN
@@ -3192,33 +3196,29 @@ while True:
       subChoice = ""
       fileName = workDir + "/" + FIL.rstrip(" ")
       while subChoice != "9":
-         dispSubMenu(" (01) Show Files (02) Select File (03) Examine File (04) Run File (05) GHex Editor (06) GDB File (07) ObjectDump File (08) ROPGadgets File (09) Quit")
-         subChoice = input("[?] Please select an option: ")         
-         if subChoice == "1":
+         dispSubMenu(" (01) Select File (02) Examine File (03) Run File (04) GHex Editor (05) GDB File (06) ObjectDump File (07) ROPGadgets File (08) Boot Ghidra (09) Quit")
+         subChoice = input("[?] Please select an option: ")                   
+         if subChoice == "1":         
             print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
             localCOM("ls -la " + workDir + " > dir.tmp")
             localCOM("sed -i '1d' ./dir.tmp")
             localCOM("sed -i '1d' ./dir.tmp")
             localCOM("sed -i '1d' ./dir.tmp")
-            catsFile("dir.tmp")
-            prompt()            
-         if subChoice == "2":         
-            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
-            localCOM("ls -la " + workDir + " > dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            catsFile("dir.tmp")
-            BAK = FIL
-            FIL = input("\n[?] Please enter file name: ")      
-            if FIL != "":
-               FIL = spacePadding(FIL,COL1)
-               fileName = workDir + "/" + FIL.rstrip(" ")
-               localCOM("chmod +x " + fileName)
+            count = lineCount("dir.tmp")
+            if count < 1:
+               print("[-] The directory is empty...")
             else:
-               FIL = BAK
+               catsFile("dir.tmp")
+               BAK = FIL
+               FIL = input("[?] Please enter file name: ")      
+               if FIL != "":
+                  FIL = spacePadding(FIL,COL1)
+                  fileName = workDir + "/" + FIL.rstrip(" ")
+                  localCOM("chmod +x " + fileName)
+               else:
+                  FIL = BAK
             prompt()                                  
-         if subChoice == "3":
+         if subChoice == "2":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Examining file " + fileName + "...", colour3))
                localCOM("file " + fileName + " > file.tmp")
@@ -3247,49 +3247,56 @@ while True:
                print("[i] If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
                print("[i] If PIE is enabled, then the programs memory locations will not stay the same...")
                print("[i] If RWX has segments, then these are writeable and executable at the same time...")
-
             else:
                print("[-] No file name has been specified..") 
             prompt()              
-         if subChoice == "4":
+         if subChoice == "3":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Running file " + fileName + "...\n", colour3))            
                localCOM("./" + fileName)
             else: 
                print("[-] No file name has been specified..") 
             prompt()
-         if subChoice == "5":
+         if subChoice == "4":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Hex editoring file " + fileName + "...", colour3))
                localCOM("ghex " + fileName)
             else:
                print("[-] No file name has been specified..") 
             prompt()
-         if subChoice == "6":
+         if subChoice == "5":
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Examining file " + fileName + "...", colour3))
                localCOM("gdb " + fileName)
             else:
                print("[-] No file name has been specified..") 
             prompt()            
-         if subChoice == "7":
+         if subChoice == "6":
             if FIL[:5].upper() != "EMPTY":   
                print(colored("[*] Examining file " + fileName + "...", colour3))          
                localCOM("objdump -D " + fileName + " > gadgets.tmp")
                catsFile("gadgets.tmp")
                print(colored("[*] Finding interesting gadgets...\n", colour3))
-               localCOM("cat gadgets.tmp | grep 'system'")
+               gadgetList = ['main', 'system', 'puts', 'got.puts']
+               for x in range(len(gadgetList)): 
+                  localCOM("cat gadgets.tmp | grep " + gadgetList[x] + " >> found.tmp")
+               catsFile("found.tmp")
             else:
                print("[-] No file name has been specified..") 
             prompt()       
-         if subChoice == "8": 
+         if subChoice == "7": 
             if FIL[:5].upper() != "EMPTY":
                print(colored("[*] Examining file " + fileName + "...", colour3))          
                localCOM("ROPgadget --binary " + fileName + " > gadgets.tmp")
                catsFile("gadgets.tmp")
             else:
                print("[-] No file name has been specified..") 
-            prompt()                  
+            prompt()
+         if subChoice == "8":
+            print(colored("[*] Ghidra has been initiated...", colour3))          
+            localCOM("/opt/ghidra_9.2.2_PUBLIC/ghidraRun > boot.tmp 2>&1")
+            prompt()
+         clearClutter()
      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
