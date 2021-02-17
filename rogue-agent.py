@@ -3277,7 +3277,8 @@ while True:
                localCOM("objdump -D " + fileName + " > gadgets.tmp")
                catsFile("gadgets.tmp")
                print(colored("[*] Finding interesting gadgets...\n", colour3))
-               gadgetList = ['main', 'system', 'puts', 'got.puts']
+               localCOM("objdump -R " + fileName + " > gadgets.tmp")
+               gadgetList = ['main', 'system', 'printf', 'puts', 'got.puts']
                for x in range(len(gadgetList)): 
                   localCOM("cat gadgets.tmp | grep " + gadgetList[x] + " >> found.tmp")
                catsFile("found.tmp")
