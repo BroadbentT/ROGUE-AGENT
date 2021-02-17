@@ -3275,13 +3275,16 @@ while True:
             if FIL[:5].upper() != "EMPTY":   
                print(colored("[*] Examining file " + fileName + "...", colour3))          
                localCOM("objdump -D " + fileName + " > gadgets.tmp")
+               parFile("gadgets.tmp")
                catsFile("gadgets.tmp")
-               print(colored("[*] Finding interesting gadgets...\n", colour3))
+               print(colored("[*] Finding interesting gadgets...", colour3))
                localCOM("objdump -R " + fileName + " > gadgets.tmp")
-               gadgetList = ['main', 'system', 'printf', 'puts', 'got.puts']
-               for x in range(len(gadgetList)): 
-                  localCOM("cat gadgets.tmp | grep " + gadgetList[x] + " >> found.tmp")
-               catsFile("found.tmp")
+               parFile("gadgets.tmp")
+               catsFile("gadgets.tmp")
+#               gadgetList = ['main', 'system', 'printf', 'puts', 'got.puts']
+#               for x in range(len(gadgetList)): 
+#                  localCOM("cat gadgets.tmp | grep " + gadgetList[x] + " >> found.tmp")
+#               catsFile("found.tmp")
             else:
                print("[-] No file name has been specified..") 
             prompt()       
