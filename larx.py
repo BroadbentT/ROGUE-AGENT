@@ -132,7 +132,7 @@ def saveParams():
    cursor.execute("UPDATE REMOTETARGET SET USR = \"" + RDI2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + RSP2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + RBP2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + OFF2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + OFF2 + "\" WHERE IDS = 1"); connection.commit()	
    cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + IND2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET SID = \"" + ARC2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
@@ -196,7 +196,7 @@ def dispMenu():
       print(colored(COM.upper(),colour7), end=' ')
    else:
       print(colored(COM.upper(),colour6), end=' ')      
-   print('\u2551' + (" ")*1 + colored("OFFSET",colour5) + (" ")*3 + colored("TYPE",colour5) + (" ")*14 + colored("VALUE",colour5) + (" ")*13 + '\u2551' + (" ")*1 + colored("GADGETS INFORMATION",colour5) + (" ")*38 + '\u2551') 
+   print('\u2551' + (" ")*1 + colored("OFFSET",colour5) + (" ")*6 + colored("FUNCTION",colour5) + (" ")*25 + '\u2551' + (" ")*1 + colored("OFFSET       GADGETS",colour5) + (" ")*37 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
    print('\u2551' + " ACCUMULATOR  " + '\u2551', end=' ')
    if RAX[:5] == "EMPTY":
@@ -209,12 +209,7 @@ def dispMenu():
    else:
       print(colored(ADDR[0],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[0] == "1":
-      print(colored(GADD[0],colour2), end=' ')
-      print(colored(USE1[0],colour2), end=' ')
-   else:
-      print(colored(GADD[0],colour6), end=' ')
-      print(colored(USE1[0],colour6), end=' ')   
+   print(colored(GADD[0],colour6), end=' ')
    print('\u2551')      
    
    print('\u2551' + " BASE         " + '\u2551', end=' ')
@@ -228,12 +223,7 @@ def dispMenu():
    else:
       print(colored(ADDR[1],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[1] == "1":
-      print(colored(GADD[1],colour2), end=' ')
-      print(colored(USE1[1],colour2), end=' ')
-   else:
-      print(colored(GADD[1],colour6), end=' ')
-      print(colored(USE1[1],colour6), end=' ')   
+   print(colored(GADD[1],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " COUNTER      " + '\u2551', end=' ')
    if RCX[:5] == "EMPTY":
@@ -246,12 +236,7 @@ def dispMenu():
    else:
       print(colored(ADDR[2],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[2] == "1":
-      print(colored(GADD[2],colour2), end=' ')
-      print(colored(USE1[2],colour2), end=' ')
-   else:
-      print(colored(GADD[2],colour6), end=' ')
-      print(colored(USE1[2],colour6), end=' ')         
+   print(colored(GADD[2],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " DATA         " + '\u2551', end=' ')
    if RDX[:5] == "EMPTY":
@@ -265,12 +250,7 @@ def dispMenu():
    else:
       print(colored(ADDR[3],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[3] == "1":
-      print(colored(GADD[3],colour2), end=' ')
-      print(colored(USE1[3],colour2), end=' ')
-   else:
-      print(colored(GADD[3],colour6), end=' ')
-      print(colored(USE1[3],colour6), end=' ')         
+   print(colored(GADD[3],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " SOURCE       " + '\u2551', end=' ')
    if RSI[:5] == "EMPTY":
@@ -283,12 +263,7 @@ def dispMenu():
    else:
       print(colored(ADDR[4],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[4] == "1":
-      print(colored(GADD[4],colour2), end=' ')
-      print(colored(USE1[4],colour2), end=' ')
-   else:
-      print(colored(GADD[4],colour6), end=' ')
-      print(colored(USE1[4],colour6), end=' ')         
+   print(colored(GADD[4],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " DESTINATION  " + '\u2551', end=' ')
    if RDI[:5] == "EMPTY":
@@ -301,12 +276,7 @@ def dispMenu():
    else:
       print(colored(ADDR[5],colour6), end=' ')   
    print('\u2551', end=' ')
-   if USE2[5] == "1":
-      print(colored(GADD[5],colour2), end=' ')
-      print(colored(USE1[5],colour2), end=' ')
-   else:
-      print(colored(GADD[5],colour6), end=' ')
-      print(colored(USE1[5],colour6), end=' ')   
+   print(colored(GADD[5],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " STACK POINTER" + '\u2551', end=' ')
    if RSP[:5] == "EMPTY":
@@ -319,12 +289,7 @@ def dispMenu():
    else:
       print(colored(ADDR[6],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[6] == "1":
-      print(colored(GADD[6],colour2), end=' ')
-      print(colored(USE1[6],colour2), end=' ')
-   else: 
-      print(colored(GADD[6],colour6), end=' ')
-      print(colored(USE1[6],colour6), end=' ')         
+   print(colored(GADD[6],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " BASE POINTER " + '\u2551', end=' ')
    if RBP[:5] == "EMPTY":
@@ -337,12 +302,7 @@ def dispMenu():
    else:
       print(colored(ADDR[7],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[7] == "1":
-      print(colored(GADD[7],colour2), end=' ')
-      print(colored(USE1[7],colour2), end=' ')
-   else:
-      print(colored(GADD[7],colour6), end=' ')
-      print(colored(USE1[7],colour6), end=' ')         
+   print(colored(GADD[7],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " BUFF OFFSET  " + '\u2551', end=' ')
    if OFF[:5] == "EMPTY":
@@ -355,30 +315,20 @@ def dispMenu():
    else:
       print(colored(ADDR[8],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[8] == "1":
-      print(colored(GADD[8],colour2), end=' ')
-      print(colored(USE1[8],colour2), end=' ')
-   else:
-      print(colored(GADD[8],colour6), end=' ')
-      print(colored(USE1[8],colour6), end=' ')         
+   print(colored(GADD[8],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " FILE NAME    " + '\u2551', end=' ')
-   if FIL[:5] == "EMPTY":
-      print(colored(FIL[:COL1],colour7), end=' ')
+   if FIL[:5].upper() == "EMPTY":
+      print(colored(FIL.upper()[:COL1],colour7), end=' ')
    else:
-      print(colored(FIL[:COL1],colour6), end=' ')
+      print(colored(FIL.upper()[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if SRT.rstrip(" ") in ADDR[9]:
       print(colored(ADDR[9],colour3), end=' ')
    else:
       print(colored(ADDR[9],colour6), end=' ')      
    print('\u2551', end=' ')   
-   if USE2[9] == "1":
-      print(colored(GADD[9],colour2), end=' ')
-      print(colored(USE1[9],colour2), end=' ')
-   else:
-      print(colored(GADD[9],colour6), end=' ')
-      print(colored(USE1[9],colour6), end=' ')         
+   print(colored(GADD[9],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " ARCHITECTURE " + '\u2551', end=' ')
    if ARC[:5] == "EMPTY":
@@ -391,12 +341,7 @@ def dispMenu():
    else:
       print(colored(ADDR[10],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[10] == "1":
-      print(colored(GADD[10],colour2), end=' ')
-      print(colored(USE1[10],colour2), end=' ')
-   else:
-      print(colored(GADD[10],colour6), end=' ')
-      print(colored(USE1[10],colour6), end=' ')         
+   print(colored(GADD[10],colour6), end=' ')
    print('\u2551')    
    print('\u2551' + " INDIAN       " + '\u2551', end=' ')
    if IND[:5] == "EMPTY":
@@ -409,12 +354,7 @@ def dispMenu():
    else:
       print(colored(ADDR[11],colour6), end=' ')   
    print('\u2551', end=' ')   
-   if USE2[10] == "1":
-      print(colored(GADD[11],colour2), end=' ')
-      print(colored(USE1[11],colour2), end=' ')
-   else:
-      print(colored(GADD[11],colour6), end=' ')
-      print(colored(USE1[11],colour6), end=' ')         
+   print(colored(GADD[11],colour6), end=' ')
    print('\u2551') 
    
    print('\u2551' + " MAIN ADDRESS " + '\u2551', end=' ')
@@ -428,32 +368,23 @@ def dispMenu():
    else:
       print(colored(ADDR[12],colour6), end=' ')      
    print('\u2551', end=' ')   
-   if USE2[11] == "1":
-      print(colored(GADD[12],colour2), end=' ')
-      print(colored(USE1[12],colour2), end=' ')
-   else:
-      if GADD[13][:1] != "":
-         print(colored(GADD[12],colour0), end=' ')
-         print(colored(USE1[12],colour0), end=' ')      
-      else:
-         print(colored(GADD[12],colour6), end=' ')
-         print(colored(USE1[12],colour6), end=' ')
+   print(colored(GADD[12],colour6), end=' ')
    print('\u2551')      
-   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2563')
+   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2563', end=' '); print(colored(GADD[13],colour6), end=' '); print('\u2551')
    return
    
 def options():
-   print('\u2551' + "(01) RAX/EAX/AX/AH  (11) Static   FILENAME (21) GHIDRA    (31) Headers FILENAME (41)            (51)             (61)             (71)             (81)            " + '\u2551')
-   print('\u2551' + "(02) RBX/EBX/BX/BH  (12) UnStatic FILENAME (22)           (32) Objects FILENAME (42)            (52)             (62)             (72)             (82)            " + '\u2551')   
-   print('\u2551' + "(03) RCX/ECX/CX/CH  (13) Examine  FILENAME (23)           (33) Section FILENAME (43)            (53)             (63)             (73)             (83)            " + '\u2551')   
-   print('\u2551' + "(04) RDX/EDX/DX/DH  (14) CheckSec FILENAME (24)           (34) AllHead FILENAME (44)            (54)             (64)             (74)             (84)            " + '\u2551')
-   print('\u2551' + "(05) RSI/ESI/SI/SIL (15) Function FILENAME (25)           (35) Execute FILENAME (45)            (55)             (65)             (75)             (85)            " + '\u2551')
-   print('\u2551' + "(06) RDI/EDI/DI/DIL (16) Gadgets  FILENAME (26)           (36) DBugInf FILENAME (46)            (56)             (66)             (76)             (86)            " + '\u2551')
-   print('\u2551' + "(07) RSP/ESP/SP/SPL (17) GDBugger FILENAME (27)           (37) SourCod FILENAME (47)            (57)             (67)             (77)             (87)            " + '\u2551')
-   print('\u2551' + "(08) RBP/EBP/BP/BPL (18) Pattern   Creater (28)           (38) Symbols FILENAME (48)            (58)             (68)             (78)             (88)            " + '\u2551')
-   print('\u2551' + "(09) Re/Set  OFFSET (19) Initiate FILENAME (29)           (39) HexForm FILENAME (49)            (59)             (69)             (79)             (89)            " + '\u2551')
-   print('\u2551' + "(10) Re/SetFILENAME (20) Pattern    OFFSET (30)           (40) HexEdit FILENAME (50)            (60)             (70)             (80)             (90) Exit       " + '\u2551')
-   print('\u255A' + ('\u2550')*163 + '\u255D')
+   print('\u2551' + "(01) RAX/EAX/AX/AH  (11) Static   FILENAME (21) Headers FILENAME (31) GHIDRA      (41)                  " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(02) RBX/EBX/BX/BH  (12) Dynamic  FILENAME (22) Objects FILENAME (32)             (42)                  " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(03) RCX/ECX/CX/CH  (13) Examine  FILENAME (23) Section FILENAME (33)             (43)                  " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
+   print('\u2551' + "(04) RDX/EDX/DX/DH  (14) CheckSec FILENAME (24) AllHead FILENAME (34)             (44)                  " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(05) RSI/ESI/SI/SIL (15) Function FILENAME (25) Execute FILENAME (35)             (45)                  " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(06) RDI/EDI/DI/DIL (16) Gadgets  FILENAME (26) DBugInf FILENAME (36)             (46)                  " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(07) RSP/ESP/SP/SPL (17) GDBugger FILENAME (27) SourCod FILENAME (37)             (47)                  " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(08) RBP/EBP/BP/BPL (18) Pattern   Creater (28) Symbols FILENAME (38)             (48)                  " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(09) Re/Set  OFFSET (19) Initiate FILENAME (29) HexForm FILENAME (39)             (49)                  " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(10) Re/SetFILENAME (20) Pattern    OFFSET (30) HexEdit FILENAME (30)             (50) Exit Program     " + '\u2551', end=' '); print(colored(GADD[23],colour6), end=' '); print('\u2551')
+   print('\u255A' + ('\u2550')*104 + '\u2569' +  ('\u2550')*58 + '\u255D') #colored("VALUE",colour5)
    return
 
 # -------------------------------------------------------------------------------------
@@ -500,8 +431,6 @@ httpDir = "LARX"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
-keyPath = "python3 /usr/share/doc/python3-impacket/examples/"	# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -596,15 +525,12 @@ SKEW = 0                                # TIME-SKEW SWITCH
 COL0 = 19				# MAX LEN COMPUTER NAME
 COL1 = 40                               # MAX LEN SESSION DATA
 COL2 = 44                               # MAX LEN ADDRE NAME
-COL3 = 23+32                               # MAX LEN GADD NAME
-COL4 = 0                               # MAX LEN NTLM USE1
+COL3 = 23+33                            # MAX LEN GADD NAME
+#COL4 = 0                                # MAX LEN NTLM USE1
 COL5 = 1                                # MAX LEN TOKEN VALUE
 
 ADDR = [" "*COL2]*maxUser		# ADDRESS VALUES
 GADD = [" "*COL3]*maxUser		# ADDRESS NAMES
-
-USE1 = [" "*COL4]*maxUser		# UNUSED 1
-USE2 = ["0"*COL5]*maxUser		# UNUSED 2
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -673,13 +599,13 @@ SRT = spacePadding(SRT, COL1)
 with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2, open(dataDir + "/tokens.txt", "r") as read3, open(dataDir + "/shares.txt", "r") as read4:
    for x in range(0, maxUser):
       GADD[x] = read1.readline()
-      USE1[x] = read2.readline()
-      USE2[x] = read3.readline()
+#      USE1[x] = read2.readline()
+#      USE2[x] = read3.readline()
       ADDR[x] = read4.readline()            
       ADDR[x] = spacePadding(ADDR[x], COL2)         
       GADD[x] = spacePadding(GADD[x], COL3)
-      USE1[x] = spacePadding(USE1[x], COL4)    
-      USE2[x] = spacePadding(USE2[x], COL5)
+#      USE1[x] = spacePadding(USE1[x], COL4)    
+#      USE2[x] = spacePadding(USE2[x], COL5)
 time.sleep(5)
    
 # -------------------------------------------------------------------------------------
@@ -1102,22 +1028,6 @@ while True:
          OFF = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
          OFF = spacePadding(OFF, COL2)
       prompt()
-               
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : LARX                                                             
-# Details : Menu option selected - Start ghidra.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '21':
-      if FIL[:5].upper() == "EMPTY":
-         print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Ghidra has been initiated...", colour3))          
-         command("/opt/ghidra_9.2.2_PUBLIC/ghidraRun ./analyzeHeadless ./" + powrDir + " -import " + powrDir + "/" + FIL.rstrip(" ") + " > boot.tmp 2>&1")
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1127,7 +1037,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '31':
+   if selection == '21':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1149,7 +1059,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '32':
+   if selection == '22':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1166,7 +1076,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '33':
+   if selection == '23':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1183,7 +1093,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '34':
+   if selection == '24':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1200,7 +1110,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '35':
+   if selection == '25':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1217,7 +1127,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '36':
+   if selection == '26':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1234,7 +1144,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '37':
+   if selection == '27':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1251,7 +1161,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '38':
+   if selection == '28':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1268,7 +1178,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '39':
+   if selection == '29':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1285,12 +1195,28 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '40':
+   if selection == '30':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Editing filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
          command("ghex " + powrDir + "/" + FIL.rstrip(" "))
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Start ghidra.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '41':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Ghidra has been initiated...", colour3))          
+         command("/opt/ghidra_9.2.2_PUBLIC/ghidraRun ./analyzeHeadless ./" + powrDir + " -import " + powrDir + "/" + FIL.rstrip(" ") + " > boot.tmp 2>&1")
       prompt()
       
 # ------------------------------------------------------------------------------------- 

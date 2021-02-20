@@ -29,13 +29,17 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 |------     |-------         | -------                          | ----                |  ----        |
 | python3   | install.py     | 009d381735ec64b091e1df8e59678769 | Install Program     | TREADSTONE   |
 | python3   | rogue-agent.py | e5f70710984f305cffa0b9961fbfa4f3 | Command Centre      | TREADSTONE   |
-| python3   | larx.py        | 01d554b169f6faeb02ee3a2fab5b0de8 | Binary Exploitation | LARX| 
+| python3   | larx.py        | 11de6f5efec77d9d92bf02a23dab6e4a | Binary Exploitation | LARX| 
 | SQLite3   | RA.db          | be589f34b52d3ad12497409460b47974 | Program Database    | TREADSTONE   |
 
        
 ## CONSOLE DISPLAY AND VIDEO LINK
 
 [![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/RJJNH-r4vw8 "RogueAgent")
+
+<p align="center">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png">
+</p>
 
 ### COMPUTER MISUSE ACT 1990 - SECTION 3A
 This software program has been specifically written for the purpose of legitimate penetration testing and should not be used for any other unauthorised or nefarious reasons.
