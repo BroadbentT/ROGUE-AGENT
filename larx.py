@@ -103,10 +103,10 @@ def saveParams():
    command("echo '" + RSP + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + RBP + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp")   
-   command("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + IND + "' | base64 --wrap=0 >> base64.tmp")
+   command("echo '" + ARC + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp")   
-   command("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp")     
+   command("echo '" + SRT + "' | base64 --wrap=0 >> base64.tmp")     
    
    RAX2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
@@ -118,10 +118,10 @@ def saveParams():
    RSP2 = linecache.getline("base64.tmp", 8).rstrip("\n")
    RBP2 = linecache.getline("base64.tmp", 9).rstrip("\n")
    TGT2 = linecache.getline("base64.tmp", 10).rstrip("\n")
-   DOM2 = linecache.getline("base64.tmp", 11).rstrip("\n")
-   SID2 = linecache.getline("base64.tmp", 12).rstrip("\n")
+   IND2 = linecache.getline("base64.tmp", 11).rstrip("\n")
+   ARC2 = linecache.getline("base64.tmp", 12).rstrip("\n")
    FIL2 = linecache.getline("base64.tmp", 13).rstrip("\n")
-   TSH2 = linecache.getline("base64.tmp", 14).rstrip("\n")    
+   SRT2 = linecache.getline("base64.tmp", 14).rstrip("\n")    
      
    cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + RAX2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
@@ -133,10 +133,10 @@ def saveParams():
    cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + RSP2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + RBP2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + DOM2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + SID2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + IND2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + ARC2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + SRT2 + "\" WHERE IDS = 1"); connection.commit()
    return     
    
 def catsFile(variable):
@@ -204,7 +204,7 @@ def dispMenu():
    else:
       print(colored(RAX[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[0]:
+   if SRT in ADDR[0]:
       print(colored(ADDR[0],colour3), end=' ')
    else:
       print(colored(ADDR[0],colour6), end=' ')   
@@ -216,13 +216,14 @@ def dispMenu():
       print(colored(GADD[0],colour6), end=' ')
       print(colored(USE1[0],colour6), end=' ')   
    print('\u2551')      
+   
    print('\u2551' + " BASE         " + '\u2551', end=' ')
    if RBX[:5] == "EMPTY":
       print(colored(RBX[:COL1],colour7), end=' ')
    else:
       print(colored(RBX[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[1]:
+   if SRT.rstrip(" ") in ADDR[1]:
       print(colored(ADDR[1],colour3), end=' ')
    else:
       print(colored(ADDR[1],colour6), end=' ')   
@@ -240,7 +241,7 @@ def dispMenu():
    else:
       print(colored(RCX[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[2]:
+   if SRT.rstrip(" ") in ADDR[2]:
       print(colored(ADDR[2],colour3), end=' ')
    else:
       print(colored(ADDR[2],colour6), end=' ')   
@@ -259,7 +260,7 @@ def dispMenu():
       lastChar = RDX[COL1-1]
       print(colored(RDX[:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[3]:
+   if SRT.rstrip(" ") in ADDR[3]:
       print(colored(ADDR[3],colour3), end=' ')
    else:
       print(colored(ADDR[3],colour6), end=' ')   
@@ -277,7 +278,7 @@ def dispMenu():
    else:
       print(colored(RSI[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[4]:
+   if SRT.rstrip(" ") in ADDR[4]:
       print(colored(ADDR[4],colour3), end=' ')
    else:
       print(colored(ADDR[4],colour6), end=' ')   
@@ -295,7 +296,7 @@ def dispMenu():
    else:
       print(colored(RDI[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[5]:
+   if SRT.rstrip(" ") in ADDR[5]:
       print(colored(ADDR[5],colour3), end=' ')
    else:
       print(colored(ADDR[5],colour6), end=' ')   
@@ -313,7 +314,7 @@ def dispMenu():
    else:
       print(colored(RSP[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[6]:
+   if SRT.rstrip(" ") in ADDR[6]:
       print(colored(ADDR[6],colour3), end=' ')
    else:
       print(colored(ADDR[6],colour6), end=' ')   
@@ -331,7 +332,7 @@ def dispMenu():
    else:
       print(colored(RBP[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[7]:
+   if SRT.rstrip(" ") in ADDR[7]:
       print(colored(ADDR[7],colour3), end=' ')
    else:
       print(colored(ADDR[7],colour6), end=' ')   
@@ -349,7 +350,7 @@ def dispMenu():
    else:
       print(colored(TGT[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[8]:
+   if SRT.rstrip(" ") in ADDR[8]:
       print(colored(ADDR[8],colour3), end=' ')
    else:
       print(colored(ADDR[8],colour6), end=' ')   
@@ -367,7 +368,7 @@ def dispMenu():
    else:
       print(colored(FIL[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[9]:
+   if SRT.rstrip(" ") in ADDR[9]:
       print(colored(ADDR[9],colour3), end=' ')
    else:
       print(colored(ADDR[9],colour6), end=' ')      
@@ -379,13 +380,13 @@ def dispMenu():
       print(colored(GADD[9],colour6), end=' ')
       print(colored(USE1[9],colour6), end=' ')         
    print('\u2551')   
-   print('\u2551' + "              " + '\u2551', end=' ')
-   if SID[:5] == "EMPTY":
-      print(colored(SID[:COL1],colour7), end=' ')
+   print('\u2551' + " ARCHITECTURE " + '\u2551', end=' ')
+   if ARC[:5] == "EMPTY":
+      print(colored(ARC[:COL1],colour7), end=' ')
    else:
-      print(colored(SID[:COL1],colour6), end=' ')
+      print(colored(ARC[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[10]:
+   if SRT.rstrip(" ") in ADDR[10]:
       print(colored(ADDR[10],colour3), end=' ')
    else:
       print(colored(ADDR[10],colour6), end=' ')   
@@ -397,13 +398,13 @@ def dispMenu():
       print(colored(GADD[10],colour6), end=' ')
       print(colored(USE1[10],colour6), end=' ')         
    print('\u2551')    
-   print('\u2551' + "              " + '\u2551', end=' ')
-   if DOM[:5] == "EMPTY":
-      print(colored(DOM[:COL1],colour7), end=' ')
+   print('\u2551' + " INDIAN       " + '\u2551', end=' ')
+   if IND[:5] == "EMPTY":
+      print(colored(IND[:COL1],colour7), end=' ')
    else:
-      print(colored(DOM[:COL1],colour6), end=' ')
+      print(colored(IND[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[11]:
+   if SRT.rstrip(" ") in ADDR[11]:
       print(colored(ADDR[11],colour3), end=' ')
    else:
       print(colored(ADDR[11],colour6), end=' ')   
@@ -416,13 +417,13 @@ def dispMenu():
       print(colored(USE1[11],colour6), end=' ')         
    print('\u2551') 
    
-   print('\u2551' + "              " + '\u2551', end=' ')
-   if TSH[:5] == "EMPTY":
-      print(colored(TSH[:COL1],colour7), end=' ')
+   print('\u2551' + " MAIN ADDRESS " + '\u2551', end=' ')
+   if SRT[:5] == "EMPTY":
+      print(colored(SRT[:COL1],colour7), end=' ')
    else:
-      print(colored(TSH[:COL1],colour6), end=' ')
+      print(colored(SRT[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   if TSH.rstrip(" ") in ADDR[12]:
+   if SRT.rstrip(" ") in ADDR[12]:
       print(colored(ADDR[12],colour3), end=' ')
    else:
       print(colored(ADDR[12],colour6), end=' ')      
@@ -442,16 +443,16 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) RAX/EAX/AX/AH/AL (11) Static   FILENAME (21) GHIDRA    (31) File     Headers (41)          (51)             (61)             (71)             (81)            " + '\u2551')
-   print('\u2551' + "(02) RBX/EBX/BX/BH/BL (12) UnStatic FILENAME (22)           (32) Object   Headers (42)          (52)             (62)             (72)             (82)            " + '\u2551')   
-   print('\u2551' + "(03) RCX/ECX/CX/CH/CL (13) Examine  FILENAME (23)           (33) Section  Headers (43)          (53)             (63)             (73)             (83)            " + '\u2551')   
-   print('\u2551' + "(04) RDX/EDX/DX/DH/DL (14) CheckSec FILENAME (24)           (34) All Header  Data (44)          (54)             (64)             (74)             (84)            " + '\u2551')
-   print('\u2551' + "(05) RSI/ESI/SI/SIL   (15) ObjDUMP  FILENAME (25)           (35) Execute  Section (45)          (55)             (65)             (75)             (85)            " + '\u2551')
-   print('\u2551' + "(06) RDI/EDI/DI/DIL   (16) Gadgets  FILENAME (26)           (36) DebugInformation (46)          (56)             (66)             (76)             (86)            " + '\u2551')
-   print('\u2551' + "(07) RSP/ESP/SP/SPL   (17) GDBugger FILENAME (27)           (37) Debug SourceCode (47)          (57)             (67)             (77)             (87)            " + '\u2551')
-   print('\u2551' + "(08) RBP/EBP/BP/BPL   (18) Pattern   Creater (28)           (38) Symbolic  Tables (48)          (58)             (68)             (78)             (88)            " + '\u2551')
-   print('\u2551' + "(09) Re/Set   OFFSET  (19) Initiate FILENAME (29)           (39) All Data HexForm (49)          (59)             (69)             (79)             (89)            " + '\u2551')
-   print('\u2551' + "(10) Re/Set FILENAME  (20) Search For OFFSET (30)           (40) Gui Hex  Editior (50)          (60)             (70)             (80)             (90) Exit       " + '\u2551')
+   print('\u2551' + "(01) RAX/EAX/AX/AH  (11) Static   FILENAME (21) GHIDRA    (31) Headers FILENAME (41)            (51)             (61)             (71)             (81)            " + '\u2551')
+   print('\u2551' + "(02) RBX/EBX/BX/BH  (12) UnStatic FILENAME (22)           (32) Objects FILENAME (42)            (52)             (62)             (72)             (82)            " + '\u2551')   
+   print('\u2551' + "(03) RCX/ECX/CX/CH  (13) Examine  FILENAME (23)           (33) Section FILENAME (43)            (53)             (63)             (73)             (83)            " + '\u2551')   
+   print('\u2551' + "(04) RDX/EDX/DX/DH  (14) CheckSec FILENAME (24)           (34) AllHead FILENAME (44)            (54)             (64)             (74)             (84)            " + '\u2551')
+   print('\u2551' + "(05) RSI/ESI/SI/SIL (15) Function FILENAME (25)           (35) Execute FILENAME (45)            (55)             (65)             (75)             (85)            " + '\u2551')
+   print('\u2551' + "(06) RDI/EDI/DI/DIL (16) Gadgets  FILENAME (26)           (36) DBugInf FILENAME (46)            (56)             (66)             (76)             (86)            " + '\u2551')
+   print('\u2551' + "(07) RSP/ESP/SP/SPL (17) GDBugger FILENAME (27)           (37) SourCod FILENAME (47)            (57)             (67)             (77)             (87)            " + '\u2551')
+   print('\u2551' + "(08) RBP/EBP/BP/BPL (18) Pattern   Creater (28)           (38) Symbols FILENAME (48)            (58)             (68)             (78)             (88)            " + '\u2551')
+   print('\u2551' + "(09) Re/Set  OFFSET (19) Initiate FILENAME (29)           (39) HexForm FILENAME (49)            (59)             (69)             (79)             (89)            " + '\u2551')
+   print('\u2551' + "(10) Re/SetFILENAME (20) Pattern    OFFSET (30)           (40) HexEdit FILENAME (50)            (60)             (70)             (80)             (90) Exit       " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -640,10 +641,10 @@ RDI = linecache.getline("ascii.tmp", 7).rstrip("\n")
 RSP = linecache.getline("ascii.tmp", 8).rstrip("\n")
 RBP = linecache.getline("ascii.tmp", 9).rstrip("\n")
 TGT = linecache.getline("ascii.tmp", 10).rstrip("\n")
-DOM = linecache.getline("ascii.tmp", 11).rstrip("\n")
-SID = linecache.getline("ascii.tmp", 12).rstrip("\n")
+IND = linecache.getline("ascii.tmp", 11).rstrip("\n")
+ARC = linecache.getline("ascii.tmp", 12).rstrip("\n")
 FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
-TSH = linecache.getline("ascii.tmp", 14).rstrip("\n")
+SRT = linecache.getline("ascii.tmp", 14).rstrip("\n")
 
 
 RAX = spacePadding(RAX, COL1)
@@ -656,10 +657,10 @@ RDI = spacePadding(RDI, COL1)
 RSP = spacePadding(RSP, COL1)
 RBP = spacePadding(RBP, COL1)
 TGT = spacePadding(TGT, COL1)
-DOM = spacePadding(DOM, COL1)
-SID = spacePadding(SID, COL1)
+IND = spacePadding(IND, COL1)
+ARC = spacePadding(ARC, COL1)
 FIL = spacePadding(FIL, COL1)
-TSH = spacePadding(TSH, COL1)
+SRT = spacePadding(SRT, COL1)
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -802,8 +803,8 @@ while True:
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
-         print(colored("[*] Filename " + powrDir + "/" + FIL.rstrip(" ") + " is now executable...", colour3))
-         command("chmod -700 " + powrDir + "/" + FIL.rstrip(" "))
+         print(colored("[*] Filename " + powrDir + "/" + FIL.rstrip(" ") + " is now NOT executable...", colour3))
+         command("chmod -x " + powrDir + "/" + FIL.rstrip(" "))
       prompt()                              
 
 # ------------------------------------------------------------------------------------- 
@@ -840,19 +841,27 @@ while True:
            
          binary = linecache.getline("file.tmp", 1)
          if "ELF" in binary:
-            print("[i] Linux binary file...")
+            print("Linux binary file...")
          if "64-bit" in binary:
-            print("[i] 64 bit architecture...")
+            ARC = "64 Bit"
+            print(ARC + " architecture...")  
+            ARC = spacePadding(ARC, COL2)            
          if "32-bit" in binary:
-            print("[i] 32 bit architecture...")               
+            ARC = "32 Bit"
+            print(ARC + " architecture...")           
+            ARC = spacePadding(ARC, COL2)
          if "LSB" in binary:
-            print("[i] Data stored as Little Indian...")
+            IND = "Little"
+            print(IND + " indian...")
+            IND = spacePadding(IND, COL2)
          if "MSB" in binary:
-            print("[i] Data stored as Big Indian...")
+            IND = "Big"
+            print(IND + " indian...")
+            IND = spacePadding(IND, COL2)
          if "not stripped" in binary:
-            print("[i] Debugging information built in...")
+            print("Debugging information built in...")
          else:
-            print("[i] Debugging information has been removed...")
+            print("Debugging information has been removed...")
       prompt()            
 
 # ------------------------------------------------------------------------------------- 
@@ -869,12 +878,12 @@ while True:
       else:
          print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
          command("checksec " + powrDir + "/" + FIL.rstrip(" "))
-         print("\n[i] If RELRO is set to full, then the entire GOT is read-only which removes the ability to perform a 'GOT overwrite' attack...")
-         print("[i] If CANARY is found, then the program checks to see if the stack has been smashed...")
-         print("[i] If FORTIFY is enabled, then the program checks for buffer overflow...")
-         print("[i] If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
-         print("[i] If PIE is enabled, then the programs memory locations will not stay the same...")
-         print("[i] If RWX has segments, then these are writeable and executable at the same time...")
+         print("\nIf RELRO is set to full, then the entire GOT is read-only which removes the ability to perform a 'GOT overwrite' attack...")
+         print("If CANARY is found, then the program checks to see if the stack has been smashed...")
+         print("If FORTIFY is enabled, then the program checks for buffer overflow...")
+         print("If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
+         print("If PIE is enabled, then the programs memory locations will not stay the same...")
+         print("If RWX has segments, then these are writeable and executable at the same time...")
       prompt()
                   
 # ------------------------------------------------------------------------------------- 
@@ -888,21 +897,12 @@ while True:
    if selection == '15':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))          
-         command("objdump -D " + powrDir + "/" + FIL.rstrip(" ") + " > gadgets.tmp")
+      else:         
+         print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
+         command("gdb -batch -ex 'file " + powrDir + "/" + FIL.rstrip(" ") + "' -ex 'info functions' > gadgets.tmp")
          parFile("gadgets.tmp")
          catsFile("gadgets.tmp")
-         
-         print(colored("[*] Finding interesting address values...", colour3))
-         command("objdump -R " + powrDir + "/" + FIL.rstrip(" ") + " > gadgets.tmp")
-         parFile("gadgets.tmp")
-         command("sed -i '1d' ./gadgets.tmp")
-         catsFile("gadgets.tmp")
-
-         command("sed -i '1d' ./gadgets.tmp")
-         command("sed -i '1d' ./gadgets.tmp")
-                  
+         command("sed -i '/0x/!d' ./gadgets.tmp")
          with open("gadgets.tmp", "r") as shares:
             for x in range(0, maxUser):
                ADDR[x] = shares.readline().rstrip(" ")
@@ -998,7 +998,7 @@ while True:
          command("msf-pattern_offset -q " + offset + " > offset.tmp")
          catsFile("offset.tmp")
          TGT = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
-         TGET = spacePadding(TGT, COL2)
+         TGT = spacePadding(TGT, COL2)
       prompt()
                
 # ------------------------------------------------------------------------------------- 
@@ -1030,7 +1030,13 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -f " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -f " + powrDir + "/" + FIL.rstrip(" ") + " > headers.tmp")
+         parFile("headers.tmp")
+         catsFile("headers.tmp")
+         count = lineCount("headers.tmp")
+         SRT = linecache.getline("headers.tmp", count).rstrip("\n")
+         SRT = SRT.split(" ")[-1]
+         SRT = spacePadding(SRT, COL2)         
       prompt()   
    
 # ------------------------------------------------------------------------------------- 
@@ -1046,7 +1052,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -p " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -p " + powrDir + "/" + FIL.rstrip(" ") + " > objects.tmp")
+         catsFile("objects.tmp")
       prompt() 
    
 # ------------------------------------------------------------------------------------- 
@@ -1062,7 +1069,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -h " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -h " + powrDir + "/" + FIL.rstrip(" ") + " > sections.tmp")
+         catsFile("sections.tmp")
       prompt() 
    
 # ------------------------------------------------------------------------------------- 
@@ -1078,7 +1086,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -x " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -x " + powrDir + "/" + FIL.rstrip(" ") + "> all.tmp")
+         catsFile("all.tmp")
       prompt() 
    
 # ------------------------------------------------------------------------------------- 
@@ -1094,7 +1103,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -d " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -d " + powrDir + "/" + FIL.rstrip(" ") + " > exec.tmp")
+         catsFile("exec.tmp")
       prompt() 
    
 # ------------------------------------------------------------------------------------- 
@@ -1110,7 +1120,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -g " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -g " + powrDir + "/" + FIL.rstrip(" ") + " > debug.tmp")
+         catsFile("debug.tmp")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -1126,7 +1137,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -D -S " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -D -S " + powrDir + "/" + FIL.rstrip(" ") + " > code.tmp")
+         catsFile("code.tmp")
       prompt() 
    
 # ------------------------------------------------------------------------------------- 
@@ -1142,7 +1154,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -t " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -t " + powrDir + "/" + FIL.rstrip(" ") + " > symbol.tmp")
+         catsFile("symbol.tmp")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -1158,7 +1171,8 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -s " + powrDir + "/" + FIL.rstrip(" "))
+         command("objdump" + " -s " + powrDir + "/" + FIL.rstrip(" ") + " > hex.tmp")
+         catsFile("hex.tmp")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
