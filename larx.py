@@ -102,7 +102,7 @@ def saveParams():
    command("echo '" + RDI + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + RSP + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + RBP + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp")   
+   command("echo '" + OFF + "' | base64 --wrap=0 >> base64.tmp")   
    command("echo '" + IND + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + ARC + "' | base64 --wrap=0 >> base64.tmp")
    command("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp")   
@@ -117,7 +117,7 @@ def saveParams():
    RDI2 = linecache.getline("base64.tmp", 7).rstrip("\n")
    RSP2 = linecache.getline("base64.tmp", 8).rstrip("\n")
    RBP2 = linecache.getline("base64.tmp", 9).rstrip("\n")
-   TGT2 = linecache.getline("base64.tmp", 10).rstrip("\n")
+   OFF2 = linecache.getline("base64.tmp", 10).rstrip("\n")
    IND2 = linecache.getline("base64.tmp", 11).rstrip("\n")
    ARC2 = linecache.getline("base64.tmp", 12).rstrip("\n")
    FIL2 = linecache.getline("base64.tmp", 13).rstrip("\n")
@@ -132,7 +132,7 @@ def saveParams():
    cursor.execute("UPDATE REMOTETARGET SET USR = \"" + RDI2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + RSP2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + RBP2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + OFF2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + IND2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET SID = \"" + ARC2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
@@ -345,10 +345,10 @@ def dispMenu():
       print(colored(USE1[7],colour6), end=' ')         
    print('\u2551')   
    print('\u2551' + " BUFF OFFSET  " + '\u2551', end=' ')
-   if TGT[:5] == "EMPTY":
-      print(colored(TGT[:COL1],colour7), end=' ')
+   if OFF[:5] == "EMPTY":
+      print(colored(OFF[:COL1],colour7), end=' ')
    else:
-      print(colored(TGT[:COL1],colour6), end=' ')
+      print(colored(OFF[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if SRT.rstrip(" ") in ADDR[8]:
       print(colored(ADDR[8],colour3), end=' ')
@@ -596,8 +596,8 @@ SKEW = 0                                # TIME-SKEW SWITCH
 COL0 = 19				# MAX LEN COMPUTER NAME
 COL1 = 40                               # MAX LEN SESSION DATA
 COL2 = 44                               # MAX LEN ADDRE NAME
-COL3 = 23                               # MAX LEN GADD NAME
-COL4 = 32                               # MAX LEN NTLM USE1
+COL3 = 23+32                               # MAX LEN GADD NAME
+COL4 = 0                               # MAX LEN NTLM USE1
 COL5 = 1                                # MAX LEN TOKEN VALUE
 
 ADDR = [" "*COL2]*maxUser		# ADDRESS VALUES
@@ -640,7 +640,7 @@ RSI = linecache.getline("ascii.tmp", 6).rstrip("\n")
 RDI = linecache.getline("ascii.tmp", 7).rstrip("\n")
 RSP = linecache.getline("ascii.tmp", 8).rstrip("\n")
 RBP = linecache.getline("ascii.tmp", 9).rstrip("\n")
-TGT = linecache.getline("ascii.tmp", 10).rstrip("\n")
+OFF = linecache.getline("ascii.tmp", 10).rstrip("\n")
 IND = linecache.getline("ascii.tmp", 11).rstrip("\n")
 ARC = linecache.getline("ascii.tmp", 12).rstrip("\n")
 FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
@@ -656,7 +656,7 @@ RSI = spacePadding(RSI, COL1)
 RDI = spacePadding(RDI, COL1)
 RSP = spacePadding(RSP, COL1)
 RBP = spacePadding(RBP, COL1)
-TGT = spacePadding(TGT, COL1)
+OFF = spacePadding(OFF, COL1)
 IND = spacePadding(IND, COL1)
 ARC = spacePadding(ARC, COL1)
 FIL = spacePadding(FIL, COL1)
@@ -715,7 +715,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - EAX VALUE
+# Details : Menu option selected - RAX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
@@ -732,7 +732,92 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - ESP VALUE
+# Details : Menu option selected - RBX VALUE
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='2':
+      BAK = RBX
+      RBX = input("[?] Please enter base value: ")
+      if RBX != "":
+         RBX = spacePadding(RBX,COL1)
+      else:
+            RBX = BAK
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - RCX VALUE
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='3':
+      BAK = RCX
+      RCX = input("[?] Please enter counter value: ")
+      if RCX != "":
+         RCX = spacePadding(RCX,COL1)
+      else:
+            RCX = BAK
+      prompt()
+      
+ # ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - RDX VALUE
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='4':
+      BAK = RDX
+      RDX = input("[?] Please enter data value: ")
+      if RDX != "":
+         RDX = spacePadding(RDX,COL1)
+      else:
+            RDX = BAK
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - RSI VALUE
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='5':
+      BAK = RSI
+      RSI = input("[?] Please enter source value: ")
+      if RSI != "":
+         RSI = spacePadding(RSI,COL1)
+      else:
+            RSI = BAK
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - RDI VALUE
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='6':
+      BAK = RDI
+      RDI = input("[?] Please enter destination value: ")
+      if RDI != "":
+         RDI = spacePadding(RDI,COL1)
+      else:
+            RDI = BAK
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - RSP VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
@@ -749,7 +834,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - EPB VALUE 
+# Details : Menu option selected - RBP VALUE 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
@@ -760,6 +845,23 @@ while True:
          RBP = spacePadding(RBP,COL1)
       else:
             RBP = BAK
+      prompt()  
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - OFFSET 
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='9':
+      BAK = OFF
+      OFF = input("[?] Please enter offset value: ")
+      if OFF != "":
+         OFF = spacePadding(OFF,COL1)
+      else:
+            OFF = BAK
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
@@ -997,8 +1099,8 @@ while True:
          offset = input("[?] Please enter segmentation fault value: ")
          command("msf-pattern_offset -q " + offset + " > offset.tmp")
          catsFile("offset.tmp")
-         TGT = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
-         TGT = spacePadding(TGT, COL2)
+         OFF = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
+         OFF = spacePadding(OFF, COL2)
       prompt()
                
 # ------------------------------------------------------------------------------------- 
