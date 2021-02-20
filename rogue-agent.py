@@ -738,7 +738,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Enum PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20)                  (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) Binary Rops (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20)                  (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70)             (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -3193,114 +3193,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 
    if selection =='70':
-      subChoice = ""
-      fileName = workDir + "/" + FIL.rstrip(" ")
-      while subChoice != "9":
-         dispSubMenu(" (01) Select File (02) Examine File (03) Run File (04) GHex Editor (05) GDB File (06) ObjectDump File (07) ROPGadgets File (08) Boot Ghidra (09) Quit")
-         subChoice = input("[?] Please select an option: ")                   
-         if subChoice == "1":         
-            print(colored("[*] Scanning files in directory " + workDir + "...", colour3))
-            localCOM("ls -la " + workDir + " > dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            localCOM("sed -i '1d' ./dir.tmp")
-            count = lineCount("dir.tmp")
-            if count < 1:
-               print("[-] The directory is empty...")
-            else:
-               catsFile("dir.tmp")
-               BAK = FIL
-               FIL = input("[?] Please enter file name: ")      
-               if FIL != "":
-                  FIL = spacePadding(FIL,COL1)
-                  fileName = workDir + "/" + FIL.rstrip(" ")
-                  localCOM("chmod +x " + fileName)
-               else:
-                  FIL = BAK
-            prompt()                                  
-         if subChoice == "2":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Examining file " + fileName + "...", colour3))
-               localCOM("file " + fileName + " > file.tmp")
-               catsFile("file.tmp")
-               binary = linecache.getline("file.tmp", 1)               
-               if "ELF" in binary:
-                  print("[+] Linux binary file...")
-               if "64-bit" in binary:
-                  print("[+] 64 bit architecture...")
-               else:
-                  if "32-bit" in binary:
-                     print("[+] 32 bit architecture...")               
-               if "LSB" in binary:
-                  print("[i] Data stored as Little Indian...")
-               else:
-                  if "MSB" in binary:
-                     print("[+] Data stored as Big Indian...")
-               if "not stripped" in binary:
-                  print("[+] Debugging information built in...\n")
-               else:
-                  print("[i] Debugging information has been removed..\n")   
-               localCOM("checksec " + fileName)
-               print("\n[i] If RELRO is set to full, then the entire GOT is read-only which removes the ability to perform a 'GOT overwrite' attack...")
-               print("[i] If CANARY is found, then the program checks to see if the stack has been smashed...")
-               print("[i] If FORTIFY is enabled, then the program checks for buffer overflow...")
-               print("[i] If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
-               print("[i] If PIE is enabled, then the programs memory locations will not stay the same...")
-               print("[i] If RWX has segments, then these are writeable and executable at the same time...")
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()              
-         if subChoice == "3":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Running file " + fileName + "...\n", colour3))            
-               localCOM("./" + fileName)
-            else: 
-               print("[-] No file name has been specified..") 
-            prompt()
-         if subChoice == "4":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Hex editoring file " + fileName + "...", colour3))
-               localCOM("ghex " + fileName)
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()
-         if subChoice == "5":
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Examining file " + fileName + "...", colour3))
-               localCOM("gdb " + fileName)
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()            
-         if subChoice == "6":
-            if FIL[:5].upper() != "EMPTY":   
-               print(colored("[*] Examining file " + fileName + "...", colour3))          
-               localCOM("objdump -D " + fileName + " > gadgets.tmp")
-               parFile("gadgets.tmp")
-               catsFile("gadgets.tmp")
-               print(colored("[*] Finding interesting gadgets...", colour3))
-               localCOM("objdump -R " + fileName + " > gadgets.tmp")
-               parFile("gadgets.tmp")
-               catsFile("gadgets.tmp")
-#               gadgetList = ['main', 'system', 'printf', 'puts', 'got.puts']
-#               for x in range(len(gadgetList)): 
-#                  localCOM("cat gadgets.tmp | grep " + gadgetList[x] + " >> found.tmp")
-#               catsFile("found.tmp")
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()       
-         if subChoice == "7": 
-            if FIL[:5].upper() != "EMPTY":
-               print(colored("[*] Examining file " + fileName + "...", colour3))          
-               localCOM("ROPgadget --binary " + fileName + " > gadgets.tmp")
-               catsFile("gadgets.tmp")
-            else:
-               print("[-] No file name has been specified..") 
-            prompt()
-         if subChoice == "8":
-            print(colored("[*] Ghidra has been initiated...", colour3))          
-            localCOM("/opt/ghidra_9.2.2_PUBLIC/ghidraRun > boot.tmp 2>&1")
-            prompt()
-         clearClutter()
+      prompt()
      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
