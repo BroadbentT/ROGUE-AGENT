@@ -185,20 +185,17 @@ def clearClutter():
    return
 
 def dispMenu():
-   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
-   print('\u2551' + " TIME ", end =' ')   
-   if SKEW == 0:
-      print(colored(LTM[:6],colour7), end=' ')
-   else:
-      print(colored(LTM[:6],colour6), end=' ')      
-   print('\u2551' + " " + colored("REMOTE COMPUTER NAME",colour5), end=' ')   
+   print('\u2554' + ('\u2550')*16 + '\u2566' + ('\u2550')*40 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
+   print('\u2551' + " TIME   ", end =' ')
+   print(colored(LTM[:6],colour6), end=' ')
+   print('\u2551' + " " + colored("FILENAME",colour5), end=' ')   
    if COM[:7] == "UNKNOWN":
-      print(colored(COM.upper(),colour7), end=' ')
+      print(colored(FIL.upper(),colour7), end=' ')
    else:
-      print(colored(COM.upper(),colour6), end=' ')      
+      print(colored(FIL.upper(),colour6), end=' ')      
    print('\u2551' + (" ")*1 + colored("OFFSET",colour5) + (" ")*6 + colored("FUNCTION",colour5) + (" ")*25 + '\u2551' + (" ")*1 + colored("OFFSET       GADGETS",colour5) + (" ")*37 + '\u2551') 
-   print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
-   print('\u2551' + " ACCUMULATOR  " + '\u2551', end=' ')
+   print('\u2560' + ('\u2550')*16 + '\u256C' + ('\u2550')*40+ '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
+   print('\u2551' + " RAX/EAX/AX/AH  " + '\u2551', end=' ')
    if RAX[:5] == "EMPTY":
       print(colored(RAX[:COL1],colour7), end=' ')
    else:
@@ -212,7 +209,7 @@ def dispMenu():
    print(colored(GADD[0],colour6), end=' ')
    print('\u2551')      
    
-   print('\u2551' + " BASE         " + '\u2551', end=' ')
+   print('\u2551' + " RBX/EBX/BX/BH  " + '\u2551', end=' ')
    if RBX[:5] == "EMPTY":
       print(colored(RBX[:COL1],colour7), end=' ')
    else:
@@ -225,7 +222,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[1],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " COUNTER      " + '\u2551', end=' ')
+   print('\u2551' + " RCX/ECX/CX/CH  " + '\u2551', end=' ')
    if RCX[:5] == "EMPTY":
       print(colored(RCX[:COL1],colour7), end=' ')
    else:
@@ -238,7 +235,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[2],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " DATA         " + '\u2551', end=' ')
+   print('\u2551' + " RDX/EDX/DX/DH  " + '\u2551', end=' ')
    if RDX[:5] == "EMPTY":
       print(colored(RDX[:COL1],colour7), end=' ')
    else:
@@ -252,7 +249,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[3],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " SOURCE       " + '\u2551', end=' ')
+   print('\u2551' + " RSI/ESI/SI/SIL " + '\u2551', end=' ')
    if RSI[:5] == "EMPTY":
       print(colored(RSI[:COL1],colour7), end=' ')
    else:
@@ -265,7 +262,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[4],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " DESTINATION  " + '\u2551', end=' ')
+   print('\u2551' + " RDI/EDI/DI/DIL " + '\u2551', end=' ')
    if RDI[:5] == "EMPTY":
       print(colored(RDI[:COL1],colour7), end=' ')
    else:
@@ -278,7 +275,7 @@ def dispMenu():
    print('\u2551', end=' ')
    print(colored(GADD[5],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " STACK POINTER" + '\u2551', end=' ')
+   print('\u2551' + " RSP/ESP/SP/SPL " + '\u2551', end=' ')
    if RSP[:5] == "EMPTY":
       print(colored(RSP[:COL1],colour7), end=' ')
    else:
@@ -291,7 +288,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[6],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " BASE POINTER " + '\u2551', end=' ')
+   print('\u2551' + " RBP/EBP/BP/BPL " + '\u2551', end=' ')
    if RBP[:5] == "EMPTY":
       print(colored(RBP[:COL1],colour7), end=' ')
    else:
@@ -304,7 +301,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[7],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " BUFF OFFSET  " + '\u2551', end=' ')
+   print('\u2551' + " BUFF OFFSET    " + '\u2551', end=' ')
    if OFF[:5] == "EMPTY":
       print(colored(OFF[:COL1],colour7), end=' ')
    else:
@@ -317,11 +314,11 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[8],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " FILE NAME    " + '\u2551', end=' ')
-   if FIL[:5].upper() == "EMPTY":
-      print(colored(FIL.upper()[:COL1],colour7), end=' ')
+   print('\u2551' + " FILE FORMAT    " + '\u2551', end=' ')
+   if COM[5].upper() == "EMPTY":
+      print(colored(COM,colour7), end=' ')
    else:
-      print(colored(FIL.upper()[:COL1],colour6), end=' ')
+      print(colored(COM,colour6), end=' ')
    print('\u2551', end=' ')   
    if SRT.rstrip(" ") in ADDR[9]:
       print(colored(ADDR[9],colour3), end=' ')
@@ -330,7 +327,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[9],colour6), end=' ')
    print('\u2551')   
-   print('\u2551' + " ARCHITECTURE " + '\u2551', end=' ')
+   print('\u2551' + " ARCHITECTURE   " + '\u2551', end=' ')
    if ARC[:5] == "EMPTY":
       print(colored(ARC[:COL1],colour7), end=' ')
    else:
@@ -343,7 +340,7 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[10],colour6), end=' ')
    print('\u2551')    
-   print('\u2551' + " INDIAN       " + '\u2551', end=' ')
+   print('\u2551' + " INDIAN TYPE    " + '\u2551', end=' ')
    if IND[:5] == "EMPTY":
       print(colored(IND[:COL1],colour7), end=' ')
    else:
@@ -357,7 +354,7 @@ def dispMenu():
    print(colored(GADD[11],colour6), end=' ')
    print('\u2551') 
    
-   print('\u2551' + " MAIN ADDRESS " + '\u2551', end=' ')
+   print('\u2551' + " MAIN ADDRESS   " + '\u2551', end=' ')
    if SRT[:5] == "EMPTY":
       print(colored(SRT[:COL1],colour7), end=' ')
    else:
@@ -370,20 +367,20 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[12],colour6), end=' ')
    print('\u2551')      
-   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2563', end=' '); print(colored(GADD[13],colour6), end=' '); print('\u2551')
+   print('\u2560' + ('\u2550')*16 + '\u2569' + ('\u2550')*40 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2563', end=' '); print(colored(GADD[13],colour6), end=' '); print('\u2551')
    return
    
 def options():
-   print('\u2551' + "(01) RAX/EAX/AX/AH  (11) Static   FILENAME (21) Headers FILENAME (31) GHIDRA      (41)                  " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(02) RBX/EBX/BX/BH  (12) Dynamic  FILENAME (22) Objects FILENAME (32)             (42)                  " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(03) RCX/ECX/CX/CH  (13) Examine  FILENAME (23) Section FILENAME (33)             (43)                  " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
-   print('\u2551' + "(04) RDX/EDX/DX/DH  (14) CheckSec FILENAME (24) AllHead FILENAME (34)             (44)                  " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(05) RSI/ESI/SI/SIL (15) Function FILENAME (25) Execute FILENAME (35)             (45)                  " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(06) RDI/EDI/DI/DIL (16) Gadgets  FILENAME (26) DBugInf FILENAME (36)             (46)                  " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(07) RSP/ESP/SP/SPL (17) GDBugger FILENAME (27) SourCod FILENAME (37)             (47)                  " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(08) RBP/EBP/BP/BPL (18) Pattern   Creater (28) Symbols FILENAME (38)             (48)                  " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(09) Re/Set  OFFSET (19) Initiate FILENAME (29) HexForm FILENAME (39)             (49)                  " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(10) Re/SetFILENAME (20) Pattern    OFFSET (30) HexEdit FILENAME (30)             (50) Exit Program     " + '\u2551', end=' '); print(colored(GADD[23],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(01) ACCUMULATOR (11) Static   (21) Headers (31) GHIDRA   (41)           (51)           (61)            " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(02) BASE        (12) Dynamic  (22) Objects (32)          (42)           (52)           (62)            " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(03) COUNTER     (13) Examine  (23) Section (33)          (43)           (53)           (63)            " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
+   print('\u2551' + "(04) DATA        (14) CheckSec (24) AllData (34)          (44)           (54)           (64)            " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(05) SOURCE      (15) Function (25) Execute (35)          (45)           (55)           (65)            " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(06) DESTINATION (16) Gadgets  (26) DBugInf (36)          (46)           (56)           (66)            " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(07) STACK POINT (17) GDBugger (27) SourCod (37)          (47)           (57)           (67)            " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(08) BASE  POINT (18) Pattern  (28) Symbols (38)          (48)           (58)           (68)            " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(09) BUFF OFFSET (19) Initiate (29) HexForm (39)          (49)           (59)           (69)            " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(10) FILE   NAME (20) SegFault (30) HexEdit (30)          (50)           (60)           (70) Exit       " + '\u2551', end=' '); print(colored(GADD[23],colour6), end=' '); print('\u2551')
    print('\u255A' + ('\u2550')*104 + '\u2569' +  ('\u2550')*58 + '\u255D') #colored("VALUE",colour5)
    return
 
@@ -522,8 +519,8 @@ else:
    print("[+] File tokens.txt already exists...")   
    
 SKEW = 0                                # TIME-SKEW SWITCH
-COL0 = 19				# MAX LEN COMPUTER NAME
-COL1 = 40                               # MAX LEN SESSION DATA
+COL0 = 17+12				# MAX LEN COMPUTER NAME
+COL1 = 38                               # MAX LEN SESSION DATA
 COL2 = 44                               # MAX LEN ADDRE NAME
 COL3 = 23+33                            # MAX LEN GADD NAME
 #COL4 = 0                                # MAX LEN NTLM USE1
@@ -574,7 +571,7 @@ SRT = linecache.getline("ascii.tmp", 14).rstrip("\n")
 
 
 RAX = spacePadding(RAX, COL1)
-COM = spacePadding(COM, COL0)
+COM = spacePadding(COM, COL1)
 RBX = spacePadding(RBX, COL1)
 RCX = spacePadding(RCX, COL1)
 RDX = spacePadding(RDX, COL1)
@@ -585,7 +582,7 @@ RBP = spacePadding(RBP, COL1)
 OFF = spacePadding(OFF, COL1)
 IND = spacePadding(IND, COL1)
 ARC = spacePadding(ARC, COL1)
-FIL = spacePadding(FIL, COL1)
+FIL = spacePadding(FIL, COL0)
 SRT = spacePadding(SRT, COL1)
 
 # -------------------------------------------------------------------------------------
@@ -814,7 +811,7 @@ while True:
          BAK = FIL
          FIL = input("[?] Please enter filename: ")
          if FIL != "":
-            FIL = spacePadding(FIL,COL1)
+            FIL = spacePadding(FIL,COL0)
          else:
             FIL = BAK
       prompt()  
@@ -1048,7 +1045,10 @@ while True:
          count = lineCount("headers.tmp")
          SRT = linecache.getline("headers.tmp", count).rstrip("\n")
          SRT = SRT.split(" ")[-1]
-         SRT = spacePadding(SRT, COL2)         
+         SRT = spacePadding(SRT, COL1)   
+         COM = linecache.getline("headers.tmp", 1).rstrip("\n")      
+         COM = COM.split(" ")[-1]
+         COM = spacePadding(COM, COL1)
       prompt()   
    
 # ------------------------------------------------------------------------------------- 
@@ -1227,7 +1227,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '90':        
+   if selection == '70':        
       saveParams()
       command("rm *.tmp")      
       connection.close()

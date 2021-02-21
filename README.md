@@ -29,7 +29,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 |------     |-------         | -------                          | ----                |  ----        |
 | python3   | install.py     | 009d381735ec64b091e1df8e59678769 | Install Program     | TREADSTONE   |
 | python3   | rogue-agent.py | e5f70710984f305cffa0b9961fbfa4f3 | Command Centre      | TREADSTONE   |
-| python3   | larx.py        | 11de6f5efec77d9d92bf02a23dab6e4a | Binary Exploitation | LARX| 
+| python3   | larx.py        | 6551de3c0bc5d37914acb5d2a9627026 | Binary Exploitation | LARX| 
 | SQLite3   | RA.db          | 22e5d7a88e7f517a713d21da5d57a41c | Program Database    | TREADSTONE   |
 
        
