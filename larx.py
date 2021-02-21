@@ -93,20 +93,22 @@ def prompt():
    return   
    
 def saveParams():
-   command("echo '" + RAX + "' | base64 --wrap=0 >  base64.tmp")
-   command("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RBX + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RCX + "' | base64 --wrap=0 >> base64.tmp")   
-   command("echo '" + RDX + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RSI + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RDI + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RSP + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + RBP + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + OFF + "' | base64 --wrap=0 >> base64.tmp")   
-   command("echo '" + IND + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + ARC + "' | base64 --wrap=0 >> base64.tmp")
-   command("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp")   
-   command("echo '" + SRT + "' | base64 --wrap=0 >> base64.tmp")     
+   command("echo '" + RAX + "' | base64 --wrap=0 >  base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RBX + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RCX + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")   
+   command("echo '" + RDX + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RSI + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RDI + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RSP + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + RBP + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + OFF + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")   
+   command("echo '" + IND + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + ARC + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")
+   command("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")   
+   command("echo '" + SRT + "' | base64 --wrap=0 >> base64.tmp"); command("echo '\n' >> base64.tmp")  
+   
+   parFile("base64.tmp")
    
    RAX2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
@@ -123,20 +125,20 @@ def saveParams():
    FIL2 = linecache.getline("base64.tmp", 13).rstrip("\n")
    SRT2 = linecache.getline("base64.tmp", 14).rstrip("\n")    
      
-   cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + RAX2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + RBX2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + RCX2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET PTS = \"" + RDX2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + RSI2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET USR = \"" + RDI2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + RSP2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + RBP2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + OFF2 + "\" WHERE IDS = 1"); connection.commit()	
-   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + IND2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + ARC2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + SRT2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + RAX2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + RBX2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + RCX2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET PTS = \"" + RDX2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + RSI2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET USR = \"" + RDI2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + RSP2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + RBP2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + OFF2 + "\" WHERE IDS = 2"); connection.commit()	
+   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + IND2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + ARC2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 2"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + SRT2 + "\" WHERE IDS = 2"); connection.commit()
    return     
    
 def catsFile(variable):
@@ -315,7 +317,7 @@ def dispMenu():
    print(colored(GADD[8],colour6), end=' ')
    print('\u2551')   
    print('\u2551' + " FILE FORMAT    " + '\u2551', end=' ')
-   if COM[5].upper() == "EMPTY":
+   if COM[:5].upper() == "EMPTY":
       print(colored(COM,colour7), end=' ')
    else:
       print(colored(COM,colour6), end=' ')
@@ -342,9 +344,9 @@ def dispMenu():
    print('\u2551')    
    print('\u2551' + " INDIAN TYPE    " + '\u2551', end=' ')
    if IND[:5] == "EMPTY":
-      print(colored(IND[:COL1],colour7), end=' ')
+      print(colored(IND,colour7), end=' ')
    else:
-      print(colored(IND[:COL1],colour6), end=' ')
+      print(colored(IND,colour6), end=' ')
    print('\u2551', end=' ')   
    if SRT.rstrip(" ") in ADDR[11]:
       print(colored(ADDR[11],colour3), end=' ')
@@ -523,8 +525,6 @@ COL0 = 17+12				# MAX LEN COMPUTER NAME
 COL1 = 38                               # MAX LEN SESSION DATA
 COL2 = 44                               # MAX LEN ADDRE NAME
 COL3 = 23+33                            # MAX LEN GADD NAME
-#COL4 = 0                                # MAX LEN NTLM USE1
-COL5 = 1                                # MAX LEN TOKEN VALUE
 
 ADDR = [" "*COL2]*maxUser		# ADDRESS VALUES
 GADD = [" "*COL3]*maxUser		# ADDRESS NAMES
@@ -538,7 +538,7 @@ GADD = [" "*COL3]*maxUser		# ADDRESS NAMES
 # -------------------------------------------------------------------------------------
 
 print("[+] Configuration database found - restoring saved data....")
-col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1").fetchone()
+col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 2").fetchone()
 command("echo " + col[1]  + " | base64 -d >  ascii.tmp")
 command("echo " + col[2]  + " | base64 -d >> ascii.tmp")
 command("echo " + col[3]  + " | base64 -d >> ascii.tmp")
@@ -569,7 +569,6 @@ ARC = linecache.getline("ascii.tmp", 12).rstrip("\n")
 FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
 SRT = linecache.getline("ascii.tmp", 14).rstrip("\n")
 
-
 RAX = spacePadding(RAX, COL1)
 COM = spacePadding(COM, COL1)
 RBX = spacePadding(RBX, COL1)
@@ -596,13 +595,9 @@ SRT = spacePadding(SRT, COL1)
 with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2, open(dataDir + "/tokens.txt", "r") as read3, open(dataDir + "/shares.txt", "r") as read4:
    for x in range(0, maxUser):
       GADD[x] = read1.readline()
-#      USE1[x] = read2.readline()
-#      USE2[x] = read3.readline()
       ADDR[x] = read4.readline()            
       ADDR[x] = spacePadding(ADDR[x], COL2)         
       GADD[x] = spacePadding(GADD[x], COL3)
-#      USE1[x] = spacePadding(USE1[x], COL4)    
-#      USE2[x] = spacePadding(USE2[x], COL5)
 time.sleep(5)
    
 # -------------------------------------------------------------------------------------
@@ -1229,7 +1224,7 @@ while True:
 
    if selection == '70':        
       saveParams()
-      command("rm *.tmp")      
+#      command("rm *.tmp")      
       connection.close()
       print(colored("[*] Program sucessfully terminated...", colour3))
       exit(1)  
