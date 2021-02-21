@@ -365,7 +365,10 @@ def dispMenu():
    if SRT.rstrip(" ") in ADDR[12]:
       print(colored(ADDR[12],colour3), end=' ')
    else:
-      print(colored(ADDR[12],colour6), end=' ')      
+      if ADDR[13] != "":
+         print(colored(ADDR[12],colour0), end=' ')                  
+      else:
+         print(colored(ADDR[12],colour6), end=' ')            
    print('\u2551', end=' ')   
    print(colored(GADD[12],colour6), end=' ')
    print('\u2551')      
@@ -373,16 +376,20 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) ACCUMULATOR (11) Static   (21) Headers (31) GHIDRA   (41)           (51)           (61)            " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(02) BASE        (12) Dynamic  (22) Objects (32)          (42)           (52)           (62)            " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(03) COUNTER     (13) Examine  (23) Section (33)          (43)           (53)           (63)            " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
-   print('\u2551' + "(04) DATA        (14) CheckSec (24) AllData (34)          (44)           (54)           (64)            " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(05) SOURCE      (15) Function (25) Execute (35)          (45)           (55)           (65)            " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(06) DESTINATION (16) Gadgets  (26) DBugInf (36)          (46)           (56)           (66)            " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(07) STACK POINT (17) GDBugger (27) SourCod (37)          (47)           (57)           (67)            " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(08) BASE  POINT (18) Pattern  (28) Symbols (38)          (48)           (58)           (68)            " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(09) BUFF OFFSET (19) Initiate (29) HexForm (39)          (49)           (59)           (69)            " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(10) FILE   NAME (20) SegFault (30) HexEdit (30)          (50)           (60)           (70) Exit       " + '\u2551', end=' '); print(colored(GADD[23],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(01) ACCUMULATOR (11) FILE  FORMAT (21) Read FilHead (31) GenDeBugger   (41) HEX Editor (51)            " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(02) BASE        (12) ARCHITECTURE (22) Read Objects (32) CreatePattern (42) GHIDRA     (52)            " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(03) COUNTER     (13) INDIAN  TYPE (23) Read Section (33) Initiate File (43)            (53)            " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
+   print('\u2551' + "(04) DATA        (14) MAIN ADDRESS (24) Read Headers (34) Find SegFault (44)            (54)            " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(05) SOURCE      (15) Mode  Static (25) Read Execute (35)               (45)            (55)            " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(06) DESTINATION (16) Mode Dynamic (26) Read DBugInf (36)               (46)            (56)            " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(07) STACK POINT (17) Examine File (27) Read Intamix (37)               (47)            (57)            " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(08) BASE  POINT (18) CheckSecFile (28) Read Symbols (38)               (48)            (58)            " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(09) BUFF OFFSET (19) ListFunction (29) Read StabDat (39)               (49)            (59)            " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(10) FILENAME    (20) List Gadgets (30) Read HexForm (30)               (50)            (60) Exit       " + '\u2551', end=' ')
+   if GADD[24] != "":
+      print(colored(GADD[23],colour0), end=' '); print('\u2551')   
+   else:
+      print(colored(GADD[23],colour6), end=' '); print('\u2551')
    print('\u255A' + ('\u2550')*104 + '\u2569' +  ('\u2550')*58 + '\u255D') #colored("VALUE",colour5)
    return
 
@@ -780,7 +787,7 @@ while True:
          OFF = spacePadding(OFF,COL1)
       else:
             OFF = BAK
-      prompt()  
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -815,11 +822,79 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
+# Details : Menu option selected - File format. 
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='11':
+      BAK = COM
+      COM = input("[?] Please enter file format: ")
+      if COM != "":
+         COM = spacePadding(COM,COL1)
+      else:
+            COM = BAK
+      prompt()        
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Architecture
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='12':
+      BAK = ARC
+      ARC = input("[?] Please enter file architecture: ")
+      if ARC != "":
+         ARC = spacePadding(ARC,COL1)
+      else:
+            ARC = BAK
+      prompt()  
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Indian value.
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='13':
+      BAK = IND
+      IND = input("[?] Please enter indian value: ")
+      if IND != "":
+         IND = spacePadding(IND,COL1)
+      else:
+            IND = BAK
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Start value
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection =='14':
+      BAK = SRT
+      SRT = input("[?] Please enter start value: ")
+      if SRT != "":
+         SRT = spacePadding(SRT,COL1)
+      else:
+            SRT = BAK
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
 # Details : Menu option selected - chmod +x fileMame.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='11':
+   if selection =='15':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -835,7 +910,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='12':
+   if selection =='16':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -851,33 +926,32 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='13':
+   if selection =='17':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
          command("file " + powrDir + "/" + FIL.rstrip(" ") + " > file.tmp")
-         catsFile("file.tmp")       
-           
+         catsFile("file.tmp")                  
          binary = linecache.getline("file.tmp", 1)
          if "ELF" in binary:
             print("Linux binary file...")
          if "64-bit" in binary:
             ARC = "64 Bit"
             print(ARC + " architecture...")  
-            ARC = spacePadding(ARC, COL2)            
+            ARC = spacePadding(ARC, COL1)            
          if "32-bit" in binary:
             ARC = "32 Bit"
             print(ARC + " architecture...")           
-            ARC = spacePadding(ARC, COL2)
+            ARC = spacePadding(ARC, COL1)
          if "LSB" in binary:
             IND = "Little"
             print(IND + " indian...")
-            IND = spacePadding(IND, COL2)
+            IND = spacePadding(IND, COL1)
          if "MSB" in binary:
             IND = "Big"
             print(IND + " indian...")
-            IND = spacePadding(IND, COL2)
+            IND = spacePadding(IND, COL1)
          if "not stripped" in binary:
             print("Debugging information built in...")
          else:
@@ -892,7 +966,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '14':
+   if selection == '18':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -914,7 +988,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '15':
+   if selection == '19':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:         
@@ -937,95 +1011,25 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '16':
+   if selection == '20':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:      
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
          command("ROPgadget --binary " + powrDir + "/" + FIL.rstrip(" ") + " > gadgets.tmp")
-         catsFile("gadgets.tmp")
-         
-         command("cat gadgets.tmp | grep pop > pop.tmp")
-         
+         catsFile("gadgets.tmp")         
+         command("sed -i '1d' ./gadgets.tmp")
+         command("sed -i '1d' ./gadgets.tmp")         
          for x in range (0, maxUser):
-            GADD[x] = linecache.getline("pop.tmp", x + 1).rstrip(" ")
+            GADD[x] = linecache.getline("gadgets.tmp", x + 1).rstrip(" ")
             GADD[x] = spacePadding(GADD[x], COL3)
       prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : LARX                                                             
-# Details : Menu option selected - gdb fileName
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '17':
-      if FIL[:5].upper() == "EMPTY":
-         print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Editing filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("gdb " + powrDir + "/" + FIL.rstrip(" "))
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - MSF pattern create.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '18':
-      if FIL[:5].upper() == "EMPTY":
-         print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Creating unique pattern...", colour3))          
-         command("msf-pattern_create -l 250 > pattern.tmp")
-         catsFile("pattern.tmp")
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                           
-# CONTRACT: GitHub
-# Version : LARX                                                             
-# Details : Menu option selected - Run fileName.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '19':
-      if FIL[:5].upper() == "EMPTY":
-         print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Running filename " + powrDir + "/" + FIL.rstrip(" ") + "...\n", colour3))
-         command("./" + powrDir + "/" + FIL.rstrip(" "))
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : LARX                                                             
-# Details : Menu option selected - MSF patter finder
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '20':
-      if FIL[:5].upper() == "EMPTY":
-         print("[-] Filename not specified...")
-      else:
-         print(colored("[*] Finding buffer offset...", colour3))
-         offset = input("[?] Please enter segmentation fault value: ")
-         command("msf-pattern_offset -q " + offset + " > offset.tmp")
-         catsFile("offset.tmp")
-         OFF = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
-         OFF = spacePadding(OFF, COL2)
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : LARX                                                             
-# Details : Menu option selected - Filename headers.
+# Details : Menu option selected - File headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1037,6 +1041,7 @@ while True:
          command("objdump" + " -f " + powrDir + "/" + FIL.rstrip(" ") + " > headers.tmp")
          parFile("headers.tmp")
          catsFile("headers.tmp")
+         
          count = lineCount("headers.tmp")
          SRT = linecache.getline("headers.tmp", count).rstrip("\n")
          SRT = SRT.split(" ")[-1]
@@ -1084,7 +1089,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - All headers.
+# Details : Menu option selected - All Headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1135,7 +1140,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - Debug + code
+# Details : Menu option selected - Debug + code intermix
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1147,12 +1152,12 @@ while True:
          command("objdump" + " -D -S " + powrDir + "/" + FIL.rstrip(" ") + " > code.tmp")
          catsFile("code.tmp")
       prompt() 
-   
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - Symbolic Tables
+# Details : Menu option selected - Symbols
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1161,15 +1166,15 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -t " + powrDir + "/" + FIL.rstrip(" ") + " > symbol.tmp")
-         catsFile("symbol.tmp")
+         command("objdump" + " -t " + powrDir + "/" + FIL.rstrip(" ") + " > symbols.tmp")
+         catsFile("symbols.tmp")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                             
-# Details : Menu option selected - All hex format
+# Details : Menu option selected - Stabs
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1178,9 +1183,95 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("objdump" + " -s " + powrDir + "/" + FIL.rstrip(" ") + " > hex.tmp")
-         catsFile("hex.tmp")
+         command("objdump" + " -G " + powrDir + "/" + FIL.rstrip(" ") + " > symbols.tmp")
+         catsFile("symbols.tmp")
       prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Hexform
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '30':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Examining file " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
+         command("objdump" + " -s " + powrDir + "/" + FIL.rstrip(" ") + " > symbols.tmp")
+         catsFile("symbols.tmp")
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - gdb fileName
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '31':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Editing filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
+         command("gdb " + powrDir + "/" + FIL.rstrip(" "))
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - MSF pattern create.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '32':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Creating unique pattern...", colour3))          
+         command("msf-pattern_create -l 250 > pattern.tmp")
+         catsFile("pattern.tmp")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                           
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - Run fileName.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '33':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Running filename " + powrDir + "/" + FIL.rstrip(" ") + "...\n", colour3))
+         command("./" + powrDir + "/" + FIL.rstrip(" "))
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                             
+# Details : Menu option selected - MSF patter finder
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '34':
+      if FIL[:5].upper() == "EMPTY":
+         print("[-] Filename not specified...")
+      else:
+         print(colored("[*] Finding buffer offset...", colour3))
+         offset = input("[?] Please enter segmentation fault value: ")
+         command("msf-pattern_offset -q " + offset + " > offset.tmp")
+         catsFile("offset.tmp")
+         OFF = linecache.getline("offset.tmp", 1).rstrip("\n").split(" ")[-1]
+         OFF = spacePadding(OFF, COL2)
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1190,7 +1281,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '30':
+   if selection == '41':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
@@ -1206,13 +1297,13 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '41':
+   if selection == '42':
       if FIL[:5].upper() == "EMPTY":
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Ghidra has been initiated...", colour3))          
          command("/opt/ghidra_9.2.2_PUBLIC/ghidraRun ./analyzeHeadless ./" + powrDir + " -import " + powrDir + "/" + FIL.rstrip(" ") + " > boot.tmp 2>&1")
-      prompt()
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1222,9 +1313,9 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '70':        
+   if selection == '60':        
       saveParams()
-#      command("rm *.tmp")      
+      command("rm *.tmp")      
       connection.close()
       print(colored("[*] Program sucessfully terminated...", colour3))
       exit(1)  
