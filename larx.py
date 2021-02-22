@@ -9,7 +9,7 @@
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Load required imports.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ from termcolor import colored
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -195,15 +195,15 @@ def dispMenu():
       print(colored(FIL.upper(),colour7), end=' ')
    else:
       print(colored(FIL.upper(),colour6), end=' ')      
-   print(" " + '\u2551' + (" ")*1 + colored("OFFSET",colour5) + (" ")*6 + colored("FUNCTION",colour5) + (" ")*24 + '\u2551' + (" ")*1 + colored("OFFSET       GADGETS",colour5) + (" ")*37 + '\u2551') 
-   print('\u2560' + ('\u2550')*16 + '\u256C' + ('\u2550')*12 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*20 + '\u256C' + ('\u2550')*24 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
+   print(" " + '\u2551' + (" ")*1 + colored("OFFSET",colour5) + (" ")*14 + colored("FUNCTION",colour5) + (" ")*16 + '\u2551' + (" ")*1 + colored("OFFSET",colour5) + " "*15 + colored("GADGETS",colour5) + (" ")*29 + '\u2551') 
+   print('\u2560' + ('\u2550')*16 + '\u256C' + ('\u2550')*20 + '\u2566' + ('\u2550')*20 + '\u256C' + ('\u2550')*24 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
    
    print('\u2551' + " RAX/EAX/AX/AH  " + '\u2551', end=' ')
-   if RAX[:10] == "0x00000000":
+   if RAX[:18] == "0x0000000000000000":
       print(colored(RAX[:COL1],colour7), end=' ')
    else:
       print(colored(RAX[:COL1],colour6), end=' ')
-   print('\u2551' + " RELRO " + '\u2551' + colored(RE,colourx) +  '\u2551', end=' ')		#   
+   print('\u2551' + " " + colored(RE,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT in ADDR[0]:
       print(colored(ADDR[0],colour3), end=' ')
    else:
@@ -213,11 +213,11 @@ def dispMenu():
    print('\u2551')      
    
    print('\u2551' + " RBX/EBX/BX/BH  " + '\u2551', end=' ')
-   if RBX[:10] == "0x00000000":
+   if RBX[:18] == "0x0000000000000000":
       print(colored(RBX[:COL1],colour7), end=' ')
    else:
       print(colored(RBX[:COL1],colour6), end=' ')
-   print('\u2551' + " STACK " + '\u2551' + colored(ST,colourx) +  '\u2551', end=' ')		#
+   print('\u2551' + " " + colored(ST,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[1]:
       print(colored(ADDR[1],colour3), end=' ')
    else:
@@ -227,11 +227,11 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " RCX/ECX/CX/CH  " + '\u2551', end=' ')
-   if RCX[:10] == "0x00000000":
+   if RCX[:18] == "0x0000000000000000":
       print(colored(RCX[:COL1],colour7), end=' ')
    else:
       print(colored(RCX[:COL1],colour6), end=' ')
-   print('\u2551' + " FORT  " + '\u2551' + colored(FO,colourx) +  '\u2551', end=' ')		#
+   print('\u2551' + " " + colored(FO,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[2]:
       print(colored(ADDR[2],colour3), end=' ')
    else:
@@ -241,11 +241,11 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " RDX/EDX/DX/DH  " + '\u2551', end=' ')
-   if RDX[:10] == "0x00000000":
+   if RDX[:18] == "0x0000000000000000":
       print(colored(RDX,colour7), end=' ')
    else:
       print(colored(RDX,colour6), end=' ')
-   print('\u2551' + " NX    " + '\u2551' + colored(NX,colourx) +  '\u2551', end=' ')      	#
+   print('\u2551' + " " + colored(NX,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[3]:
       print(colored(ADDR[3],colour3), end=' ')
    else:
@@ -255,11 +255,11 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " RSI/ESI/SI/SIL " + '\u2551', end=' ')
-   if RSI[:10] == "0x00000000":
+   if RSI[:18] == "0x0000000000000000":
       print(colored(RSI[:COL1],colour7), end=' ')
    else:
       print(colored(RSI[:COL1],colour6), end=' ')
-   print('\u2551' + " PIE   " + '\u2551' + colored(PI,colourx) +  '\u2551', end=' ') 		#
+   print('\u2551' + " " + colored(PI,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[4]:
       print(colored(ADDR[4],colour3), end=' ')
    else:
@@ -269,11 +269,11 @@ def dispMenu():
    print('\u2551')   
    
    print('\u2551' + " RDI/EDI/DI/DIL " + '\u2551', end=' ')
-   if RDI[:10] == "0x00000000":
+   if RDI[:18] == "0x0000000000000000":
       print(colored(RDI,colour7), end=' ')
    else:
       print(colored(RDI,colour6), end=' ')
-   print( '\u2551' + " RWX   " + '\u2551' + colored(RW,colourx)  + '\u2551', end=' ')		#
+   print('\u2551' + " " + colored(RW,colourx) + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[5]:
       print(colored(ADDR[5],colour3), end=' ')
    else:
@@ -283,12 +283,12 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " RSP/ESP/SP/SPL " + '\u2551', end=' ')
-   if RSP[:10] == "0x00000000":
-      print(colored(RSP[:COL1],colour7), end=' ')
+   if RSP[:18] == "0x0000000000000000":
+      print(colored(RSP,colour7), end=' ')
    else:
-      print(colored(RSP[:COL1],colour6), end=' ')
+      print(colored(RSP,colour6), end=' ')
 #   print('\u2551', end=' ')  
-   print('\u2560' + '\u2550'*7 + '\u2569' + '\u2550'*20 + '\u2563', end=' ')		#
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[6]:
       print(colored(ADDR[6],colour3), end=' ')
    else:
@@ -298,12 +298,11 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " RBP/EBP/BP/BPL " + '\u2551', end=' ')
-   if RBP[:10] == "0x00000000":
-      print(colored(RBP[:COL1],colour7), end=' ')
+   if RBP[:18] == "0x0000000000000000":
+      print(colored(RBP,colour7), end=' ')
    else:
-      print(colored(RBP[:COL1],colour6), end=' ')
-   print('\u2551', end=' ')  
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+      print(colored(RBP,colour6), end=' ')
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[7]:
       print(colored(ADDR[7],colour3), end=' ')
    else:
@@ -313,12 +312,11 @@ def dispMenu():
    print('\u2551')   
   
    print('\u2551' + " BUFF    OFFSET " + '\u2551', end=' ')
-   if OFF[:10] == "0x00000000":
-      print(colored(OFF[:COL1],colour7), end=' ')
+   if OFF[:1] == "0":
+      print(colored(OFF,colour7), end=' ')
    else:
-      print(colored(OFF[:COL1],colour6), end=' ')
-   print('\u2551', end=' ')  
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+      print(colored(OFF,colour6), end=' ')
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[8]:
       print(colored(ADDR[8],colour3), end=' ')
    else:
@@ -332,8 +330,7 @@ def dispMenu():
       print(colored(COM,colour7), end=' ')
    else:
       print(colored(COM,colour6), end=' ')
-   print('\u2551', end=' ')  
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[9]:
       print(colored(ADDR[9],colour3), end=' ')
    else:
@@ -344,11 +341,10 @@ def dispMenu():
 
    print('\u2551' + " ARCHITECTURE   " + '\u2551', end=' ')
    if ARC[:5] == "EMPTY":
-      print(colored(ARC[:COL1],colour7), end=' ')
+      print(colored(ARC,colour7), end=' ')
    else:
-      print(colored(ARC[:COL1],colour6), end=' ')
-   print('\u2551', end=' ')  
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+      print(colored(ARC,colour6), end=' ')
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[10]:
       print(colored(ADDR[10],colour3), end=' ')
    else:
@@ -362,8 +358,7 @@ def dispMenu():
       print(colored(IND,colour7), end=' ')
    else:
       print(colored(IND,colour6), end=' ')
-   print('\u2551', end=' ')   
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[11]:
       print(colored(ADDR[11],colour3), end=' ')
    else:
@@ -373,12 +368,11 @@ def dispMenu():
    print('\u2551') 
    
    print('\u2551' + " MAIN   ADDRESS " + '\u2551', end=' ')
-   if SRT[:10] == "0x00000000":
-      print(colored(SRT[:COL1],colour7), end=' ')
+   if SRT[:18] == "0x0000000000000000":
+      print(colored(SRT,colour7), end=' ')
    else:
-      print(colored(SRT[:COL1],colour6), end=' ')
-   print('\u2551', end=' ')   
-   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
+      print(colored(SRT,colour6), end=' ')
+   print('\u2551' + " " + " "*COL1 + " " +  '\u2551', end=' ')		#   
    if SRT.rstrip(" ") in ADDR[12]:
       print(colored(ADDR[12],colour3), end=' ')
    else:
@@ -389,20 +383,20 @@ def dispMenu():
    print('\u2551', end=' ')   
    print(colored(GADD[12],colour6), end=' ')
    print('\u2551')      
-   print('\u2560' + ('\u2550')*16 + '\u2569' + ('\u2550')*12 + '\u2569' + ('\u2550')*28 + '\u2569' + ('\u2550')*24 + '\u2550' + ('\u2550')*20 + '\u2563', end=' '); print(colored(GADD[13],colour6), end=' '); print('\u2551')
+   print('\u2560' + ('\u2550')*16 + '\u2569' + ('\u2550')*20 + '\u2569' + ('\u2550')*20 + '\u2569' + ('\u2550')*24 + '\u2550' + ('\u2550')*20 + '\u2563', end=' '); print(colored(GADD[13],colour6), end=' '); print('\u2551')
    return
    
 def options():
-   print('\u2551' + "(01) ACCUMULATOR (11) FILE  FORMAT (21) Read FilHead (31) G.D.B. Interface (41) HEX Editor (51)         " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(02) BASE        (12) ARCHITECTURE (22) Read Objects (32) Create   Pattern (42) GHIDRA     (52)         " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(03) COUNTER     (13) INDIAN  TYPE (23) Read Section (33) Initiate    File (43)            (53)         " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
-   print('\u2551' + "(04) DATA        (14) MAIN ADDRESS (24) Read Headers (34) Locate Seg-Fault (44)            (54)         " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(05) SOURCE      (15) Mode  Static (25) Read Execute (35) Disassemble MAIN (45)            (55)         " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(06) DESTINATION (16) Mode Dynamic (26) Read DBugInf (36) Disassemble ADDR (46)            (56)         " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(07) STACK POINT (17) Examine File (27) Read Intamix (37) Disassemble FUNC (47)            (57)         " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(08) BASE  POINT (18) CheckSecFile (28) Read Symbols (38) Mac OS Shellcode (48)            (58)         " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(09) BUFF OFFSET (19) ListFunction (29) Read StabDat (39) Linux  ShellCode (49)            (59) Reset   " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(10) FILENAME    (20) List Gadgets (30) Read HexForm (40) Window ShellCode (50)            (60) Exit    " + '\u2551', end=' ')
+   print('\u2551' + "(01) ACCUMULATOR (11) FILE  FORMAT (21) Read FilHead (31) GDB Interface (41) HEX Editor (51)            " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(02) BASE        (12) ARCHITECTURE (22) Read Objects (32) CreatePattern (42) GHIDRA     (52)            " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(03) COUNTER     (13) INDIAN  TYPE (23) Read Section (33) Initiate File (43)            (53)            " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
+   print('\u2551' + "(04) DATA        (14) MAIN ADDRESS (24) Read Headers (34) Find SegFault (44)            (54)            " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(05) SOURCE      (15) Mode  Static (25) Read Execute (35) Disassem MAIN (45)            (55)            " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(06) DESTINATION (16) Mode Dynamic (26) Read DBugInf (36) Disassm  ADDR (46)            (56)            " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(07) STACK POINT (17) Examine File (27) Read Intamix (37) Disassem FUNC (47)            (57)            " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(08) BASE  POINT (18) CheckSecFile (28) Read Symbols (38)               (48)            (58)            " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(09) BUFF OFFSET (19) ListFunction (29) Read StabDat (39)               (49)            (59) Reset      " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(10) FILENAME    (20) List Gadgets (30) Read HexForm (40)               (50)            (60) Exit       " + '\u2551', end=' ')
    if GADD[24] != "":
       print(colored(GADD[23],colour0), end=' '); print('\u2551')   
    else:
@@ -413,7 +407,7 @@ def options():
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : START OF MAIN - Check running as root.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -429,7 +423,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Create local user-friendly variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -459,7 +453,7 @@ powrDir = "LARX"
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Check the local interface specified above is up.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -477,7 +471,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Connect to local database
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -492,7 +486,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Display program banner and boot system.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -506,7 +500,7 @@ print("[+] Using localhost IP address " + localIP + "...")
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Initialise program files and variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -547,24 +541,24 @@ else:
    
 SKEW = 0                                # TIME-SKEW SWITCH
 COL0 = 17+12				# MAX LEN COMPUTER NAME
-COL1 = 10                               # MAX LEN SESSION DATA
+COL1 = 18                               # 0x0000000000000000
 COL2 = 43                               # MAX LEN ADDRE NAME
 COL3 = 23+33                            # MAX LEN GADD NAME
 
 ADDR = [" "*COL2]*maxUser		# ADDRESS VALUES
 GADD = [" "*COL3]*maxUser		# ADDRESS NAMES
 
-RE = " EMPTY              "
-ST = " EMPTY              "
-FO = " EMPTY              "
-NX = " EMPTY              "
-PI = " EMPTY              "
-RW = " EMPTY              "
+RE = " RELRO Unknown    "
+ST = " STACK Unknown    "
+FO = " FORTIFY Unknown  "
+NX = " NX Unknown       "
+PI = " PIE Unknown      "
+RW = " RWX Unknown      "
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Check the database for stored variables.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -619,7 +613,7 @@ SRT = spacePadding(SRT, COL1)
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Check other files for stored variables.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -635,7 +629,7 @@ time.sleep(5)
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Start the main menu controller.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -653,7 +647,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Secret option that ...
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -664,7 +658,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RAX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -681,7 +675,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RBX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -698,7 +692,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RCX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -715,7 +709,7 @@ while True:
  # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RDX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -732,7 +726,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RSI VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -749,7 +743,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RDI VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -766,7 +760,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RSP VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -783,7 +777,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RBP VALUE 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -800,7 +794,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - OFFSET 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -817,7 +811,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - 
 # Details : Menu option selected - Name fileName.
 # Modified: N/A
@@ -846,7 +840,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - File format. 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -863,7 +857,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Architecture
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -880,7 +874,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Indian value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -897,7 +891,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Start value
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -914,7 +908,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - chmod +x fileMame.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -930,7 +924,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - chmod +x fileMame.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -946,7 +940,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Change remote IP address.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -988,7 +982,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Checksec fileName.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1008,39 +1002,35 @@ while True:
          print("If NX is enabled, then the stack is read-only and you will need to use return-oriented programming.")
          print("If PIE is enabled, then the programs memory locations will not stay the same...")
          print("If RWX has segments, then these are writeable and executable at the same time...")
-                  
-         RE = " Partial RELRO      "	# ENABLE ALL
-         ST = " Enabled            "
-         FO = " Unknown            "
-         NX = " NX enabled         "
-         PI = " Enabled            "
-         RW = " Has RWX segments   "
          
-         count = lineCount("checksec.tmp")         
+         colourx = "green"
+         count = lineCount("checksec.tmp") 
          for x in range(0, count):
-            binary = linecache.getline("checksec.tmp", x)
-
-            if "No RELRO" in binary:		# DISABLE SPECIFIC
-               RE = " No RELRO           "
-            if "Partial RELRO" in binary:
-               RE = " Partial RELRO      "               
+            binary = linecache.getline("checksec.tmp", x+1)
+            if "No RELRO" in binary:
+               RE = " No RELRO         "               
+            if "Full RELRO" in binary:
+               RE = " Full RELRO       "               
             if "No canary found" in binary:
-               ST = " No canary found    "
+               ST = " No canary found  "               
             if "No Fortify" in binary:
-               FO = " Disabled           "               
+               FO = " Fortify Disabled "               
             if "NX disabled" in binary:
-               NX = " NX Disabled        "               
+               NX = " NX Disabled      "
+            if "NX enabled" in binary:
+               NX = " NX enabled       "               
             if "No PIE" in binary:
-               PI = " No PIE             "               
+               PI = " No PIE           "               
+            if "PIE enabled" in binary:
+               PI = " PIE enabled      "              
             if "No RWX segments" in binary:
-               RW = " No RWX segments    "
-      colourx = "green"
+               RW = " No RWX segments  "
       prompt()
                   
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - ObjDUmp
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1050,7 +1040,7 @@ while True:
          print("[-] Filename not specified...")
       else:         
          print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("gdb -q -batch -ex 'file " + powrDir + "/" + FIL.rstrip(" ") + "' -ex 'info functions' > gadgets.tmp")
+         command("gdb -batch -ex 'file " + powrDir + "/" + FIL.rstrip(" ") + "' -ex 'info functions' > gadgets.tmp")
          parsFile("gadgets.tmp")
          catsFile("gadgets.tmp")
          command("sed -i '/0x/!d' ./gadgets.tmp")
@@ -1063,7 +1053,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Gadgets
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1085,7 +1075,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - File headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1111,7 +1101,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Object headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1128,7 +1118,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Section headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1145,7 +1135,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - All Headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1162,7 +1152,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Executable section
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1179,7 +1169,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Debug information.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1196,7 +1186,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Debug + code intermix
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1213,7 +1203,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Symbols
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1230,7 +1220,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Stabs
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1247,7 +1237,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Hexform
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1264,8 +1254,8 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
-# Details : Menu option selected - gdb -q fileName
+# Version : LARX                                                             
+# Details : Menu option selected - gdb fileName
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1274,13 +1264,13 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Editing filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("gdb -q " + powrDir + "/" + FIL.rstrip(" "))
+         command("gdb " + powrDir + "/" + FIL.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - MSF pattern create.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1297,7 +1287,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Run fileName.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1313,7 +1303,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - MSF patter finder
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1333,7 +1323,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Disassemble MAIN.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1343,13 +1333,13 @@ while True:
       command("echo 'run' >> command.tmp")
       command("echo 'disassemble' >> command.tmp")
       command("echo 'quit' >> command.tmp")
-      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Disassemble main address.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1358,15 +1348,15 @@ while True:
       address = input("[?] Please enter address value: ")
       command("echo 'break main' > command.tmp")
       command("echo 'run' >> command.tmp")
+      command("echo 'quit' >> command.tmp")
       command("echo 'disassemble " + address.rstrip(" ") + "' >> command.tmp")
-      command("echo 'quit' >> command.tmp")      
-      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Disassemble a function.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1377,28 +1367,13 @@ while True:
       command("echo 'run' >> command.tmp")
       command("echo 'disassemble /m " + function.rstrip(" ") + "' >> command.tmp")
       command("echo 'quit' >> command.tmp")
-      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
-# Details : Menu option selected - Shell code for linux
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '39':   
-      print(colored("[*] Generic shellcode...", colour3))
-      command("msfvenom -p linux/x86/exec CMD=/bin/sh -f py")
-      print("")
-      command("msfvenom -p linux/x64/exec CMD=/bin/sh -f py")
-      prompt()  
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Hex Editor.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1414,7 +1389,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Start ghidra.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1425,12 +1400,12 @@ while True:
       else:
          print(colored("[*] Ghidra has been initiated...", colour3))          
          command("/opt/ghidra_9.2.2_PUBLIC/ghidraRun ./analyzeHeadless ./" + powrDir + " -import " + powrDir + "/" + FIL.rstrip(" ") + " > boot.tmp 2>&1")
-      prompt()    
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - RESET
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1438,36 +1413,36 @@ while True:
    if selection == '59':       
       print(colored("[*] Resting program...", colour3)) 
       
-      RAX = spacePadding("0x00000000",COL1)
+      RAX = spacePadding("0x0000000000000000",COL1)
       COM = spacePadding("EMPTY",COL1)
-      RBX = spacePadding("0x00000000",COL1)
-      RCX = spacePadding("0x00000000",COL1)
-      RDX = spacePadding("0x00000000",COL1)
-      RSI = spacePadding("0x00000000",COL1)
-      RDI = spacePadding("0x00000000",COL1)
-      RSP = spacePadding("0x00000000",COL1)
-      RBP = spacePadding("0x00000000",COL1)
-      OFF = spacePadding("0x00000000",COL1)
+      RBX = spacePadding("0x0000000000000000",COL1)
+      RCX = spacePadding("0x0000000000000000",COL1)
+      RDX = spacePadding("0x0000000000000000",COL1)
+      RSI = spacePadding("0x0000000000000000",COL1)
+      RDI = spacePadding("0x0000000000000000",COL1)
+      RSP = spacePadding("0x0000000000000000",COL1)
+      RBP = spacePadding("0x0000000000000000",COL1)
+      OFF = spacePadding("0",COL1)
       IND = spacePadding("EMPTY",COL1)
       ARC = spacePadding("EMPTY",COL1)
       FIL = spacePadding("UNKNOWN",COL0)
-      SRT = spacePadding("0x00000000",COL1)      
+      SRT = spacePadding("0x0000000000000000",COL1)      
       saveParams()
       ADDR = [" "*COL2]*maxUser
       GADD = [" "*COL3]*maxUser
-      RE = " EMPTY              "
-      ST = " EMPTY              "
-      FO = " EMPTY              "
-      NX = " EMPTY              "
-      PI = " EMPTY              "
-      RW = " EMPTY              "
+      RE = " RELRO Unknown    "
+      ST = " STACK Unknown    "
+      FO = " FORTIFY Unknown  "
+      NX = " NX Unknown       "
+      PI = " PIE Unknown      "
+      RW = " RWX Unknown      "
       colourx = "yellow"
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Save running config to config.txt and exit program
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1482,7 +1457,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                            
+# Version : LARX                                                             
 # Details : Menu option selected - Secret option
 # Modified: N/A
 # -------------------------------------------------------------------------------------
