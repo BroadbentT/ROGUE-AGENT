@@ -303,7 +303,7 @@ def dispMenu():
    else:
       print(colored(RBP[:COL1],colour6), end=' ')
    print('\u2551', end=' ')  
-   print(' '*27 + '\u2551', end=' ')						# 
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[7]:
       print(colored(ADDR[7],colour3), end=' ')
    else:
@@ -318,7 +318,7 @@ def dispMenu():
    else:
       print(colored(OFF[:COL1],colour6), end=' ')
    print('\u2551', end=' ')  
-   print(' '*27 + '\u2551', end=' ')						# 
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[8]:
       print(colored(ADDR[8],colour3), end=' ')
    else:
@@ -333,7 +333,7 @@ def dispMenu():
    else:
       print(colored(COM,colour6), end=' ')
    print('\u2551', end=' ')  
-   print(' '*27 + '\u2551', end=' ')						#    
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[9]:
       print(colored(ADDR[9],colour3), end=' ')
    else:
@@ -348,7 +348,7 @@ def dispMenu():
    else:
       print(colored(ARC[:COL1],colour6), end=' ')
    print('\u2551', end=' ')  
-   print(' '*27 + '\u2551', end=' ')						# 
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[10]:
       print(colored(ADDR[10],colour3), end=' ')
    else:
@@ -363,7 +363,7 @@ def dispMenu():
    else:
       print(colored(IND,colour6), end=' ')
    print('\u2551', end=' ')   
-   print(' '*27 + '\u2551', end=' ')						#   
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[11]:
       print(colored(ADDR[11],colour3), end=' ')
    else:
@@ -378,7 +378,7 @@ def dispMenu():
    else:
       print(colored(SRT[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
-   print(' '*27 + '\u2551', end=' ')						#
+   print("RESERVED  " + ' '*17 + '\u2551', end=' ')						# 
    if SRT.rstrip(" ") in ADDR[12]:
       print(colored(ADDR[12],colour3), end=' ')
    else:
@@ -393,16 +393,16 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) ACCUMULATOR (11) FILE  FORMAT (21) Read FilHead (31) GDB Interface (41) HEX Editor (51)            " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(02) BASE        (12) ARCHITECTURE (22) Read Objects (32) CreatePattern (42) GHIDRA     (52)            " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(03) COUNTER     (13) INDIAN  TYPE (23) Read Section (33) Initiate File (43)            (53)            " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
-   print('\u2551' + "(04) DATA        (14) MAIN ADDRESS (24) Read Headers (34) Find SegFault (44)            (54)            " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(05) SOURCE      (15) Mode  Static (25) Read Execute (35) Disassem MAIN (45)            (55)            " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(06) DESTINATION (16) Mode Dynamic (26) Read DBugInf (36) Disassm  ADDR (46)            (56)            " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(07) STACK POINT (17) Examine File (27) Read Intamix (37) Disassem FUNC (47)            (57)            " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(08) BASE  POINT (18) CheckSecFile (28) Read Symbols (38)               (48)            (58)            " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(09) BUFF OFFSET (19) ListFunction (29) Read StabDat (39)               (49)            (59) Reset      " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
-   print('\u2551' + "(10) FILENAME    (20) List Gadgets (30) Read HexForm (40)               (50)            (60) Exit       " + '\u2551', end=' ')
+   print('\u2551' + "(01) ACCUMULATOR (11) FILE  FORMAT (21) Read FilHead (31) G.D.B. Interface (41) HEX Editor (51)         " + '\u2551', end=' '); print(colored(GADD[14],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(02) BASE        (12) ARCHITECTURE (22) Read Objects (32) Create   Pattern (42) GHIDRA     (52)         " + '\u2551', end=' '); print(colored(GADD[15],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(03) COUNTER     (13) INDIAN  TYPE (23) Read Section (33) Initiate    File (43)            (53)         " + '\u2551', end=' '); print(colored(GADD[16],colour6), end=' '); print('\u2551')  
+   print('\u2551' + "(04) DATA        (14) MAIN ADDRESS (24) Read Headers (34) Locate Seg-Fault (44)            (54)         " + '\u2551', end=' '); print(colored(GADD[17],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(05) SOURCE      (15) Mode  Static (25) Read Execute (35) Disassemble MAIN (45)            (55)         " + '\u2551', end=' '); print(colored(GADD[18],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(06) DESTINATION (16) Mode Dynamic (26) Read DBugInf (36) Disassemble ADDR (46)            (56)         " + '\u2551', end=' '); print(colored(GADD[19],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(07) STACK POINT (17) Examine File (27) Read Intamix (37) Disassemble FUNC (47)            (57)         " + '\u2551', end=' '); print(colored(GADD[20],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(08) BASE  POINT (18) CheckSecFile (28) Read Symbols (38) Mac OS Shellcode (48)            (58)         " + '\u2551', end=' '); print(colored(GADD[21],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(09) BUFF OFFSET (19) ListFunction (29) Read StabDat (39) Linux  ShellCode (49)            (59) Reset   " + '\u2551', end=' '); print(colored(GADD[22],colour6), end=' '); print('\u2551')
+   print('\u2551' + "(10) FILENAME    (20) List Gadgets (30) Read HexForm (40) Window ShellCode (50)            (60) Exit    " + '\u2551', end=' ')
    if GADD[24] != "":
       print(colored(GADD[23],colour0), end=' '); print('\u2551')   
    else:
@@ -1009,19 +1009,21 @@ while True:
          print("If PIE is enabled, then the programs memory locations will not stay the same...")
          print("If RWX has segments, then these are writeable and executable at the same time...")
                   
-         RE = " Enabled            "
+         RE = " Partial RELRO      "	# ENABLE ALL
          ST = " Enabled            "
-         FO = " Enabled            "
-         NX = " Enabled            "
+         FO = " Unknown            "
+         NX = " NX enabled         "
          PI = " Enabled            "
-         RW = " Enabled            "
+         RW = " Has RWX segments   "
          
          count = lineCount("checksec.tmp")         
          for x in range(0, count):
             binary = linecache.getline("checksec.tmp", x)
 
-            if "No RELRO" in binary:
-               RE = " No RELRO           "               
+            if "No RELRO" in binary:		# DISABLE SPECIFIC
+               RE = " No RELRO           "
+            if "Partial RELRO" in binary:
+               RE = " Partial RELRO      "               
             if "No canary found" in binary:
                ST = " No canary found    "
             if "No Fortify" in binary:
@@ -1048,7 +1050,7 @@ while True:
          print("[-] Filename not specified...")
       else:         
          print(colored("[*] Examining filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("gdb -batch -ex 'file " + powrDir + "/" + FIL.rstrip(" ") + "' -ex 'info functions' > gadgets.tmp")
+         command("gdb -q -batch -ex 'file " + powrDir + "/" + FIL.rstrip(" ") + "' -ex 'info functions' > gadgets.tmp")
          parsFile("gadgets.tmp")
          catsFile("gadgets.tmp")
          command("sed -i '/0x/!d' ./gadgets.tmp")
@@ -1263,7 +1265,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : LARX                                                            
-# Details : Menu option selected - gdb fileName
+# Details : Menu option selected - gdb -q fileName
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -1272,7 +1274,7 @@ while True:
          print("[-] Filename not specified...")
       else:
          print(colored("[*] Editing filename " + powrDir + "/" + FIL.rstrip(" ") + "...", colour3))
-         command("gdb " + powrDir + "/" + FIL.rstrip(" "))
+         command("gdb -q " + powrDir + "/" + FIL.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1340,7 +1342,8 @@ while True:
       command("echo 'break main' > command.tmp")
       command("echo 'run' >> command.tmp")
       command("echo 'disassemble' >> command.tmp")
-      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("echo 'quit' >> command.tmp")
+      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1356,7 +1359,8 @@ while True:
       command("echo 'break main' > command.tmp")
       command("echo 'run' >> command.tmp")
       command("echo 'disassemble " + address.rstrip(" ") + "' >> command.tmp")
-      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("echo 'quit' >> command.tmp")      
+      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1372,8 +1376,24 @@ while True:
       command("echo 'break main' > command.tmp")
       command("echo 'run' >> command.tmp")
       command("echo 'disassemble /m " + function.rstrip(" ") + "' >> command.tmp")
-      command("gdb " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
+      command("echo 'quit' >> command.tmp")
+      command("gdb -q " + powrDir + "/" + FIL.rstrip(" ") +" -x command.tmp")
       prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : LARX                                                            
+# Details : Menu option selected - Shell code for linux
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '39':   
+      print(colored("[*] Generic shellcode...", colour3))
+      command("msfvenom -p linux/x86/exec CMD=/bin/sh -f py")
+      print("")
+      command("msfvenom -p linux/x64/exec CMD=/bin/sh -f py")
+      prompt()  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1405,7 +1425,7 @@ while True:
       else:
          print(colored("[*] Ghidra has been initiated...", colour3))          
          command("/opt/ghidra_9.2.2_PUBLIC/ghidraRun ./analyzeHeadless ./" + powrDir + " -import " + powrDir + "/" + FIL.rstrip(" ") + " > boot.tmp 2>&1")
-      prompt() 
+      prompt()    
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
