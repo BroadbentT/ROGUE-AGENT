@@ -9,7 +9,7 @@
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Load required imports.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ from termcolor import colored
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -413,7 +413,7 @@ def options():
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : START OF MAIN - Check running as root.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -429,7 +429,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Create local user-friendly variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -459,7 +459,7 @@ powrDir = "LARX"
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Check the local interface specified above is up.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -477,7 +477,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Connect to local database
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -492,7 +492,7 @@ else:
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Display program banner and boot system.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -506,7 +506,7 @@ print("[+] Using localhost IP address " + localIP + "...")
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Initialise program files and variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -564,7 +564,7 @@ RW = " EMPTY              "
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Check the database for stored variables.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -619,7 +619,7 @@ SRT = spacePadding(SRT, COL1)
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Check other files for stored variables.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -635,7 +635,7 @@ time.sleep(5)
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Start the main menu controller.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
@@ -653,7 +653,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Secret option that ...
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -664,7 +664,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RAX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -681,7 +681,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RBX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -698,7 +698,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RCX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -715,7 +715,7 @@ while True:
  # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RDX VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -732,7 +732,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RSI VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -749,7 +749,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RDI VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -766,7 +766,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RSP VALUE
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -783,7 +783,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RBP VALUE 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -800,7 +800,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - OFFSET 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -817,7 +817,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - 
 # Details : Menu option selected - Name fileName.
 # Modified: N/A
@@ -846,7 +846,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - File format. 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -863,7 +863,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Architecture
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -880,7 +880,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Indian value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -897,7 +897,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Start value
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
@@ -914,7 +914,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - chmod +x fileMame.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -930,7 +930,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - chmod +x fileMame.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -946,7 +946,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Change remote IP address.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -988,7 +988,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Checksec fileName.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1038,7 +1038,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - ObjDUmp
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1061,7 +1061,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Gadgets
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1083,7 +1083,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - File headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1109,7 +1109,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Object headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1126,7 +1126,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Section headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1143,7 +1143,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - All Headers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1160,7 +1160,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Executable section
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1177,7 +1177,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Debug information.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1194,7 +1194,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Debug + code intermix
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1211,7 +1211,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Symbols
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1228,7 +1228,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Stabs
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1245,7 +1245,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Hexform
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1262,7 +1262,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - gdb fileName
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1278,7 +1278,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - MSF pattern create.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1295,7 +1295,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Run fileName.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1311,7 +1311,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - MSF patter finder
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1331,7 +1331,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Disassemble MAIN.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1346,7 +1346,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Disassemble main address.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1362,7 +1362,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Disassemble a function.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1378,7 +1378,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Hex Editor.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1394,7 +1394,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Start ghidra.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1410,7 +1410,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - RESET
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1447,7 +1447,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Save running config to config.txt and exit program
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1462,7 +1462,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : LARX                                                             
+# Version : JASON BOURNE                                                            
 # Details : Menu option selected - Secret option
 # Modified: N/A
 # -------------------------------------------------------------------------------------
