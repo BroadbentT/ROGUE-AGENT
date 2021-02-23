@@ -1569,18 +1569,10 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '16':
-      checkParams = test_TIP()      
-      if checkParams != 1:
-         if POR[:5] != "EMPTY":
-            print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
-            if "500" in PTS:
-               remotCOM("ike-scan -M " + TIP.rstrip(" "))
-         else:
-            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remotCOM("nmap " + IP46 + " -sT -sU -Pn " + TIP.rstrip(" "))
-            if "500" in PTS:
-               remotCOM("ike-scan -M " + TIP.rstrip(" "))
+      PTS = checkPorts(PTS, POR)
+      POR = spacePadding(PTS, COL1)      
+      squidCheck()
+      SKEW = timeSync(SKEW)
       prompt()
 
 # ------------------------------------------------------------------------------------- 
