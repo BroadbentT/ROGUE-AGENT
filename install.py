@@ -271,7 +271,20 @@ else:
    os.system("unzip ghidra_9.2.2_PUBLIC_20201229.zip >> log.txt 2>&1")
    os.system("mv ghidra_9.2.2_PUBLIC /opt/ghidra_9.2.2_PUBLIC >> log.txt 2>&1")
    if os.path.exists("ghidra_9.2.2_PUBLIC_20201229.zip"):
-      shutil.rmtree("ghidra_9.2.2_PUBLIC_20201229.zip")
+      shutil.rmtree("ghidra_9.2.2_PUBLIC_20201229.zip")      
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Setup volatility
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+os.system("wget http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_lin64_standalone.zip -O /opt/volatility_2.6_lin64_standalone.zip")
+os.system("unzip /opt/volatility_2.6_lin64_standalone.zip")
+if os.path.exists("/opt/volatility_2.6_lin64_standalone.zip"):
+   shutil.rmtree("/opt/volatility_2.6_lin64_standalone.zip")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -280,6 +293,7 @@ else:
 # Details : Activate database and configure proxychains.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
+
 
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")

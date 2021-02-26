@@ -77,6 +77,8 @@ def parFile(variable):
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
+os.system("xdotool key Alt+Shift+S; xdotool type 'BLACKBRIAR'; xdotool key Return")
+
 COL1 = 19
 COL2 = 18
 COL3 = 26
@@ -147,7 +149,7 @@ if not os.path.exists('WORKAREA'):
 
 profiles = "NOT FOUND"
 
-os.system("vol.py imageinfo -f '" + fileName + "' > image.log")
+os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone imageinfo -f '" + fileName + "' > image.log")
 parFile("image.log")
 
 with open("image.log") as search:
@@ -214,7 +216,7 @@ DA2 = padding(DA2, COL1)
 # Grab hive information if available.
 #-------------------------------------------------------------------------------------
 
-os.system("vol.py -f '" + fileName + "'" + PRO + " hivelist > hivelist.txt")
+os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivelist > hivelist.txt")
 parFile("hivelist.txt")
 with open("hivelist.txt") as search:
    for line in search:
@@ -251,7 +253,7 @@ os.remove("hivelist.txt")
 # Grab host name if avialable.
 #-------------------------------------------------------------------------------------
 
-os.system("vol.py -f '" + fileName + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' > host.txt")
+os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' > host.txt")
 parFile("host.txt")
 with open("host.txt") as search:
    wordlist = (list(search)[-1])
@@ -271,7 +273,7 @@ os.remove('host.txt')
 # Grab user information if available.
 #-------------------------------------------------------------------------------------
 
-os.system("vol.py hashdump -f '" + fileName + "'" + PRO + " -y " + SYS + " -s " + SAM + " >> hash.txt")
+os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone hashdump -f '" + fileName + "'" + PRO + " -y " + SYS + " -s " + SAM + " >> hash.txt")
 parFile("hash.txt")
 with open("hash.txt") as search:
    count = 0
@@ -291,7 +293,7 @@ os.remove("hash.txt")
 # Grab local IP if alvailable.
 #-------------------------------------------------------------------------------------
 
-os.system("vol.py -f '" + fileName + "'" + PRO + " connscan > connscan.txt")
+os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " connscan > connscan.txt")
 parFile("connscan.txt")
 os.system("sed '1d' connscan.txt > conn1.txt")
 os.system("sed '1d' conn1.txt > connscan.txt")
@@ -692,7 +694,7 @@ while True:
       if SAM == "0x0000000000000000":
          print(colored("SAM HIVE missing - its not possible to extract the hashes...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " > sam.tmp")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " > sam.tmp")
          parFile("sam.tmp")
          catFile("sam.tmp")
       input("\nPress ENTER to continue...")
@@ -706,7 +708,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '11':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " lsadump | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " lsadump | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -718,8 +720,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '12':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " psscan | more")
-      os.system("vol.py -f '" + fileName + "'" + PRO + " psscan --output greptext > F1.txt")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psscan --output greptext > F1.txt")
       os.system("tail -n +2 F1.txt > F2.txt")
       os.system("sed -i 's/>//g' F2.txt")
       with open("F2.txt") as read1:
@@ -778,7 +780,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " psxview | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psxview | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -790,7 +792,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '14':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " svcscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " svcscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -802,7 +804,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '15':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " cmdscan")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " cmdscan")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -814,7 +816,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '16':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " consoles")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " consoles")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -826,7 +828,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '17':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " cmdline")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " cmdline")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -838,7 +840,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '18':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " userassist")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " userassist")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -850,7 +852,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '19':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " hivelist")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivelist")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -865,7 +867,7 @@ while True:
       if (SAM == "0x0000000000000000"):
          print(colored("SAM Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + SAM + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SAM + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -880,7 +882,7 @@ while True:
       if (SEC == "0x0000000000000000"):
          print(colored("SECURITY Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f " + fileName + PRO + " hivedump -o " + SEC + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f " + fileName + PRO + " hivedump -o " + SEC + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -895,7 +897,7 @@ while True:
       if (COM == "0x0000000000000000"):
          print(colored("COMPONENTS Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + COM + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + COM + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -910,7 +912,7 @@ while True:
       if (SOF == "0x0000000000000000"):
          print(colored("SOFTWARE Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + SOF + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SOF + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -925,7 +927,7 @@ while True:
       if (SYS == "0x0000000000000000"):
          print(colored("SYSTEM Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + SYS + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SYS + " | more")
       input("\nPress ENTER to continue...")    
 
 # ------------------------------------------------------------------------------------- 
@@ -940,7 +942,7 @@ while True:
       if (NTU == "0x0000000000000000"):
          print(colored("NTUSER (Administrator) Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + NTU + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + NTU + " | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
@@ -955,7 +957,7 @@ while True:
       if (HRD == "0x0000000000000000"):
          print(colored("HARDWARE Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + HRD + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + HRD + " | more")
       input("\nPress ENTER to continue...")     
 
 # ------------------------------------------------------------------------------------- 
@@ -970,7 +972,7 @@ while True:
       if (DEF == "0x0000000000000000"):
          print(colored("DEFUALT Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + DEF + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + DEF + " | more")
       input("\nPress ENTER to continue...")   
 
 # ------------------------------------------------------------------------------------- 
@@ -985,7 +987,7 @@ while True:
       if (BCD == "0x0000000000000000"):
          print(colored("BOOT BCD Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + BCD + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + BCD + " | more")
       input("\nPress ENTER to continue...")   
 
 # ------------------------------------------------------------------------------------- 
@@ -1000,7 +1002,7 @@ while True:
       if (CUS == "0x0000000000000000"):
          print(colored(NAM + " missing - it is not possible to extract data...",colour2))
       else:
-         os.system("vol.py -f '" + fileName + "'" + PRO + " hivedump -o " + CUS + " | more")
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + CUS + " | more")
       input("\nPress ENTER to continue...")  
 
 # ------------------------------------------------------------------------------------- 
@@ -1144,7 +1146,7 @@ while True:
    if selection =='40':
       KEY = input("Please enter the key value in quotes: ")
       if KEY != "":
-         os.system("vol.py -f '" + fileName + "'" + PRO + " printkey -K " + KEY)
+         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " printkey -K " + KEY)
          input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1156,7 +1158,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='41':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " shellbags | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shellbags | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1168,7 +1170,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='42':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " shimcache | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shimcache | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1180,7 +1182,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='43':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " connscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " connscan | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
@@ -1192,7 +1194,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='44':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " netscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " netscan | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
@@ -1204,7 +1206,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='45':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " sockets | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " sockets | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
@@ -1216,7 +1218,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='46':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " mutantscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " mutantscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1228,7 +1230,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='47':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " dlllist | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " dlllist | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1240,7 +1242,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='48':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " sessions | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " sessions | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1252,8 +1254,8 @@ while True:
 # ------------------------------------------------------------------------------------- 
    
    if selection =='49':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " pslist | grep " + PRM)
-      os.system("vol.py -f '" + fileName + "'" + PRO + " filescan | grep " + PRM)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " pslist | grep " + PRM)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " filescan | grep " + PRM)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1265,7 +1267,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='50':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " deskscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " deskscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1277,7 +1279,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='51':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " clipboard | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " clipboard | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1289,7 +1291,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='52':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " notepad | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " notepad | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1301,7 +1303,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='53':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " iehistory | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " iehistory | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1313,7 +1315,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='54':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " filescan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " filescan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1325,7 +1327,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='55':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " symlinkscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " symlinkscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1337,8 +1339,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='56':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " devicetree | more")
-      os.system("vol.py -f '" + fileName + "'" + PRO + " driverscan | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " devicetree | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " driverscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1350,7 +1352,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='57':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " getsids | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " getsids | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1362,7 +1364,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='58':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " envars | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " envars | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1374,9 +1376,9 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='59':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " truecryptsummary | more")
-      os.system("vol.py -f '" + fileName + "'" + PRO + " truecryptmaster | more")
-      os.system("vol.py -f '" + fileName + "'" + PRO + " truecryptpassphrase | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptsummary | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptmaster | more")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptpassphrase | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1388,7 +1390,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='60':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " malfind -p " + PI1 + " -D " + DIR)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " malfind -p " + PI1 + " -D " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1400,7 +1402,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='61':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " vaddump -p " + PI1 + " --dump-dir " + DIR)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " vaddump -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1412,7 +1414,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='62':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " procdump  -p " + PI1 + " --dump-dir " + DIR)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " procdump  -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1424,7 +1426,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='63':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " memdump  -p " + PI1 + " --dump-dir " + DIR)
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " memdump  -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1436,7 +1438,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='64':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " dumpfiles -Q " + OFF + " -D " + DIR + " -u -n")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " dumpfiles -Q " + OFF + " -D " + DIR + " -u -n")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1448,8 +1450,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='65':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " timeliner --output-file timeline.txt")
-      os.system("vol.py -f '" + fileName + "'" + PRO + " shellbags --output-file time.txt")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " timeliner --output-file timeline.txt")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shellbags --output-file time.txt")
       print("A timeline has sucessfully been exported...")
       input("\nPress ENTER to continue...")
 
@@ -1462,7 +1464,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " -D " + DIR + " screenshot")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " -D " + DIR + " screenshot")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
@@ -1474,7 +1476,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      os.system("vol.py -f '" + fileName + "'" + PRO + " mftparser --output-file mfttable.txt")
+      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " mftparser --output-file mfttable.txt")
       print("The MFT has sucessfully been exported to mfttable.txt...")
       os.system("strings mfttable.txt | grep '0000000000:' > count.txt")
       fileNum = sum(1 for line in open('count.txt'))
