@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding:UTF-8
 
 # -------------------------------------------------------------------------------------
@@ -8,16 +8,19 @@
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar                                                                
+# CONTRACT: Reminiscent
+# Version : 1.0                                                                
 # Details : Load required imports.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
 import os
 import sys
+import time
 import shutil
 import os.path
+import datetime
+import pyfiglet
 import fileinput
 import linecache
 import subprocess
@@ -26,8 +29,8 @@ from termcolor import colored					# pip install termcolor
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar                                                                
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0                                                                
 # Details : Conduct simple and routine tests on user supplied arguements.   
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -36,48 +39,44 @@ if os.geteuid() != 0:
     print("\nPlease run this python script as root...")
     exit(True)
 
-if len(sys.argv) < 2:
-    print("\nUse the command python memory_master.py memorydump.ram\n")
-    exit(True)
-
-fileName = sys.argv[1]
-
-if os.path.exists(fileName) == 0:
-    print("\nFile " + fileName + " was not found, did you spell it correctly?")
-    exit(True)
-
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0
 # Details : Create function calls from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-def padding(variable,value):
+def spacePadding(variable,value):
    while len(variable) < value:
       variable += " "
    return variable
-
-def rpadding(variable,value):
-   while len(variable) < value:
-      temp = variable
-      variable = "." + temp
-   return variable
    
-def parFile(variable):
-   os.system("sed -i '/Failed/d' ./" + variable)
+def getTime():
+   variable = str(datetime.datetime.now().time())
+   variable = variable.split(".")
+   variable = variable[0]
+   variable = variable.split(":")
+   variable = variable[0] + ":" + variable[1]
+   variable = spacePadding(variable, COL1)
+   return variable 
+   
+def dispBanner(variable,flash):
+   ascii_banner = pyfiglet.figlet_format(variable).upper()
+   ascii_banner = ascii_banner.rstrip("\n")
+   if flash == 1:
+      os.system("clear")
+      print(colored(ascii_banner,colour0, attrs=['bold']))
+   os.system("pyfiglet " + variable + " > banner.tmp")
    return
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar
-# Details : Initialise program variables.
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0
+# Details : Initialise universal program variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
-
-os.system("xdotool key Alt+Shift+S; xdotool type 'BLACKBRIAR'; xdotool key Return")
 
 COL1 = 19
 COL2 = 18
@@ -85,6 +84,8 @@ COL3 = 26
 COL4 = 32
 MAN1 = 0
 MAN2 = 0
+MAXX = 11
+
 PRO  = "UNSELECTED         "
 PR2  = "UNSELECTED         "
 DA1  = "NOT FOUND          "
@@ -103,37 +104,46 @@ HRD = "0x0000000000000000"
 DEF = "0x0000000000000000"
 BCD = "0x0000000000000000"
 CUS = "0x0000000000000000"
-NAM = "CUSTOM   "
-HST = "BLANK              "
+C = "CUSTOM   "
+HST = "UNKNOWN            "
 PRC = "0                  "
 SVP = "0                  "
 DA2 = "NOT FOUND          "
 HIP = "000.000.000.000    "
 POR = "000                "
-MAX = 11 				# Display 0 - 9 users and >=10 triggers 9 to be displayed red.
+
 X1 = " "*COL3
 X2 = " "*COL4
-US = [X1]*MAX
-PA = [X2]*MAX
 
-colour1 = 'yellow'
-colour2 = 'green'
-colour3 = 'white'
+US = [X1]*MAXX
+PA = [X2]*MAXX
+
+colour1 = 'green'
+colour2 = 'yellow'
+
+volpath = "/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar                                                                
+# CONTRACT: Reminiscent
+# Version : 1.0                                                                
 # Details : Display universal header.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
 os.system("clear")
+print(" ____      _    __  __    __  __    _    ____ _____ _____ ____    ")
+print("|  _ \    / \  |  \/  |  |  \/  |  / \  / ___|_   _| ____|  _ \   ")
+print("| |_) |  / _ \ | |\/| |  | |\/| | / _ \ \___ \ | | |  _| | |_) |  ")
+print("|  _ <  / ___ \| |  | |  | |  | |/ ___ \ ___) || | | |___|  _ <   ")
+print("|_| \_\/_/   \_\_|  |_|  |_|  |_/_/   \_\____/ |_| |_____|_| \_\  ")
+print("                                                                  ")
+print("BY TERENCE BROADBENT MSc DIGITAL FORENSICS & CYBERCRIME ANALYSIS\n")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0
 # Details : Boot the system and populate program variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -143,194 +153,28 @@ print("Booting - Please wait...\n")
 if not os.path.exists('WORKAREA'):
    os.mkdir("WORKAREA")
 
-# -------------------------------------------------------------------------------------
-# Grab image information.
-# -------------------------------------------------------------------------------------
-
-profiles = "NOT FOUND"
-
-os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone imageinfo -f '" + fileName + "' > image.log")
-parFile("image.log")
-
-with open("image.log") as search:
-   for line in search:
-      if "Suggested Profile(s) :" in line:
-         profiles = line
-      if "Number of Processors" in line:
-         PRC = line
-      if "Image Type (Service Pack) :" in line:
-         SVP = line
-      if "Image date and time :" in line:
-         DA1 = line
-      if "Image local date and time :" in line:
-         DA2 = line
-
-if profiles == "NOT FOUND":
-   print("ERROR #001 - A windows profile was not found, see 'image.log' for further information.")
-   exit(True)
-   
-#-------------------------------------------------------------------------------------
-# Now search for appropriate profile.
-#-------------------------------------------------------------------------------------
-
-profiles = profiles.replace("Suggested Profile(s) :","")
-profiles = profiles.replace(" ","")
-profiles = profiles.split(",")
-PRO = " --profile " + profiles[0]
-PR2 = profiles[0]
-if (PR2[:1] == "W") or (PR2[:1] == "V"):
-   PR2 = padding(PR2,COL1)
-   os.remove("image.log")
-else:
-   print("ERROR #002- A windows profile was not found, see 'image.log' for further information.")
-   exit(True)
-
-#-------------------------------------------------------------------------------------
-# Find number of processors, service pack details, creation and local dates and times.
-#-------------------------------------------------------------------------------------
-
-PRC = PRC.replace("Number of Processors :","")
-PRC = PRC.replace(" ","")
-PRC = PRC.replace("\n","")
-PRC = padding(PRC, COL3)
-
-SVP = SVP.replace("Image Type (Service Pack) :","")
-SVP = SVP.replace(" ","")
-SVP = SVP.replace("\n","")
-SVP = padding(SVP, COL1)
-
-DA1 = DA1.replace("Image date and time :","")
-DA1 = DA1.lstrip()
-DA1 = DA1.rstrip("\n")
-a,b,c = DA1.split()
-DA1 = a + " @ " + b
-
-DA2 = DA2.replace("Image local date and time :","")
-DA2 = DA2.lstrip()
-DA2 = DA2.rstrip("\n")
-a,b,c = DA2.split()
-DA2 = a + " " + b
-DA2 = padding(DA2, COL1)
-
-#-------------------------------------------------------------------------------------
-# Grab hive information if available.
-#-------------------------------------------------------------------------------------
-
-os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivelist > hivelist.txt")
-parFile("hivelist.txt")
-with open("hivelist.txt") as search:
-   for line in search:
-      if "\sam" in line.lower():
-         SAM = line.split(None, 1)[0]
-         SAM = padding(SAM, COL2)
-      if "\security" in line.lower():
-         SEC = line.split(None, 1)[0]
-         SEC = padding(SEC, COL2)
-      if "\software" in line.lower():
-         SOF = line.split(None, 1)[0]
-         SOF = padding(SOF, COL2)
-      if "\system" in line.lower():
-         SYS = line.split(None, 1)[0]
-         SYS = padding(SYS, COL2)
-      if "\components" in line.lower():
-         COM = line.split(None, 1)[0]
-         COM = padding(SYS, COL2)
-      if "\\administrator\\ntuser.dat" in line.lower(): # \Administrator\NTUSER.DAT as there are usually multiple NTUSERS files. 
-         NTU = line.split(None, 1)[0]
-         NTU = padding(SYS, COL2)
-      if "\hardware" in line.lower():
-         HRD = line.split(None,1)[0]
-         HRD = padding(HRD, COL2)
-      if "\default" in line.lower():
-         DEF = line.split(None,1)[0]
-         DEF = padding(DEF, COL2)
-      if "\\bcd" in line.lower():
-         BCD = line.split(None,1)[0]
-         BCD = padding(BCD, COL2)
-os.remove("hivelist.txt")
-
-#-------------------------------------------------------------------------------------
-# Grab host name if avialable.
-#-------------------------------------------------------------------------------------
-
-os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' > host.txt")
-parFile("host.txt")
-with open("host.txt") as search:
-   wordlist = (list(search)[-1])
-wordlist = wordlist.split()
-HST = str(wordlist[-1])
-if HST == "searched":					# Looks like a host name has not been found.
-   HST = "NOT FOUND          "				# So set a defualt value.
-else:
-   HST = HST.encode(encoding='UTF-8',errors='strict')	# Deal with a encoding issue with hostname.
-   HST = str(HST)
-   HST = HST.replace("b'","")
-   HST = HST.replace("\\x00'","")
-   HST = padding(HST, COL1)
-os.remove('host.txt')
-
-#-------------------------------------------------------------------------------------
-# Grab user information if available.
-#-------------------------------------------------------------------------------------
-
-os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone hashdump -f '" + fileName + "'" + PRO + " -y " + SYS + " -s " + SAM + " >> hash.txt")
-parFile("hash.txt")
-with open("hash.txt") as search:
-   count = 0
-   for line in search:
-      if line != "":
-         catch = line.replace(":"," ")
-         catch2 = catch.split()
-         catch3 = catch2[3]
-         PA[count] = catch3
-         US[count] = catch2[0][:COL3-1] + " "
-         US[count] = rpadding(US[count], COL3)
-         count = count + 1				# 0 - 9 Users
-         if count > MAX: count = MAX			# 10 - Maximum threshold reached for user display.
-os.remove("hash.txt")
-
-#-------------------------------------------------------------------------------------
-# Grab local IP if alvailable.
-#-------------------------------------------------------------------------------------
-
-os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " connscan > connscan.txt")
-parFile("connscan.txt")
-os.system("sed '1d' connscan.txt > conn1.txt")
-os.system("sed '1d' conn1.txt > connscan.txt")
-os.remove("conn1.txt")
-os.system("cut -f 2 -d ' ' connscan.txt > conn1.txt")
-os.system("strings conn1.txt | sort | uniq -c | sort -nr > connscan.txt")
-os.system("sed '1d' conn1.txt > connscan.txt")
-getip = linecache.getline('connscan.txt', 1)
-if getip != "":
-   getip = getip.split()
-   getip = getip[0].replace(':',' ')  
-   HIP = getip.rsplit(' ', 1)[0]
-   POR = getip.rsplit(' ', 1)[1]
-   HIP = padding(HIP, COL1)
-   POR = padding(POR, COL1)
-os.remove('connscan.txt')
-os.remove('conn1.txt')
+LTM = getTime()
+os.system("xdotool key Alt+Shift+S; xdotool type 'BLACK BRIAR'; xdotool key Return")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0
 # Details : Build the top half of the screen display as a function call.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
 def Display():
-   print('\u2554' + ('\u2550')*36 + '\u2566' + ('\u2550')*33 + '\u2566' + ('\u2550')*61 + '\u2557')
-   print('\u2551' + (" ")*15 + colored("SYSTEM",colour3) +  (" ")*15 + '\u2551' + (" ")*10 + colored("SYSTEM HIVES",colour3) + (" ")*11 + '\u2551' + (" ")*24 +  colored("USER INFORMATION",colour3) + (" ")*21 + '\u2551') 
-   print('\u2560' + ('\u2550')*14 + '\u2564' + ('\u2550')*21 + '\u256C' + ('\u2550')*12 + '\u2564' + ('\u2550')*20 + '\u256C' + ('\u2550')*61 + '\u2563')
+   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*21 + '\u2566' + ('\u2550')*33 + '\u2566' + ('\u2550')*61 + '\u2557')
+   print('\u2551' + " TIME   " + colored(LTM[:6],colour1) + '\u2551' + " HOST DATA " +  (" ")*10 + '\u2551' + " HIVE         OFFSET LOCATION    "  + '\u2551' + " USERNAME " + " "*17 + " NTFS PASSWORD HASH " + " "*14 + '\u2551') 
+   print('\u2560' + '\u2550'*14 + '\u256C' + '\u2550'*21 + '\u256C' + '\u2550'*12 + '\u2566' + '\u2550'*20 + '\u256C' + '\u2550'*61 + '\u2563')
    
-   print('\u2551' + " PROFILE      " + '\u2502', end=' ')
+   print('\u2551' + " PROFILE      " + '\u2551', end=' ')
    if PR2 == "UNSELECTED         ":
       print(colored(PR2,colour2), end=' ')
    else:
       print(colored(PR2,colour1), end=' ')
-   print('\u2551' + " SAM        " + '\u2502', end=' ')
+   print('\u2551' + " SAM        " + '\u2551', end=' ')
    if SAM == "0x0000000000000000":
       print(colored(SAM,colour2), end=' ')
    else:
@@ -340,12 +184,12 @@ def Display():
    print(colored(PA[0],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " HOST NAME    " + '\u2502', end=' ')
+   print('\u2551' + " HOST NAME    " + '\u2551', end=' ')
    if HST == "NOT FOUND          ":
       print(colored(HST[:20],colour2), end=' ')
    else:
       print(colored(HST[:20],colour1), end=' ')
-   print('\u2551' + " SECURITY   " + '\u2502', end=' ')
+   print('\u2551' + " SECURITY   " + '\u2551', end=' ')
    if SEC == "0x0000000000000000":
       print(colored(SEC,colour2), end=' ')
    else:
@@ -355,12 +199,12 @@ def Display():
    print(colored(PA[1],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " SERVICE PACK " + '\u2502', end=' ')
+   print('\u2551' + " SERVICE PACK " + '\u2551', end=' ')
    if SVP == "0                  ":
       print(colored(SVP,colour2), end=' ')
    else:
       print(colored(SVP,colour1), end=' ')
-   print('\u2551' + " COMPONENTS " + '\u2502', end=' ')
+   print('\u2551' + " COMPONENTS " + '\u2551', end=' ')
    if COM == "0x0000000000000000":
       print(colored(COM,colour2), end=' ')
    else:
@@ -370,12 +214,12 @@ def Display():
    print(colored(PA[2],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " TIME STAMP   " + '\u2502', end=' ')
+   print('\u2551' + " TIME STAMP   " + '\u2551', end=' ')
    if DA2 == "NOT FOUND          ":
       print(colored(DA2,colour2), end=' ')
    else:
       print(colored(DA2,colour1), end=' ')
-   print('\u2551' + " SOFTWARE   " + '\u2502', end=' ')
+   print('\u2551' + " SOFTWARE   " + '\u2551', end=' ')
    if SOF == "0x0000000000000000":
       print(colored(SOF,colour2), end=' ')
    else:
@@ -385,12 +229,12 @@ def Display():
    print(colored(PA[3],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " LOCAL IP     " + '\u2502', end=' ')
+   print('\u2551' + " LOCAL IP     " + '\u2551', end=' ')
    if HIP == "000.000.000.000    ":
       print(colored(HIP[:COL1],colour2), end=' ')
    else:
       print(colored(HIP[:COL1],colour1), end=' ')
-   print('\u2551' + " SYSTEM     " + '\u2502', end=' ')
+   print('\u2551' + " SYSTEM     " + '\u2551', end=' ')
    if SYS == "0x0000000000000000":
       print(colored(SYS,colour2), end=' ')
    else:
@@ -400,12 +244,12 @@ def Display():
    print(colored(PA[4],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " LOCAL PORT   " + '\u2502', end=' ')
+   print('\u2551' + " LOCAL PORT   " + '\u2551', end=' ')
    if POR == "000                ":
       print(colored(POR[:COL1],colour2), end=' ')
    else:
       print(colored(POR[:COL1],colour1), end=' ')
-   print('\u2551' + " NTUSER     " + '\u2502', end=' ')
+   print('\u2551' + " NTUSER     " + '\u2551', end=' ')
    if NTU == "0x0000000000000000":
       print(colored(NTU,colour2), end=' ')
    else:
@@ -415,12 +259,12 @@ def Display():
    print(colored(PA[5],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " PID VALUE    " + '\u2502', end=' ')
+   print('\u2551' + " PID VALUE    " + '\u2551', end=' ')
    if PI1 == "0                  ":
       print(colored(PI1[:COL1],colour2), end=' ')
    else:
       print(colored(PI1[:COL1],'yellow'), end=' ')
-   print('\u2551' + " HARDWARE   " + '\u2502', end=' ')
+   print('\u2551' + " HARDWARE   " + '\u2551', end=' ')
    if HRD == "0x0000000000000000":
       print(colored(HRD,colour2), end=' ')
    else:
@@ -430,12 +274,12 @@ def Display():
    print(colored(PA[6],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " OFFSET VALUE " + '\u2502', end=' ')
+   print('\u2551' + " OFFSET VALUE " + '\u2551', end=' ')
    if OFF == "0                  ":
       print(colored(OFF[:COL1],colour2), end=' ')
    else:
       print(colored(OFF[:COL1],'yellow'), end=' ')
-   print('\u2551' + " DEFUALT    " + '\u2502', end=' ')
+   print('\u2551' + " DEFUALT    " + '\u2551', end=' ')
    if DEF == "0x0000000000000000":
       print(colored(DEF,colour2), end=' ')
    else:
@@ -445,12 +289,12 @@ def Display():
    print(colored(PA[7],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " PARAMETER    " + '\u2502', end=' ')
+   print('\u2551' + " PARAMETER    " + '\u2551', end=' ')
    if PRM == "UNSELECTED         ":
       print(colored(PRM[:COL1],colour2), end=' ')
    else:
       print(colored(PRM[:COL1],'yellow'), end=' ')
-   print('\u2551' + " BOOT BCD   " + '\u2502', end=' ')
+   print('\u2551' + " BOOT BCD   " + '\u2551', end=' ')
    if BCD == "0x0000000000000000":
       print(colored(BCD,colour2), end=' ')
    else:
@@ -460,18 +304,18 @@ def Display():
    print(colored(PA[8],colour1), end=' ')
    print('\u2551')
    
-   print('\u2551' + " DIRECTORY    " + '\u2502', end=' ')
+   print('\u2551' + " DIRECTORY    " + '\u2551', end=' ')
    if DIR == "WORKAREA           ":
       print(colored(DIR[:COL1],colour2), end=' ')
    else:
       print(colored(DIR[:COL1],'yellow'), end=' ')
-   print('\u2551' + " " + NAM[:9] + "  " + '\u2502', end=' ')
+   print('\u2551' + " " + C[:9] + "  " + '\u2551', end=' ')
    if CUS == "0x0000000000000000":
       print(colored(CUS,colour2), end=' ')
    else:
       print(colored(CUS,colour1), end=' ')
    print('\u2551', end=' ')
-   if US[10] != "":						# MAX user threshold reached.
+   if US[10] != "":						# MAXX user threshold reached.
       print(colored(US[9].upper(),'red'), end=' ')
       print(colored(PA[9],'red'), end=' ')
    else:
@@ -479,21 +323,21 @@ def Display():
       print(colored(PA[9],colour1), end=' ')   
    print('\u2551')
 
-   print('\u2560' + ('\u2550')*14 + '\u2567'+ ('\u2550')*21  + '\u2569' + ('\u2550')*12 + '\u2567' + ('\u2550')*20 + '\u2569' + ('\u2550')*61 + '\u2563')
+   print('\u2560' + ('\u2550')*14 + '\u2569'+ ('\u2550')*21  + '\u2569' + ('\u2550')*12 + '\u2567' + ('\u2550')*20 + '\u2569' + ('\u2550')*61 + '\u2563')
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
    print('\u2551', end=' ')
    print(" "*7, end=' ')
-   print(colored("SETTINGS",colour3), end=' ')
+   print("SETTINGS", end=' ')
    print(" "*12, end=' ')
-   print(colored("IDENTIFY",colour3), end=' ')
+   print("IDENTIFY", end=' ')
    print(" "*17, end=' ')
-   print(colored("ANALYSE",colour3), end=' ')
+   print("ANALYSE", end=' ')
    print(" "*24, end=' ')
-   print(colored("INVESTIGATE",colour3), end=' ')
+   print("INVESTIGATE", end=' ')
    print(" "*16, end=' ')
-   print(colored("EXTRACT",colour3), end=' ')
+   print("EXTRACT", end=' ')
    print(" "*3, end=' ')
    print('\u2551')
 
@@ -507,28 +351,31 @@ def Display():
    print('\u2551' + "(4) Re/Set DIRECTORY (14) Running Services  (24) SYSTEM     (34) Re/Set   (44) Network Scan     (54) Files     (64) PARAMETER OFFSET" + '\u2551')
    print('\u2551' + "(5) Re/Set IP        (15) Command History   (25) NTUSER     (35) Re/Set   (45) Socket Scan      (55) SymLinks  (65) Timelines       " + '\u2551')
    print('\u2551' + "(6) Re/Set PORT      (16) Console History   (26) HARDWARE   (36) Re/Set   (46) Mutant Scan      (56) Drivers   (66) Screen Shots    " + '\u2551')
-   print('\u2551' + "(7) Re/Set " + NAM[:9] + " (17) Cmdline Arguments (27) DEFUALT    (37) Re/Set   (47) DLL List         (57) SIDs      (67) MFT Table       " + '\u2551')
-   print('\u2551' + "(8) Exit             (18) User Assist Keys  (28) BOOT BCD   (38) Re/Set   (48) Sessions         (58) EnvVars   (68) PCAP File       " + '\u2551')
-   print('\u2551' + "(9) Clean/Exit       (19) Hive List         (29) " + NAM[:9] + "  (39) Re/Set   (49) PARAMETER Search (59) TrueCrypt (69) Bulk Extract    " + '\u2551')
+   print('\u2551' + "(7) Re/Set "+C[:9]+" (17) Cmdline Arguments (27) DEFUALT    (37) Re/Set   (47) DLL List         (57) SIDs      (67) MFT Table       " + '\u2551')
+   print('\u2551' + "(8) Load Filename    (18) User Assist Keys  (28) BOOT BCD   (38) Re/Set   (48) Sessions         (58) EnvVars   (68) PCAP File       " + '\u2551')
+   print('\u2551' + "(9) Exit Program     (19) Hive List         (29) "+C[:9]+"  (39) Re/Set   (49) PARAMETER Search (59) TrueCrypt (69) Bulk Extract    " + '\u2551')
    print('\u255A' + ('\u2550')*132 + '\u255D')
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : Black Briar
+# CONTRACT: Reminiscent                                                               
+# Version : 1.0
 # Details : Start the main menu controller.
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
 while True: 
+   LTM = getTime()
+   linecache.clearcache()
+   os.system("rm *.tmp")
    os.system("clear")
    Display()
    selection=input("Please Select: ")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Lets the user select a new Windows profile.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -550,12 +397,12 @@ while True:
       else:
          PRO = " --profile " + PRO
          PR2 = PRO.replace(" --profile ","")
-         PR2 = padding(PR2, COL1)
+         PR2 = spacePadding(PR2, COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Allowd the user to set the PID value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -563,12 +410,12 @@ while True:
    if selection == '1':
       temp = input("Please enter PID value: ")
       if temp != '':
-         PI1 = padding(temp, COL1)
+         PI1 = spacePadding(temp, COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Allows the user to set the OFFSET value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -576,12 +423,12 @@ while True:
    if selection == '2':
       temp = input("Please enter OFFSET value: ")
       if temp != '':
-         OFF = padding(temp, COL1)
+         OFF = spacePadding(temp, COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Allows the user to set the Parameter string.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -589,12 +436,12 @@ while True:
    if selection == '3':
       temp = input("Please enter parameter value: ")
       if temp != '':
-         PRM = padding(temp,COL1)
+         PRM = spacePadding(temp,COL1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Allows the user to set the Parameter string.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -607,14 +454,14 @@ while True:
          if len(directory) > 0:
             os.mkdir(directory)
             DIR = directory
-            DIR = padding(DIR, COL1)
+            DIR = spacePadding(DIR, COL1)
             print("Working directory changed...")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Set host IP Value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -622,13 +469,13 @@ while True:
    if selection == '5':
       temp = input("Please enter IP value: ")
       if temp != '':
-         HIP = padding(temp, COL1)
+         HIP = spacePadding(temp, COL1)
          MAN1 = 1
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Set host PORT Value.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -636,13 +483,13 @@ while True:
    if selection == '6':
       temp = input("Please enter PORT value: ")
       if temp != '':
-         POR = padding(temp, COL1)
+         POR = spacePadding(temp, COL1)
          MAN2 = 1
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Rename CUSTOM hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -650,24 +497,159 @@ while True:
    if selection == '7':
       temp = input("Please enter HIVE name: ")
       if temp != '':
-         NAM = padding(temp, 9)
+         C = spacePadding(temp, 9)
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
-# Details : Menu option selected - Exit the program, leaving files undeleted.
+# CONTRACT: Reminiscent
+# Version : 1.0
+# Details : Menu option selected - Clean up system files and exit the program.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '8':
-      exit(1)
+      fileName = input("[?] Please enter filename: ")
+      
+      profiles = "NOT FOUND"
+      os.system(volpath + " imageinfo -f '" + fileName + "' > image.log")
 
+      with open("image.log") as search:
+         for line in search:
+            if "Suggested Profile(s) :" in line:
+               profiles = line
+            if "Number of Processors" in line:
+               PRC = line
+            if "Image Type (Service Pack) :" in line:
+               SVP = line
+            if "Image date and time :" in line:
+               DA1 = line
+            if "Image local date and time :" in line:
+               DA2 = line
+
+      if profiles == "NOT FOUND":
+         print("ERROR #001 - A windows profile was not found, see 'image.log' for further information.")
+         exit(True)
+         
+      profiles = profiles.replace("Suggested Profile(s) :","")
+      profiles = profiles.replace(" ","")
+      profiles = profiles.split(",")
+      PRO = " --profile " + profiles[0]
+      PR2 = profiles[0]
+      if (PR2[:1] != "W") and (PR2[:1] != "V"):
+         print("ERROR #002- A windows profile was not found, see 'image.log' for further information.")
+         exit(True)
+      else:
+         PR2 = spacePadding(PR2,COL1)
+         os.remove("image.log")
+   
+      PRC = PRC.replace("Number of Processors :","")
+      PRC = PRC.replace(" ","")
+      PRC = PRC.replace("\n","")
+      PRC = spacePadding(PRC, COL3)
+
+      SVP = SVP.replace("Image Type (Service Pack) :","")
+      SVP = SVP.replace(" ","")
+      SVP = SVP.replace("\n","")
+      SVP = spacePadding(SVP, COL1)
+
+      DA1 = DA1.replace("Image date and time :","")
+      DA1 = DA1.lstrip()
+      DA1 = DA1.rstrip("\n")
+      a,b,c = DA1.split()
+      DA1 = a + " @ " + b
+
+      DA2 = DA2.replace("Image local date and time :","")
+      DA2 = DA2.lstrip()
+      DA2 = DA2.rstrip("\n")
+      a,b,c = DA2.split()
+      DA2 = a + " " + b
+      DA2 = spacePadding(DA2, COL1)
+
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " hivelist > hivelist.tmp")
+
+      with open("hivelist.tmp") as search:
+         for line in search:
+           if "\sam" in line.lower():
+              SAM = line.split(None, 1)[0]
+              SAM = spacePadding(SAM, COL2)
+           if "\security" in line.lower():
+              SEC = line.split(None, 1)[0]
+              SEC = spacePadding(SEC, COL2)
+           if "\software" in line.lower():
+              SOF = line.split(None, 1)[0]
+              SOF = spacePadding(SOF, COL2)
+           if "\system" in line.lower():
+              SYS = line.split(None, 1)[0]
+              SYS = spacePadding(SYS, COL2)
+           if "\components" in line.lower():
+              COM = line.split(None, 1)[0]
+              COM = spacePadding(SYS, COL2)
+           if "\\administrator\\ntuser.dat" in line.lower(): # \Administrator\NTUSER.DAT as there are usually multiple NTUSERS files. 
+              NTU = line.split(None, 1)[0]
+              NTU = spacePadding(SYS, COL2)
+           if "\hardware" in line.lower():
+              HRD = line.split(None,1)[0]
+              HRD = spacePadding(HRD, COL2)
+           if "\default" in line.lower():
+              DEF = line.split(None,1)[0]
+              DEF = spacePadding(DEF, COL2)
+           if "\\bcd" in line.lower():
+              BCD = line.split(None,1)[0]
+              BCD = spacePadding(BCD, COL2)
+
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' > host.tmp")
+
+      with open("host.tmp") as search:
+         wordlist = (list(search)[-1])
+         wordlist = wordlist.split()
+         HST = str(wordlist[-1])
+      if HST == "searched":					# Looks like a host name has not been found.
+         HST = "NOT FOUND          "				# So set a defualt value.
+      else:
+         HST = HST.encode(encoding='UTF-8',errors='strict')	# Deal with a encoding issue with hostname.
+         HST = str(HST)
+         HST = HST.replace("b'","")
+         HST = HST.replace("\\x00'","")
+         HST = spacePadding(HST, COL1)
+
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " >> hash.tmp")
+
+      with open("hash.tmp") as search:
+         count = 0
+         for line in search:
+            if line != "":
+               catch = line.replace(":"," ")
+               catch2 = catch.split()
+               catch3 = catch2[3]
+               PA[count] = catch3
+               US[count] = catch2[0][:COL3-1] + " "
+               US[count] = spacePadding(US[count], COL3)
+               count = count + 1				# 0 - 9 Users
+            if count > MAXX: count = MAXX			# 10 - Maximum threshold reached for user display.
+
+      os.system("volatility -f '" + fileName + "'" + PRO + " connscan > connscan.txt")
+      os.system("sed '1d' connscan.txt > conn1.txt")
+      os.system("sed '1d' conn1.txt > connscan.txt")
+      os.remove("conn1.txt")
+      os.system("cut -f 2 -d ' ' connscan.txt > conn1.txt")
+      os.system("strings conn1.txt | sort | uniq -c | sort -nr > connscan.txt")
+      os.system("sed '1d' conn1.txt > connscan.txt")
+      getip = linecache.getline('connscan.txt', 1)
+      if getip != "":
+         getip = getip.split()
+         getip = getip[0].replace(':',' ')  
+         HIP = getip.rsplit(' ', 1)[0]
+         POR = getip.rsplit(' ', 1)[1]
+         HIP = padding(HIP, COL1)
+         POR = padding(POR, COL1)
+      os.remove('connscan.txt')
+      os.remove('conn1.txt')
+         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
-# Details : Menu option selected - Clean up system files and exit the program.
+# CONTRACT: Reminiscent
+# Version : 1.0
+# Details : Menu option selected - Exit the program, leaving files undeleted.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -684,8 +666,8 @@ while True:
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Dumps the SAM file hashes for export to hashcat.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -694,34 +676,32 @@ while True:
       if SAM == "0x0000000000000000":
          print(colored("SAM HIVE missing - its not possible to extract the hashes...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " > sam.tmp")
-         parFile("sam.tmp")
-         catFile("sam.tmp")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Display any LSA secrets
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '11':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " lsadump | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " lsadump | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows running processes and provides a brief analyse.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '12':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psscan | more")
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psscan --output greptext > F1.txt")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " psscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " psscan --output greptext > F1.txt")
       os.system("tail -n +2 F1.txt > F2.txt")
       os.system("sed -i 's/>//g' F2.txt")
       with open("F2.txt") as read1:
@@ -773,92 +753,92 @@ while True:
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows hidden processes.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '13':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " psxview | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " psxview | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows running services.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '14':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " svcscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " svcscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Last commands run.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '15':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " cmdscan")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " cmdscan")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Last commands run.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '16':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " consoles")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " consoles")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Last commands run.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '17':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " cmdline")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " cmdline")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Show userassist key values.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '18':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " userassist")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " userassist")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Hivelist all
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '19':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivelist")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " hivelist")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows SAM hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -867,13 +847,13 @@ while True:
       if (SAM == "0x0000000000000000"):
          print(colored("SAM Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SAM + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + SAM + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows SECURITY hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -882,13 +862,13 @@ while True:
       if (SEC == "0x0000000000000000"):
          print(colored("SECURITY Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f " + fileName + PRO + " hivedump -o " + SEC + " | more")
+         os.system(volpath + " -f " + fileName + PRO + " hivedump -o " + SEC + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows COMPONENTS hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -897,13 +877,13 @@ while True:
       if (COM == "0x0000000000000000"):
          print(colored("COMPONENTS Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + COM + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + COM + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows SOFTWARE hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -912,13 +892,13 @@ while True:
       if (SOF == "0x0000000000000000"):
          print(colored("SOFTWARE Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SOF + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + SOF + " | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows SYSTEM hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -927,13 +907,13 @@ while True:
       if (SYS == "0x0000000000000000"):
          print(colored("SYSTEM Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + SYS + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + SYS + " | more")
       input("\nPress ENTER to continue...")    
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows NTUSER hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -942,13 +922,13 @@ while True:
       if (NTU == "0x0000000000000000"):
          print(colored("NTUSER (Administrator) Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + NTU + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + NTU + " | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows HARDWARE hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -957,13 +937,13 @@ while True:
       if (HRD == "0x0000000000000000"):
          print(colored("HARDWARE Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + HRD + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + HRD + " | more")
       input("\nPress ENTER to continue...")     
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows DEFUALT hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -972,13 +952,13 @@ while True:
       if (DEF == "0x0000000000000000"):
          print(colored("DEFUALT Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + DEF + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + DEF + " | more")
       input("\nPress ENTER to continue...")   
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows BOOT BCD hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -987,28 +967,28 @@ while True:
       if (BCD == "0x0000000000000000"):
          print(colored("BOOT BCD Hive missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + BCD + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + BCD + " | more")
       input("\nPress ENTER to continue...")   
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows CUSTOM hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='29':
       if (CUS == "0x0000000000000000"):
-         print(colored(NAM + " missing - it is not possible to extract data...",colour2))
+         print(colored(C + " missing - it is not possible to extract data...",colour2))
       else:
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " hivedump -o " + CUS + " | more")
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " hivedump -o " + CUS + " | more")
       input("\nPress ENTER to continue...")  
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change SAM via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1016,12 +996,12 @@ while True:
    if selection == '30':
       temp = input("Please enter SAM value: ")
       if temp != "":
-         SAM = padding(temp, COL2)
+         SAM = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change SECURITY via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1029,12 +1009,12 @@ while True:
    if selection == '31':
       temp = input("Please enter SECURITY value: ")
       if temp != "":
-         SEC = padding(temp, COL2)
+         SEC = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change COMPENENTS via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1042,12 +1022,12 @@ while True:
    if selection == '32':
       temp = input("Please enter COMPENENTS value: ")
       if temp != "":
-         COM = padding(temp, COL2)
+         COM = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change SOFTWARE via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1055,12 +1035,12 @@ while True:
    if selection == '33':
       temp = input("Please enter SOFTWARE value: ")
       if temp != "":
-         SOF = padding(temp, COL2)
+         SOF = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change SYSTEM via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1068,12 +1048,12 @@ while True:
    if selection == '34':
       temp = input("Please enter SYSTEM value: ")
       if temp != "":
-         SYS = padding(temp, COL2)
+         SYS = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change NTUSER via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1081,12 +1061,12 @@ while True:
    if selection == '35':
       temp = input("Please enter NTUSER value: ")
       if temp != "":
-         NTU = padding(temp, COL2)
+         NTU = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change HARDWARE via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1094,12 +1074,12 @@ while True:
    if selection == '36':
       temp = input("Please enter HARDWARE value: ")
       if temp != "":
-         HRD = padding(temp, COL2)
+         HRD = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change DEFAULT via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1107,12 +1087,12 @@ while True:
    if selection == '37':
       temp = input("Please enter DEFUALT value: ")
       if temp != "":
-         DEF = padding(temp, COL2)
+         DEF = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change BOOT BCD via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1120,25 +1100,25 @@ while True:
    if selection == '38':
       temp = input("Please enter BOOT BCD value: ")
       if temp != "":
-         BCD = padding(temp, COL2)
+         BCD = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Change BOOT BCD via user choice.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '39':
-      temp = input("Please enter " + NAM.rstrip() + " value: ")
+      temp = input("Please enter " + C.rstrip() + " value: ")
       if temp != "":
-         CUS = padding(temp, COL2)
+         CUS = spacePadding(temp, COL2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Print specified key from hive.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1146,337 +1126,337 @@ while True:
    if selection =='40':
       KEY = input("Please enter the key value in quotes: ")
       if KEY != "":
-         os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " printkey -K " + KEY)
+         os.system(volpath + " -f '" + fileName + "'" + PRO + " printkey -K " + KEY)
          input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shellbags.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='41':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shellbags | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " shellbags | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shellbags.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='42':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shimcache | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " shimcache | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Analyse the NETWORK connections.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='43':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " connscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " connscan | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Analyse the NETWORK traffic.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='44':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " netscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " netscan | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Analyse the NETWORK sockets.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='45':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " sockets | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " sockets | more")
       input("\nPress ENTER to continue...") 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Finds Mutants.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='46':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " mutantscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " mutantscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - List dll's.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='47':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " dlllist | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " dlllist | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows sessions history.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='48':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " sessions | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " sessions | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Search image for occurences of string.
 # Modified: N/A
 # ------------------------------------------------------------------------------------- 
    
    if selection =='49':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " pslist | grep " + PRM)
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " filescan | grep " + PRM)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " pslist | grep " + PRM)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " filescan | grep " + PRM)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows desktop information.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='50':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " deskscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " deskscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows clipboard information.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='51':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " clipboard | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " clipboard | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows notepad information.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='52':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " notepad | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " notepad | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows IE history.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='53':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " iehistory | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " iehistory | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows files.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='54':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " filescan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " filescan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows symlinks.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='55':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " symlinkscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " symlinkscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Shows drivers.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='56':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " devicetree | more")
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " driverscan | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " devicetree | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " driverscan | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Display all SID's.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='57':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " getsids | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " getsids | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Display environmental variables.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='58':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " envars | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " envars | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - TrueCrypt info
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='59':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptsummary | more")
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptmaster | more")
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " truecryptpassphrase | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " truecryptsummary | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " truecryptmaster | more")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " truecryptpassphrase | more")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Finds Malware.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='60':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " malfind -p " + PI1 + " -D " + DIR)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " malfind -p " + PI1 + " -D " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected -  Vad dump PID.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='61':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " vaddump -p " + PI1 + " --dump-dir " + DIR)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " vaddump -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Proc dump PID.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='62':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " procdump  -p " + PI1 + " --dump-dir " + DIR)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " procdump  -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Memory dump PID.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='63':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " memdump  -p " + PI1 + " --dump-dir " + DIR)
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " memdump  -p " + PI1 + " --dump-dir " + DIR)
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Extract a single file based on physical OFFSET.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='64':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " dumpfiles -Q " + OFF + " -D " + DIR + " -u -n")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " dumpfiles -Q " + OFF + " -D " + DIR + " -u -n")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Extract timeline.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='65':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " timeliner --output-file timeline.txt")
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " shellbags --output-file time.txt")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " timeliner --output-file timeline.txt")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " shellbags --output-file time.txt")
       print("A timeline has sucessfully been exported...")
       input("\nPress ENTER to continue...")
 
 #------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Extract windows screenshots.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " -D " + DIR + " screenshot")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " -D " + DIR + " screenshot")
       input("\nPress ENTER to continue...")
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Extract the MFT table and it contents.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      os.system("/opt/volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone -f '" + fileName + "'" + PRO + " mftparser --output-file mfttable.txt")
+      os.system(volpath + " -f '" + fileName + "'" + PRO + " mftparser --output-file mfttable.txt")
       print("The MFT has sucessfully been exported to mfttable.txt...")
       os.system("strings mfttable.txt | grep '0000000000:' > count.txt")
       fileNum = sum(1 for line in open('count.txt'))
@@ -1486,8 +1466,8 @@ while True:
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Bulk Extract all known files.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -1498,8 +1478,8 @@ while True:
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : Black Briar
+# CONTRACT: Reminiscent
+# Version : 1.0
 # Details : Menu option selected - Bulk Extract all known files.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
