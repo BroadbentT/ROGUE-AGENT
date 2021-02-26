@@ -29,8 +29,10 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 |------     |-------         | -------                          | ----                |  ----        |
 | python3   | install.py     | 009d381735ec64b091e1df8e59678769 | Install Program     | TREADSTONE   |
 | python3   | rogue-agent.py | e0093d0fd19795b43a11c6ec06a87557 | Command Centre      | TREADSTONE   |
-| python3   | larx.py        | 4bfda576c33ee2a1145f7653e684e4d2 | Binary Exploitation | LARX | 
+| python3   | larx.py        | 4bfda576c33ee2a1145f7653e684e4d2 | Binary Exploitation | LARX         | 
+| python3   | blackbriar.py  | a6d84a66201166c3a55144d21deccdf1 | Memory Exploitayion | BLACKBRIAR   |
 | SQLite3   | RA.db          | bcfd3cd2c5846250f9614c4c6b71b0b3 | Program Database    | TREADSTONE   |
+| Text File | profiles.txt   | ba638a0a6f9d322100809bd6e67427d6 | Listing             | BLACKBRIAR   |
 
        
 ## CONSOLE DISPLAY AND VIDEO LINK
@@ -39,6 +41,10 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 
 <p align="center">
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png">
+</p>
+
+<p align="center">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture4.png">
 </p>
 
 ### COMPUTER MISUSE ACT 1990 - SECTION 3A
