@@ -254,46 +254,9 @@ else:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Install de-obfuscation software
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-print("[*] Installing de-obfuscation software, please wait...")
-print("\t[+] Installing Peda...                          ")
-os.system("git clone https://github.com/longld/peda.git ~/peda >> log.txt 2>&1")
-os.system("echo 'source ~/peda/peda.py' >> ~/.gdbinit")
-
-print("\t[+] Installing Ghidra...                        ")
-if os.path.exists("/opt/ghidra_9.2.2_PUBLIC"):
-   print("[-] Ghidra already installed...")
-else:
-   os.system("wget https://www.ghidra-sre.org/ghidra_9.2.2_PUBLIC_20201229.zip -O ghidra_9.2.2_PUBLIC_20201229.zip >> log.txt 2>&1")
-   os.system("unzip ghidra_9.2.2_PUBLIC_20201229.zip >> log.txt 2>&1")
-   os.system("mv ghidra_9.2.2_PUBLIC /opt/ghidra_9.2.2_PUBLIC >> log.txt 2>&1")
-   if os.path.exists("ghidra_9.2.2_PUBLIC_20201229.zip"):
-      shutil.rmtree("ghidra_9.2.2_PUBLIC_20201229.zip")      
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Setup volatility
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-os.system("wget http://downloads.volatilityfoundation.org/releases/2.6/volatility_2.6_lin64_standalone.zip -O /opt/volatility_2.6_lin64_standalone.zip")
-os.system("unzip /opt/volatility_2.6_lin64_standalone.zip")
-if os.path.exists("/opt/volatility_2.6_lin64_standalone.zip"):
-   shutil.rmtree("/opt/volatility_2.6_lin64_standalone.zip")
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
 # Details : Activate database and configure proxychains.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
-
 
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
