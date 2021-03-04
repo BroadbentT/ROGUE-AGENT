@@ -1788,10 +1788,6 @@ while True:
    if selection =='29':
       checkParams = test_TIP()      
       if checkParams != 1:
-         checkParams = test_DOM()               
-      if checkParams != 1:
-         checkParams = test_PRT("2049")         
-      if checkParams != 1:
          remotCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
          localCOM("sed -i '/Export list for/d' mount.tmp")                  
          if os.path.getsize("mount.tmp") > 0:
@@ -1815,10 +1811,6 @@ while True:
 
    if selection == '30':
       checkParams = test_TIP()      
-      if checkParams != 1:
-         checkParams = test_DOM()               
-      if checkParams != 1:
-         checkParams = test_PRT("2049")         
       if checkParams != 1:
          mount = input("[?] Please enter NFS name : ")         
          if not os.path.exists(mount):
