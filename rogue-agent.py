@@ -48,7 +48,7 @@ def cutLine(variable1, variable2):
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
    
-def parFile(variable):
+def parsFile(variable):
    localCOM("sed -i '/^$/d' ./" + variable)
    return
 
@@ -121,7 +121,7 @@ def lineCount(variable):
    if count == 0:
       return int(count)
    else:
-      localCOM("cat " + variable + " | wc -l > count2.tmp")
+      localCOM("grep --regexp='$' --count " + variable + " > count2.tmp")
       count = (linecache.getline("count2.tmp", 1).rstrip("\n"))
    return int(count)
 
@@ -197,7 +197,7 @@ def saveParams():
    localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
    localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")    
-   parFile("base64.tmp")    
+   parsFile("base64.tmp")    
    OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
    DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
@@ -248,7 +248,14 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      remotCOM("ports=$(nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$//); echo $ports > ports.tmp")
+      print("[+] Light scan...")
+      remotCOM("nmap " + IP46 + " " + TIP.rstrip(" ") + " --top-ports 10 --open > light.tmp")
+      localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
+      catsFile("ports.tmp")
+      
+      print("\n[+] Heavy scan...")
+      remotCOM("nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " > heavy.tmp")      
+      localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
       localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
       if PTS[:1] == "":
@@ -306,7 +313,7 @@ def checkInterface(variable, COM):
            remotCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
       cutLine("PING","ping.tmp")
       cutLine("statistics","ping.tmp")
-      parFile("ping.tmp")
+      parsFile("ping.tmp")
       localCOM("sed -i '$d' ./ping.tmp")      
       count = lineCount("ping.tmp")
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
@@ -1593,7 +1600,7 @@ while True:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remotCOM("nmap " + IP46 + " -sT -sU -Pn " + TIP.rstrip(" "))
+            remotCOM("nmap " + IP46 + " -sT -sU -Pn --reason --script=banner " + TIP.rstrip(" "))
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
       prompt()
@@ -1788,17 +1795,19 @@ while True:
    if selection =='29':
       checkParams = test_TIP()      
       if checkParams != 1:
-         remotCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
-         localCOM("sed -i '/Export list for/d' mount.tmp")                  
-         if os.path.getsize("mount.tmp") > 0:
-            print("[+] NFS exports found...\n")            
-            with open("mount.tmp") as read:
-               for mount in read:
-                  mount = mount.replace("/","")
-                  mount = mount.rstrip("\n")
-                  print(colored(mount,colour6))
-         else:
-            print("[-] No NFS exports were found...")
+         checkParams = test_PRT("2049")
+         if checkParams != 1:
+            remotCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
+            localCOM("sed -i '/Export list for/d' mount.tmp")                  
+            if os.path.getsize("mount.tmp") > 0:
+               print("[+] NFS exports found...\n")            
+               with open("mount.tmp") as read:
+                  for mount in read:
+                     mount = mount.replace("/","")
+                     mount = mount.rstrip("\n")
+                     print(colored(mount,colour6))
+            else:
+               print("[-] No NFS exports were found...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1812,11 +1821,13 @@ while True:
    if selection == '30':
       checkParams = test_TIP()      
       if checkParams != 1:
-         mount = input("[?] Please enter NFS name : ")         
-         if not os.path.exists(mount):
-            localCOM("mkdir " + mount)
-         remotCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
-         print("[+] NFS " + mount + " mounted...")
+         checkParams = test_PRT("2049")
+         if checkParams != 1:
+            mount = input("[?] Please enter NFS name : ")         
+            if not os.path.exists(mount):
+               localCOM("mkdir " + mount)
+            remotCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
+            print("[+] NFS " + mount + " mounted...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
