@@ -3268,6 +3268,7 @@ while True:
          localCOM("rm id_rsa")
          localCOM("rm id_rsa.pub")
       localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
+      localCOM("chmod 600 id_rsa")
       catsFile("id_rsa.pub")
       print("[+] Now insert the above into authorized_Keys on the victim's machine...")            
       if USR[:2] == "''":
@@ -3498,23 +3499,23 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Telnet uses port 23
+# Details : Menu option selected - Telnet randon port number
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
       checkParams = test_TIP()                  
       if checkParams != 1:
-         checkParams = test_PRT("23")                 
+         checkParams = getPort()
       if checkParams != 1:
-         remotCOM("telnet -l " + USR.rstrip(" ") + " " + TIP.rstrip(" ") + " 23")
+         remotCOM("telnet -l " + USR.rstrip(" ") + " " + TIP.rstrip(" ") + " " + checkParams)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - NC uses random port number
+# Details : Menu option selected - NC random port number
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
