@@ -2905,6 +2905,8 @@ while True:
       else:
          print("[+] Exploits found...")
          catsFile("sploit.tmp") 
+         services = input("[?] Please enter service name to download: ")
+         localCOM("searchsploit -m '" + services + "'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
