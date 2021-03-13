@@ -1597,19 +1597,36 @@ while True:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
             print("[+] Light scan...")            
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" "))
-            print("\n[+] Heavy scan...")
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" "))            
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            localCOM("tail light.tmp > lights.tmp")
+            localCOM("sed -i '/PORT    STATE SERVICE     REASON         VERSION/d' lights.tmp")
+            localCOM("sed -i '/Nmap done/d' lights.tmp")
+            localCOM("sed -i '/Service detection performed/d' lights.tmp")
+            parsFile("lights.tmp")
+            catsFile("lights.tmp")            
+            print("[+] Heavy scan...")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            catsFile("light.tmp")                   
             if "500" in PTS:
-               remotCOM("ike-scan -M " + TIP.rstrip(" "))
+               remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+               catsFile("light.tmp")
          else:
-            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
+            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3) + " -oN light.tmp 2>&1 > temp.tmp")
             print("[+] Light scan...")
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=banner " + TIP.rstrip(" "))
-            print("\n[+] Heavy scan...")
-            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" "))
+            localCOM("tail light.tmp > lights.tmp")
+            localCOM("sed -i '/PORT    STATE SERVICE     REASON         VERSION/d' lights.tmp")
+            localCOM("sed -i '/Nmap done/d' lights.tmp")
+            localCOM("sed -i '/Service detection performed/d' lights.tmp")
+            parsFile("lights.tmp")
+            catsFile("lights.tmp")
+            print("[+] Heavy scan...")
+            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            catsFile("light.tmp")
             if "500" in PTS:
-               remotCOM("ike-scan -M " + TIP.rstrip(" "))
+               remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+               catsFile("light.tmp")
+
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2873,7 +2890,8 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -sV -p " + PTS.rstrip(" ") + " --reason --script *vuln* --script-args *vuln* " + TIP.rstrip(" "))
+            remotCOM("nmap -sV -p " + PTS.rstrip(" ") + " --reason --script *vuln* --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")           
+            catsFile("light.tmp")
          else:
             print("[-] No ports to scan...")
       prompt()
@@ -2891,7 +2909,8 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -sV -p " + PTS.rstrip(" ")  + " --reason --script exploit --script-args *vuln* " + TIP.rstrip(" "))
+            remotCOM("nmap -sV -p " + PTS.rstrip(" ")  + " --reason --script exploit --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            catsFile("light.tmp")
          else:
             print("[-] No ports to scan...")
       prompt()
