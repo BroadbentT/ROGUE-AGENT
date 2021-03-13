@@ -31,6 +31,7 @@ import datetime
 import requests
 import linecache
 
+
 from termcolor import colored
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
@@ -1594,13 +1595,19 @@ while True:
       checkParams = test_TIP()      
       if checkParams != 1:
          if POR[:5] != "EMPTY":
-            print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner,auth " + TIP.rstrip(" ") + " --reason")
+            print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
+            print("[+] Light scan...")            
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" "))
+            print("\n[+] Heavy scan...")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" "))            
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remotCOM("nmap " + IP46 + " -sT -sU -Pn --reason --script=banner,auth " + TIP.rstrip(" ") + " --reason")
+            print("[+] Light scan...")
+            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=banner " + TIP.rstrip(" "))
+            print("\n[+] Heavy scan...")
+            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" "))
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
       prompt()
@@ -2107,7 +2114,7 @@ while True:
                 SHAR[x] = spacePadding(SHAR[x], COL2)
          with open("shares1.tmp","r") as check:
             if "READ, WRITE" in check.read():
-               print("[+] A remote SMB READ/WRITE directory has been identified, checking for possible CVE-2017-7494 exploit...\n")
+               print(colored("[*] A remote SMB READ/WRITE directory has been identified, checking for possible CVE-2017-7494 exploit...\n", colour3))
                remotCOM("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" "))
       else:
          print("[+] Unable to obtains shares...")
@@ -2857,7 +2864,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - nmap vuln
+# Details : Menu option selected - nmap vuln #nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -2866,7 +2873,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -sV -p " + PTS + " --script *vuln*,*check* --script-args *cve* " + TIP.rstrip(" ") + " --reason")
+            remotCOM("nmap -sV -p " + PTS.rstrip(" ") + " --reason --script *vuln* --script-args *vuln* " + TIP.rstrip(" "))
          else:
             print("[-] No ports to scan...")
       prompt()
@@ -2884,7 +2891,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -p " + PTS  + " --script exploit " + TIP.rstrip(" ") + " --reason")
+            remotCOM("nmap -sV -p " + PTS.rstrip(" ")  + " --reason --script exploit --script-args *vuln* " + TIP.rstrip(" "))
          else:
             print("[-] No ports to scan...")
       prompt()
