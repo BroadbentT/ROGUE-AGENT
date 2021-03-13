@@ -1595,12 +1595,12 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner " + TIP.rstrip(" "))
+            remotCOM("nmap " + IP46 + " -p " + PTS + " -sT -sU -sV -O -A -T4 --reason --script=banner,auth " + TIP.rstrip(" ") + " --reason")
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            remotCOM("nmap " + IP46 + " -sT -sU -Pn --reason --script=banner " + TIP.rstrip(" "))
+            remotCOM("nmap " + IP46 + " -sT -sU -Pn --reason --script=banner,auth " + TIP.rstrip(" ") + " --reason")
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" "))
       prompt()
@@ -2079,32 +2079,36 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > temp.tmp")
-            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares.tmp")
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares1.tmp")
+            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
          else:
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > temp.tmp")            
-            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares.tmp")            
-         bonusCheck = linecache.getline("shares.tmp", 1)                         
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")            
+            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")            
+         bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
             remotCOM("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                    
-         if os.path.getsize("shares.tmp") != 0:   
-            catsFile("temp.tmp")
-            catsFile("shares.tmp")           
-            localCOM("sed -i /'is an IPv6 address'/d shares.tmp")
-            localCOM("sed -i /'no workgroup'/d shares.tmp")
-            localCOM("sed -i /'NT_STATUS_LOGON_FAILURE'/d shares.tmp")
-            localCOM("sed -i /'NT_STATUS_ACCESS_DENIED'/d shares.tmp")
-            localCOM("sed -i /'NT_STATUS_ACCOUNT_DISABLED'/d shares.tmp")
-            localCOM("sed -i /Sharename/d shares.tmp")
-            localCOM("sed -i /---------/d shares.tmp")
-            localCOM("sed -i '/^$/d' shares.tmp")
-            localCOM("sed -i 's/^[ \t]*//' shares.tmp")
-            localCOM("mv shares.tmp " + dataDir + "/shares.txt")                                 
+         if os.path.getsize("shares2.tmp") != 0:   
+            catsFile("shares1.tmp")
+            catsFile("shares2.tmp")           
+            localCOM("sed -i /'is an IPv6 address'/d shares2.tmp")
+            localCOM("sed -i /'no workgroup'/d shares2.tmp")
+            localCOM("sed -i /'NT_STATUS_LOGON_FAILURE'/d shares2.tmp")
+            localCOM("sed -i /'NT_STATUS_ACCESS_DENIED'/d shares2.tmp")
+            localCOM("sed -i /'NT_STATUS_ACCOUNT_DISABLED'/d shares2.tmp")
+            localCOM("sed -i /Sharename/d shares2.tmp")
+            localCOM("sed -i /---------/d shares2.tmp")
+            localCOM("sed -i '/^$/d' shares2.tmp")
+            localCOM("sed -i 's/^[ \t]*//' shares2.tmp")
+            localCOM("mv shares2.tmp " + dataDir + "/shares.txt")                                 
          with open(dataDir + "/shares.txt", "r") as shares:
             for x in range(0, maxUser):
                 SHAR[x] = shares.readline().rstrip(" ")
                 SHAR[x] = spacePadding(SHAR[x], COL2)
+         with open("shares1.tmp","r") as check:
+            if "READ, WRITE" in check.read():
+               print("[+] A remote SMB READ/WRITE directory has been identified, checking for possible CVE-2017-7494 exploit...\n")
+               remotCOM("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" "))
       else:
          print("[+] Unable to obtains shares...")
       prompt()
@@ -2726,9 +2730,6 @@ while True:
       checkParams = test_TIP()      
       if checkParams != 1:
          checkParams = test_DOM()               
-      if (PAS[:2] == "''") and (NTM[:5] == "EMPTY"):
-         print("[-] Both Password and Hash value have not been specified...")
-         checkParams = 1               
       if checkParams != 1:      
          if PAS[:2] != '""':
             checkParams = test_PRT("5985")                                    
@@ -2865,7 +2866,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -p " + PTS + " --script vuln " + TIP.rstrip(" ") + " --reason")
+            remotCOM("nmap -sV -p " + PTS + " --script *vuln*,*check* --script-args *cve* " + TIP.rstrip(" ") + " --reason")
          else:
             print("[-] No ports to scan...")
       prompt()
