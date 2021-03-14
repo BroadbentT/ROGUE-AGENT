@@ -332,8 +332,9 @@ def checkBIOS():
       return
    else:
       print(colored("[*] Checking windows network neighborhood protocol...", colour3))
-      bit1, bit2, bit3, bit4 = TIP.split(".")
-      remotCOM("nbtscan -rv " + bit1 + "." + bit2 + "." + bit3 + ".0/24 > bios.tmp")
+      #bit1, bit2, bit3, bit4 = TIP.split(".")
+      #remotCOM("nbtscan -rv " + bit1 + "." + bit2 + "." + bit3 + ".0/24 > bios.tmp")
+      remotCOM("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
       localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
       localCOM("sed -i '/^$/d' ./bios.tmp")
       nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
@@ -356,7 +357,20 @@ def networkSweep():
          print("[-] No live hosts found...")
       else:
          print("[+] Found live hosts...")
-         catsFile("hosts.tmp")      
+         
+         the_list = []
+         localCOM("echo '" + Green + "'")          
+         
+         with open("hosts.tmp") as file:
+            for line in file:
+               line = line.rstrip("\n")
+               the_list.append(line.rstrip(" "))
+            num_columns = 7
+            for count,item in enumerate(sorted(the_list), 1):
+               print(item.ljust(20), end =' ')
+               if count % num_columns == 0:
+                  print("")
+   localCOM("echo '" + Reset + "'")
    return      
    
 def catsFile(variable):
