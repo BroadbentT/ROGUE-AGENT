@@ -3359,12 +3359,12 @@ while True:
          checkParams = test_WEB()
          if checkParams != 1:
             if WEB[:5] != "EMPTY":
-               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt" + WEB.rstrip(" ") + " 2>&1")
+               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + WEB.rstrip(" ") + " 2>&1")
                print("[+] Username list generated via website...")
             else:
                checkParams = test_TIP()
                if checkParams != 1:
-                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt" + TIP.rstrip(" ") + " 2>&1")
+                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
                   print("[+] Username list generated via ip address...")
       else:
          localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
