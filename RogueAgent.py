@@ -1627,7 +1627,7 @@ while True:
             catsFile("light.tmp")            
             print("[+] Heavy scan...")
             remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
-            localCOM("sed -i '/# Nmap/d' " + variable)            
+            localCOM("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
@@ -1641,7 +1641,7 @@ while True:
             catsFile("light.tmp")
             print("[+] Heavy scan...")
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
-            localCOM("sed -i '/# Nmap/d' " + variable)                       
+            localCOM("sed -i '/# Nmap/d' heavy.tmp")                       
             catsFile("heavy.tmp")
             if "500" in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
