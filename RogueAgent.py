@@ -46,13 +46,14 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # -------------------------------------------------------------------------------------
 
 def nmapTrim(variable):
-   localCOM("sed -i '/# Nmap/d' " + variable)
-   localCOM("sed -i '/Nmap scan report/d' " + variable)
-   localCOM("sed -i '/Host is up, received/d' " + variable)
-   localCOM("sed -i '/STATE SERVICE/d' " + variable )
-   localCOM("sed -i '/Nmap done/d' " + variable)
-   localCOM("sed -i '/Service Info/d' " + variable)
-   localCOM("sed -i '/Service detection performed/d' " + variable)
+   cutLine("# Nmap", variable)
+   cutLine("Nmap scan report", variable)
+   cutLine("Host is up, received", variable)
+   cutLine("STATE SERVICE", variable)
+   cutLine("Nmap done", variable)
+   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
+   cutLine("Service Info", variable)
+   cutLine("Service detection performed", variable)   
    return
 
 def cutLine(variable1, variable2):
@@ -259,12 +260,12 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      print("[+] Light scan...")
+      print("[+] Performing light scan...")
       remotCOM("nmap " + IP46 + " " + TIP.rstrip(" ") + " --top-ports 10 --open > light.tmp")
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
       catsFile("ports.tmp")
       
-      print("\n[+] Heavy scan...")
+      print("\n[+] Performing heavy scan...")
       remotCOM("nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " > heavy.tmp")      
       localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
       localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
@@ -1620,12 +1621,24 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            print("[+] Light scan...")            
+            print("[+] Performing light scan...")            
             remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
-            nmapTrim("light.tmp")
+            nmapTrim("light.tmp")            
+            service = linecache.getline("service.tmp", 1)
+            if "WINDOWS" in service.upper():
+               OSF = spacePadding("WINDOWS", COL1)
+            if "LINUX" in service.upper():
+               OSF = spacePadding("LINUX", COL1)
+            if "OS X" in service.upper():
+               OSF = spacePadding("OS X", COL1)
+            if "ANDROID" in service.upper():
+               OSF = spacePadding("ANDROID", COL1)
+            if "IOS" in service.upper():
+               OSF = spacePadding("IOS", COL1)   
             parsFile("light.tmp")
             catsFile("light.tmp")            
-            print("[+] Heavy scan...")
+            print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
+            print("[+] Performing heavy scan...")
             remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
@@ -3672,7 +3685,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("3389")                     
       if checkParams != 1:
-         remotCOM("xfreerdp /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
+         remotCOM("xfreerdp -sec-nla /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
       prompt()             
                  
 # ------------------------------------------------------------------------------------- 
