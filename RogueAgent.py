@@ -367,20 +367,21 @@ def networkSweep():
       if nullTest == "":
          print("[-] No live hosts found...")
       else:
-         print("[+] Found live hosts...")
-         
+         print("[+] Found live hosts...")         
          the_list = []
-         localCOM("echo '" + Green + "'")          
-         
+         localCOM("echo '" + Green + "'")         
          with open("hosts.tmp") as file:
             for line in file:
                line = line.rstrip("\n")
                the_list.append(line.rstrip(" "))
-            num_columns = 7
+            num_columns = 8
+            while len(the_list) % num_columns != 0:
+               the_list.append("255.255.255.255")
             for count,item in enumerate(sorted(the_list), 1):
-               print(item.ljust(20), end =' ')
+               if item != "255.255.255.255":
+                  print(item.ljust(18), end =' ')
                if count % num_columns == 0:
-                  print("")
+                  print("")        
    localCOM("echo '" + Reset + "'")
    return      
    
