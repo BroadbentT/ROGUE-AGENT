@@ -266,7 +266,7 @@ def checkPorts(PTS, POR):
       catsFile("ports.tmp")
       
       print("\n[+] Performing heavy scan...")
-      remotCOM("nmap " + IP46 + " -p- --max-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " > heavy.tmp")      
+      remotCOM("nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " > heavy.tmp")      
       localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
       localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
@@ -1648,12 +1648,12 @@ while True:
                catsFile("ike.tmp")
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            print("[+] Light scan...")
+            print("[+] Performing light scan...")
             remotCOM("nmap " + IP46 + " -p- --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")
             parsFile("light.tmp")
             catsFile("light.tmp")
-            print("[+] Heavy scan...")
+            print("[+] Performing heavy scan...")
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")                       
             catsFile("heavy.tmp")
