@@ -774,7 +774,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) - - RESERVED - - (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) WPScan  URL (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordPressScanner (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) -RESERVED-- (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1700,11 +1700,12 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - WPSCAN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '20':
+      remotCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
       prompt()
                   
 # ------------------------------------------------------------------------------------- 
@@ -3291,12 +3292,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - WPScan
+# Details : Menu option selected -
 # Modified: N/A
 # ------------------------------------------------------------------------------------- 
 
    if selection =='70':
-      remotCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
       prompt()
      
 # ------------------------------------------------------------------------------------- 
