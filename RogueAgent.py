@@ -45,17 +45,6 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-def nmapTrim(variable):
-   cutLine("# Nmap", variable)
-   cutLine("Nmap scan report", variable)
-   cutLine("Host is up, received", variable)
-   cutLine("STATE SERVICE", variable)
-   cutLine("Nmap done", variable)
-   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
-   cutLine("Service Info", variable)
-   cutLine("Service detection performed", variable)   
-   return
-
 def cutLine(variable1, variable2):
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
@@ -192,6 +181,17 @@ def wipeTokens(VALD):
    localCOM("touch " + dataDir + "/tokens.txt") 
    for x in range(0, maxUser):
       VALD[x] = "0"
+   return
+   
+def nmapTrim(variable):
+   cutLine("# Nmap", variable)
+   cutLine("Nmap scan report", variable)
+   cutLine("Host is up, received", variable)
+   cutLine("STATE SERVICE", variable)
+   cutLine("Nmap done", variable)
+   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
+   cutLine("Service Info", variable)
+   cutLine("Service detection performed", variable)   
    return
    
 def saveParams():
@@ -352,6 +352,7 @@ def checkBIOS():
       if nullTest == "":
          print("[-] No netbios information found...")
       else:
+         print("[+] Found protocol...")
          catsFile("bios.tmp")
    return
    
@@ -773,7 +774,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20)                  (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) WPScan  URL (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) - - RESERVED - - (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) WPScan  URL (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -2137,10 +2138,10 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares1.tmp")
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " > shares1.tmp")
             remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
          else:
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")            
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp")            
             remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")            
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
@@ -2149,16 +2150,17 @@ while True:
          if os.path.getsize("shares2.tmp") != 0:   
             catsFile("shares1.tmp")
             catsFile("shares2.tmp")           
-            localCOM("sed -i /'is an IPv6 address'/d shares2.tmp")
-            localCOM("sed -i /'no workgroup'/d shares2.tmp")
-            localCOM("sed -i /'NT_STATUS_LOGON_FAILURE'/d shares2.tmp")
-            localCOM("sed -i /'NT_STATUS_ACCESS_DENIED'/d shares2.tmp")
-            localCOM("sed -i /'NT_STATUS_ACCOUNT_DISABLED'/d shares2.tmp")
-            localCOM("sed -i /Sharename/d shares2.tmp")
-            localCOM("sed -i /---------/d shares2.tmp")
-            localCOM("sed -i '/^$/d' shares2.tmp")
+            cutLine("is an IPv6 address","shares2.tmp")
+            cutLine("no workgroup","shares2.tmp")
+            cutLine("NT_STATUS_LOGON_FAILURE","shares2.tmp")
+            cutLine("NT_STATUS_ACCESS_DENIED","shares2.tmp")
+            cutLine("NT_STATUS_ACCOUNT_DISABLED","shares2.tmp")
+            cutLine("NT_STATUS_CONNECTION_RESET","shares2.tmp")
+            cutLine("Sharename","shares2.tmp")
+            cutLine("---------","shares2.tmp")
+            cutLine("^$","shares2.tmp")
             localCOM("sed -i 's/^[ \t]*//' shares2.tmp")
-            localCOM("mv shares2.tmp " + dataDir + "/shares.txt")                                 
+            localCOM("mv shares2.tmp " + dataDir + "/shares.txt")
          with open(dataDir + "/shares.txt", "r") as shares:
             for x in range(0, maxUser):
                 SHAR[x] = shares.readline().rstrip(" ")
@@ -2691,8 +2693,11 @@ while True:
          if PAS[:2] != "''":
             remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
          else:
-            print("[i] Using HASH value as password credential...")
-            remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
+            if NTM[:5].upper() != "EMPTY":
+               print("[i] Using HASH value as password credential...")
+               remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
+            else:
+               print("[-] Both, password and ntlm hash values are invalid...")
       print("\n[*] Checking downloaded files...\n")
       localCOM("mv *.json ./" + workDir)
       localCOM("ls -la ./" + workDir + "/*.*")            
@@ -3745,10 +3750,14 @@ while True:
       print(colored("C O P Y R I G H T  2 0 2 1  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
       print("\n------------------------------------------------------------------------------")
       count = lineCount(dataDir + "/usernames.txt")
-      print("User Names :" + str(count))
+      print("User Names : " + str(count))
       count = lineCount(dataDir + "/passwords.txt")
-      print("Pass Words :" + str(count))
+      print("Pass Words : " + str(count))
       count = lineCount(dataDir + "/hashes.txt")
-      print("Hash Values:" + str(count))      
+      print("Hash Values: " + str(count))      
+      if HTTP != 0:
+         print("Service    : Running")
+      else:
+         print("Service    : Not running")
       prompt()      
 # Eof...
