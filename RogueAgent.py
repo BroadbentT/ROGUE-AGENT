@@ -1514,7 +1514,7 @@ while True:
             choice = "python3 -m http.server --bind " + localIP + " " + HTTP
             checkParams = 1
       if subChoice == "2":
-         choice = "impacket-smbserver " + httpDir + " ./" + httpDir + " -smb2support"
+         choice = "impacket-smbserver " + workDir + " ./" + workDir + " -smb2support"
          checkParams = 1
       if subChoice == "3":
          HTTP = input("[?] Please select a port value: ")
