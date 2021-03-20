@@ -97,7 +97,7 @@ os.environ["DEBIAN_FRONTEND"] = "interactive"
 
 print("[*] Installing system requirements II, please wait...")
 
-list2 = ["pwn", "bloodhound", "kerbrute", "smtp-user-enum"]
+list2 = ["2to3", "pwn", "bloodhound", "kerbrute", "smtp-user-enum"]
 
 for x in range(0, len(list2)):
    print("\t[+] Installing " + list2[x] + "...")
