@@ -3452,7 +3452,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='76':
-      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))            
+      print(colored("[*] Checking " + workDir + " for relevant files...", colour3))      
       if os.path.exists("./" + workDir + "/ntds.dit"):
          print("[+] File ntds.dit found...")
       else:
@@ -3462,26 +3462,34 @@ while True:
          else:
             print("[-] File SAM not found...")
             checkParams =1            
-      if os.path.exists("./" + workDir + "/SYSTEM"):
-         print("[+] File SYSTEM found...")
-      else:
-         print("[-] File SYSTEM not found...")
-         checkParams = 1                  
-      if os.path.exists("./" + workDir + "/SECURITY"):
-         print("[+] File SECURITY found...")
-      else:
-         print("[-] File SECURITY not found")
-         checkParams = 1                  
+         if os.path.exists("./" + workDir + "/SYSTEM"):
+            print("[+] File SYSTEM found...")
+         else:
+           print("[-] File SYSTEM not found...")
+           checkParams = 1                  
+         if os.path.exists("./" + workDir + "/SECURITY"):
+            print("[+] File SECURITY found...")
+         else:
+            print("[-] File SECURITY not found")
       if checkParams != 1:
          print(colored("[*] Extracting stored secrets, please wait...", colour3))         
-         if os.path.exists("./" + workDir + "/SAM"):
-            remotCOM(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
-            localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
-            localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
-         else:
+         if os.path.exists("./" + workDir + "/ntds.dit"):
+            print("[+] Found ntds.dit...")
             remotCOM(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
             localCOM("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
             localCOM("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")
+         else:
+            if os.path.exists("./" + workDir + "/SECURITY"):
+               print("[+] Found SAM, SYSTEM and SECURITY...")
+               localCOM(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
+               localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
+               localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
+            else:
+               print("[+] Found SAM and SYSTEM...")
+               localCOM("samdump2 ./" + workDir + "/SYSTEM ./" + workDir + "/SAM > ./" + workDir + "/sam-extract.sam")
+               localCOM("sed -i 's/\*disabled\* *//g' ./" + workDir + "/sam-extract.sam")
+               localCOM("cut -f1 -d':' ./" + workDir + "*/sam-extract.sam > " + dataDir + "/usernames.txt")
+               localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
          print("[+] Importing extracted secrets...")         
          with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
            for x in range (0, maxUser):
