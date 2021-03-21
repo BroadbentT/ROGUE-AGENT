@@ -266,7 +266,7 @@ def checkPorts(PTS, POR):
       catsFile("ports.tmp")
       
       print("\n[+] Performing heavy scan...")
-      remotCOM("nmap " + IP46 + " -p- --min-rate=1000 -sT -sU -T4 " + TIP.rstrip(" ") + " > heavy.tmp")      
+      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
       localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
       localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
       PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
@@ -770,11 +770,11 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Start SERVICE (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) RpcClient Serv (46) PASSWORD2HASH (56) SecretsDump (66) Directories (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) SmbClient Serv (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) Rpc ClientServ (46) PASSWORD2HASH (56) SecretsDump (66) Dir Listing (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordPressScanner (30) NFSMount (40) SmbMount SHARE (50) Silver Ticket (60) WmiExecHASH (70) -RESERVED-- (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) -RESERVED-- (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1264,6 +1264,7 @@ while True:
          TIP = BAK         
       if TIP[:5] == "EMPTY":
          print("[+] Remote IP address reset...")
+         COM = spacePadding("UNKNOWN", COL0)
       else:
          checkParams = 0
          count = TIP.count(':')            
@@ -1326,15 +1327,24 @@ while True:
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
          WEB = spacePadding(WEB, COL1)
+         if proxyChains != 1:      
+           print(colored("[*] Enumerating website url for verbs...", colour3))
+           remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
+           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
+           cutLine("Target","verbs.tmp")
+           cutLine("Total requests","verbs.tmp")
+           cutLine("Total time","verbs.tmp")
+           cutLine("Processed Requests","verbs.tmp")
+           cutLine("Filtered Requests","verbs.tmp")
+           cutLine("Requests","verbs.tmp")
+           parsFile("verbs.tmp")
+           catsFile("verbs.tmp")
+         else:
+            print("[-] Proxychains enabled, no verb enumeration available...")
       else:
-         WEB = BAK               
-      if proxyChains != 1:      
-         print(colored("[*] Enumerating website url for verbs...", colour3))
-         remotCOM("wfuzz -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > verbs.tmp 2>&1")
-         cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
-         catsFile("verbs.tmp")
-      prompt()
-         
+         WEB = BAK
+         print("[-] No action has been taken...")
+      prompt()         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -1624,7 +1634,7 @@ while True:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
             print("[+] Performing light scan...")            
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --version-light --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -1641,7 +1651,7 @@ while True:
             catsFile("light.tmp")            
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
             print("[+] Performing heavy scan...")
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU -sV -O -A -T4 --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --version-all --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
