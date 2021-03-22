@@ -117,7 +117,7 @@ def test_TSH():
       return 0
       
 def lineCount(variable):
-   localCOM("cat " + variable + " | wc -m > count1.tmp")
+   localCOM("cat " + variable + " | wc -l > count1.tmp")
    count = (linecache.getline("count1.tmp", 1).rstrip("\n"))
    if count == 0:
       return int(count)
