@@ -2152,17 +2152,24 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " > shares1.tmp")
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
             remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
+            if not os.path.exists("shares2.tmp2"):
+               print("Press ENTER for password...")
+               remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")               
          else:
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp")            
-            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")            
+            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")
+            if not os.path.exists("shares2.tmp2"):
+               print("Press ENTER for password...")
+               remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares2.tmp")
+         cutLine("Enter WORKGROUP", "shares2.tmp")
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
             remotCOM("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                    
-         if os.path.getsize("shares2.tmp") != 0:   
-            catsFile("shares1.tmp")
+         if os.path.getsize("shares2.tmp") != 0: 
+            catsFile("shares1.tmp")                       
             catsFile("shares2.tmp")           
             cutLine("is an IPv6 address","shares2.tmp")
             cutLine("no workgroup","shares2.tmp")
