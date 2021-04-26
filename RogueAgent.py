@@ -772,9 +772,9 @@ def options():
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) Rpc ClientServ (46) PASSWORD2HASH (56) SecretsDump (66) Dir Listing (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) MSF Console (88) WinRm   " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) -RESERVED-- (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) MSF Console (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -2192,7 +2192,13 @@ while True:
          with open("shares1.tmp","r") as check:
             if "READ, WRITE" in check.read():
                print(colored("[*] A remote SMB READ/WRITE directory has been identified, checking for possible CVE-2017-7494 exploit - please wait...\n", colour3))
-               remotCOM("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" "))
+               remotCOM("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" ") + " > exploit.tmp")
+               cutLine("Starting Nmap", "exploit.tmp")
+               cutLine("Nmap scan report", "exploit.tmp")
+               cutLine("Host is up", "exploit.tmp")
+               cutLine("Nmap done","exploit.tmp")
+               parsFile("exploit.tmp")
+               catsFile("exploit.tmp")
       else:
          print("[+] Unable to obtains shares...")
       prompt()
@@ -2229,7 +2235,10 @@ while True:
             print(colored("[*] Checking command privilege...", colour3))
             remotCOM("smbmap -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
-            remotCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")            
+            remotCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
+            cutLine("[+]","mapped.tmp")
+            parsFile("mapped.tmp")
+            catsFile("mapped.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3303,19 +3312,20 @@ while True:
                            print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))
       else:
          print("[-] You need to start the smtpd server first...")
-      prompt()     
-      
+      prompt()  
+
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected -
+# Details : Menu option selected - 
 # Modified: N/A
-# ------------------------------------------------------------------------------------- 
+# -------------------------------------------------------------------------------------
 
-   if selection =='70':
-      prompt()
-     
+   if selection =='70':          
+      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
+      prompt()   
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3532,17 +3542,17 @@ while True:
    if selection =='77':
       print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Redis Client
 # Modified: N/A
-# -------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------- 
 
-   if selection =='78':          
-      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
+   if selection =='78':
+      remoteCom("redis-cli -h " + TIP.rstrip(" ") + " --user " + USR.rstrip(" ") + " --pass " + PAS.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
