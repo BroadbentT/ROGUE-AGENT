@@ -3552,7 +3552,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 
    if selection =='78':
-      remoteCom("redis-cli -h " + TIP.rstrip(" ") + " --user " + USR.rstrip(" ") + " --pass " + PAS.rstrip(" "))
+      remotCOM("redis-cli -h " + TIP.rstrip(" ") + " --pass " + PAS.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
