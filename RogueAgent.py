@@ -1671,10 +1671,9 @@ while True:
             remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")                       
             catsFile("heavy.tmp")
-            if "500" in PTS:
+            if "500," in PTS:
                remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
                catsFile("ike.tmp")
-
       prompt()
       
 # ------------------------------------------------------------------------------------- 
