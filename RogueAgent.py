@@ -2285,9 +2285,9 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%\":'" + NTM.rstrip(" ") + "'\" --pw-nt-hash -s " + TSH.rstrip(" " ))
+            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' --pw-nt-hash -s " + TSH.rstrip(" " ))
          else:
-            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%\"'" + PAS.rstrip(" ") + "'\" -s " + TSH.rstrip(" "))
+            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -s " + TSH.rstrip(" "))
       prompt()
    
 # ------------------------------------------------------------------------------------- 
