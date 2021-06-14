@@ -802,9 +802,9 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-netWork = "tun0"						# LOCAL INTERFACE
-maxUser = 5000							# UNLIMITED VALUE
-colour0 = "red"							# DISPLAY COLOURS
+netWork = "tun0"							# LOCAL INTERFACE
+maxUser = 5000								# UNLIMITED VALUE
+colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
 colour3 = "blue"
@@ -813,17 +813,17 @@ colour5 = "white"
 colour6 = "green"
 colour7 = "yellow"
 colour8 = "magenta"
-Yellow  = '\e[1;93m'						# OP SYSTEM COLOUR
+Yellow  = '\e[1;93m'							# OP SYSTEM COLOUR
 Green   = '\e[0;32m'
 Reset   = '\e[0m'
 Red     = '\e[1;91m'
-dataDir = "ROGUEAGENT"						# LOCAL DIRECTORYS
+dataDir = "ROGUEAGENT"							# LOCAL DIRECTORYS
 httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
-keyPath = "python3 /usr/share/doc/python3-impacket/examples/"	# PATH 2 IMPACKET
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
+keyPath = "python3 /usr/share/doc/python3-impacket/examples/"		# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -3098,11 +3098,11 @@ while True:
       print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
       checkParams = test_WEB()
       if checkParams != 1:
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50 > dir.tmp") 
+         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir.tmp") 
       else:       
          checkParams = test_TIP()
          if checkParams != 1:
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/dirb/wordlists/common.txt -t 50 > dir.tmp")
+            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir.tmp")
       catsFile("dir.tmp")
       prompt()
       
