@@ -377,6 +377,21 @@ def checkBIOS():
          catsFile("bios.tmp")
    return
    
+def checkWAF():
+      print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
+      #bit1, bit2, bit3, bit4 = TIP.split(".")
+      remotCOM("wafw00f -a " + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp")
+#      localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+#      localCOM("sed -i '/^$/d' ./bios.tmp")
+#      nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
+#      if nullTest == "":
+#         print("[-] No netbios information found...")
+#      else:
+#      print("[+] Found protocol...")delete 
+      waf = linecache.getline("waf.tmp", 1).rstrip("\n")
+      print(colored("\n" + waf.lstrip(" "), colour6))
+      return
+   
 def networkSweep():
    if IP46 == "-6":
       return
@@ -1311,6 +1326,7 @@ while True:
             COM = checkInterface("TIP", COM)
             networkSweep()
             checkBIOS()
+            checkWAF()
          else:
             print("[-] Unknown internet protocol...")
             TIP = spacePadding("EMPTY", COL1)                         
