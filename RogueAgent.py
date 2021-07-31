@@ -388,12 +388,11 @@ def checkWAF():
 #         print("[-] No netbios information found...")
 #      else:
 #      print("[+] Found protocol...")delete 
-      check = lineCount("waf.tmp")
-      if check > 0:
-         waf = linecache.getline("waf.tmp", 1).rstrip("\n")
+      waf = linecache.getline("waf.tmp", 1).rstrip("\n")
+      if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
       else:
-         print(colored("\nSomething went wrong...", colour6))
+         print(colored("\nSomething went wrong!!...", colour6))
       return
    
 def networkSweep():
