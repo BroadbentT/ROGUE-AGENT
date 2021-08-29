@@ -3131,30 +3131,34 @@ while True:
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - GOBUSTER WEB ADDRESS/IP common.txt
 # Modified: N/A
-# Note    : Alternative dictionary - alternative /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt 
+# Note    : Alternative dictionary - alternative /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt /usr/share/seclists/Discovery/Web-Content/common.txt
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      print(colored("[*] Scanning for directories, please wait...", colour3))
+      print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
       checkParams = test_WEB()
       if checkParams != 1:
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir.tmp")
+         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
          localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")
          localCOM("tr -d '/' < list.tmp > dir2.tmp")
          localCOM("sed -i '/\./d' dir2.tmp")
          catsFile("dir2.tmp")
-         print(colored("[+] Enumerating directories and files, please wait this can take sometime...", colour3))
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir3.tmp")     
+         localCOM("cp /usr/share/seclists/Discovery/Web-Content/common.txt ./dictionary.tmp")
+         localCOM("cat dir2.tmp >> dictionary.tmp")
+         print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
+         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -w dictionary.tmp -t 50 > dir3.tmp")     
       else:       
          checkParams = test_TIP()
          if checkParams != 1:
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir.tmp")
+            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
             localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")           
             localCOM("tr -d '/' < list.tmp > dir2.tmp") 
             localCOM("sed -i '/\./d' dir2.tmp")
             catsFile("dir2.tmp")
-            print(colored("[+] Enumerating directories and files, please wait this can take sometime...", colour3))
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -f -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50 > dir3.tmp")
+            localCOM("cp /usr/share/seclists/Discovery/Web-Content/common.txt ./dictionary.tmp")
+            localCOM("cat dir2.tmp >> dictionary.tmp")
+            print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
+            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -w dictionary.tmp-t 50 > dir3.tmp")
       catsFile("dir3.tmp")
       localCOM("cat dir3.tmp | grep 200 > 200.tmp")
       catsFile("200.tmp")
