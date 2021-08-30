@@ -913,25 +913,25 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (21) Get Arch (31) WinLDAP Search (41) Kerberos Info (51) Gold Ticket (61) ServScanner (71) FILE Editor (81) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (22) Net View (32) Look up SecIDs (42) Kerberos Auth (52) Gold DC PAC (62) VulnScanner (72)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (  )                  (21) Get Arch (31) WinLDAP Search (41) Kerberos Info (51) Gold Ticket (61) ServScanner (71) FILE Editor (81) FTP     " + '\u2551')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (  )                  (22) Net View (32) Look up SecIDs (42) Kerberos Auth (52) Gold DC PAC (62) VulnScanner (72)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
    print("(82) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Start SERVICE (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (  )                  (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (  )                  (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) Rpc ClientServ (46) PASSWORD2HASH (56) SecretsDump (66) Dir Listing (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) MSF Console (80) Rsync Dumps (90) Exit    " + '\u2551')
-   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
-   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
-   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
-   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print('\u2551' + "(11) Re/Set DOMAIN  SID                                                                                                                                            " + '\u2551')
+   print('\u2551' + "(12) Re/Set FILE   NAME                                                                                                                                            " + '\u2551')
+   print('\u2551' + "(13) Re/Set SHARE  NAME                                                                                                                                            " + '\u2551')
+   print('\u2551' + "(14) Re/Set ALT SERVICE                                                                                                                                            " + '\u2551')
    print('\u2551' + "                                                                                                                                                                   " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
