@@ -567,7 +567,7 @@ def dispMenu():
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
   
 
-   for loop in range(0,13):
+   for loop in range(0,screenLength):
       print('\u2551' + " " + LABS[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
@@ -633,12 +633,21 @@ def dispMenu():
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
          if(loop == 12): print(colored(TSH[:COL1],colour6), end=' ')
-      print('\u2551', end=' ')   
+
       
-      print(colored(SHAR[0],colour6), end=' ')   
+      if loop == 13: print (EMPTY_1, end=' ')
+      if loop == 14: print (EMPTY_2, end=' ')
+      if loop == 15: print (EMPTY_3, end=' ')
+      if loop == 16: print (EMPTY_4, end=' ')
+      if loop == 17: print (EMPTY_5, end=' ')
+      if loop == 18: print (EMPTY_6, end=' ')
+      if loop == 19: print (EMPTY_7, end=' ')
+
+      print('\u2551', end=' ')       
+      print(colored(SHAR[loop],colour6), end=' ')   
       print('\u2551', end=' ')   
-      print(colored(USER[0],colour2), end=' ')
-      print(colored(HASH[0],colour2), end=' ')
+      print(colored(USER[loop],colour2), end=' ')
+      print(colored(HASH[loop],colour2), end=' ')
       print('\u2551', end=' ')   
       
       print(colored(RPTS[loop], colour6), end=' ')
@@ -919,6 +928,11 @@ def options():
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) MSF Console (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1087,9 +1101,26 @@ LABS[9]  = "DOMAIN NAME"
 LABS[10] = "DOMAIN  SID"
 LABS[11] = "FILE   NAME"
 LABS[12] = "SHARE  NAME"
+LABS[13] = "           "
+LABS[14] = "           "
+LABS[15] = "           "
+LABS[16] = "           "
+LABS[17] = "           "
+LABS[18] = "           "
+LABS[19] = "           "
+
+screenLength = 20
+
+EMPTY_1 = "                                        "
+EMPTY_2 = "                                        "
+EMPTY_3 = "                                        "
+EMPTY_4 = "                                        "
+EMPTY_5 = "                                        "
+EMPTY_6 = "                                        "
+EMPTY_7 = "                                        "
 
 RPTS[0]  = spacePadding(" ",5)
-RBAN[0]  = spacePadding("BANNER DATA HERE",COL4)
+RBAN[0]  = spacePadding("BANNER DATA TO GO HERE",COL4)
 
 
 # -------------------------------------------------------------------------------------
@@ -1181,7 +1212,7 @@ else:
    IP46 = "-4"      
 time.sleep(5)
 
-for loop in range(0, 13):
+for loop in range(0, screenLength):
    for x in POR.split(","):
       RPTS[loop] = spacePadding(x,5)
       loop = loop + 1
