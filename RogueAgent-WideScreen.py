@@ -284,29 +284,34 @@ def checkPorts(PTS, POR):
       print("[+] Performing light scan...")
       remotCOM("nmap " + IP46 + " " + TIP.rstrip(" ") + " --top-ports 1000 --open > light.tmp")
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
-      catsFile("ports.tmp")
-      
-      print("\n[+] Performing heavy scan...")
-      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
-      localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
-      localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
-      PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
-      if PTS[:1] == "":
-         print("[+] Unable to enumerate any port information, good luck!!...")
+      PTS1 = linecache.getline("ports.tmp", 1).rstrip("\n")            
+      if PTS1[:1] == "":
+         print("[-] Unable to enumerate any port information, good luck!!...")
          PTS = "EMPTY"
       else:
          print("[+] Found live ports...\n")      
-         print(colored(PTS,colour6) + "\n")
-    
-      # ADD TWO PORT LISTINGS TOGETHER THEN UNQUE
-      
-
+         print(colored(PTS1,colour6) + "\n")      
+      print("[+] Performing heavy scan...")
+      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --open --min-rate=10000 " + TIP.rstrip(" ") + " > heavy.tmp")      
+      localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
+      localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")      
+      PTS2 = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
+      if PTS2[:1] == "":
+         print("[-] Unable to enumerate any port information, good luck!!...")
+         PTS = "EMPTY"
+      else:
+         print("[+] Found live ports...\n")      
+         print(colored(PTS2,colour6) + "\n")
+      PTS = PTS1 + "," + PTS2
+      localCOM("echo " + PTS + " > list.tmp")
+      localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )
+      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+      PTS = str(PTS)
       for loop in range(0, 13):
          for x in PTS.split(","):
             RPTS[loop] = spacePadding(x,5)
             loop = loop + 1
-         break
-         
+         break         
    return PTS
 
 def squidCheck():
