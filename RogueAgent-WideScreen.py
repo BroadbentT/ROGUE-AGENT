@@ -306,13 +306,25 @@ def checkPorts(PTS, POR):
       localCOM("echo " + PTS + " > list.tmp")
       localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )
       PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
-      PTS = str(PTS)
-      for loop in range(0, 13):
+      print("[+] Gabbing banners...")
+      localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
+      loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
+      for loop in range(0, loopMax):
          for x in PTS.split(","):
             RPTS[loop] = spacePadding(x,5)
+            RBAN[loop] = portBanner(x)   
+            linecache.clearcache()
             loop = loop + 1
-         break         
+         break
    return PTS
+   
+def portBanner(port):
+   remotCOM("nmap -p " + port + " --script=banner " + TIP + " > banner.tmp")
+   localCOM("cat banner.tmp | grep banner > type.tmp")
+   banner = linecache.getline("type.tmp", 1).rstrip("\n")
+   if banner == "":
+      banner = "EMPTY"  
+   return spacePadding(banner.replace('|_banner: ',''),COL4)
 
 def squidCheck():
    print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
@@ -1125,7 +1137,7 @@ EMPTY_6 = "                                        "
 EMPTY_7 = "                                        "
 
 RPTS[0]  = spacePadding(" ",5)
-RBAN[0]  = spacePadding("BANNER DATA TO GO HERE",COL4)
+RBAN[0]  = spacePadding(" ",COL4)
 
 
 # -------------------------------------------------------------------------------------
