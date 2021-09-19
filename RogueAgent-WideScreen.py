@@ -302,7 +302,7 @@ def getPorts(PTS):
    localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
    PTS = linecache.getline("ports.tmp", 1).rstrip("\n") 
    PTS = PTS.replace('"','')           
-   if PTS1[:1] == "":
+   if PTS[:1] == "":
       print("[-] Unable to enumerate any port information, good luck!!...")
       PTS = "EMPTY"
    else:
