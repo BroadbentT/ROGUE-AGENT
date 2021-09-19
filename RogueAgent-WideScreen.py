@@ -314,7 +314,7 @@ def getPorts(PTS):
    print("[+] Gabbing banners...")  
    localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
    loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+   PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
    for loop in range(0, loopMax):
       for x in PTS.split(","):
          RPTS[loop] = spacePadding(x,5)
