@@ -942,21 +942,21 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (  )                  (21) Get Arch (31) WinLDAP Search (41) Kerberos Info (51) Gold Ticket (61) ServScanner (71) FILE Editor (81) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (  )                  (22) Net View (32) Look up SecIDs (42) Kerberos Auth (52) Gold DC PAC (62) VulnScanner (72)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (  )                  (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP     " + '\u2551')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (  )                  (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(82) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (  )                  (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (  )                  (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) Rpc ClientServ (46) PASSWORD2HASH (56) SecretsDump (66) Dir Listing (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) MSF Console (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print("(92) SSH     " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (  )                  (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (  )                  (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL   " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL   " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm   " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit   " + '\u2551')
    print('\u2551' + "(11) Re/Set DOMAIN  SID                                                                                                                                            " + '\u2551')
    print('\u2551' + "(12) Re/Set FILE   NAME                                                                                                                                            " + '\u2551')
    print('\u2551' + "(13) Re/Set SHARE  NAME                                                                                                                                            " + '\u2551')
@@ -1803,7 +1803,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '15':
+   if selection == '25':
       dispSubMenu(" (01) Who (02) Dig (03) Enum (04) Reco (05) Quit")
       checkParam = 0
       subChoice = input("[?] Please select an option: ")
@@ -1847,7 +1847,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '16':
+   if selection == '26':
       PTS = getPorts(PTS)
       
       POR = spacePadding(PTS, COL1)      
@@ -1866,7 +1866,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 # 
-   if selection == '17':
+   if selection == '27':
       checkParam = test_TIP()      
       if checkParam != 1:
          if POR[:5] != "EMPTY":
@@ -1919,7 +1919,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '18':
+   if selection == '28':
       checkParam = test_DNS()
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -1936,7 +1936,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '19':
+   if selection == '29':
       checkParam = test_WEB()
       if checkParam != 1:
          print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
@@ -1951,7 +1951,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '20':
+   if selection == '30':
       remotCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
       prompt()
                   
@@ -1964,7 +1964,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '21':
+   if selection == '31':
       checkParam = test_TIP()      
       if checkParam != 1:
          print(colored("[*] Attempting to enumerate architecture...", colour3))
@@ -1987,7 +1987,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='22':
+   if selection =='32':
       checkParama = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()      
@@ -2003,7 +2003,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='23':
+   if selection =='33':
       checkParam = test_TIP
       if checkParam != 1:
          checkParam = test_DOM()      
@@ -2019,7 +2019,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '24':
+   if selection == '34':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()      
@@ -2035,7 +2035,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '25':
+   if selection == '35':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2051,7 +2051,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '26':
+   if selection == '36':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2067,7 +2067,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '27':
+   if selection == '37':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()            
@@ -2083,7 +2083,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '28':
+   if selection == '38':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()      
@@ -2099,7 +2099,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='29':
+   if selection =='39':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_PRT("2049")
@@ -2125,7 +2125,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '30':
+   if selection == '40':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_PRT("2049")
@@ -2145,7 +2145,7 @@ while True:
 # Modified: 08/12/2020 - Currently Using DOM rather than TIP as command has issues with IP6.
 # -------------------------------------------------------------------------------------
 
-   if selection =='31':
+   if selection =='41':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                  
@@ -2176,7 +2176,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='32':
+   if selection =='42':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2244,7 +2244,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='33':
+   if selection =='43':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2301,7 +2301,7 @@ while True:
 # Note    : Needs a structure rewrite!!!
 # -------------------------------------------------------------------------------------
 
-   if selection =='34':
+   if selection =='44':
       checkParam = test_TIP()     
       if checkParam != 1:
          checkParam = test_DOM()                  
@@ -2331,7 +2331,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='35':
+   if selection =='45':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()      
@@ -2361,7 +2361,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '36':
+   if selection == '46':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                     
@@ -2381,7 +2381,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='37':
+   if selection =='47':
       checkParam = test_TIP()      
       if checkParam != 1:
          print(colored("[*] Finding shares, please wait...", colour3))
@@ -2445,7 +2445,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '38':
+   if selection == '48':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                   
@@ -2483,7 +2483,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '39':
+   if selection == '49':
       checkParama = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()             
@@ -2513,7 +2513,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '40':
+   if selection == '50':
       checkParam = test_TIP()           
       if checkParam != 1:
          checkParam = test_TSH()                  
@@ -2533,7 +2533,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '41':
+   if selection == '51':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2553,7 +2553,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '42':
+   if selection == '52':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2607,7 +2607,7 @@ while True:
 # Modified: NOTE - THIS DOES NOT CURRENTLY DEAL WITH FOUND MULTIPLE USERS!!!
 # -------------------------------------------------------------------------------------
 
-   if selection =='43':
+   if selection =='53':
       checkParam = test_TIP()
       found = 0            
       if checkParam != 1:
@@ -2651,7 +2651,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '44':
+   if selection == '54':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                     
@@ -2676,7 +2676,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='45':
+   if selection =='55':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()          
@@ -2714,7 +2714,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '46':
+   if selection == '56':
       checkParam = test_PAS()
       if checkParam != 1:    
          NTM = hashlib.new("md4", PAS.rstrip(" ").encode("utf-16le")).digest()
@@ -2738,7 +2738,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '47':
+   if selection == '57':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                             
@@ -2794,7 +2794,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '48':
+   if selection == '58':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2818,7 +2818,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='49':
+   if selection =='59':
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()
@@ -2849,7 +2849,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '50':
+   if selection == '60':
       checkParam = test_TIP()     
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -2876,7 +2876,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '51':
+   if selection == '61':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -2903,7 +2903,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='52':
+   if selection =='62':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2925,7 +2925,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='53':
+   if selection =='63':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2945,7 +2945,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='54':
+   if selection =='64':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                     
@@ -2972,7 +2972,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='55':
+   if selection =='65':
       checkParam != test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2993,7 +2993,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='56':
+   if selection =='66':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -3050,7 +3050,7 @@ while True:
 # Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
-   if selection =='57':
+   if selection =='67':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -3104,7 +3104,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='58':
+   if selection =='68':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -3121,7 +3121,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='59':
+   if selection =='69':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -3138,7 +3138,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='60':
+   if selection =='70':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -3155,7 +3155,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='61':
+   if selection =='71':
       print(colored("[*] Service scanning host, please wait this can take sometime...", colour3))
       checkParam = test_WEB()
       if checkParam != 1:
@@ -3183,7 +3183,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='62':
+   if selection =='72':
       checkParam = test_TIP()
       if checkParam != 1:
          if POR[:5] != "EMPTY":
@@ -3202,7 +3202,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='63':
+   if selection =='73':
       checkParam = test_TIP()
       if checkParam != 1:
          if POR[:5] != "EMPTY":
@@ -3221,7 +3221,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '64':
+   if selection == '74':
       services = input("[?] Please enter service name: ")
       localCOM("searchsploit '" + services + "' > sploit.tmp")      
       nullTest = linecache.getline("sploit.tmp",1)      
@@ -3245,7 +3245,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='65':                 
+   if selection =='75':                 
       checkParam = getPort()      
       if checkParam != 1:
          if OSF[:7] == "WINDOWS":
@@ -3330,7 +3330,7 @@ while True:
 # Note    : Alternative dictionary - alternative /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt /usr/share/seclists/Discovery/Web-Content/common.txt
 # -------------------------------------------------------------------------------------
 
-   if selection =='66':
+   if selection =='76':
       print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
       checkParam = test_WEB()
       if checkParam != 1:
@@ -3368,7 +3368,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='67':
+   if selection =='77':
       checkParam = test_PRT("161")      
       if checkParam != 1:
          print(colored("[*] Checking all communities...", colour3))
@@ -3416,7 +3416,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='68':
+   if selection =='78':
       checkParam = getPort()
       if HTTP == 0:
          print("[-] You need to start the HTTP server first...")
@@ -3449,7 +3449,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='69':
+   if selection =='79':
       if HTTP != 0:
          checkParam = test_TIP()      
          if checkParam != 1:
@@ -3575,7 +3575,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='70':          
+   if selection =='80':          
       print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
       prompt()   
       
@@ -3587,7 +3587,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='71':
+   if selection =='81':
       dispSubMenu(" (01) User Names (02) Pass Words (03) NTLM Hashes (04) Hosts Config (05) Resolv Config (06) Proxychains Config (07) Kerb5 Config (08) Quit")
       checkParam = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
@@ -3632,7 +3632,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='72':        
+   if selection =='82':        
       if proxyChains == 0:
          proxyChains = 1
          print("[+] Proxychains activated...")
@@ -3649,7 +3649,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='73':
+   if selection =='83':
       print(colored("[*] Generating Keys...", colour3))
       if os.path.exists("id_rsa.pub"):
          localCOM("rm id_rsa")
@@ -3672,7 +3672,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='74':
+   if selection =='84':
       checkParam = test_PRT("80")
       if checkParam != 1:
          checkParam = test_WEB()
@@ -3704,7 +3704,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='75':
+   if selection =='85':
       checkParam = test_PRT("80")
       if checkParam != 1:
          checkParam = test_WEB()
@@ -3731,7 +3731,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='76':
+   if selection =='86':
       print(colored("[*] Checking " + workDir + " for relevant files...", colour3))      
       if os.path.exists("./" + workDir + "/ntds.dit"):
          print("[+] File ntds.dit found...")
@@ -3792,7 +3792,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='77':
+   if selection =='87':
       print("\nA NEW HYDRA INTERFACE IS BEING DEVELOPED.")
       prompt()
       
@@ -3804,7 +3804,7 @@ while True:
 # Modified: N/A
 # ------------------------------------------------------------------------------------- 
 
-   if selection =='78':
+   if selection =='88':
       remotCOM("redis-cli -h " + TIP.rstrip(" ") + " --pass " + PAS.rstrip(" "))
       prompt()
       
@@ -3816,7 +3816,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='79':
+   if selection =='89':
       checkParam = test_TIP()            
       if checkParam != 1:
          checkParam = test_PRT("873")         
@@ -3834,7 +3834,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '80':
+   if selection == '90':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_PRT("873")         
@@ -3850,7 +3850,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='81':
+   if selection =='91':
       checkParam = test_TIP()            
       if checkParam != 1:
          checkParam = test_PRT("21")                 
@@ -3866,7 +3866,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='82':
+   if selection =='92':
       checkParam = test_TIP()            
       if checkParam != 1:
          checkParam = test_PRT("22")                 
@@ -3882,7 +3882,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='83':
+   if selection =='93':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_PRT("22")          
@@ -3898,7 +3898,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='84':
+   if selection =='94':
       checkParam = test_TIP()                  
       if checkParam != 1:
          checkParam = getPort()
@@ -3914,7 +3914,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='85':
+   if selection =='95':
       checkParam = test_TIP()            
       if checkParam != 1:
          checkParam = getPort()               
@@ -3930,7 +3930,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='86':
+   if selection =='96':
       checkParam = test_DOM()            
       if checkParam != 1:
          checkParam = test_PRT("1433")               
@@ -3951,7 +3951,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='87':
+   if selection =='97':
       checkParam = test_TIP()                  
       if checkParam != 1:
          checkParam = test_PRT("3306")            
@@ -3967,7 +3967,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='88':
+   if selection =='98':
       if IP46 == "-4":
          checkParam = test_TIP()
       else:
@@ -3996,7 +3996,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '89':
+   if selection == '99':
       checkParam = test_TIP()            
       if checkParam != 1:
          checkParam = test_PRT("3389")                     
@@ -4012,7 +4012,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '90':        
+   if selection == '100':        
       saveParams()
       localCOM("rm *.tmp")      
       if DOMC == 1:
@@ -4033,7 +4033,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '100':
+   if selection == '101':
       dispBanner("ROGUE AGENT",1)
       print(colored("C O P Y R I G H T  2 0 2 1  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
       print("\n------------------------------------------------------------------------------")
