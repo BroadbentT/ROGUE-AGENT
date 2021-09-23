@@ -133,14 +133,12 @@ def test_TSH():
       return 0
       
 def lineCount(variable):
-   localCOM("cat " + variable + " | wc -l > count1.tmp")
-   count = (linecache.getline("count1.tmp", 1).rstrip("\n"))
+   localCOM("cat " + variable + " | wc -l > count.tmp")
+   count = int(linecache.getline("count.tmp", 1).rstrip("\n"))
    if count == 0:
-      return int(count)
+      return count
    else:
-      localCOM("grep --regexp='$' --count " + variable + " > count2.tmp")
-      count = (linecache.getline("count2.tmp", 1).rstrip("\n"))
-   return int(count)
+      return count
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
@@ -288,7 +286,7 @@ def privCheck():
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
          
-def getPorts(PTS):
+def getTCPorts(PTS):
    checkParam = test_TIP()
    if checkParam == 1:
       return PTS
@@ -311,7 +309,7 @@ def getPorts(PTS):
    localCOM("echo " + PTS + " > list.tmp")
    localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )  
 
-   print("[+] Gabbing banners...")  
+   print("[+] Grabbing services...")  
    localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
    loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
    PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
@@ -329,6 +327,48 @@ def getPorts(PTS):
          loop = loop + 1 
       break      
    return PTS
+   
+def getUDPorts(PTS22):
+   checkParam = test_TIP()
+   if checkParam == 1:
+      return PTS22
+    
+   print(colored("[*] Attempting to enumerate live udp ports, please wait...", colour3))
+   nmap = nmap3.NmapScanTechniques()
+   result = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
+   with open("udp.json", "w") as outfile:
+      json.dump(result, outfile, indent=4)
+   localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports2.tmp")
+   localCOM("cat udp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service2.tmp")
+   PTS22 = linecache.getline("ports2.tmp", 1).rstrip("\n") 
+   PTS22 = PTS22.replace('"','')           
+   if PTS22[:1] == "":
+      print("[-] Unable to enumerate any port information, good luck!!...")
+      PTS22 = "EMPTY"
+   else:
+      print("[+] Found live ports...\n")      
+      print(colored(PTS22,colour6) + "\n")      
+   localCOM("echo " + PTS22 + " > list.tmp")
+   localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )  
+
+   print("[+] Grabbing services...")  
+   localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
+   loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
+   PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+   for loop in range(0, loopMax):
+      for x in PTS22.split(","):
+         RPTS2[loop] = spacePadding(x,5)
+         loop = loop + 1
+      break      
+   SEV = linecache.getline("service2.tmp", 1).replace('"','')
+   SEV = SEV.replace("[]","")
+   SEV = SEV.rstrip("\n")      
+   for loop in range(0, loopMax):      
+      for y in SEV.split(","):
+         RBAN2[loop] = spacePadding(y, COL4)
+         loop = loop + 1 
+      break      
+   return PTS22
    
 #def portBanner(port):
 #   remotCOM("nmap -p " + port + " --script=banner " + TIP + " > banner.tmp")
@@ -383,13 +423,14 @@ def checkInterface(variable, COM):
            remotCOM("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
       if variable == "TIP":
            remotCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
-      cutLine("PING","ping.tmp")
-      cutLine("statistics","ping.tmp")
-      parsFile("ping.tmp")
-      localCOM("sed -i '$d' ./ping.tmp")      
+      cutLine("PING","ping.tmp")         # First line
+      cutLine("statistics","ping.tmp")   # Third from bottom
+      parsFile("ping.tmp")		
+      localCOM("sed -i '$d' ./ping.tmp") # Last line
       count = lineCount("ping.tmp")
+
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-      localCOM("sed -i '$d' ./ping.tmp")
+#      localCOM("sed -i '$d' ./ping.tmp")
       catsFile("ping.tmp") 
       if nullTest != "":
          print ("[+] " + nullTest + "...")
@@ -581,7 +622,7 @@ def clearClutter():
    return
 
 def dispMenu():
-   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
+   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*65 + '\u2557')
    print('\u2551' + " TIME ", end =' ')   
    if SKEW == 0:
       print(colored(LTM[:6],colour7), end=' ')
@@ -592,8 +633,8 @@ def dispMenu():
       print(colored(COM.upper(),colour7), end=' ')
    else:
       print(colored(COM.upper(),colour6), end=' ')      
-   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORTS " + '\u2551' + " BANNER " + (" ")*26 + '\u2551' ) 
-   print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u2563')   
+   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " UNALLOCATED " + (" ")*52 + '\u2551') 
+   print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*65 + '\u2563')   
   
 
    for loop in range(0,screenLength):
@@ -688,13 +729,15 @@ def dispMenu():
       print('\u2551', end=' ')   
       print(colored(USER[loop],colour2), end=' ')
       print(colored(HASH[loop],colour2), end=' ')
-      print('\u2551', end=' ')   
-      
+      print('\u2551', end=' ')      
       print(colored(RPTS[loop], colour6), end=' ')
       print('\u2551', end=' ')   
       print(colored(RBAN[loop], colour6), end=' ')
-      print('\u2551', end=' ')         
-      print("")
+      print('\u2551', end=' ')
+      print(colored(RPTS2[loop], colour6), end=' ')
+      print('\u2551', end=' ')   
+      print(colored(RBAN2[loop], colour6), end=' ')              
+      print('\u2551' + "                                                                 " + '\u2551')
 
   
 #   print('\u2551' + " O/S  FORMAT  " + '\u2551', end=' ')
@@ -949,27 +992,26 @@ def dispMenu():
 #         print(colored(HASH[12],colour6), end=' ')
 #   print('\u2551')      
 
-   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2563')
+   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*65 + '\u2563' )
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      					(121)" + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (121)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(92) SSH      					(122)" + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID 					(123)" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   					(124)" + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   					(125)" + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    					(126)" + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    					(127)" + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm   					(128)" + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk 					(129)" + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    					(130)" + '\u2551')
-#   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
-   print('\u255A' + ('\u2550')*163 + '\u255D')
+   print("(92) SSH      (122)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID (123)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   (124)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   (125)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    (126)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (127)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )	            " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (128)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (129)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    (130)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
 # -------------------------------------------------------------------------------------
@@ -1121,8 +1163,10 @@ USER = [" "*COL3]*maxUser		# USER NAMES
 HASH = [" "*COL4]*maxUser		# NTLM HASH
 VALD = ["0"*COL5]*maxUser		# USER TOKENS
 LABS = [" "*COL1]*maxUser		# LABELS
-RPTS = [" "*5]*maxUser		# REMOTE PORTS
-RBAN = [" "*COL4]*maxUser               # REMOTE PORT BANNER
+RPTS = [" "*5]*maxUser			# TCP PORTS
+RPTS2= [" "*5]*maxUser			# UDP PORTS
+RBAN = [" "*COL4]*maxUser               # TCP SERVICE BANNER
+RBAN2= [" "*COL4]*maxUser		# UDP SERVICE BANNER
 
 screenLength = 30
 
@@ -1139,47 +1183,50 @@ LABS[9]  = "DOMAIN NAME"
 LABS[10] = "DOMAIN  SID"
 LABS[11] = "FILE   NAME"
 LABS[12] = "SHARE  NAME"
-LABS[13] = "           "
-LABS[14] = "           "
-LABS[15] = "           "
-LABS[16] = "           "
-LABS[17] = "           "
-LABS[18] = "           "
-LABS[19] = "           "
-LABS[20] = "           "
-LABS[21] = "           "
-LABS[22] = "           "
-LABS[23] = "           "
-LABS[24] = "           "
-LABS[25] = "           "
-LABS[26] = "           "
-LABS[27] = "           "
-LABS[28] = "           "
-LABS[29] = "           " 
+LABS[13] = "UNALLOCATED"
+LABS[14] = "UNALLOCATED"
+LABS[15] = "UNALLOCATED"
+LABS[16] = "UNALLOCATED"
+LABS[17] = "UNALLOCATED"
+LABS[18] = "UNALLOCATED"
+LABS[19] = "UNALLOCATED"
+LABS[20] = "UNALLOCATED"
+LABS[21] = "UNALLOCATED"
+LABS[22] = "UNALLOCATED"
+LABS[23] = "UNALLOCATED"
+LABS[24] = "UNALLOCATED"
+LABS[25] = "UNALLOCATED"
+LABS[26] = "UNALLOCATED"
+LABS[27] = "UNALLOCATED"
+LABS[28] = "UNALLOCATED"
+LABS[29] = "UNALLOCATED" 
 
+# TEMP ASSIGNGED VALUES
 
-EMPTY_1 = "1                                       "
-EMPTY_2 = "2                                       "
-EMPTY_3 = "3                                       "
-EMPTY_4 = "4                                       "
-EMPTY_5 = "5                                       "
-EMPTY_6 = "6                                       "
-EMPTY_7 = "7                                       "
-EMPTY_8 = "8                                       "
-EMPTY_9 = "9                                       "
-EMPTY_10 = "10                                      "
-EMPTY_11 = "11                                      "
-EMPTY_12 = "12                                      "
-EMPTY_13 = "13                                      "
-EMPTY_14 = "14                                      "
-EMPTY_15 = "15                                      "
-EMPTY_16 = "16                                      "
-EMPTY_17 = "17                                      "
-EMPTY_18 = "18                                      "
-EMPTY_19 = "19                                      "
+EMPTY_1 = "EMPTY                                   "
+EMPTY_2 = "EMPTY                                   "
+EMPTY_3 = "EMPTY                                   "
+EMPTY_4 = "EMPTY                                   "
+EMPTY_5 = "EMPTY                                   "
+EMPTY_6 = "EMPTY                                   "
+EMPTY_7 = "EMPTY                                   "
+EMPTY_8 = "EMPTY                                   "
+EMPTY_9 = "EMPTY                                   "
+EMPTY_10 = "EMPTY                                   "
+EMPTY_11 = "EMPTY                                   "
+EMPTY_12 = "EMPTY                                   "
+EMPTY_13 = "EMPTY                                   "
+EMPTY_14 = "EMPTY                                   "
+EMPTY_15 = "EMPTY                                   "
+EMPTY_16 = "EMPTY                                   "
+EMPTY_17 = "EMPTY                                   "
+
+PTS22 = ""
 
 RPTS[0]  = spacePadding(" ",5)
+RPTS2[0] = spacePadding(" ",5)
 RBAN[0]  = spacePadding(" ",COL4)
+RBAN2[0] = spacePadding(" ",COL4)
 
 
 # -------------------------------------------------------------------------------------
@@ -1878,7 +1925,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '26':
-      PTS = getPorts(PTS)
+      PTS = getTCPorts(PTS)
+      PTS22= getUDPorts(PTS22)
       
       POR = spacePadding(PTS, COL1)      
       
