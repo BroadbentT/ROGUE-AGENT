@@ -671,6 +671,17 @@ def dispMenu():
       if loop == 17: print (EMPTY_5, end=' ')
       if loop == 18: print (EMPTY_6, end=' ')
       if loop == 19: print (EMPTY_7, end=' ')
+      
+      if loop == 20: print (EMPTY_8, end=' ')
+      if loop == 21: print (EMPTY_9, end=' ')
+      if loop == 22: print (EMPTY_10, end=' ')
+      if loop == 23: print (EMPTY_11, end=' ')
+      if loop == 24: print (EMPTY_12, end=' ')
+      if loop == 25: print (EMPTY_13, end=' ')
+      if loop == 26: print (EMPTY_14, end=' ')
+      if loop == 27: print (EMPTY_15, end=' ')
+      if loop == 28: print (EMPTY_16, end=' ')
+      if loop == 29: print (EMPTY_17, end=' ')
 
       print('\u2551', end=' ')       
       print(colored(SHAR[loop],colour6), end=' ')   
@@ -942,26 +953,22 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (  )                  (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP     " + '\u2551')
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (  )                  (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      					(121)" + '\u2551')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(92) SSH     " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (  )                  (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (  )                  (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL   " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL   " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm   " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit   " + '\u2551')
-   print('\u2551' + "(11) Re/Set DOMAIN  SID                                                                                                                                            " + '\u2551')
-   print('\u2551' + "(12) Re/Set FILE   NAME                                                                                                                                            " + '\u2551')
-   print('\u2551' + "(13) Re/Set SHARE  NAME                                                                                                                                            " + '\u2551')
-   print('\u2551' + "(14) Re/Set ALT SERVICE                                                                                                                                            " + '\u2551')
-   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
+   print("(92) SSH      					(122)" + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID 					(123)" + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   					(124)" + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   					(125)" + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    					(126)" + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    					(127)" + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm   					(128)" + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk 					(129)" + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    					(130)" + '\u2551')
+#   print('\u2551' + "                                                                                                                                                                   " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1117,6 +1124,8 @@ LABS = [" "*COL1]*maxUser		# LABELS
 RPTS = [" "*5]*maxUser		# REMOTE PORTS
 RBAN = [" "*COL4]*maxUser               # REMOTE PORT BANNER
 
+screenLength = 30
+
 LABS[0]  = "O/S  FORMAT"
 LABS[1]  = "DNS ADDRESS"
 LABS[2]  = "IP  ADDRESS"
@@ -1137,16 +1146,37 @@ LABS[16] = "           "
 LABS[17] = "           "
 LABS[18] = "           "
 LABS[19] = "           "
+LABS[20] = "           "
+LABS[21] = "           "
+LABS[22] = "           "
+LABS[23] = "           "
+LABS[24] = "           "
+LABS[25] = "           "
+LABS[26] = "           "
+LABS[27] = "           "
+LABS[28] = "           "
+LABS[29] = "           " 
 
-screenLength = 20
 
-EMPTY_1 = "                                        "
-EMPTY_2 = "                                        "
-EMPTY_3 = "                                        "
-EMPTY_4 = "                                        "
-EMPTY_5 = "                                        "
-EMPTY_6 = "                                        "
-EMPTY_7 = "                                        "
+EMPTY_1 = "1                                       "
+EMPTY_2 = "2                                       "
+EMPTY_3 = "3                                       "
+EMPTY_4 = "4                                       "
+EMPTY_5 = "5                                       "
+EMPTY_6 = "6                                       "
+EMPTY_7 = "7                                       "
+EMPTY_8 = "8                                       "
+EMPTY_9 = "9                                       "
+EMPTY_10 = "10                                      "
+EMPTY_11 = "11                                      "
+EMPTY_12 = "12                                      "
+EMPTY_13 = "13                                      "
+EMPTY_14 = "14                                      "
+EMPTY_15 = "15                                      "
+EMPTY_16 = "16                                      "
+EMPTY_17 = "17                                      "
+EMPTY_18 = "18                                      "
+EMPTY_19 = "19                                      "
 
 RPTS[0]  = spacePadding(" ",5)
 RBAN[0]  = spacePadding(" ",COL4)
