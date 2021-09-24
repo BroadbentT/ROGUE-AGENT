@@ -34,7 +34,6 @@ import requests
 import linecache
 import itertools
 
-
 from termcolor import colored
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
@@ -307,32 +306,31 @@ def getTCPorts(PTS):
       print("[+] Found live ports...\n")      
       print(colored(PTS,colour6) + "\n")      
    localCOM("echo " + PTS + " > list.tmp")
-   localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )  
-
-   print("[+] Grabbing services...")  
-   localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
-   loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-   PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
-   for loop in range(0, loopMax):
-      for x in PTS.split(","):
-         RPTS[loop] = spacePadding(x,5)
-         loop = loop + 1
-      break      
-   SEV = linecache.getline("service1.tmp", 1).replace('"','')
-   SEV = SEV.replace("[]","")
-   SEV = SEV.rstrip("\n")      
-   for loop in range(0, loopMax):      
-      for y in SEV.split(","):
-         RBAN[loop] = spacePadding(y, COL4)
-         loop = loop + 1 
-      break      
+   localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )
+   if PTS[:5] != "EMPTY":
+      print("[+] Grabbing services...")  
+      localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
+      loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
+      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+      for loop in range(0, loopMax):
+         for x in PTS.split(","):
+            RPTS[loop] = spacePadding(x,5)
+            loop = loop + 1
+         break      
+      SEV = linecache.getline("service1.tmp", 1).replace('"','')
+      SEV = SEV.replace("[]","")
+      SEV = SEV.rstrip("\n")      
+      for loop in range(0, loopMax):      
+         for y in SEV.split(","):
+            RBAN[loop] = spacePadding(y, COL4)
+            loop = loop + 1 
+         break      
    return PTS
    
 def getUDPorts(PTS22):
    checkParam = test_TIP()
    if checkParam == 1:
-      return PTS22
-    
+      return PTS22    
    print(colored("[*] Attempting to enumerate live udp ports, please wait...", colour3))
    nmap = nmap3.NmapScanTechniques()
    result = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
@@ -350,24 +348,24 @@ def getUDPorts(PTS22):
       print(colored(PTS22,colour6) + "\n")      
    localCOM("echo " + PTS22 + " > list.tmp")
    localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )  
-
-   print("[+] Grabbing services...")  
-   localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
-   loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-   PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
-   for loop in range(0, loopMax):
-      for x in PTS22.split(","):
-         RPTS2[loop] = spacePadding(x,5)
-         loop = loop + 1
-      break      
-   SEV = linecache.getline("service2.tmp", 1).replace('"','')
-   SEV = SEV.replace("[]","")
-   SEV = SEV.rstrip("\n")      
-   for loop in range(0, loopMax):      
-      for y in SEV.split(","):
-         RBAN2[loop] = spacePadding(y, COL4)
-         loop = loop + 1 
-      break      
+   if  PTS22[:5] != "EMPTY":
+      print("[+] Grabbing services...")  
+      localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
+      loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
+      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+      for loop in range(0, loopMax):
+         for x in PTS22.split(","):
+            RPTS2[loop] = spacePadding(x,5)
+            loop = loop + 1
+         break      
+      SEV = linecache.getline("service2.tmp", 1).replace('"','')
+      SEV = SEV.replace("[]","")
+      SEV = SEV.rstrip("\n")      
+      for loop in range(0, loopMax):      
+         for y in SEV.split(","):
+            RBAN2[loop] = spacePadding(y, COL4)
+            loop = loop + 1 
+         break      
    return PTS22
    
 #def portBanner(port):
@@ -428,9 +426,8 @@ def checkInterface(variable, COM):
       parsFile("ping.tmp")		
       localCOM("sed -i '$d' ./ping.tmp") # Last line
       count = lineCount("ping.tmp")
-
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-#      localCOM("sed -i '$d' ./ping.tmp")
+      localCOM("sed -i '$d' ./ping.tmp")
       catsFile("ping.tmp") 
       if nullTest != "":
          print ("[+] " + nullTest + "...")
@@ -1223,8 +1220,8 @@ EMPTY_17 = "EMPTY                                   "
 
 PTS22 = ""
 
-RPTS[0]  = spacePadding(" ",5)
-RPTS2[0] = spacePadding(" ",5)
+RPTS[0]  = spacePadding("EMPTY",5)
+RPTS2[0] = spacePadding("EMPTY",5)
 RBAN[0]  = spacePadding(" ",COL4)
 RBAN2[0] = spacePadding(" ",COL4)
 
@@ -1598,7 +1595,6 @@ while True:
             COM = checkInterface("TIP", COM)
             networkSweep()
             checkBIOS()
-            checkWAF()
          else:
             print("[-] Unknown internet protocol...")
             TIP = spacePadding("EMPTY", COL1)                         
@@ -1655,6 +1651,7 @@ while True:
       else:
          WEB = BAK
          print("[-] No action has been taken...")
+      checkWAF()
       prompt()         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1926,14 +1923,10 @@ while True:
 
    if selection == '26':
       PTS = getTCPorts(PTS)
-      PTS22= getUDPorts(PTS22)
-      
+      PTS22= getUDPorts(PTS22)      
       POR = spacePadding(PTS, COL1)      
-      
-      squidCheck()
-      
-      SKEW = timeSync(SKEW)
-      
+      squidCheck()      
+      SKEW = timeSync(SKEW)      
       prompt()
 
 # ------------------------------------------------------------------------------------- 
