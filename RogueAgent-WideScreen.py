@@ -724,8 +724,8 @@ def dispMenu():
       print('\u2551', end=' ')       
       print(colored(SHAR[loop],colour6), end=' ')   
       print('\u2551', end=' ')   
-      print(colored(USER[loop],colour2), end=' ')
-      print(colored(HASH[loop],colour2), end=' ')
+      print(colored(USER[loop],colour6), end=' ')
+      print(colored(HASH[loop],colour6), end=' ')
       print('\u2551', end=' ')      
       print(colored(RPTS[loop], colour6), end=' ')
       print('\u2551', end=' ')   
@@ -993,21 +993,21 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (121)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (231)         	(341)		(441)         	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(92) SSH      (122)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID (123)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   (124)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   (125)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    (126)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (127)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )	            " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (128)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (129)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    (130)		(   )		(   )		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print("(92) SSH      (232)		(342)		(442)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID (223)		(333)		(443)     	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   (224)		(334)		(444)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   (225)		(335)		(445)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    (226)		(336)		(446)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (227)		(337)		(447)		(   )		(   )		(   )		(   )		(   )		(   )	            " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (228)		(338)		(448)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (229)		(330)		(449)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    (230)		(340)		(450)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
