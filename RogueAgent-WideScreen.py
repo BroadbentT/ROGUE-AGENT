@@ -43,7 +43,7 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Load additional xParameter
+# Details : Load additional xParameter = bughunt and commandsonly
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
@@ -59,6 +59,12 @@ else:
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
+
+def sort(string):
+   localCOM("echo " + string + " > numbers.tmp")
+   localCOM("cat numbers.tmp | uniq | sort > sorted.tmp")
+   revision = linecache.getline("sorted.tmp", 1).rstrip("\n")
+   return revision
 
 def cutLine(variable1, variable2):
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
@@ -285,97 +291,88 @@ def privCheck():
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
          
-def getTCPorts(PTS):
+def getTCPorts():
    checkParam = test_TIP()
    if checkParam == 1:
-      return PTS
-    
-   print(colored("[*] Attempting to enumerate live tcp ports, please wait...", colour3))
-   nmap = nmap3.NmapScanTechniques()
-   result = nmap.nmap_tcp_scan(TIP.rstrip(" ")) # Dict
-   with open("tcp.json", "w") as outfile:
-      json.dump(result, outfile, indent=4)
-   localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
-   localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
-   PTS = linecache.getline("ports.tmp", 1).rstrip("\n") 
-   PTS = PTS.replace('"','')           
-   if PTS[:1] == "":
-      print("[-] Unable to enumerate any port information, good luck!!...")
-      PTS = "EMPTY"
+      return "EMPTY"
    else:
-      print("[+] Found live ports...\n")      
-      print(colored(PTS,colour6) + "\n")      
-   localCOM("echo " + PTS + " > list.tmp")
-   localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )
-   if PTS[:5] != "EMPTY":
-      print("[+] Grabbing services...")  
+      print(colored("[*] Attempting to enumerate live tcp ports, please wait...", colour3))
+      nmap = nmap3.NmapScanTechniques()
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" ")) # Dict
+      with open("tcp.json", "w") as outfile:
+         json.dump(results, outfile, indent=4)         
+      localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
+      localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
+      this_Ports = linecache.getline("ports.tmp", 1).rstrip("\n") 
+      this_Ports = this_Ports.replace('"','')                 
+      if this_Ports[:1] == "":
+         print("[-] Unable to enumerate any port information, good luck!!...")
+         return "EMPTY"
+      else:
+         print("[+] Found live ports...\n")      
+         print(colored(this_Ports,colour6) + "\n")
+         localCOM("echo " + this_Ports + " > list.tmp")
+         localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )     
+      print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
       loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+      this_Ports = linecache.getline("sorted.tmp", 1).rstrip("\n")        
       for loop in range(0, loopMax):
-         for x in PTS.split(","):
-            RPTS[loop] = spacePadding(x,5)
+         for x in this_Ports.split(","):
+            portsTCP[loop] = spacePadding(x,5)
             loop = loop + 1
-         break      
-      SEV = linecache.getline("service1.tmp", 1).replace('"','')
-      SEV = SEV.replace("[]","")
-      SEV = SEV.rstrip("\n")      
+         break               
+      services = linecache.getline("service1.tmp", 1).replace('"','')
+      services = services.replace("[]","")
+      services = services.rstrip("\n")            
       for loop in range(0, loopMax):      
-         for y in SEV.split(","):
-            RBAN[loop] = spacePadding(y, COL4)
+         for y in services.split(","):
+            servsTCP[loop] = spacePadding(y, COL4)
             loop = loop + 1 
          break      
-   return PTS
+   return this_Ports
    
-def getUDPorts(PTS22):
+def getUDPorts():
    checkParam = test_TIP()
    if checkParam == 1:
-      return PTS22    
-   print(colored("[*] Attempting to enumerate live udp ports, please wait...", colour3))
-   nmap = nmap3.NmapScanTechniques()
-   result = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
-   with open("udp.json", "w") as outfile:
-      json.dump(result, outfile, indent=4)
-   localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports2.tmp")
-   localCOM("cat udp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service2.tmp")
-   PTS22 = linecache.getline("ports2.tmp", 1).rstrip("\n") 
-   PTS22 = PTS22.replace('"','')           
-   if PTS22[:1] == "":
-      print("[-] Unable to enumerate any port information, good luck!!...")
-      PTS22 = "EMPTY"
+      return "EMPTY"
    else:
-      print("[+] Found live ports...\n")      
-      print(colored(PTS22,colour6) + "\n")      
-   localCOM("echo " + PTS22 + " > list.tmp")
-   localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )  
-   if  PTS22[:5] != "EMPTY":
-      print("[+] Grabbing services...")  
+      print(colored("[*] Attempting to enumerate live udp ports, please wait...", colour3))
+      nmap = nmap3.NmapScanTechniques()
+      results = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
+      with open("udp.json", "w") as outfile:
+         json.dump(results, outfile, indent=4)         
+      localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
+      localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
+      this_Ports = linecache.getline("ports.tmp", 1).rstrip("\n") 
+      this_Ports = this_Ports.replace('"','')                 
+      if this_Ports[:1] == "":
+         print("[-] Unable to enumerate any port information, good luck!!...")
+         return "EMPTY"
+      else:
+         print("[+] Found live ports...\n")      
+         print(colored(this_Ports,colour6) + "\n")
+         localCOM("echo " + this_Ports + " > list.tmp")
+         localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )     
+      print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
       loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")  
+      this_Ports = linecache.getline("sorted.tmp", 1).rstrip("\n")        
       for loop in range(0, loopMax):
-         for x in PTS22.split(","):
-            RPTS2[loop] = spacePadding(x,5)
+         for x in this_Ports.split(","):
+            portsUDP[loop] = spacePadding(x,5)
             loop = loop + 1
-         break      
-      SEV = linecache.getline("service2.tmp", 1).replace('"','')
-      SEV = SEV.replace("[]","")
-      SEV = SEV.rstrip("\n")      
+         break               
+      services = linecache.getline("service1.tmp", 1).replace('"','')
+      services = services.replace("[]","")
+      services = services.rstrip("\n")            
       for loop in range(0, loopMax):      
-         for y in SEV.split(","):
-            RBAN2[loop] = spacePadding(y, COL4)
+         for y in services.split(","):
+            servsUDP[loop] = spacePadding(y, COL4)
             loop = loop + 1 
          break      
-   return PTS22
+   return this_Ports
    
-#def portBanner(port):
-#   remotCOM("nmap -p " + port + " --script=banner " + TIP + " > banner.tmp")
-#   localCOM("cat banner.tmp | grep banner > type.tmp")
-#   banner = linecache.getline("type.tmp", 1).rstrip("\n")
-#   if banner == "":
-#      banner = ""  
-#   return spacePadding(banner.replace('|_banner: ',''),COL4)
-
 def squidCheck():
    print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
    checkParam = test_PRT("3128")   
@@ -458,18 +455,11 @@ def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
       #bit1, bit2, bit3, bit4 = TIP.split(".")
       remotCOM("wafw00f -a https://" + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
-#      localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-#      localCOM("sed -i '/^$/d' ./bios.tmp")
-#      nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-#      if nullTest == "":
-#         print("[-] No netbios information found...")
-#      else:
-#      print("[+] Found protocol...")delete 
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
       else:
-         print(colored("\nSomething went wrong!!...", colour6))
+         print(colored("\nHttps not detected...", colour6))
       return
    
 def networkSweep():
@@ -635,7 +625,7 @@ def dispMenu():
   
 
    for loop in range(0,screenLength):
-      print('\u2551' + " " + LABS[loop] + "  " +  '\u2551', end=' ')
+      print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
       else: 
@@ -727,273 +717,20 @@ def dispMenu():
       print(colored(USER[loop],colour6), end=' ')
       print(colored(HASH[loop],colour6), end=' ')
       print('\u2551', end=' ')      
-      print(colored(RPTS[loop], colour6), end=' ')
+      print(colored(portsTCP[loop], colour6), end=' ')
       print('\u2551', end=' ')   
-      print(colored(RBAN[loop], colour6), end=' ')
+      print(colored(servsTCP[loop], colour6), end=' ')
       print('\u2551', end=' ')
-      print(colored(RPTS2[loop], colour6), end=' ')
+      print(colored(portsUDP[loop], colour6), end=' ')
       print('\u2551', end=' ')   
-      print(colored(RBAN2[loop], colour6), end=' ')              
-      print('\u2551' + "                                                                 " + '\u2551')
-
-  
-#   print('\u2551' + " O/S  FORMAT  " + '\u2551', end=' ')
-#   if OSF[:5] == "EMPTY":
-#      print(colored(OSF[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(OSF[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[0]:
-#      print(colored(SHAR[0],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[0],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[0] == "1":
-#      print(colored(USER[0],colour2), end=' ')
-#      print(colored(HASH[0],colour2), end=' ')
-#   else:
-#      print(colored(USER[0],colour6), end=' ')
-#      print(colored(HASH[0],colour6), end=' ')   
-#   print('\u2551')      
-
-#   print('\u2551' + " DNS ADDRESS  " + '\u2551', end=' ')
-#   if DNS[:5] == "EMPTY":
-#      print(colored(DNS[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(DNS[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[1]:
-#      print(colored(SHAR[1],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[1],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[1] == "1":
-#      print(colored(USER[1],colour2), end=' ')
-#      print(colored(HASH[1],colour2), end=' ')
-#   else:
-#      print(colored(USER[1],colour6), end=' ')
-#      print(colored(HASH[1],colour6), end=' ')   
-#   print('\u2551')   
-
-#   print('\u2551' + " IP  ADDRESS  " + '\u2551', end=' ')
-#   if TIP[:5] == "EMPTY":
-#      print(colored(TIP[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(TIP[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[2]:
-#      print(colored(SHAR[2],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[2],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[2] == "1":
-#      print(colored(USER[2],colour2), end=' ')
-#      print(colored(HASH[2],colour2), end=' ')
-#   else:
-#      print(colored(USER[2],colour6), end=' ')
-#      print(colored(HASH[2],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " LIVE  PORTS  " + '\u2551', end=' ')
-#   if POR[:5] == "EMPTY":
-#      print(colored(POR[:COL1],colour7), end=' ')
-#   else:
-#      lastChar = POR[COL1-1]
-#      print(colored(POR[:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[3]:
-#      print(colored(SHAR[3],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[3],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[3] == "1":
-#      print(colored(USER[3],colour2), end=' ')
-#      print(colored(HASH[3],colour2), end=' ')
-#   else:
-#      print(colored(USER[3],colour6), end=' ')
-#      print(colored(HASH[3],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " WEBSITE URL  " + '\u2551', end=' ')
-#   if WEB[:5] == "EMPTY":
-#      print(colored(WEB[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(WEB[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[4]:
-#      print(colored(SHAR[4],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[4],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[4] == "1":
-#      print(colored(USER[4],colour2), end=' ')
-#      print(colored(HASH[4],colour2), end=' ')
-#   else:
-#      print(colored(USER[4],colour6), end=' ')
-#      print(colored(HASH[4],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " USER   NAME  " + '\u2551', end=' ')
-#   if USR[:2] == "''":
-#      print(colored(USR[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(USR[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[5]:
-#      print(colored(SHAR[5],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[5],colour6), end=' ')   
-#   print('\u2551', end=' ')
-#   if VALD[5] == "1":
-#      print(colored(USER[5],colour2), end=' ')
-#      print(colored(HASH[5],colour2), end=' ')
-#   else:
-#      print(colored(USER[5],colour6), end=' ')
-#      print(colored(HASH[5],colour6), end=' ')   
-#   print('\u2551')   
-
-#   print('\u2551' + " PASS   WORD  " + '\u2551', end=' ')
-#   if PAS[:2] == "''":
-#      print(colored(PAS[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(PAS[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[6]:
-#      print(colored(SHAR[6],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[6],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[6] == "1":
-#      print(colored(USER[6],colour2), end=' ')
-#      print(colored(HASH[6],colour2), end=' ')
-#   else: 
-#      print(colored(USER[6],colour6), end=' ')
-#      print(colored(HASH[6],colour6), end=' ')         
-#   print('\u2551')   
- 
-#   print('\u2551' + " NTLM   HASH  " + '\u2551', end=' ')
-#   if NTM[:5] == "EMPTY":
-#      print(colored(NTM[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(NTM[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[7]:
-#      print(colored(SHAR[7],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[7],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[7] == "1":
-#      print(colored(USER[7],colour2), end=' ')
-#      print(colored(HASH[7],colour2), end=' ')
-#   else:
-#      print(colored(USER[7],colour6), end=' ')
-#      print(colored(HASH[7],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " TICKET NAME  " + '\u2551', end=' ')
-#   if TGT[:5] == "EMPTY":
-#      print(colored(TGT[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(TGT[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[8]:
-#      print(colored(SHAR[8],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[8],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[8] == "1":
-#      print(colored(USER[8],colour2), end=' ')
-#      print(colored(HASH[8],colour2), end=' ')
-#   else:
-#      print(colored(USER[8],colour6), end=' ')
-#      print(colored(HASH[8],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " DOMAIN NAME  " + '\u2551', end=' ')
-#   if DOM[:5] == "EMPTY":
-#      print(colored(DOM[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(DOM[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[9]:
-#      print(colored(SHAR[9],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[9],colour6), end=' ')      
-#   print('\u2551', end=' ')   
-#   if VALD[9] == "1":
-#      print(colored(USER[9],colour2), end=' ')
-#      print(colored(HASH[9],colour2), end=' ')
-#   else:
-#      print(colored(USER[9],colour6), end=' ')
-#      print(colored(HASH[9],colour6), end=' ')         
-#   print('\u2551')   
-
-#   print('\u2551' + " DOMAIN  SID  " + '\u2551', end=' ')
-#   if SID[:5] == "EMPTY":
-#      print(colored(SID[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(SID[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[10]:
-#      print(colored(SHAR[10],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[10],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[10] == "1":
-#      print(colored(USER[10],colour2), end=' ')
-#      print(colored(HASH[10],colour2), end=' ')
-#   else:
-#      print(colored(USER[10],colour6), end=' ')
-#      print(colored(HASH[10],colour6), end=' ')         
-#   print('\u2551')    
-
-#   print('\u2551' + " FILE   NAME  " + '\u2551', end=' ')
-#   if FIL[:5] == "EMPTY":
-#      print(colored(FIL[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(FIL[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[11]:
-#      print(colored(SHAR[11],colour3), end=' ')
-#   else:
-#      print(colored(SHAR[11],colour6), end=' ')   
-#   print('\u2551', end=' ')   
-#   if VALD[10] == "1":
-#      print(colored(USER[11],colour2), end=' ')
-#      print(colored(HASH[11],colour2), end=' ')
-#   else:
-#      print(colored(USER[11],colour6), end=' ')
-#      print(colored(HASH[11],colour6), end=' ')         
-#   print('\u2551') 
-   
-#   print('\u2551' + " SHARE  NAME  " + '\u2551', end=' ')
-#   if TSH[:5] == "EMPTY":
-#      print(colored(TSH[:COL1],colour7), end=' ')
-#   else:
-#      print(colored(TSH[:COL1],colour6), end=' ')
-#   print('\u2551', end=' ')   
-#   if TSH.rstrip(" ") in SHAR[12]:
-#      print(colored(SHAR[12],colour3), end=' ')
-#  else:
-#      print(colored(SHAR[12],colour6), end=' ')      
-#   print('\u2551', end=' ')   
-#   if VALD[11] == "1":
-#      print(colored(USER[12],colour2), end=' ')
-#      print(colored(HASH[12],colour2), end=' ')
-#   else:
-#      if USER[13][:1] != "":
-#         print(colored(USER[12],colour0), end=' ')
-#         print(colored(HASH[12],colour0), end=' ')      
-#      else:
-#         print(colored(USER[12],colour6), end=' ')
-#         print(colored(HASH[12],colour6), end=' ')
-#   print('\u2551')      
+      print(colored(servsUDP[loop], colour6), end=' ')              
+      print('\u2551' + " "*65 + '\u2551')
 
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*65 + '\u2563' )
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (231)         	(341)		(441)         	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (231) Nmap TCP	(341)		(441) Nmap UDP	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
@@ -1007,7 +744,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (227)		(337)		(447)		(   )		(   )		(   )		(   )		(   )		(   )	            " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (228)		(338)		(448)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (229)		(330)		(449)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) Exit    (230)		(340)		(450)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)         (230)		(340)		(450)		(   )		(   )		(   )		(   )		(   )		(1000) EXIT         " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
@@ -1145,58 +882,64 @@ if not os.path.exists(dataDir + "/tokens.txt"):
    print("[+] File tokens.txt created...")
 else:
    print("[+] File tokens.txt already exists...")   
-SKEW = 0                                # TIME-SKEW SWITCH
-DOMC = 0                                # DOMAIN SWITCH
-DNSC = 0                                # DNS SWITCH
-HTTP = 0				# HTTP SERVER PORT
-COL0 = 19				# MAX LEN COMPUTER NAME
-COL1 = 40                               # MAX LEN SESSION DATA
-COL2 = 44                               # MAX LEN SHARE NAME
-COL3 = 23                               # MAX LEN USER NAME
-COL4 = 32                               # MAX LEN NTLM HASH
-COL5 = 1                                # MAX LEN TOKEN VALUE
-SHAR = [" "*COL2]*maxUser		# SHARE NAMES
-USER = [" "*COL3]*maxUser		# USER NAMES
-HASH = [" "*COL4]*maxUser		# NTLM HASH
-VALD = ["0"*COL5]*maxUser		# USER TOKENS
-LABS = [" "*COL1]*maxUser		# LABELS
-RPTS = [" "*5]*maxUser			# TCP PORTS
-RPTS2= [" "*5]*maxUser			# UDP PORTS
-RBAN = [" "*COL4]*maxUser               # TCP SERVICE BANNER
-RBAN2= [" "*COL4]*maxUser		# UDP SERVICE BANNER
-
+   
 screenLength = 30
+   
+SKEW = 0                                	# TIME-SKEW SWITCH
+DOMC = 0                                	# DOMAIN SWITCH
+DNSC = 0                                	# DNS SWITCH
+HTTP = 0					# HTTP SERVER PORT
 
-LABS[0]  = "O/S  FORMAT"
-LABS[1]  = "DNS ADDRESS"
-LABS[2]  = "IP  ADDRESS"
-LABS[3]  = "LIVE  PORTS"
-LABS[4]  = "WEBSITE URL"
-LABS[5]  = "USER   NAME"
-LABS[6]  = "PASS   NAME"
-LABS[7]  = "NTLM   HASH"
-LABS[8]  = "TICKET NAME"
-LABS[9]  = "DOMAIN NAME"
-LABS[10] = "DOMAIN  SID"
-LABS[11] = "FILE   NAME"
-LABS[12] = "SHARE  NAME"
-LABS[13] = "UNALLOCATED"
-LABS[14] = "UNALLOCATED"
-LABS[15] = "UNALLOCATED"
-LABS[16] = "UNALLOCATED"
-LABS[17] = "UNALLOCATED"
-LABS[18] = "UNALLOCATED"
-LABS[19] = "UNALLOCATED"
-LABS[20] = "UNALLOCATED"
-LABS[21] = "UNALLOCATED"
-LABS[22] = "UNALLOCATED"
-LABS[23] = "UNALLOCATED"
-LABS[24] = "UNALLOCATED"
-LABS[25] = "UNALLOCATED"
-LABS[26] = "UNALLOCATED"
-LABS[27] = "UNALLOCATED"
-LABS[28] = "UNALLOCATED"
-LABS[29] = "UNALLOCATED" 
+COL0 = 19					# MAX LEN COMPUTER NAME
+COL1 = 40                               	# MAX LEN SESSION DATA
+COL2 = 44                               	# MAX LEN SHARE NAME
+COL3 = 23                               	# MAX LEN USER NAME
+COL4 = 32                               	# MAX LEN NTLM HASH
+COL5 = 1                                	# MAX LEN TOKEN VALUE
+
+SHAR = [" "*COL2]*maxUser			# SHARE NAMES
+USER = [" "*COL3]*maxUser			# USER NAMES
+HASH = [" "*COL4]*maxUser			# NTLM HASH
+VALD = ["0"*COL5]*maxUser			# USER TOKENS
+
+tcpPorts = ""					# ALL TCP PORTS
+udpPorts = ""					# ALL UDP PORTS
+portsTCP = [" "*5]*screenLength			# TCP PORTS [x]
+portsUDP = [" "*5]*screenLength			# UDP PORTS [x] 
+servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
+servsUDP = [" "*COL4]*screenLength 		# UDP SERVICE BANNER
+
+coloum_one_Labels = [" "*COL1]*screenLength	# LABELS
+coloum_one_Labels[0]  = "O/S  FORMAT"
+coloum_one_Labels[1]  = "DNS ADDRESS"
+coloum_one_Labels[2]  = "IP  ADDRESS"
+coloum_one_Labels[3]  = "LIVE  PORTS"
+coloum_one_Labels[4]  = "WEBSITE URL"
+coloum_one_Labels[5]  = "USER   NAME"
+coloum_one_Labels[6]  = "PASS   NAME"
+coloum_one_Labels[7]  = "NTLM   HASH"
+coloum_one_Labels[8]  = "TICKET NAME"
+coloum_one_Labels[9]  = "DOMAIN NAME"
+coloum_one_Labels[10] = "DOMAIN  SID"
+coloum_one_Labels[11] = "FILE   NAME"
+coloum_one_Labels[12] = "SHARE  NAME"
+coloum_one_Labels[13] = "UNALLOCATED"
+coloum_one_Labels[14] = "UNALLOCATED"
+coloum_one_Labels[15] = "UNALLOCATED"
+coloum_one_Labels[16] = "UNALLOCATED"
+coloum_one_Labels[17] = "UNALLOCATED"
+coloum_one_Labels[18] = "UNALLOCATED"
+coloum_one_Labels[19] = "UNALLOCATED"
+coloum_one_Labels[20] = "UNALLOCATED"
+coloum_one_Labels[21] = "UNALLOCATED"
+coloum_one_Labels[22] = "UNALLOCATED"
+coloum_one_Labels[23] = "UNALLOCATED"
+coloum_one_Labels[24] = "UNALLOCATED"
+coloum_one_Labels[25] = "UNALLOCATED"
+coloum_one_Labels[26] = "UNALLOCATED"
+coloum_one_Labels[27] = "UNALLOCATED"
+coloum_one_Labels[28] = "UNALLOCATED"
+coloum_one_Labels[29] = "UNALLOCATED" 
 
 # TEMP ASSIGNGED VALUES
 
@@ -1217,14 +960,6 @@ EMPTY_14 = "EMPTY                                   "
 EMPTY_15 = "EMPTY                                   "
 EMPTY_16 = "EMPTY                                   "
 EMPTY_17 = "EMPTY                                   "
-
-PTS22 = ""
-
-RPTS[0]  = spacePadding("EMPTY",5)
-RPTS2[0] = spacePadding("EMPTY",5)
-RBAN[0]  = spacePadding(" ",COL4)
-RBAN2[0] = spacePadding(" ",COL4)
-
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -1250,6 +985,7 @@ localCOM("echo " + col[11] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[12] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[13] + " | base64 -d >> ascii.tmp")
 localCOM("echo " + col[14] + " | base64 -d >> ascii.tmp")
+
 OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
 COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
 DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
@@ -1264,6 +1000,7 @@ DOM = linecache.getline("ascii.tmp", 11).rstrip("\n")
 SID = linecache.getline("ascii.tmp", 12).rstrip("\n")
 FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
 TSH = linecache.getline("ascii.tmp", 14).rstrip("\n")
+
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
 if PAS.rstrip(" ") == '':
@@ -1317,7 +1054,7 @@ time.sleep(5)
 
 for loop in range(0, screenLength):
    for x in POR.split(","):
-      RPTS[loop] = spacePadding(x,5)
+      portsTCP[loop] = spacePadding(x,5)
       loop = loop + 1
    break
    
@@ -4074,7 +3811,37 @@ while True:
       if checkParam != 1:
          remotCOM("xfreerdp -sec-nla /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
       prompt()             
-                 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Nmap TCP Scan
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '231':
+      currentPortValues = PTS
+      PTS = getTCPorts()
+      PTS = PTS + currentPortValues
+      PTS = sort(PTS)
+      prompt()      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Nmap UDP Scan
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '441':
+      currentPortValues = PTS
+      PTS = getUDPorts()
+      PTS = PTS + currentPortValues
+      PTS = sort(PTS)
+      prompt()
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -4083,7 +3850,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '100':        
+   if selection == '1000':        
       saveParams()
       localCOM("rm *.tmp")      
       if DOMC == 1:
@@ -4094,29 +3861,6 @@ while True:
          localCOM("sed -i '$d' /etc/resolv.conf")         
       connection.close()
       print(colored("[*] Program sucessfully terminated...", colour3))
-      exit(1)        
+      exit(1)              
       
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Secret option
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '101':
-      dispBanner("ROGUE AGENT",1)
-      print(colored("C O P Y R I G H T  2 0 2 1  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
-      print("\n------------------------------------------------------------------------------")
-      count = lineCount(dataDir + "/usernames.txt")
-      print("User Names : " + str(count))
-      count = lineCount(dataDir + "/passwords.txt")
-      print("Pass Words : " + str(count))
-      count = lineCount(dataDir + "/hashes.txt")
-      print("Hash Values: " + str(count))      
-      if HTTP != 0:
-         print("Service    : Running")
-      else:
-         print("Service    : Not running")
-      prompt()      
 # Eof...
