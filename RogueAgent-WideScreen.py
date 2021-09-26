@@ -342,8 +342,8 @@ def getUDPorts():
       results = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
       with open("udp.json", "w") as outfile:
          json.dump(results, outfile, indent=4)         
-      localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
-      localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
+      localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
+      localCOM("cat udp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
       this_Ports = linecache.getline("ports.tmp", 1).rstrip("\n") 
       this_Ports = this_Ports.replace('"','')                 
       if this_Ports[:1] == "":
