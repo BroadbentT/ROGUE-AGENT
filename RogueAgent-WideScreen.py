@@ -651,15 +651,9 @@ def dispMenu():
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
       
-      if (loop == 5) & (USR[:1] == "'"):
-         print(colored(USR[:COL1],colour7), end=' ')
-      else:
-         if(loop == 5): print(colored(USR[:COL1],colour6), end=' ')
+      if (loop == 5): print(colored(USR[:COL1],colour6), end=' ')
       
-      if (loop == 6) & (PAS[:1] == "'"):
-         print(colored(PAS[:COL1],colour7), end=' ')
-      else:
-         if(loop == 6): print(colored(PAS[:COL1],colour6), end=' ')
+      if (loop == 6): print(colored(PAS[:COL1],colour6), end=' ')
          
       if (loop == 7) & (NTM[:5] == "EMPTY"):
          print(colored(NTM[:COL1],colour7), end=' ')
@@ -692,24 +686,23 @@ def dispMenu():
          if(loop == 12): print(colored(TSH[:COL1],colour6), end=' ')
 
       
-      if loop == 13: print (EMPTY_1, end=' ')
-      if loop == 14: print (EMPTY_2, end=' ')
-      if loop == 15: print (EMPTY_3, end=' ')
-      if loop == 16: print (EMPTY_4, end=' ')
-      if loop == 17: print (EMPTY_5, end=' ')
-      if loop == 18: print (EMPTY_6, end=' ')
-      if loop == 19: print (EMPTY_7, end=' ')
-      
-      if loop == 20: print (EMPTY_8, end=' ')
-      if loop == 21: print (EMPTY_9, end=' ')
-      if loop == 22: print (EMPTY_10, end=' ')
-      if loop == 23: print (EMPTY_11, end=' ')
-      if loop == 24: print (EMPTY_12, end=' ')
-      if loop == 25: print (EMPTY_13, end=' ')
-      if loop == 26: print (EMPTY_14, end=' ')
-      if loop == 27: print (EMPTY_15, end=' ')
-      if loop == 28: print (EMPTY_16, end=' ')
-      if loop == 29: print (EMPTY_17, end=' ')
+      if loop == 13: print (colored(EMPTY_1,colour7), end=' ')
+      if loop == 14: print (colored(EMPTY_2,colour7), end=' ')
+      if loop == 15: print (colored(EMPTY_3,colour7), end=' ')
+      if loop == 16: print (colored(EMPTY_4,colour7), end=' ')
+      if loop == 17: print (colored(EMPTY_5,colour7), end=' ')
+      if loop == 18: print (colored(EMPTY_6,colour7), end=' ')
+      if loop == 19: print (colored(EMPTY_7,colour7), end=' ')      
+      if loop == 20: print (colored(EMPTY_8,colour7), end=' ')
+      if loop == 21: print (colored(EMPTY_9,colour7), end=' ')
+      if loop == 22: print (colored(EMPTY_10,colour7), end=' ')
+      if loop == 23: print (colored(EMPTY_11,colour7), end=' ')
+      if loop == 24: print (colored(EMPTY_12,colour7), end=' ')
+      if loop == 25: print (colored(EMPTY_13,colour7), end=' ')
+      if loop == 26: print (colored(EMPTY_14,colour7), end=' ')
+      if loop == 27: print (colored(EMPTY_15,colour7), end=' ')
+      if loop == 28: print (colored(EMPTY_16,colour7), end=' ')
+      if loop == 29: print (colored(EMPTY_17,colour7), end=' ')
 
       print('\u2551', end=' ')       
       print(colored(SHAR[loop],colour6), end=' ')   
@@ -717,11 +710,11 @@ def dispMenu():
       print(colored(USER[loop],colour6), end=' ')
       print(colored(HASH[loop],colour6), end=' ')
       print('\u2551', end=' ')      
-      print(colored(portsTCP[loop], colour6), end=' ')
+      print(colored(portsTCP[loop], colour7), end=' ')
       print('\u2551', end=' ')   
       print(colored(servsTCP[loop], colour6), end=' ')
       print('\u2551', end=' ')
-      print(colored(portsUDP[loop], colour6), end=' ')
+      print(colored(portsUDP[loop], colour7), end=' ')
       print('\u2551', end=' ')   
       print(colored(servsUDP[loop], colour6), end=' ')              
       print('\u2551' + " "*65 + '\u2551')
@@ -904,8 +897,8 @@ VALD = ["0"*COL5]*maxUser			# USER TOKENS
 
 tcpPorts = ""					# ALL TCP PORTS
 udpPorts = ""					# ALL UDP PORTS
-portsTCP = [" "*5]*screenLength			# TCP PORTS [x]
-portsUDP = [" "*5]*screenLength			# UDP PORTS [x] 
+portsTCP = ["EMPTY"]*screenLength			# TCP PORTS [x]
+portsUDP = ["EMPTY"]*screenLength			# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
 servsUDP = [" "*COL4]*screenLength 		# UDP SERVICE BANNER
 
