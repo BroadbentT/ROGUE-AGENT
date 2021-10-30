@@ -3826,7 +3826,7 @@ while True:
       PTS = getTCPorts()
       PTS = PTS + currentPortValues
       PTS = sort(PTS)
-      POR = PTS
+      POR = spacePadding(PTS,COL1)
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
