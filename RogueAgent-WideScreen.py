@@ -337,33 +337,33 @@ def getUDPorts():
    if checkParam == 1:
       return "EMPTY"
    else:
-      print(colored("[*] Attempting to enumerate live udp ports, please wait...", colour3))
+      print(colored("[*] Attempting to enumerate live udp ports, please wait this will take longer than the tcp scan...", colour3))
       nmap = nmap3.NmapScanTechniques()
-      results = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
+      results2 = nmap.nmap_udp_scan(TIP.rstrip(" ")) # Dict
       with open("udp.json", "w") as outfile:
-         json.dump(results, outfile, indent=4)         
-      localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
-      localCOM("cat udp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
-      this_Ports = linecache.getline("ports.tmp", 1).rstrip("\n") 
-      this_Ports = this_Ports.replace('"','')                 
-      if this_Ports[:1] == "":
+         json.dump(results2, outfile, indent=4)         
+      localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports2.tmp")
+      localCOM("cat udp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service2.tmp")
+      this_Ports2 = linecache.getline("ports2.tmp", 1).rstrip("\n") 
+      this_Ports2 = this_Ports2.replace('"','')                 
+      if this_Ports2[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
          return "EMPTY"
       else:
          print("[+] Found live ports...\n")      
-         print(colored(this_Ports,colour6) + "\n")
-         localCOM("echo " + this_Ports + " > list.tmp")
-         localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )     
+         print(colored(this_Ports2,colour6) + "\n")
+         localCOM("echo " + this_Ports2 + " > list2.tmp")
+         localCOM("cat list2.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted2.tmp" )     
       print("[+] Grabbing services...")        
-      localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
-      loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-      this_Ports = linecache.getline("sorted.tmp", 1).rstrip("\n")        
+      localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
+      loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
+      this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
       for loop in range(0, loopMax):
-         for x in this_Ports.split(","):
+         for x in this_Ports2.split(","):
             portsUDP[loop] = spacePadding(x,5)
             loop = loop + 1
          break               
-      services = linecache.getline("service1.tmp", 1).replace('"','')
+      services = linecache.getline("service2.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
       for loop in range(0, loopMax):      
@@ -371,7 +371,7 @@ def getUDPorts():
             servsUDP[loop] = spacePadding(y, COL4)
             loop = loop + 1 
          break      
-   return this_Ports
+   return this_Ports2
    
 def squidCheck():
    print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
@@ -729,21 +729,21 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (231) Nmap TCP	(341)		(441) Nmap UDP	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91) FTP      (231) TCP Port Scan (341)		(441) UDP Port Scan (   )	       (   )		(   )           (   )		(   )		(   )	    " + '\u2551')
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (22) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')
-   print("(92) SSH      (232)		(342)		(442)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID (223)		(333)		(443)     	(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   (224)		(334)		(444)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   (225)		(335)		(445)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    (226)		(336)		(446)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (227)		(337)		(447)		(   )		(   )		(   )		(   )		(   )		(   )	            " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (228)		(338)		(448)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (229)		(330)		(449)		(   )		(   )		(   )		(   )		(   )		(   )		    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)         (230)		(340)		(450)		(   )		(   )		(   )		(   )		(   )		(1000) EXIT         " + '\u2551')
+   print("(92) SSH      (232)		 (342)	  	(442)		    (   )	       (   )		(   )		(   )		(   )		(   )	    " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93) SSHKeyID (223)	 	 (333)		(443)     	    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94) Telnet   (224)		 (334)		(444)		    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) BH ACL PAWN (75) ExplCreator (85) GenListPass (95) Netcat   (225)		 (335)		(445)		    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26) Nmap Live  PORTS (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96) MSSQL    (226)		 (336)		(446)		    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27) Nmap PORTService (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97) MySQL    (227)		 (337)		(447)		    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98) WinRm    (228)		 (338)		(448)		    (   )	       (   )		(   )		(   )		(   )		(   )	    " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99) RemDesk  (229)		 (330)		(449)		    (   )	       (   )		(   )		(   )		(   )		(   )       " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)         (230)		 (340)		(450)		    (   )	       (   )		(   )		(   )		(   )		(1000) Exit " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
@@ -1658,9 +1658,11 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '26':
-      PTS = getTCPorts(PTS)
-      PTS22= getUDPorts(PTS22)      
-      POR = spacePadding(PTS, COL1)      
+      PTS = getTCPorts()
+      PTS22= getUDPorts()     
+      ALLPORTS=PTS+PTS22
+      ALLPORS=sort(ALLPORTS)       
+      POR = spacePadding(ALLPORTS, COL1)      
       squidCheck()      
       SKEW = timeSync(SKEW)      
       prompt()
@@ -3824,6 +3826,7 @@ while True:
       PTS = getTCPorts()
       PTS = PTS + currentPortValues
       PTS = sort(PTS)
+      POR = PTS
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -3839,6 +3842,7 @@ while True:
       PTS = getUDPorts()
       PTS = PTS + currentPortValues
       PTS = sort(PTS)
+      POR = spacePadding(PTS,COL1)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
