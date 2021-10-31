@@ -301,9 +301,9 @@ def getTCPorts():
       results = nmap.nmap_tcp_scan(TIP.rstrip(" ")) # Dict
       with open("tcp.json", "w") as outfile:
          json.dump(results, outfile, indent=4)         
-      localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports.tmp")
+      localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports1.tmp")
       localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
-      this_Ports = linecache.getline("ports.tmp", 1).rstrip("\n") 
+      this_Ports = linecache.getline("ports1.tmp", 1).rstrip("\n") 
       this_Ports = this_Ports.replace('"','')                 
       if this_Ports[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
@@ -311,26 +311,26 @@ def getTCPorts():
       else:
          print("[+] Found live ports...\n")      
          print(colored(this_Ports,colour6) + "\n")
-         localCOM("echo " + this_Ports + " > list.tmp")
-         localCOM("cat list.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted.tmp" )     
+         localCOM("echo " + this_Ports + " > list1.tmp")
+         localCOM("cat list1.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted1.tmp" )     
       print("[+] Grabbing services...")        
-      localCOM("awk -F ',' '{print NF-1}' sorted.tmp > num.tmp")
-      loopMax = int(linecache.getline("num.tmp", 1).rstrip("\n"))
-      this_Ports = linecache.getline("sorted.tmp", 1).rstrip("\n")        
-      for loop in range(0, loopMax):
-         for x in this_Ports.split(","):
-            portsTCP[loop] = spacePadding(x,5)
-            loop = loop + 1
+      localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
+      loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
+      this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
+      for loop1 in range(0, loopMax):
+         for x1 in this_Ports1.split(","):
+            portsTCP[loop1] = spacePadding(x1,5)
+            loop1 = loop1 + 1
          break               
       services = linecache.getline("service1.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop in range(0, loopMax):      
-         for y in services.split(","):
-            servsTCP[loop] = spacePadding(y, COL4)
-            loop = loop + 1 
+      for loop1 in range(0, loopMax):      
+         for y1 in services.split(","):
+            servsTCP[loop1] = spacePadding(y1, COL4)
+            loop1 = loop1 + 1 
          break      
-   return this_Ports
+   return this_Ports1
    
 def getUDPorts():
    checkParam = test_TIP()
@@ -353,23 +353,24 @@ def getUDPorts():
          print("[+] Found live ports...\n")      
          print(colored(this_Ports2,colour6) + "\n")
          localCOM("echo " + this_Ports2 + " > list2.tmp")
-         localCOM("cat list2.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted2.tmp" )     
+         localCOM("cat list2.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted2.tmp" )
+         catsFile("sorted2.tmp")     
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
-      for loop in range(0, loopMax):
-         for x in this_Ports2.split(","):
-            portsUDP[loop] = spacePadding(x,5)
-            loop = loop + 1
+      for loop2 in range(0, loopMax):
+         for x2 in this_Ports2.split(","):
+            portsUDP[loop2] = spacePadding(x2,5)
+            loop2 = loop2 + 1
          break               
       services = linecache.getline("service2.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop in range(0, loopMax):      
-         for y in services.split(","):
-            servsUDP[loop] = spacePadding(y, COL4)
-            loop = loop + 1 
+      for loop2 in range(0, loopMax):      
+         for y2 in services.split(","):
+            servsUDP[loop2] = spacePadding(y2, COL4)
+            loop2 = loop2 + 1 
          break      
    return this_Ports2
    
@@ -903,8 +904,8 @@ VALD = ["0"*COL5]*maxUser			# USER TOKENS
 
 tcpPorts = ""					# ALL TCP PORTS
 udpPorts = ""					# ALL UDP PORTS
-portsTCP = ["EMPTY"]*screenLength			# TCP PORTS [x]
-portsUDP = ["EMPTY"]*screenLength			# UDP PORTS [x] 
+portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
+portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
 servsUDP = [" "*COL4]*screenLength 		# UDP SERVICE BANNER
 
@@ -3823,10 +3824,10 @@ while True:
 
    if selection == '231':
       currentPortValues = PTS
-      PTS = getTCPorts()
-      PTS = PTS + currentPortValues
-      PTS = sort(PTS)
-      POR = spacePadding(PTS,COL1)
+      PTS1 = getTCPorts()
+      PTS1 = PTS1 + "," + currentPortValues
+      PTS1 = sort(PTS1)
+      POR = spacePadding(PTS1,COL1)
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -3839,10 +3840,11 @@ while True:
 
    if selection == '441':
       currentPortValues = PTS
-      PTS = getUDPorts()
-      PTS = PTS + currentPortValues
-      PTS = sort(PTS)
-      POR = spacePadding(PTS,COL1)
+      PTS2 = getUDPorts()
+      
+      PTS2 = PTS2 + "," + currentPortValues
+      PTS2 = sort(PTS2)
+      POR = spacePadding(PTS2,COL1)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
