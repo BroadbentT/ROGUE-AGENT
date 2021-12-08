@@ -284,8 +284,7 @@ def checkPorts(PTS, POR):
       print("[+] Performing light scan...")
       remotCOM("nmap " + IP46 + " " + TIP.rstrip(" ") + " --top-ports 1000 --open > light.tmp")
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
-      catsFile("ports.tmp")
-      
+      catsFile("ports.tmp")      
       print("\n[+] Performing heavy scan...")
       remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
       localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
@@ -1329,7 +1328,6 @@ while True:
             COM = checkInterface("TIP", COM)
             networkSweep()
             checkBIOS()
-            checkWAF()
          else:
             print("[-] Unknown internet protocol...")
             TIP = spacePadding("EMPTY", COL1)                         
@@ -1381,11 +1379,12 @@ while True:
            cutLine("Requests","verbs.tmp")
            parsFile("verbs.tmp")
            catsFile("verbs.tmp")
+           checkWAF()
          else:
             print("[-] Proxychains enabled, no verb enumeration available...")
       else:
          WEB = BAK
-         print("[-] No action has been taken...")
+         print("[-] No action has been taken...")   
       prompt()         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1693,7 +1692,7 @@ while True:
             catsFile("light.tmp")            
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
             print("[+] Performing heavy scan...")
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --version-all --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
@@ -1756,7 +1755,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '20':
-      remotCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
+      print(colored("[*] Attempting to enumerate vulnerable plugins...", colour3))
+      remotCOM("wpscan --url " + WEB.rstrip(" ") + " --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
       prompt()
                   
 # ------------------------------------------------------------------------------------- 
