@@ -49,6 +49,9 @@ if len(sys.argv) < 2:
    xParameter = ""
 else:
    xParameter = sys.argv[1]
+   if xParameter == "eth0":
+      netWork = "eth0"
+      xParameter = ""
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -281,21 +284,26 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()  
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      print("[+] Performing light scan...")
-      remotCOM("nmap " + IP46 + " " + TIP.rstrip(" ") + " --top-ports 1000 --open > light.tmp")
+      print("[+] Performing a light scan...")
+      remotCOM("nmap " + IP46 + " " + TIP.rstrip(" -sP -PI -oA ping ") + " --top-ports 300 --open > light.tmp")
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
       catsFile("ports.tmp")      
-      print("\n[+] Performing heavy scan...")
-      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
-      localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")      
-      localCOM("cat ports.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
-      PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
-      if PTS[:1] == "":
-         print("[+] Unable to enumerate any port information, good luck!!...")
-         PTS = "EMPTY"
+      answer = input("\n[?] Do you want me to perform a heavy scan: ")
+      if answer[:1].upper() == "Y":
+         remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
+         localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports2.tmp")      
+         localCOM("cat ports2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
+         PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
+         if PTS[:1] == "":
+            print("[+] Unable to enumerate any port information, good luck!!...")
+            PTS = linecache.getline("ports.tmp", 1).rstrip("\n")                  
+            if PTS == "":
+               PTS = "EMPTY"
+         else:
+            print("[+] Found live ports...\n")      
+            print(colored(PTS,colour6) + "\n")  
       else:
-         print("[+] Found live ports...\n")      
-         print(colored(PTS,colour6) + "\n")
+         PTS = linecache.getline("ports.tmp", 1).rstrip("\n")                  
    return PTS
 
 def squidCheck():
@@ -839,7 +847,8 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-netWork = "tun0"							# LOCAL INTERFACE
+if netWork == "":
+   netWork = "tun0"							# HTB DEFUALT INTERFACE
 maxUser = 5000								# UNLIMITED VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
@@ -1296,41 +1305,46 @@ while True:
    if selection =='3':
       BAK = TIP
       TIP = input("[?] Please enter remote IP address: ").upper()
-      TIP = spacePadding(TIP, COL1)      
-      if TIP[:1] == " ":
-         TIP = BAK         
-      if TIP[:5] == "EMPTY":
-         print("[+] Remote IP address reset...")
-         COM = spacePadding("UNKNOWN", COL0)
+      if ".CO" in TIP.upper():
+         localCOM("host " + TIP + " > host.tmp")
+         catsFile("host.tmp")
+         TIP = BAK 
       else:
-         checkParams = 0
-         count = TIP.count(':')            
-         if count == 6:
-            try:
-               bit1,bit2,bit3,bit4,bit5,bit6,bit7 = TIP.split(":")
-               print("[+] Defualting to internet protocol 6...")
-               IP46 = "-6"
-               checkParams = 1
-            except:
-               print("[-] Unknown internet protocol...")
-               TIP = spacePadding("EMPTY", COL1)                              
-         count = TIP.count(".")         
-         if count == 3:
-            try:
-               bit1,bit2,bit3,bit4 = TIP.split(".")
-               print("[+] Defaulting to internet protocol 4...")
-               IP46 = "-4"
-               checkParams = 1
-            except:
-               print("[-] Unknown internet protocol...")
-               TIP = spacePadding("EMPTY", COL1)                     
-         if checkParams == 1:
-            COM = checkInterface("TIP", COM)
-            networkSweep()
-            checkBIOS()
+         TIP = spacePadding(TIP, COL1)      
+         if TIP[:1] == " ":
+            TIP = BAK         
+         if TIP[:5] == "EMPTY":
+            print("[+] Remote IP address reset...")
+            COM = spacePadding("UNKNOWN", COL0)
          else:
-            print("[-] Unknown internet protocol...")
-            TIP = spacePadding("EMPTY", COL1)                         
+            checkParams = 0
+            count = TIP.count(':')            
+            if count == 6:
+               try:
+                  bit1,bit2,bit3,bit4,bit5,bit6,bit7 = TIP.split(":")
+                  print("[+] Defualting to internet protocol 6...")
+                  IP46 = "-6"
+                  checkParams = 1
+               except:
+                  print("[-] Unknown internet protocol...")
+                  TIP = spacePadding("EMPTY", COL1)                              
+            count = TIP.count(".")         
+            if count == 3:
+               try:
+                  bit1,bit2,bit3,bit4 = TIP.split(".")
+                  print("[+] Defaulting to internet protocol 4...")
+                  IP46 = "-4"
+                  checkParams = 1
+               except:
+                  print("[-] Unknown internet protocol...")
+                  TIP = spacePadding("EMPTY", COL1)                     
+            if checkParams == 1:
+               COM = checkInterface("TIP", COM)
+               networkSweep()
+               checkBIOS()
+            else:
+               print("[-] Unknown internet protocol...")
+               TIP = spacePadding("EMPTY", COL1)                         
       prompt()
 
 # ------------------------------------------------------------------------------------- 
