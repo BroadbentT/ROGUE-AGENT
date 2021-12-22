@@ -41,16 +41,17 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Load additional xParameter
+# Details : Load additional netWork, xParameter
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
 if len(sys.argv) < 2:
-   xParameter = ""
+   exit(1)
 else:
-   xParameter = sys.argv[1]
-   if xParameter == "eth0":
-      netWork = "eth0"
+   netWork    = sys.argv[1]
+   if len(sys.argv) > 2:
+      xParameter = sys.argv[2]
+   else:
       xParameter = ""
 
 # -------------------------------------------------------------------------------------
