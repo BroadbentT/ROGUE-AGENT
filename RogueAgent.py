@@ -1383,21 +1383,31 @@ while True:
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
          WEB = spacePadding(WEB, COL1)
-         if proxyChains != 1:      
-           print(colored("[*] Enumerating website url for verbs...", colour3))
-           remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
-           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
-           cutLine("Target","verbs.tmp")
-           cutLine("Total requests","verbs.tmp")
-           cutLine("Total time","verbs.tmp")
-           cutLine("Processed Requests","verbs.tmp")
-           cutLine("Filtered Requests","verbs.tmp")
-           cutLine("Requests","verbs.tmp")
-           parsFile("verbs.tmp")
-           catsFile("verbs.tmp")
-           checkWAF()
+         if proxyChains != 1:
+            print(colored("[*] Enumerating website url for verbs...", colour3))
+            remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
+            cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
+            cutLine("Target","verbs.tmp")
+            cutLine("Total requests","verbs.tmp")
+            cutLine("Total time","verbs.tmp")
+            cutLine("Processed Requests","verbs.tmp")
+            cutLine("Filtered Requests","verbs.tmp")
+            cutLine("Requests","verbs.tmp")
+            parsFile("verbs.tmp")
+            catsFile("verbs.tmp")
+            checkWAF()
          else:
             print("[-] Proxychains enabled, no verb enumeration available...")
+            
+         print(colored("\n[*] Checking to see if I can upload a file to this location...", colour3))
+         localCOM("echo '<html>Rogue Agent</html>' > rogue.html")
+         remotCOM("curl " + WEB.strip(" ") + " --upload-file rogue.html 2> test.tmp 1>check.tmp")
+         errorCheck = linecache.getline("check.tmp", 1)
+         if errorCheck == "":
+            print("[+] Looks like it worked!! - manualy check the web browser for /rogue.html...")
+         else:
+            print(colored("\nSomething went wrong!!...", colour6))   
+            
       else:
          WEB = BAK
          print("[-] No action has been taken...")   
