@@ -290,7 +290,8 @@ def checkPorts(PTS, POR):
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
       catsFile("ports.tmp")      
       answer = input("\n[?] Do you want me to perform a heavy scan: ")
-      if answer[:1].upper() == "Y":
+      if answer[:1].upper() == "Y":      
+         print(colored("[*] Attempting to enumerate live ports, please wait this will take an awful long time.", colour3))      
          remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
          localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports2.tmp")      
          localCOM("cat ports2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
@@ -3150,7 +3151,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
+      print(colored("[*] Scanning for directories, please wait this will take an awful long time...", colour3))
       checkParams = test_WEB()
       if checkParams != 1:
          remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
