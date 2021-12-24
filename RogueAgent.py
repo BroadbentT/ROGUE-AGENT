@@ -282,30 +282,27 @@ def privCheck():
       return spacePadding(ticket, COL1)
          
 def checkPorts(PTS, POR):
-   checkParams = test_TIP()  
-   if checkParams != 1:
+   checkParams = test_TIP()
+   if checkParams != 1:   
       print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
       print("[+] Performing a light scan...")
-      remotCOM("nmap " + IP46 + " " + TIP.rstrip(" -sP -PI -oA ping ") + " --top-ports 300 --open > light.tmp")
-      localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports.tmp")
-      catsFile("ports.tmp")      
-      answer = input("\n[?] Do you want me to perform a heavy scan: ")
-      if answer[:1].upper() == "Y":      
-         print(colored("[*] Attempting to enumerate live ports, please wait this will take an awful long time.", colour3))      
-         remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy.tmp")      
-         localCOM("cat heavy.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > ports2.tmp")      
-         localCOM("cat ports2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > PORTS.tmp 2>&1")
-         PTS = linecache.getline("PORTS.tmp", 1).rstrip("\n")            
-         if PTS[:1] == "":
-            print("[+] Unable to enumerate any port information, good luck!!...")
-            PTS = linecache.getline("ports.tmp", 1).rstrip("\n")                  
-            if PTS == "":
-               PTS = "EMPTY"
-         else:
-            print("[+] Found live ports...\n")      
-            print(colored(PTS,colour6) + "\n")  
+      remotCOM("nmap " + IP46 + " -F " + TIP.rstrip(" ") + " --top-ports 300 --open > light.tmp")
+      localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > lightports.tmp")
+      catsFile("lightports.tmp")
+      print(colored("\n[*] Attempting to enumerate live ports, please wait this will take an awful long time.", colour3))
+      print("[+] Performing a heavy scan...")    
+      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy1.tmp")      
+      localCOM("cat heavy1.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > heavy2.tmp")      
+      localCOM("cat heavy2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > heavyports.tmp 2>&1")     
+      PTS = linecache.getline("heavyports.tmp", 1).rstrip("\n")            
+      if PTS[:1] == "":
+         print("[+] Unable to enumerate any port information, good luck!!...")
+         PTS = linecache.getline("lightports.tmp", 1).rstrip("\n")                  
+         if PTS == "":
+            PTS = "EMPTY"
       else:
-         PTS = linecache.getline("ports.tmp", 1).rstrip("\n")                  
+         print("[+] Found live ports...\n")
+         print(colored(PTS,colour6) + "\n")        
    return PTS
 
 def squidCheck():
