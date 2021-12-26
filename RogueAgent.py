@@ -31,7 +31,6 @@ import datetime
 import requests
 import linecache
 
-
 from termcolor import colored
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
@@ -46,13 +45,14 @@ from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 # -------------------------------------------------------------------------------------
 
 if len(sys.argv) < 2:
-   exit(1)
+   netWork = "tun0"
 else:
-   netWork    = sys.argv[1]
-   if len(sys.argv) > 2:
-      xParameter = sys.argv[2]
-   else:
-      xParameter = ""
+   netWork = sys.argv[1]
+   
+if len(sys.argv) > 2:
+   xParameter = sys.argv[2]
+else:
+   xParameter = ""
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -284,13 +284,12 @@ def privCheck():
 def checkPorts(PTS, POR):
    checkParams = test_TIP()
    if checkParams != 1:   
-      print(colored("[*] Attempting to enumerate live ports, please wait as this can take sometime...", colour3))
-      print("[+] Performing a light scan...")
-      remotCOM("nmap " + IP46 + " -F " + TIP.rstrip(" ") + " --top-ports 300 --open > light.tmp")
+      print(colored("[*] Attempting to enumerate live ports, please wait as this can take a long time...", colour3))
+      print("[+] Performing a fast scan...")
+      remotCOM("nmap " + IP46 + " -T4 -F " + TIP.rstrip(" ") + " --top-ports 300 --open > light.tmp")
       localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > lightports.tmp")
       catsFile("lightports.tmp")
-      print(colored("\n[*] Attempting to enumerate live ports, please wait this will take an awful long time.", colour3))
-      print("[+] Performing a heavy scan...")    
+      print("\n[+] Performing a slow scan...")    
       remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy1.tmp")      
       localCOM("cat heavy1.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > heavy2.tmp")      
       localCOM("cat heavy2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > heavyports.tmp 2>&1")     
@@ -370,8 +369,6 @@ def checkBIOS():
       return
    else:
       print(colored("[*] Checking windows network neighborhood protocol...", colour3))
-      #bit1, bit2, bit3, bit4 = TIP.split(".")
-      #remotCOM("nbtscan -rv " + bit1 + "." + bit2 + "." + bit3 + ".0/24 > bios.tmp")
       remotCOM("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
       localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
       localCOM("sed -i '/^$/d' ./bios.tmp")
@@ -385,15 +382,7 @@ def checkBIOS():
    
 def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
-      #bit1, bit2, bit3, bit4 = TIP.split(".")
       remotCOM("wafw00f -a https://" + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
-#      localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-#      localCOM("sed -i '/^$/d' ./bios.tmp")
-#      nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
-#      if nullTest == "":
-#         print("[-] No netbios information found...")
-#      else:
-#      print("[+] Found protocol...")delete 
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
@@ -2241,6 +2230,7 @@ while True:
             cutLine("NT_STATUS_ACCESS_DENIED","shares2.tmp")
             cutLine("NT_STATUS_ACCOUNT_DISABLED","shares2.tmp")
             cutLine("NT_STATUS_CONNECTION_RESET","shares2.tmp")
+            cutLine("Reconnecting with SMB1","shares2.tmp")
             cutLine("Sharename","shares2.tmp")
             cutLine("---------","shares2.tmp")
             cutLine("^$","shares2.tmp")
