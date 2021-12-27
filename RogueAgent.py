@@ -808,7 +808,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (19) EnumVirtualHOSTS (29) NFS List (39) Smb Dump Files (49) Kerbe5 Ticket (59) SmbExecHASH (69) AutoPhisher (79) Remote Sync (89) RemDesk " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) MSF Console (80) Rsync Dumps (90) Exit    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (20) WordpressScanner (30) NFSMount (40) Smb MountSHARE (50) Silver Ticket (60) WmiExecHASH (70) LFI Checker (80) Rsync Dumps (90) Exit    " + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
 
@@ -1704,7 +1704,7 @@ while True:
             catsFile("light.tmp")            
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
             print("[+] Performing heavy scan...")
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=discovery,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
@@ -1718,7 +1718,7 @@ while True:
             parsFile("light.tmp")
             catsFile("light.tmp")
             print("[+] Performing heavy scan...")
-            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             localCOM("sed -i '/# Nmap/d' heavy.tmp")                       
             catsFile("heavy.tmp")
             if "500," in PTS:
@@ -3148,36 +3148,96 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      print(colored("[*] Scanning for directories, please wait this will take a long time...", colour3))
+      print(colored("[*] Scanning for directories, please wait this will take a long time...", colour3))   
+      localCOM("mkdir dictionary")
+      os.chdir("dictionary")
+      localCOM("cp /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt ./dict1.tmp")
+      localCOM("split dict1.tmp -n 26")      
       checkParams = test_WEB()
       if checkParams != 1:
          print("[+] Using URL address...")
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
-         localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")
-         localCOM("tr -d '/' < list.tmp > dir2.tmp")
-         localCOM("sed -i '/\./d' dir2.tmp")
-         catsFile("dir2.tmp")
-         localCOM("cp /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt ./dictionary.tmp")
-         localCOM("cat dir2.tmp >> dictionary.tmp")
-         print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -w dictionary.tmp -t 50 > dir3.tmp")     
-      else:       
-         checkParams = test_TIP()
-         if checkParams != 1:
-            print("[+] Using IP address...")
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
-            localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")           
-            localCOM("tr -d '/' < list.tmp > dir2.tmp") 
-            localCOM("sed -i '/\./d' dir2.tmp")
-            catsFile("dir2.tmp")
-            localCOM("cp /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt ./dictionary.tmp")
-            localCOM("cat dir2.tmp >> dictionary.tmp")
-            print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -w dictionary.tmp-t 50 > dir3.tmp")
+         target = WEB.rstrip(" ")
+      else:
+         print("[+] Using IP address...")
+         target = TIP.rstrip(" ")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaa -t 50 > dir.tmp")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xab -t 50 >> dir.tmp")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xac -t 50 >> dir.tmp")        
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xad -t 50 >> dir.tmp")                 
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xae -t 50 >> dir.tmp")                 
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaf -t 50 >> dir.tmp")                      
+      print("[i] 25% Complete...")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xag -t 50 >> dir.tmp")                            
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xah -t 50 >> dir.tmp")                            
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xai -t 50 >> dir.tmp")                                        
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaj -t 50 >> dir.tmp")                                              
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xak -t 50 >> dir.tmp")                                                          
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xal -t 50 >> dir.tmp")                                                               
+      print("[i] 50% Complete...")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xam -t 50 >> dir.tmp")                                                                           
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xan -t 50 >> dir.tmp")                                                                                 
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xao -t 50 >> dir.tmp")                                                                                       
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xap -t 50 >> dir.tmp")                                                                                             
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaq -t 50 >> dir.tmp")                                                                                                   
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xar -t 50 >> dir.tmp")                                                                                                         
+      print("[i] 75% Complete...")                     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xas -t 50 >> dir.tmp")                                                                                                                     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xat -t 50 >> dir.tmp")                                                                                                               
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xau -t 50 >> dir.tmp")                                                                                                               
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xav -t 50 >> dir.tmp")                                                                                                                    
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaw -t 50 >> dir.tmp") 
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xax -t 50 >> dir.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xay -t 50 >> dir.tmp") 
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaz -t 50 >> dir.tmp") 
+      print("[-] 100% complete - exhausted!!...")
+      localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")
+      localCOM("tr -d '/' < list.tmp > dir2.tmp")
+      localCOM("sed -i '/\./d' dir2.tmp")
+      parsFile("dir2.tmp")    
+      catsFile("dir2.tmp")     
+      localCOM("cat /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt > dict2.txt")
+      localCOM("cat dir2.tmp >> dict2.txt")      
+      localCOM("rm *.tmp")
+      localCOM("split dict2.txt -n 26")      
+      print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaa -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xab -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xac -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xad -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xae -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaf -t 50 > dir3.tmp")  
+      print("[i] 25% Complete...")
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xag -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xah -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xai -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaj -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xak -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xal -t 50 > dir3.tmp")     
+      print("[i] 50% Complete...")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xam -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xan -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xao -t 50 > dir3.tmp")           
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xap -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaq -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xar -t 50 > dir3.tmp")     
+      print("[i] 75% Complete...")      
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xas -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xat -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xau -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xav -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaw -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xax -t 50 > dir3.tmp")     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xay -t 50 > dir3.tmp")                                                     
+      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaz -t 50 > dir3.tmp")           
+      print("[-] 100% complete - exhausted!!...")      
+      localCOM("sed -i '/\./d' dir3.tmp")
       catsFile("dir3.tmp")
-      print("[+] Sorting valid directories...")
+      print("[+] Sorting valid responces...")
       localCOM("cat dir3.tmp | grep 200 > 200ok.tmp")
       catsFile("200ok.tmp")
+      localCOM("rm *")
+      localCOM("cd ..")
+      localCOM("rmdir dictionary")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3409,12 +3469,31 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - LFI CHECK
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='70':          
-      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
+   if selection == '70':
+      checkParams = test_WEB()
+      if checkParams != 1:
+         print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
+         if OSF[:1] != "":
+            os.chdir("BLACKBRIAR")
+            if OSF[:5].upper() == "LINUX":
+               file1 = open("./TREADSTONE/linuxlfi.txt", 'r')
+               Lines = file1.readlines()
+               for line in Lines:
+                  localCom("curl --silent " + WEB.rstrip(" ") + "/"  + line)
+               print("[+] Completed...")
+            else:
+               file1 = open("./TREADSTONE/windowslfi.txt", 'r')
+               Lines = file1.readlines()
+               for line in Lines:
+                  localCom("curl --silent " + WEB.rstrip(" ") + "/"  + line)
+               print("[+] Completed...")
+            localCOM("cd ..")
+         else:
+            print("[-] Unknown operating system...")          
       prompt()   
       
 # ------------------------------------------------------------------------------------- 
