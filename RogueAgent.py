@@ -1368,6 +1368,8 @@ while True:
       BAK = WEB
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
+         if len(WEB) < COL1:
+            WEB = spacePadding(WEB, COL1)
          if proxyChains != 1:
             print(colored("[*] Enumerating website url for verbs...", colour3))
             remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
