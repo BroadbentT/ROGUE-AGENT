@@ -285,6 +285,16 @@ def checkPorts(PTS, POR):
          print(colored(PTS,colour6) + "\n")        
    return PTS
 
+def checkIke():
+   print(colored("[*] Attempting to undertake an IKE test...", colour3))
+   checkParams=test_PRT("500")
+   if checkParams == 1:
+      return
+   else:
+      runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+      catsFile("ike.tmp")
+   return
+
 def squidCheck():
    print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
    checkParams = test_PRT("3128")   
@@ -1647,7 +1657,8 @@ while True:
 
    if selection == '16':
       PTS = checkPorts(PTS, POR)
-      POR = spacePadding(PTS, COL1)      
+      POR = spacePadding(PTS, COL1)
+      checkIke()      
       squidCheck()
       localTime = ServerSync(localTime)
       prompt()
@@ -1680,9 +1691,6 @@ while True:
                OSF = spacePadding("IOS", COL1)   
             parsFile("light.tmp")
             catsFile("light.tmp")            
-            if "500" in PTS:
-               runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
-               catsFile("ike.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
