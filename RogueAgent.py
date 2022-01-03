@@ -1707,7 +1707,9 @@ while True:
          checkParams = test_DOM()         
       if checkParams != 1:
          print(colored("[*] Scanning for subdomains, please wait this can take sometime...", colour3))
+         runCommand("echo '" + Green + "'")
          runCommand("gobuster dns -q --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i -o found.tmp")
+         runCommand("echo '" + Reset + "'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1722,7 +1724,9 @@ while True:
       checkParams = test_WEB()
       if checkParams != 1:
          print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
+         runCommand("echo '" + Green + "'")
          runCommand("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -o found.tmp")
+         runCommand("echo '" + Reset + "'")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3123,7 +3127,9 @@ while True:
       else:
          print("[+] Using IP address...")
          target = TIP.rstrip(" ")
+      runCommand("echo '" + Green + "'")
       runCommand("gobuster dir -e -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w  /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt --wildcard -t 100 -o dir.tmp")
+      runCommand("echo '" + Reset + "'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
