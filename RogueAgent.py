@@ -3176,7 +3176,7 @@ while True:
          catsFile("printer.tmp")              
          runCommand("cat printer.tmp | tr -d '\n\r' > printer2.tmp")
          found = linecache.getline("printer2.tmp", 1).rstrip("\n")
-         if found != "":
+         if "BITS" in found:
             data1,data2 = found.split("BITS:")
             printer = binascii.unhexlify(data2.replace(' ',''))
             printer2 = str(printer)
