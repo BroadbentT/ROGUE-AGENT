@@ -3136,7 +3136,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - SNMP Walker
+# Details : Menu option selected - SNMP Walker + 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -3149,7 +3149,9 @@ while True:
          runCommand("echo 'manager' >> community.tmp")
          runCommand("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
          catsFile("161.tmp")      
-         print(colored("[*] Enumerating public v2c communities only...", colour3))      
+         print(colored("[*] Enumerating public v2c communities only...", colour3))   
+#         runCommand("snmp-check -v 2c -w " + TIP.rstrip(" ") + " > check.tmp")
+#         catsfile("check.tmp")
          print("[+] Checking system processes...")
          runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
          catsFile("walk.tmp")      
@@ -3185,17 +3187,24 @@ while True:
             printerpassword = data3
             print(colored(printerpassword + "\n", colour0))         
          print(colored("[*] Enumerating the entire MIB tree, please wait this may take sometime...", colour3))
-         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walk.tmp")    
+         runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walker.tmp")    
          print("[+] Searching for any interesting finds...")
-         runCommand("grep password walk.tmp > find.tmp")
-         runCommand("grep user walk.tmp >> find.tmp")
+         runCommand("grep password walker.tmp > find.tmp")
+         runCommand("grep user walker.tmp >> find.tmp")
+         runCommand("grep -p walker.tmp > find2.tmp"
+         runCommand("grep -u walker.tmp > find2.tmp"                  
          finds = linecache.getline("find.txt", 1)
          if finds[:1] == "":
             print("[-] No usernames or passwords were found...")
          else:
             catsFile("find.tmp")
+         finds2 = linecache.getline("find2.txt", 1)
+         if finds2[:1] == "":
+            print("[-] No usernames or passwords were found...")
+         else:
+            catsFile("find2.tmp")
          print("[+] MIB enumeration contents...")
-         catsFile("walk.tmp")
+         catsFile("walker.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
