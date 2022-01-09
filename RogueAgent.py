@@ -273,8 +273,14 @@ def privCheck():
 def checkPorts(PTS, POR):
    checkParams = test_TIP()
    if checkParams != 1:   
-      print(colored("[*] Attempting to enumerate all open ports, please wait as this can take a long time...", colour3))
-      runCommand("nmap " + IP46 + " -p- -T4 " + TIP.rstrip(" ") + " --open > open.tmp")
+      print(colored("[*] Attempting to enumerate all open tcp ports, please wait as this can take a long time...", colour3))
+#      getTime()
+#      print("[+] Start time " + LTM[:6].rstrip(" ") + " hours...")
+      runCommand("nmap " + IP46 + " -p- -sT --open -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      print(colored("[*] Attempting to enumerate top 200 udp ports, please wait as this can take a long time...", colour3)) 
+      runCommand("nmap " + IP46 + " -sU --top-ports 200 -T4 " + TIP.rstrip(" ") + " >> open.tmp")           
+#      getTime()
+#      print("[+] Finish time " + LTM[:6].rstrip(" ") + " hours...")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports.tmp")
       PTS = linecache.getline("openports.tmp", 1).rstrip("\n")            
       if PTS[:1] == "":
@@ -1676,7 +1682,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -3148,10 +3154,8 @@ while True:
          runCommand("echo 'private' >> community.tmp")
          runCommand("echo 'manager' >> community.tmp")
          runCommand("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
-         catsFile("161.tmp")      
-         print(colored("[*] Enumerating public v2c communities only...", colour3))   
-#         runCommand("snmp-check -v 2c -w " + TIP.rstrip(" ") + " > check.tmp")
-#         catsfile("check.tmp")
+         catsFile("161.tmp")
+         print(colored("[*] Enumerating public v2c communities Part I...", colour3))   
          print("[+] Checking system processes...")
          runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > walk.tmp")
          catsFile("walk.tmp")      
@@ -3185,14 +3189,17 @@ while True:
             printer2 = printer2.replace("b'","")
             data3 = printer2.split('\\x13',1)[0]
             printerpassword = data3
-            print(colored(printerpassword + "\n", colour0))         
+            print(colored(printerpassword + "\n", colour0))
+         print(colored("[*] Enumerating public v2c communities part II...", colour3))           
+         runCommand("snmp-check -v 2c -w " + TIP.rstrip(" ") + " > check.tmp")
+         catsFile("check.tmp")         
          print(colored("[*] Enumerating the entire MIB tree, please wait this may take sometime...", colour3))
          runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walker.tmp")    
          print("[+] Searching for any interesting finds...")
          runCommand("grep password walker.tmp > find.tmp")
          runCommand("grep user walker.tmp >> find.tmp")
-         runCommand("grep -p walker.tmp > find2.tmp"
-         runCommand("grep -u walker.tmp > find2.tmp"                  
+         runCommand("grep -p walker.tmp > find2.tmp")
+         runCommand("grep -u walker.tmp > find2.tmp")                  
          finds = linecache.getline("find.txt", 1)
          if finds[:1] == "":
             print("[-] No usernames or passwords were found...")
@@ -3203,8 +3210,8 @@ while True:
             print("[-] No usernames or passwords were found...")
          else:
             catsFile("find2.tmp")
-         print("[+] MIB enumeration contents...")
-         catsFile("walker.tmp")
+         print("[+] MIB enumeration contents available as MIB.txt...")
+         RunCommand("mv walker.tmp MIB.txt")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
