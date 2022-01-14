@@ -3196,22 +3196,15 @@ while True:
          print(colored("[*] Enumerating the entire MIB tree, please wait this may take sometime...", colour3))
          runCommand("snmpwalk -v2c -c public " + TIP.rstrip(" ") + " > walker.tmp")    
          print("[+] Searching for any interesting finds...")
-         runCommand("grep password walker.tmp > find.tmp")
-         runCommand("grep user walker.tmp >> find.tmp")
-         runCommand("grep -p walker.tmp > find2.tmp")
-         runCommand("grep -u walker.tmp > find2.tmp")                  
+         runCommand("cat walker.tmp | grep 'password' > find.tmp")
+         runCommand("cat walker.tmp | grep 'user'     >> find.tmp")              
          finds = linecache.getline("find.txt", 1)
          if finds[:1] == "":
             print("[-] No usernames or passwords were found...")
          else:
             catsFile("find.tmp")
-         finds2 = linecache.getline("find2.txt", 1)
-         if finds2[:1] == "":
-            print("[-] No usernames or passwords were found...")
-         else:
-            catsFile("find2.tmp")
          print("[+] MIB enumeration contents available as MIB.txt...")
-         RunCommand("mv walker.tmp MIB.txt")
+         runCommand("mv walker.tmp MIB.txt")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
