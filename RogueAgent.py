@@ -272,24 +272,56 @@ def privCheck():
          
 def checkPorts(PTS, POR):
    checkParams = test_TIP()
-   if checkParams != 1:   
-      print(colored("[*] Attempting to enumerate all open tcp ports, please wait as this can take a long time...", colour3))
-#      getTime()
-#      print("[+] Start time " + LTM[:6].rstrip(" ") + " hours...")
-      runCommand("nmap " + IP46 + " -p- -sT --open -T4 " + TIP.rstrip(" ") + " > open.tmp")
+   if checkParams != 1:
+      print(colored("[*] Attempting to enumerate all open tcp ports, please wait as this can take a long time...", colour3))      
+      print("[+] Checking well known ports range 0 to 1023...")
+      runCommand("nmap " + IP46 + " -p 0-1023 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports1.tmp")
+      showPorts("openports1.tmp")      
+      print("[+] Checking registered ports range 1024 to 49151...")
+      runCommand("nmap " + IP46 + " -p 1024-49151 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports2.tmp")
+      showPorts("openports2.tmp")      
+      print("[+] Checking dynamic private ports range 49152 to 65535...")
+      runCommand("nmap " + IP46 + " -p 49152-65535 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports3.tmp")
+      showPorts("openports3.tmp")            
       print(colored("[*] Attempting to enumerate top 200 udp ports, please wait as this can take a long time...", colour3)) 
-      runCommand("nmap " + IP46 + " -sU --top-ports 200 -T4 " + TIP.rstrip(" ") + " >> open.tmp")           
-#      getTime()
-#      print("[+] Finish time " + LTM[:6].rstrip(" ") + " hours...")
-      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports.tmp")
-      PTS = linecache.getline("openports.tmp", 1).rstrip("\n")            
-      if PTS[:1] == "":
+      runCommand("nmap " + IP46 + " -sU --min-rate=1000 -T4 --top-ports 200 " + TIP.rstrip(" ") + " > open.tmp")           
+      runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports4.tmp")
+      showPorts("openports4.tmp")
+      PTS = ""
+      PTS1 = linecache.getline("openports1.tmp", 1).rstrip("\n")
+      PTS1 = PTS1 + ","
+      PTS2 = PTS1 + linecache.getline("openports2.tmp", 1).rstrip("\n")
+      PTS2 = PTS2 + ","
+      PTS3 = PTS2 + linecache.getline("openports3.tmp", 1).rstrip("\n")
+      PTS3 = PTS3 + ","
+      PTS4 = PTS3 + linecache.getline("openports4.tmp", 1).rstrip("\n")
+      PTS4 = PTS4.replace(",,,",",")
+      PTS = PTS4.replace(",,",",")            
+      runCommand ("echo " + PTS + " | sort > sorted.tmp")
+      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")      
+      if PTS[:1] == ",":
          print("[-] Unable to enumerate any port information, good luck!!...")
          PTS = "EMPTY"
       else:
-         print("[+] Found live ports...\n")
-         print(colored(PTS,colour6) + "\n")        
+         print("[+] Total found live ports...\n")
+         print((colored(PTS,colour6) + "\n"))
    return PTS
+   
+def showPorts(variable):
+   check = linecache.getline(variable, 1).rstrip("\n")
+   if check[:1] == "":
+      print("[-] No ports found..")
+   else:
+      print("[+] Found live ports...\n")
+      print(colored(check,colour6) + "\n")        
+   return
+
+
+
+
 
 def checkIke():
    print(colored("[*] Attempting to undertake an IKE test...", colour3))
