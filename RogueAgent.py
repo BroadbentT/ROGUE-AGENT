@@ -300,8 +300,9 @@ def checkPorts(PTS, POR):
       PTS4 = PTS3 + linecache.getline("openports4.tmp", 1).rstrip("\n")
       PTS4 = PTS4.replace(",,,",",")
       PTS = PTS4.replace(",,",",")            
-      runCommand ("echo " + PTS + " | sort | uniq > sorted.tmp")
-      PTS = linecache.getline("sorted.tmp", 1).rstrip("\n")      
+      runCommand ("echo " + PTS + " > sorted.tmp")
+      runCommand("tr , '\n' < sorted.tmp | sort -nu | paste -sd, - > uniq.tmp")
+      PTS = linecache.getline("uniq.tmp", 1).rstrip("\n")      
       if PTS[:1] == ",":
          print("[-] Unable to enumerate any port information, good luck!!...")
          PTS = "EMPTY"
@@ -1728,7 +1729,9 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)   
             parsFile("light.tmp")
-            catsFile("light.tmp")            
+            catsFile("light.tmp") 
+         else:
+            print("[-] No ports have been specified...")           
       prompt()
       
 # ------------------------------------------------------------------------------------- 
