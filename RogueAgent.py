@@ -120,8 +120,10 @@ def test_SID():
       return 0
    
 def test_PRT(variable):
+   orginal = variable
+   variable = "," + variable + ","
    if variable not in PTS:
-      print("[-] Port " + variable + " not found in live ports...")
+      print("[-] Port " + orginal + " not found in live ports...")
       return 1
    else:
       return 0
@@ -309,6 +311,7 @@ def checkPorts(PTS, POR):
       else:
          print("[+] Total found live ports...\n")
          print((colored(PTS,colour6) + "\n"))
+         PTS = "," + PTS + ","
    return PTS
    
 def showPorts(variable):
@@ -319,9 +322,6 @@ def showPorts(variable):
       print("[+] Found live ports...\n")
       print(colored(check,colour6) + "\n")        
    return
-
-
-
 
 
 def checkIke():
@@ -637,8 +637,8 @@ def dispMenu():
    if POR[:5] == "EMPTY":
       print(colored(POR[:COL1],colour7), end=' ')
    else:
-      lastChar = POR[COL1-1]
-      print(colored(POR[:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
+      lastChar = POR[COL1-1] + "~"
+      print(colored(POR[1:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[3]:
       print(colored(SHAR[3],colour3), end=' ')
@@ -1711,11 +1711,11 @@ while True:
 # -------------------------------------------------------------------------------------
 # 
    if selection == '17':
-      checkParams = test_TIP()      
+      checkParams = test_TIP()     
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            runCommand("nmap " + IP46 + " -p " + PTS[1:-1].rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
