@@ -330,7 +330,7 @@ def checkIke():
    if checkParams == 1:
       return
    else:
-      runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+      runCommand("ike-scan -M " + TIP.rstrip(" ") + " > ike.tmp")
       catsFile("ike.tmp")
    return
 
