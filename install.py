@@ -84,7 +84,7 @@ for x in range(0, len(dirList)):
 
 print("[*] Installing system requirements I, please wait...")
 
-list1 = ["libemail-outlook-message-perl", "libemail-sender-perl", "default-jdk", "gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists", "redis"]
+list1 = ["libemail-outlook-message-perl", "libemail-sender-perl", "default-jdk", "gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists", "redis","feroxbuster"]
 
 for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
