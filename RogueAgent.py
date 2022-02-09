@@ -3168,9 +3168,10 @@ while True:
       else:
          print("[+] Using IP address...")
          target = TIP.rstrip(" ")
-      runCommand("echo '" + Green + "'")
-      runCommand("gobuster dir -e -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + target + " -x " + fileExt + " -w  /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt --wildcard -t 100 -o dir.tmp")
-      runCommand("echo '" + Reset + "'")
+#      runCommand("echo '" + Green + "'")
+#     runCommand("feroxbuster -u " + target + " -x " + fileExt + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 100 -o dir.tmp") # --silent
+#      runCommand("echo '" + Reset + "'")
+      runCommand("feroxbuster -u " + target + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 100 -o dir.tmp -q")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
