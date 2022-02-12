@@ -3169,7 +3169,7 @@ while True:
          print("[+] Using IP address...")
          target = TIP.rstrip(" ")
 #      runCommand("echo '" + Green + "'")
-      runCommand("feroxbuster -u " + target + " -x " + fileExt + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 100 -o dir.tmp -q") # --silent
+      runCommand("feroxbuster -u " + target + " -x " + fileExt + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 100 -o dir.tmp -q -k") # --silent
 #      runCommand("echo '" + Reset + "'")
       prompt()
       
