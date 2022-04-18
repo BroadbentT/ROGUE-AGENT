@@ -276,42 +276,58 @@ def checkPorts(PTS, POR):
    checkParams = test_TIP()
    if checkParams != 1:
       print(colored("[*] Attempting to enumerate all open tcp ports, please wait as this can take a long time...", colour3))      
+      
       print("[+] Checking well known ports range 0 to 1023...")
       runCommand("nmap " + IP46 + " -p 0-1023 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports1.tmp")
       showPorts("openports1.tmp")      
+      
       print("[+] Checking registered ports range 1024 to 49151...")
       runCommand("nmap " + IP46 + " -p 1024-49151 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports2.tmp")
       showPorts("openports2.tmp")      
+      
       print("[+] Checking dynamic private ports range 49152 to 65535...")
       runCommand("nmap " + IP46 + " -p 49152-65535 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports3.tmp")
       showPorts("openports3.tmp")            
+      
       print(colored("[*] Attempting to enumerate top 200 udp ports, please wait as this can take a long time...", colour3)) 
       runCommand("nmap " + IP46 + " -sU --min-rate=1000 -T4 --top-ports 200 " + TIP.rstrip(" ") + " > open.tmp")           
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports4.tmp")
       showPorts("openports4.tmp")
+      
       PTS = ""
       PTS1 = linecache.getline("openports1.tmp", 1).rstrip("\n")
-      PTS1 = PTS1 + ","
-      PTS2 = PTS1 + linecache.getline("openports2.tmp", 1).rstrip("\n")
-      PTS2 = PTS2 + ","
-      PTS3 = PTS2 + linecache.getline("openports3.tmp", 1).rstrip("\n")
-      PTS3 = PTS3 + ","
-      PTS4 = PTS3 + linecache.getline("openports4.tmp", 1).rstrip("\n")
-      PTS4 = PTS4.replace(",,,",",")
-      PTS = PTS4.replace(",,",",")            
+      if PTS1 != "":
+         PTS = PTS1
+      PTS2 = linecache.getline("openports2.tmp", 1).rstrip("\n")
+      if PTS2 != "":
+         if PTS != "":
+            PTS = PTS +","
+         PTS = PTS + PTS2
+      PTS3 = linecache.getline("openports3.tmp", 1).rstrip("\n")
+      if PTS3 != "":
+         if PTS != "":
+            PTS = PTS + ","
+         PTS = PTS + PTS3
+      PTS4 = linecache.getline("openports4.tmp", 1).rstrip("\n")
+      if PTS4 != "":
+         if PTS != "":
+            PTS = PTS + ","
+         PTS = PTS + PTS4
+     
       runCommand ("echo " + PTS + " > sorted.tmp")
       runCommand("tr , '\n' < sorted.tmp | sort -nu | paste -sd, - > uniq.tmp")
       PTS = linecache.getline("uniq.tmp", 1).rstrip("\n")      
-      if PTS[:1] == ",":
+      
+      
+      if PTS[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
          PTS = "EMPTY"
       else:
          print("[+] Total found live ports...\n")
          print((colored(PTS,colour6) + "\n"))
-         PTS = "," + PTS + ","
    return PTS
    
 def showPorts(variable):
@@ -637,8 +653,7 @@ def dispMenu():
    if POR[:5] == "EMPTY":
       print(colored(POR[:COL1],colour7), end=' ')
    else:
-      lastChar = POR[COL1-1] + "~"
-      print(colored(POR[1:COL1-1],colour6) + colored(lastChar,colour0), end=' ')
+      print(colored(POR[:COL1],colour6), end=' ')
    print('\u2551', end=' ')   
    if TSH.rstrip(" ") in SHAR[3]:
       print(colored(SHAR[3],colour3), end=' ')
@@ -1263,6 +1278,8 @@ while True:
             found = 1
          if "IOS" in OSF:
             found = 1
+         if "FREEBSD" in OSF:
+            found=1   
          if found == 0:
             print("[-] Operating system not found...")
             OSF = BAK
@@ -1715,7 +1732,7 @@ while True:
       if checkParams != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            runCommand("nmap " + IP46 + " -p " + PTS[1:-1].rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner,discovery,auth " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -1727,7 +1744,9 @@ while True:
             if "ANDROID" in service.upper():
                OSF = spacePadding("ANDROID", COL1)
             if "IOS" in service.upper():
-               OSF = spacePadding("IOS", COL1)   
+               OSF = spacePadding("IOS", COL1)
+            if "FreeBSD" in service.upper():
+               OSF = spacePadding("FreeBSD",COL1)   
             parsFile("light.tmp")
             catsFile("light.tmp") 
          else:
