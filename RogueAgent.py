@@ -1726,13 +1726,14 @@ while True:
 # Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
-# 
+
    if selection == '17':
-      checkParams = test_TIP()     
-      if checkParams != 1:
+      checkParam = test_TIP()      
+      if checkParam != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sU -sT -sV -sC -O -A -T4 --version-all --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            print("[+] Performing light scan...")            
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --version-light --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -1744,13 +1745,31 @@ while True:
             if "ANDROID" in service.upper():
                OSF = spacePadding("ANDROID", COL1)
             if "IOS" in service.upper():
-               OSF = spacePadding("IOS", COL1)
-            if "FreeBSD" in service.upper():
-               OSF = spacePadding("FreeBSD",COL1)   
+               OSF = spacePadding("IOS", COL1)   
             parsFile("light.tmp")
-            catsFile("light.tmp") 
+            catsFile("light.tmp")            
+            print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
+            print("[+] Performing heavy scan...")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --version-all --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            runCommand("sed -i '/# Nmap/d' heavy.tmp")            
+            catsFile("heavy.tmp")                   
+            if "500" in PTS:
+               runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+               catsFile("ike.tmp")
          else:
-            print("[-] No ports have been specified...")           
+            print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
+            print("[+] Performing light scan...")
+            runCommand("nmap " + IP46 + " -p- --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            nmapTrim("light.tmp")
+            parsFile("light.tmp")
+            catsFile("light.tmp")
+            print("[+] Performing heavy scan...")
+            runCommand("nmap " + IP46 + " -sT -sU -sV -Pn --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            runCommand("sed -i '/# Nmap/d' heavy.tmp")                       
+            catsFile("heavy.tmp")
+            if "500," in PTS:
+               runCommand("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+               catsFile("ike.tmp")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
