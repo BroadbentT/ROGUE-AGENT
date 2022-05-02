@@ -120,8 +120,6 @@ def test_SID():
       return 0
    
 def test_PRT(variable):
-   orginal = variable
-   variable = "," + variable + ","
    if variable not in PTS:
       print("[-] Port " + orginal + " not found in live ports...")
       return 1

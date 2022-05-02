@@ -29,7 +29,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 |------     |-------                | -------                          | ----                |  ----        |
 | python3   | install.py            | 9c74a973b5d9fa60e60ba2396c02ce97 | Install Program     | TREADSTONE   |
 | python3   | exploits.py           | a1782550c573b828904743243ee3e4db | Install Exploits    | TREADSTONE   |
-| python3   | RogueAgent.py         | 24e62b952eca2689d1966a6c04556616 | Command Centre      | TREADSTONE   |
+| python3   | RogueAgent.py         | 0aec9d174fb90e08cdb6d1a25e830ffe | Command Centre      | TREADSTONE   |
 | SQLite3   | RA.db                 | bcfd3cd2c5846250f9614c4c6b71b0b3 | Program Database    | TREADSTONE   |
        
 ## CONSOLE DISPLAY AND VIDEO LINK
