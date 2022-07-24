@@ -269,16 +269,18 @@ def privCheck():
    count = lineCount("ticket.tmp")   
    if count > 1:
       print("[i] More than one ticket was found...")            
-   for x in range(1, count):
+   ticket=""
+   for x in range(1, count+1):
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       ticket = ticket.rstrip(" ")
+
       if ticket != "":
          runCommand("export KRB5CCNAME=" + ticket)
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
          runCommand(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
       else:
          print("[-] Unable to find a valid ticket...")
-      return spacePadding(ticket, COL1)
+   return spacePadding(ticket, COL1)
          
 def checkPorts(PTS, POR):
    checkParams = test_TIP()
@@ -889,7 +891,7 @@ else:
 
 if netWork == "":
    netWork = "tun0"							# HTB DEFUALT INTERFACE
-maxUser = 5000								# UNLIMITED VALUE
+maxUser = 1000								# UNLIMITED VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
@@ -2522,7 +2524,7 @@ while True:
                USR,PAS = test3.split(":") 
                USR = spacePadding(USR, COL1)
                PAS = spacePadding(PAS, COL1)
-               TGT = privCheck()               
+               TGT = privCheck()  
       prompt()
 
 # ------------------------------------------------------------------------------------- 
