@@ -890,9 +890,9 @@ else:
 # -------------------------------------------------------------------------------------
 
 if netWork == "":
-   netWork = "tun0"							# HTB DEFUALT INTERFACE
-maxUser = 1000								# UNLIMITED VALUE
-colour0 = "red"								# DISPLAY COLOURS
+   netWork = "tun0"										# HTB DEFUALT INTERFACE
+maxUser = 1000											# UNLIMITED VALUE
+colour0 = "red"											# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
 colour3 = "blue"
@@ -901,16 +901,16 @@ colour5 = "white"
 colour6 = "green"
 colour7 = "yellow"
 colour8 = "magenta"
-Yellow  = '\e[1;93m'							# OP SYSTEM COLOUR
+Yellow  = '\e[1;93m'										# OP SYSTEM COLOUR
 Green   = '\e[0;32m'
 Reset   = '\e[0m'
 Red     = '\e[1;91m'
-dataDir = "ROGUEAGENT"							# LOCAL DIRECTORYS
+dataDir = "ROGUEAGENT"										# LOCAL DIRECTORYS
 httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,htm,pdf,dat,asp"	# FILE EXTENSIONS
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,htm,pdf,dat,asp,exe,elf,db,png,jpg"	# FILE EXTENSIONS
 keyPath = "python3 /usr/share/doc/python3-impacket/examples/"		# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
