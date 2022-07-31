@@ -1581,7 +1581,7 @@ while True:
          SID = spacePadding(SID, COL1)
       else:
          SID = BAK
-         
+      prompt()
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -2267,30 +2267,32 @@ while True:
    if selection =='37':
       checkParams = test_TIP()      
       if checkParams != 1:
-         print(colored("[*] Finding shares, please wait...", colour3))
+         print(colored("[*] Finding shares, please wait...", colour3))         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
-            runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")
-            if not os.path.exists("shares2.tmp2"):
-               if PAS.rstrip(" ") == "''":
-                  print("[!] Requires password, please press ENTER...")
-                  runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + NTM.rstrip(" ") + " --pw-nt-hash > shares2.tmp")               
          else:
-            runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
-            catsFile("shares1.tmp")                       
-            runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares2.tmp")
-            if not os.path.exists("shares2.tmp2"):
-               if PAS.rstrip(" ") == "''":
-                  print("[!] Requires password, please press ENTER...")
-                  runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares2.tmp")
+            if PAS.rstrip(" ") == "''":
+               runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
+            else:   
+               runCommand("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+         catsFile("shares1.tmp")             
+         if NTM[:5] != "EMPTY":
+            print("[i] Using HASH value as password credential...")            
+            runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp")
+         else:
+            if PAS.rstrip(" ") == "''":
+               runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " -no-pass > shares2.tmp")
+            else:
+               runCommand("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp")                           
          cutLine("Enter WORKGROUP", "shares2.tmp")
+         cutLine("Password for [WORKGROUP\]", "shares2.tmp")    
+         catsFile("shares2.tmp")         
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
-            runCommand("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                    
+            runCommand("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                            
          if os.path.getsize("shares2.tmp") != 0: 
-            catsFile("shares2.tmp")           
             cutLine("is an IPv6 address","shares2.tmp")
             cutLine("no workgroup","shares2.tmp")
             cutLine("NT_STATUS_LOGON_FAILURE","shares2.tmp")
