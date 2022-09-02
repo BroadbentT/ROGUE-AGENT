@@ -288,22 +288,22 @@ def checkPorts(PTS, POR):
       print(colored("[*] Attempting to enumerate all open tcp ports, please wait as this can take a long time...", colour3))      
       
       print("[+] Checking well known ports range 0 to 1023...")
-      runCommand("nmap " + IP46 + " -p 0-1023 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("nmap " + IP46 + " -p 0-1023 " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports1.tmp")
       showPorts("openports1.tmp")      
       
       print("[+] Checking registered ports range 1024 to 49151...")
-      runCommand("nmap " + IP46 + " -p 1024-49151 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("nmap " + IP46 + " -p 1024-49151 " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports2.tmp")
       showPorts("openports2.tmp")      
       
       print("[+] Checking dynamic private ports range 49152 to 65535...")
-      runCommand("nmap " + IP46 + " -p 49152-65535 --min-rate=1000 -T4 " + TIP.rstrip(" ") + " > open.tmp")
+      runCommand("nmap " + IP46 + " -p 49152-65535  " + TIP.rstrip(" ") + " > open.tmp")
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports3.tmp")
       showPorts("openports3.tmp")            
       
       print(colored("[*] Attempting to enumerate top 200 udp ports, please wait as this can take a long time...", colour3)) 
-      runCommand("nmap " + IP46 + " -sU --min-rate=1000 -T4 --top-ports 200 " + TIP.rstrip(" ") + " > open.tmp")           
+      runCommand("nmap " + IP46 + " -sU --top-ports 200 " + TIP.rstrip(" ") + " > open.tmp")           
       runCommand("cat open.tmp | grep ^[0-9] | cut -d '/' -f 1 | tr '\\n' ',' | sed s/,$// > openports4.tmp")
       showPorts("openports4.tmp")
       
@@ -1751,8 +1751,12 @@ while True:
       if checkParam != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait this may take sometime...", colour3))
-            print("[+] Performing light scan...")            
-            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sV --version-light --reason --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            print("[+] Performing a basic scan...")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " " + TIP.rstrip(" ") + " -oN basic.tmp 2>&1 > temp.tmp")
+            nmapTrim("basic.tmp")
+            catsFile("basic.tmp")            
+            print("[+] Performing a light scan...")            
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sCV --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")            
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -1768,8 +1772,8 @@ while True:
             parsFile("light.tmp")
             catsFile("light.tmp")            
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")         
-            print("[+] Performing heavy scan...")
-            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --version-all --reason --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            print("[+] Performing a heavy scan...")
+            runCommand("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             runCommand("sed -i '/# Nmap/d' heavy.tmp")            
             catsFile("heavy.tmp")                   
             if "500" in PTS:
