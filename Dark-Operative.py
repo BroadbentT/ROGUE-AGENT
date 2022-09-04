@@ -322,7 +322,7 @@ def getTCPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
-      for loop1 in range(0, loopMax):
+      for loop1 in range(0, loopMax+1):
          for x1 in this_Ports1.split(","):
             portsTCP[loop1] = spacePadding(x1,5)
             loop1 = loop1 + 1
@@ -330,7 +330,7 @@ def getTCPorts():
       services = linecache.getline("service1.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop1 in range(0, loopMax):      
+      for loop1 in range(0, loopMax+1):      
          for y1 in services.split(","):
             servsTCP[loop1] = spacePadding(y1, COL4)
             loop1 = loop1 + 1 
@@ -364,7 +364,7 @@ def getUDPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
-      for loop2 in range(0, loopMax):
+      for loop2 in range(0, loopMax+1):
          for x2 in this_Ports2.split(","):
             portsUDP[loop2] = spacePadding(x2,5)
             loop2 = loop2 + 1
@@ -372,7 +372,7 @@ def getUDPorts():
       services = linecache.getline("service2.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop2 in range(0, loopMax):      
+      for loop2 in range(0, loopMax+1):      
          for y2 in services.split(","):
             servsUDP[loop2] = spacePadding(y2, COL4)
             loop2 = loop2 + 1 
@@ -850,7 +850,7 @@ else:
 
 localCOM("xdotool key Alt+Shift+S; xdotool type 'DARK OPERATIVE'; xdotool key Return")
 dispBanner("DARKOPERATIVE",1)
-print(colored("\t\t\tL A R X  E D I T I O N",colour7,attrs=['bold']))
+print(colored("\t\t\t  L A R X  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
 
@@ -3355,7 +3355,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Proxychain ON/OFF
+# Details : Menu option selected - Proxychain ON/OFF [KEEP HERE]
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -3740,10 +3740,10 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '231':
-      PTS = getTCPorts()
-      PTS22= getUDPorts()     
-      ALLPORTS=PTS + "," + PTS22
-      ALLPORS=sort(ALLPORTS)    
+      PTS11 = getTCPorts()
+      PTS22 = getUDPorts()     
+      ALLPORTS = PTS11 + "," + PTS22
+      ALLPORTS = sort(ALLPORTS)    
       PTS = ALLPORTS        
       POR = spacePadding(ALLPORTS, COL1)
       squidCheck()      
