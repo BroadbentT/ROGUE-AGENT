@@ -740,21 +740,23 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) FILE Editor (91 ) FTP      (231) Scan Live PORTS (341)		(441)               (   )	       (   )		(   )           (   )		(    )              " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441)                (   )	       (   )		(   )           (   )		(    )              " + '\u2551')
+   
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
-      print(menuName, end= ' ')
-   print("(92 ) SSH      (232) TCP PORTS  Scan (342)  	        (442)		    (   )	       (   )		(   )		(   )		(    )              " + '\u2551')   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (333)		(443)     	    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (334)		(444)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (335)		(445)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (336)		(446)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (337)		(447)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (338)		(448)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (330)		(449)		    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)          (240)                 (340)		(450)		    (   )	       (   )		(   )		(   )		(1000) Exit         " + '\u2551')
+      print(menuName, end= ' ')    
+   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442)                (   )	       (   )		(   )		(   )		(    )              " + '\u2551')   
+   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)          (240)                 (350)                  (450)                (   )	       (   )		(   )		(   )		(1000) Exit         " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
@@ -845,9 +847,9 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-localCOM("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
-dispBanner("ROGUE AGENT",1)
-print(colored("\t\t   L A R X  E D I T I O N",colour7,attrs=['bold']))
+localCOM("xdotool key Alt+Shift+S; xdotool type 'DARK OPERATIVE'; xdotool key Return")
+dispBanner("DARKOPERATIVE",1)
+print(colored("\t\t\tL A R X  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
 
@@ -3342,46 +3344,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Nano file editor
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='81':
-      dispSubMenu(" (01) User Names (02) Pass Words (03) NTLM Hashes (04) Hosts Config (05) Resolv Config (06) Proxychains Config (07) Kerb5 Config (08) Quit")
-      checkParam = 0
-      subChoice = input("[?] Please select the file you wish to edit: ")      
-      if subChoice == "1":
-         localCOM("nano " + dataDir + "/usernames.txt")               
-         for x in range (0, maxUser):
-            USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
-            USER[x] = spacePadding(USER[x], COL3)         
-         wipeTokens(VALD)
-         checkParam = 1         
-      if subChoice == "2":
-         localCOM("nano " + dataDir + "/passwords.txt")
-         checkParam = 1         
-      if subChoice == "3":
-         localCOM("nano " + dataDir + "/hashes.txt")                    
-         for x in range (0, maxUser):
-               HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
-               HASH[x] = spacePadding(HASH[x], COL4)            
-         wipeTokens(VALD)
-         checkParam = 1         
-      if subChoice == "4":
-         localCOM("nano /etc/hosts")
-         checkParam = 1         
-      if subChoice == "5":
-         localCOM("nano /etc/resolv.conf")
-         checkParam = 1         
-      if subChoice == "6":
-         localCOM("nano /etc/proxychains.conf")
-         checkParam = 1         
-      if subChoice == "7":
-         localCOM("nano /etc/krb5.conf")
-         checkParam = 1
-      if subChoice == "8":
-         pass
-      prompt()
+# - HERE 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3927,7 +3894,7 @@ while True:
 # Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
-# 
+
    if selection == '236':
       checkParam = test_TIP()      
       if checkParam != 1:
@@ -3973,6 +3940,99 @@ while True:
             catsFile("ike.tmp")
       prompt()
       
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit usernames.txt.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '341':
+      localCOM("nano " + dataDir + "/usernames.txt")               
+      for x in range (0, maxUser):
+         USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+         USER[x] = spacePadding(USER[x], COL3)         
+      wipeTokens(VALD)
+      prompt()    
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit passwords.txt.
+# Modified: N/A
+# -------------------------------------------------------------------------------------    
+      
+   if selection == '342':
+      localCOM("nano " + dataDir + "/passwords.txt")
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit NTLM Hashes.
+# Modified: N/A
+# -------------------------------------------------------------------------------------        
+
+   if selection == '343':      
+      localCOM("nano " + dataDir + "/hashes.txt")                    
+      for x in range (0, maxUser):
+         HASH[x] = linecache.getline(dataDir + "/hashes.txt", x + 1).rstrip(" ")
+         HASH[x] = spacePadding(HASH[x], COL4)            
+      wipeTokens(VALD)
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit /etc/hosts.
+# Modified: N/A
+# -------------------------------------------------------------------------------------    
+      
+   if selection == '344':
+      localCOM("nano /etc/hosts")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit /etc/resolv.conf.
+# Modified: N/A
+# -------------------------------------------------------------------------------------    
+
+   if selection == '345':
+      localCOM("nano /etc/resolv.conf")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit /etc/proxchains.conf.
+# Modified: N/A
+# -------------------------------------------------------------------------------------        
+
+   if selection == '346':
+      localCOM("nano /etc/proxychains.conf")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Edit /etc/krb5.conf.
+# Modified: N/A
+# -------------------------------------------------------------------------------------        
+
+   if selection == '347':
+      localCOM("nano /etc/krb5.conf")
+      prompt()
+
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
