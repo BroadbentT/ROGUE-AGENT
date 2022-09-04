@@ -141,10 +141,7 @@ def test_TSH():
 def lineCount(variable):
    localCOM("cat " + variable + " | wc -l > count.tmp")
    count = int(linecache.getline("count.tmp", 1).rstrip("\n"))
-   if count == 0:
-      return count
-   else:
-      return count
+   return count
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
@@ -506,6 +503,8 @@ def catsFile(variable):
       localCOM("echo '" + Green + "'")
       localCOM("cat " + variable)
       localCOM("echo '" + Reset + "'")
+   else:
+      print("[-] Empty File...")
    return   
    
 def timeSync(SKEW):
@@ -3095,33 +3094,15 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='76':
-      print(colored("[*] Scanning for directories, please wait this can take sometime...", colour3))
+      print(colored("[*] Scanning for directories and files, please wait this will take a long time...", colour3))   
       checkParam = test_WEB()
       if checkParam != 1:
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -H Special-Dev:only4dev -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
-         localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")
-         localCOM("tr -d '/' < list.tmp > dir2.tmp")
-         localCOM("sed -i '/\./d' dir2.tmp")
-         catsFile("dir2.tmp")
-         localCOM("cp /usr/share/seclists/Discovery/Web-Content/common.txt ./dictionary.tmp")
-         localCOM("cat dir2.tmp >> dictionary.tmp")
-         print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
-         remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + WEB.rstrip(" ") + " -x " + fileExt + " -w dictionary.tmp -t 50 > dir3.tmp")     
-      else:       
-         checkParam = test_TIP()
-         if checkParam != 1:
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -H Special-Dev:only4dev -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -t 50 > dir.tmp")
-            localCOM("grep -Eo '^[^ ]+' dir.tmp > list.tmp")           
-            localCOM("tr -d '/' < list.tmp > dir2.tmp") 
-            localCOM("sed -i '/\./d' dir2.tmp")
-            catsFile("dir2.tmp")
-            localCOM("cp /usr/share/seclists/Discovery/Web-Content/common.txt ./dictionary.tmp")
-            localCOM("cat dir2.tmp >> dictionary.tmp")
-            print(colored("[+] Enumerating files, please wait this can take sometime...", colour3))
-            remotCOM("gobuster dir -q -r -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' -u " + TIP.rstrip(" ") + " -x " + fileExt + " -H Special-Dev:only4dev -w dictionary.tmp-t 50 > dir3.tmp")
-      catsFile("dir3.tmp")
-      localCOM("cat dir3.tmp | grep 200 > 200.tmp")
-      catsFile("200.tmp")
+         print("[+] Using URL address...")
+         target = WEB.rstrip(" ")
+      else:
+         print("[+] Using IP address...")
+         target = TIP.rstrip(" ")
+      remotCOM("feroxbuster -u " + target + " -x " + fileExt + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 10 -o dir.tmp -q -k") # --silent
       prompt()
       
 # ------------------------------------------------------------------------------------- 
