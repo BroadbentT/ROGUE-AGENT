@@ -847,7 +847,7 @@ else:
 
 localCOM("xdotool key Alt+Shift+S; xdotool type 'ROGUE AGENT'; xdotool key Return")
 dispBanner("ROGUE AGENT",1)
-print(colored("\t\t  M R  R O B O T  E D I T I O N",colour7,attrs=['bold']))
+print(colored("\t\t   L A R X  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
 
