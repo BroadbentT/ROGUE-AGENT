@@ -7,6 +7,7 @@
 **INSTALLATION INSTRUCTIONS**
 
         ROGUE AGENT (ALPHA)
+        DARK OPERATIVE (BETA)
         -------------------------------------------------------
         https://github.com/BroadbentT/ROGUE-AGENT.git
         python3 install.py
@@ -24,12 +25,14 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 
 **TESTED: Kali Linux 2019** <br>
 **USAGE : python3 RogueAgent.py eth0** <br>
+**USAGE : python3 Dark-Operative.py eth0** <br>
 
 | LANGUAGE  | FILENAME              | MD5 Hash                         | Description         | Version      |
 |------     |-------                | -------                          | ----                |  ----        |
 | python3   | install.py            | 51f6e4ccecbc6585bcdde52c2e1c8a2d | Install Program     | TREADSTONE   |
 | python3   | exploits.py           | 54c99eb2ba01fb9c23f95d0058e145e8 | Install Exploits    | TREADSTONE   |
 | python3   | RogueAgent.py         | b8ade649dc41a841927d97e97b1a2337 | Command Centre      | TREADSTONE   |
+| python3   | Dark-Operative.py     | 80d0dcb57b1b3c4a95d8c8fb723b7362 | Command Centre (WS) | MR ROBOT     |
 | SQLite3   | RA.db                 | bcfd3cd2c5846250f9614c4c6b71b0b3 | Program Database    | TREADSTONE   |
        
 ## CONSOLE DISPLAY AND VIDEO LINK
