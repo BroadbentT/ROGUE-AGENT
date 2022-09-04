@@ -316,7 +316,8 @@ def getTCPorts():
          print("[+] Found live ports...\n")      
          print(colored(this_Ports,colour6) + "\n")
          localCOM("echo " + this_Ports + " > list1.tmp")
-         localCOM("cat list1.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted1.tmp" )     
+         localCOM("cat list1.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted1.tmp" )
+         catsFile("sorted1.tmp")          
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
@@ -3741,7 +3742,7 @@ while True:
    if selection == '231':
       PTS = getTCPorts()
       PTS22= getUDPorts()     
-      ALLPORTS=PTS+PTS22
+      ALLPORTS=PTS + "," + PTS22
       ALLPORS=sort(ALLPORTS)    
       PTS = ALLPORTS        
       POR = spacePadding(ALLPORTS, COL1)
