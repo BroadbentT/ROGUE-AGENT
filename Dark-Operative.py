@@ -376,7 +376,9 @@ def getUDPorts():
          for y2 in services.split(","):
             servsUDP[loop2] = spacePadding(y2, COL4)
             loop2 = loop2 + 1 
-         break      
+         break  
+#      this_Ports2 = this_Ports2.replace(",",",U:")
+#      this_Ports2 = "U:" + this_Ports2
    return this_Ports2
    
 def squidCheck():
