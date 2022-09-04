@@ -38,6 +38,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 ## CONSOLE DISPLAY AND VIDEO LINK
 
 [![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
+[![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png)]( "DarkOperative")
 
 
 ### COMPUTER MISUSE ACT 1990 - SECTION 3A
