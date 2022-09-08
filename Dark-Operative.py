@@ -1385,8 +1385,9 @@ while True:
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
          WEB = spacePadding(WEB, COL1)
-         if proxyChains != 1:      
-           print(colored("[*] Enumerating website url for verbs...", colour3))
+         if proxyChains != 1:   
+           checkWAF()   
+           print(colored("\n[*] Enumerating website url for verbs...", colour3))
            remotCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
            cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
            cutLine("Target","verbs.tmp")
@@ -1397,12 +1398,18 @@ while True:
            cutLine("Requests","verbs.tmp")
            parsFile("verbs.tmp")
            catsFile("verbs.tmp")
+           if ".GIT" in WEB.upper():
+              print(colored("[*] Attempting to enumerate .git repository...", colour3))
+              localCOM("echo '" + Green + "'")
+              remotCOM("git-dumper " + WEB.rstrip(" ") + " repo")
+              localCOM("echo '" + Reset + "'")
+              if os.path.exists("repo"):
+                 localCOM("mv ./repo ./" + workDir)
          else:
             print("[-] Proxychains enabled, no verb enumeration available...")
       else:
          WEB = BAK
          print("[-] No action has been taken...")
-      checkWAF()
       prompt()         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
