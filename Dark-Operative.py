@@ -742,18 +742,18 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441)                (   )	       (   )		(   )           (   )		(    )              " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS      (   )	       (   )		(   )           (   )		(    )              " + '\u2551')
    
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')    
-   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442)                (   )	       (   )		(   )		(   )		(    )              " + '\u2551')   
+   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS        (   )	       (   )		(   )		(   )		(    )              " + '\u2551')   
    
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25) DNS Enumerations (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN   (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (25)                  (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
@@ -1635,40 +1635,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '25':
-      dispSubMenu(" (01) Who (02) Dig (03) Enum (04) Reco (05) Quit")
-      checkParam = 0
-      subChoice = input("[?] Please select an option: ")
-      
-      if subChoice == "1":
-         checkParam = test_DNS()         
-         if checkParam != 1:
-            print(colored("[*] Checking DNS Server...\n", colour3))         
-            remotCOM("whois -I "  + DNS.rstrip(" "))
-      if subChoice == "2":
-         checkParam = test_DNS()
-         if checkParam != 1:
-            checkParam = test_DOM()
-         if checkParam != 1:
-            print(colored("[*] Checking DNS Server...", colour3))
-#           remotCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
-            remotCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
-      if subChoice == "3":
-         checkParam = test_DOM()      
-         if checkParam != 1:
-            print(colored("[*] Checking DOMAIN Server...", colour3))
-            remotCOM("dnsenum " + DOM.rstrip(" "))        
-      if subChoice == "4":
-         checkParam = test_TIP()
-         if checkParam != 1:
-            checkParam = test_DOM()         
-         if checkParam != 1:
-            print(colored("[*] Checking DOMAIN zone transfer...", colour3))
-            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
-            print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
-            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
-      if subChoice == "5":
-         pass           
+   if selection == '25':          
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -4022,6 +3989,73 @@ while True:
 
    if selection == '347':
       localCOM("nano /etc/krb5.conf")
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - DNS ENUMERATION
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '441':
+      checkParam = test_DNS()         
+      if checkParam != 1:
+         print(colored("[*] Checking DNS Server...\n", colour3))         
+         remotCOM("whois -I "  + DNS.rstrip(" "))
+      prompt()  
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - DNS ENUMERATION
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection == '442':
+      checkParam = test_DNS()
+      if checkParam != 1:
+         checkParam = test_DOM()
+         if checkParam != 1:
+            print(colored("[*] Checking DNS Server...", colour3))
+            remotCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
+#           remotCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - DNS ENUMERATION
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection == '443':
+      checkParam = test_DOM()      
+      if checkParam != 1:
+         print(colored("[*] Checking DOMAIN Server...", colour3))
+         remotCOM("dnsenum " + DOM.rstrip(" "))        
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - DNS ENUMERATION
+# Modified: N/A
+# -------------------------------------------------------------------------------------      
+      
+   if selection == '444':      
+      checkParam = test_TIP()
+      if checkParam != 1:
+         checkParam = test_DOM()         
+         if checkParam != 1:
+            print(colored("[*] Checking DOMAIN zone transfer...", colour3))
+            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -t axfr")         
+            print(colored("[*] Bruteforcing DOMAIN name, please wait this can take sometime...", colour3))
+            remotCOM("dnsrecon -d " + DOM.rstrip(" ") + " -D /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -t brt")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
