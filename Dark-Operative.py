@@ -2897,9 +2897,9 @@ while True:
       checkParam = test_WEB()
       if checkParam != 1:
          if WEB[:5].upper() == "HTTPS":
-            remotCOM("nikto -ssl   -h " + WEB.rstrip(" "))
+            remotCOM("nikto -ssl   -h " + WEB.rstrip(" ") + " -id " + USR.rstrip(" ") + ":" + PAS.rstrip(" "))
          else:
-            remotCOM("nikto -nossl -h " + WEB.rstrip(" "))
+            remotCOM("nikto -nossl -h " + WEB.rstrip(" ")  + " -id " + USR.rstrip(" ") + ":" + PAS.rstrip(" "))
       else:
          if IP46 == "-4":
             checkParam = test_TIP()
@@ -2907,9 +2907,9 @@ while True:
             checkParam = test_DOM()
          if checkParam != 1:   
             if ":" in TIP:
-               remotCOM("nikto -h " + DOM.rstrip(" "))	# IP 6 ISSUES
+               remotCOM("nikto -h " + DOM.rstrip(" ")  + " -id " + USR.rstrip(" ") + ":" + PAS.rstrip(" "))	# IP 6 ISSUES
             else:
-               remotCOM("nikto -h " + TIP.rstrip(" "))
+               remotCOM("nikto -h " + TIP.rstrip(" ") + " -id " + USR.rstrip(" ") + ":" + PAS.rstrip(" "))
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
