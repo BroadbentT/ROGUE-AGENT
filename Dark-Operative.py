@@ -3652,7 +3652,7 @@ while True:
       if checkParam != 1:
          checkParam = test_PRT("3306")            
       if checkParam != 1:
-         remotCOM("mysql -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -h " + TIP.rstrip(" "))
+         remotCOM("mysql -u " + USR.rstrip(" ") + " -p -h " + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
