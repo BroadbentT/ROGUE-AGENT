@@ -3896,7 +3896,7 @@ while True:
       if checkParams != 1:
          checkParams = test_PRT("3306")            
       if checkParams != 1:
-         runCommand("mysql -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -h " + TIP.rstrip(" "))
+         runCommand("mysql -u " + USR.rstrip(" ") + " -p -h " + TIP.rstrip(" "))
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
