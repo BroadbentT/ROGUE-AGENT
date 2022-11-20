@@ -759,7 +759,7 @@ def options():
    
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN    (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN   (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (25)                  (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set WORD LIST (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
@@ -1641,7 +1641,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '25':          
+   if selection == '15':          
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
       if currentWordlist != "":
