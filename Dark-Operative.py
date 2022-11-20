@@ -1641,7 +1641,10 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '15':          
+   if selection == '15':   
+      print("[+] Alternative word lists...\n")
+      print("\t/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt")
+      print("\t/usr/share/seclists/Discovery/Web-Content/common.txt\n")          
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
       if currentWordlist != "":
