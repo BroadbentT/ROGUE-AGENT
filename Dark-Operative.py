@@ -713,9 +713,15 @@ def dispMenu():
       if loop == 24 and EMPTY_12[:5] == "EMPTY": print (colored(EMPTY_12,colour7), end=' ')
       if loop == 25 and EMPTY_13[:5] == "EMPTY": print (colored(EMPTY_13,colour7), end=' ')
       if loop == 26 and EMPTY_14[:5] == "EMPTY": print (colored(EMPTY_14,colour7), end=' ')
-      if loop == 27 and EMPTY_15[:5] == "EMPTY": print (colored(EMPTY_15,colour7), end=' ')
+      
+      if loop == 27 and currentWordlist[:5] == "EMPTY":
+         print (colored(currentWordlist,colour7), end=' ')
+      else:
+         if loop == 27:
+            print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')
+      
       if loop == 28 and EMPTY_16[:5] == "EMPTY": print (colored(EMPTY_16,colour7), end=' ')
-      if loop == 29 and EMPTY_17[:5] == "EMPTY": print (colored(EMPTY_17,colour7), end=' ')
+      if loop == 29 and currentWordlist[:5] == "EMPTY": print (colored(currentWordlist,colour7), end=' ')
 
       print('\u2551', end=' ')       
       print(colored(SHAR[loop],colour6), end=' ')   
@@ -951,7 +957,7 @@ coloum_one_Labels[23] = "UNALLOCATED"
 coloum_one_Labels[24] = "UNALLOCATED"
 coloum_one_Labels[25] = "UNALLOCATED"
 coloum_one_Labels[26] = "UNALLOCATED"
-coloum_one_Labels[27] = "UNALLOCATED"
+coloum_one_Labels[27] = "WORD   LIST"
 #coloum_one_Labels[28] = "UNALLOCATED"
 #coloum_one_Labels[29] = "UNALLOCATED" 
 
@@ -973,7 +979,7 @@ EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
 EMPTY_15 = "EMPTY                                   "
 EMPTY_16 = "EMPTY                                   "
-EMPTY_17 = "EMPTY                                   "
+currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -1636,7 +1642,13 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '25':          
-      prompt()      
+      BAK = currentWordlist
+      currentWordlist = input("[?] Please enter a new word list: ")      
+      if currentWordlist != "":
+         #currentWordlist = spacePadding(currentWordlist, COL1)
+         pass
+      else:
+         currentWordlist = BAK
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3083,12 +3095,14 @@ while True:
       print(colored("[*] Scanning for directories and files, please wait this will take a long time...", colour3))   
       checkParam = test_WEB()
       if checkParam != 1:
-         print("[+] Using URL address...")
          target = WEB.rstrip(" ")
+         print("[+] Using word list " + currentWordlist + "...") 
+         print("[+] Using URL address " + target + "...")
       else:
-         print("[+] Using IP address...")
          target = TIP.rstrip(" ")
-      remotCOM("feroxbuster -u " + target + " -x " + fileExt + " -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -t 10 -o dir.tmp -q -k") # --silent
+         print("[+] Using word list " + currentWordlist + "...") 
+         print("[+] Using IP address " + target + "...")
+      remotCOM("feroxbuster -u " + target + " -x " + fileExt + " -w " + currentWordlist + " -t 10 -o dir.tmp -q -k") # --silent
       prompt()
       
 # ------------------------------------------------------------------------------------- 
