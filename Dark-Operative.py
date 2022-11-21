@@ -697,7 +697,6 @@ def dispMenu():
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
          if(loop == 12): print(colored(TSH[:COL1],colour6), end=' ')
-
       
       if loop == 13 and EMPTY_1[:5] == "EMPTY": print (colored(EMPTY_1,colour7), end=' ')
       if loop == 14 and EMPTY_2[:5] == "EMPTY": print (colored(EMPTY_2,colour7), end=' ')
@@ -764,7 +763,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Enum Sub-DOMAINS (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) EnumVirtualHOSTS (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)                (   )	       (   )		(   )		(   )		(    )		    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100)          (240)                 (350)                  (450)                (   )	       (   )		(   )		(   )		(1000) Exit         " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) WordpressScanner (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)                (   )	       (   )		(   )		(   )		(1000) Exit         " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
@@ -1643,6 +1642,7 @@ while True:
 
    if selection == '15':   
       print("[+] Alternative word lists...\n")
+      print("\t/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt")
       print("\t/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt")
       print("\t/usr/share/seclists/Discovery/Web-Content/common.txt\n")          
       BAK = currentWordlist
@@ -3715,7 +3715,23 @@ while True:
          checkParam = test_PRT("3389")                     
       if checkParam != 1:
          remotCOM("xfreerdp -sec-nla /u:" + USR.rstrip(" ") + " /p:" + PAS.rstrip(" ") + " /v:" + TIP.rstrip(" "))
-      prompt()        
+      prompt()       
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - crowbar RDP password bruteforce
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '100':
+      checkParam = test_TIP()            
+      if checkParam != 1:
+         checkParam = test_PRT("3389")                     
+      if checkParam != 1: 
+         remotCOM("crowbar -b -rdp -s " + TIP.rstrip(" ") + ":32 -u " + USR.rstrip(" ") + " -C " + currentWordlist + " -n 1")
+      prompt()       
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
