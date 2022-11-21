@@ -3730,7 +3730,7 @@ while True:
       if checkParam != 1:
          checkParam = test_PRT("3389")                     
       if checkParam != 1: 
-         remotCOM("crowbar -b -rdp -s " + TIP.rstrip(" ") + ":32 -u " + USR.rstrip(" ") + " -C " + currentWordlist + " -n 1")
+         remotCOM("crowbar -b rdp -s " + TIP.rstrip(" ") + "/32 -u " + USR.rstrip(" ") + " -C " + currentWordlist + " -n 1")
       prompt()       
       
 # ------------------------------------------------------------------------------------- 
