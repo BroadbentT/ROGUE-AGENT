@@ -1642,17 +1642,20 @@ while True:
 
    if selection == '15':   
       print("[+] Alternative word lists...\n")
+      print("\t/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt") 
       print("\t/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt")
       print("\t/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt")
       print("\t/usr/share/seclists/Discovery/Web-Content/common.txt")   
-      print("\t/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt\n")       
+      print("\t./ROGUEAGENT/passwords.txt\n")      
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
       if currentWordlist != "":
-         #currentWordlist = spacePadding(currentWordlist, COL1)
-         pass
+         curentWordlist = BAK
       else:
-         currentWordlist = BAK
+         print("[+]  Password list succesfully changed...")
+      if len(currentWordlist) < COL1:
+         currentWordlist = spacePadding(currentWordlist, COL1)
+      prompt()      
                   
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
