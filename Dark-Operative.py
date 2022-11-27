@@ -4077,7 +4077,7 @@ while True:
          checkParam = test_DOM()         
       if checkParam != 1:
             print(colored("[*] Scanning for subdomains, please wait this can take sometime...", colour3))
-            remoteCOM("gobuster dns -q --wordlist=/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
+            remoteCOM("gobuster dns -q --wordlist=" + currentWordlist + " --resolver " + DNS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -i")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
