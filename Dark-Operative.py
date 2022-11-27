@@ -1958,7 +1958,7 @@ while True:
             with open("users.tmp", "r") as read:
                for x in range(0, count):
                   line = read.readline()
-                  if "[-] SMB SessionError:" in line:
+                  if ("[-] SMB SessionError:" in line) or ("[-] SAMR SessionError:" in line):
                      checkParam = 1
                      localCOM("cat users.tmp")
                      break                                 
@@ -3524,7 +3524,7 @@ while True:
       if checkParam != 1:
          checkParam = test_PRT("21")                 
       if checkParam != 1:
-         remotCOM("ftp " + TIP.rstrip(" ") + " 21")
+         remotCOM("ftp " + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " 21")
       prompt()       
       
 # ------------------------------------------------------------------------------------- 
