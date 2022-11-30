@@ -711,7 +711,12 @@ def dispMenu():
       if loop == 23 and EMPTY_11[:5] == "EMPTY": print (colored(EMPTY_11,colour7), end=' ')
       if loop == 24 and EMPTY_12[:5] == "EMPTY": print (colored(EMPTY_12,colour7), end=' ')
       if loop == 25 and EMPTY_13[:5] == "EMPTY": print (colored(EMPTY_13,colour7), end=' ')
-      if loop == 26 and EMPTY_14[:5] == "EMPTY": print (colored(EMPTY_14,colour7), end=' ')
+      
+      if loop == 26 and FuzzRider[:5] == "EMPTY": 
+         print (colored(FuzzRider,colour7), end=' ')
+      else:
+         if loop == 26: 
+            print(colored(FuzzRider[:COL1],colour6), end=' ')
       
       if loop == 27 and currentWordlist[:5] == "EMPTY":
          print (colored(currentWordlist,colour7), end=' ')
@@ -719,8 +724,8 @@ def dispMenu():
          if loop == 27:
             print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')
       
-      if loop == 28 and EMPTY_16[:5] == "EMPTY": print (colored(EMPTY_16,colour7), end=' ')
-      if loop == 29 and currentWordlist[:5] == "EMPTY": print (colored(currentWordlist,colour7), end=' ')
+#      if loop == 28 and EMPTY_16[:5] == "EMPTY": print (colored(EMPTY_16,colour7), end=' ')
+#      if loop == 29 and currentWordlist[:5] == "EMPTY": print (colored(currentWordlist,colour7), end=' ')
 
       print('\u2551', end=' ')       
       print(colored(SHAR[loop],colour6), end=' ')   
@@ -758,12 +763,12 @@ def options():
    
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502)                (   )		(   )		(    )		" + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503)                (   )		(   )		(    )		" + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set WORD LIST (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		" + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15)                  (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		" + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )		(   )		(    )		" + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447)              (506)                (   )		(   )		(    )		" + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )		(   )		(    )		" + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28)                  (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )		(   )		(    )		" + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29)                  (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )		(   )		(    )		" + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30)                  (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )		(   )		(1000) Exit     " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )		(   )		(    )		" + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )		(   )		(1000) Exit     " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
    return
 
@@ -955,7 +960,7 @@ coloum_one_Labels[22] = "UNALLOCATED"
 coloum_one_Labels[23] = "UNALLOCATED"
 coloum_one_Labels[24] = "UNALLOCATED"
 coloum_one_Labels[25] = "UNALLOCATED"
-coloum_one_Labels[26] = "UNALLOCATED"
+coloum_one_Labels[26] = "FUZZ  RIDER"
 coloum_one_Labels[27] = "WORD   LIST"
 #coloum_one_Labels[28] = "UNALLOCATED"
 #coloum_one_Labels[29] = "UNALLOCATED" 
@@ -977,7 +982,7 @@ EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
 EMPTY_15 = "EMPTY                                   "
-EMPTY_16 = "EMPTY                                   "
+FuzzRider = "EMPTY                                   "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
 
 # -------------------------------------------------------------------------------------
@@ -1640,7 +1645,26 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '15':   
+   if selection == '29':   
+      BAK = FuzzRider
+      FuzzRider = input("[?] Please enter a new fuzz rider command: ")      
+      if FuzzRider == "":
+         FuzzRider = BAK
+      else:
+         print("[+] FuzzRider changed...")
+      if len(FuzzRider) < COL1:
+         FuzzRider = spacePadding(FuzzRider, COL1)
+      prompt()      
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected -
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '30':   
       print("[+] Alternative word lists...\n")
       print("\t/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt") 
       print("\t/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt")
@@ -1650,7 +1674,7 @@ while True:
       print("\t./TREADSTONE/apache.txt\n")
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
-      if currentWordlist != "":
+      if currentWordlist == "":
          curentWordlist = BAK
       else:
          print("[+]  Password list succesfully changed...")
@@ -4099,7 +4123,21 @@ while True:
          remoteCOM("gobuster vhost -q -r -u " + WEB.rstrip(" ") + " -U " + USR.rstrip(" ") + " -P '" + PAS.rstrip(" ") + "' --wordlist=" + currentWordlist)
       prompt()
       
-      
+ # ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - wfuzz -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u WEB.rstrip("") -H "Host: FUZZ.DOM.rstrip(" ") --hl 154 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '447':
+      checkParam = test_WEB()
+      if checkParam != 1:
+         print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
+         remoteCOM("wfuzz -c -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" "))
+      prompt()
+           
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
