@@ -982,7 +982,7 @@ EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
 EMPTY_15 = "EMPTY                                   "
-FuzzRider = "EMPTY                                   "
+FuzzRider = "                                        "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
 
 # -------------------------------------------------------------------------------------
@@ -1677,7 +1677,7 @@ while True:
       if currentWordlist == "":
          curentWordlist = BAK
       else:
-         print("[+]  Password list succesfully changed...")
+         print("[+]  Wordlist succesfully changed...")
       if len(currentWordlist) < COL1:
          currentWordlist = spacePadding(currentWordlist, COL1)
          
