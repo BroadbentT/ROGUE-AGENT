@@ -982,7 +982,7 @@ EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
 EMPTY_15 = "EMPTY                                   "
-FuzzRider = "                                        "
+FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
 
 # -------------------------------------------------------------------------------------
@@ -4134,8 +4134,9 @@ while True:
    if selection == '447':
       checkParam = test_WEB()
       if checkParam != 1:
-         print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
-         remoteCOM("wfuzz -c -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" "))
+         print(colored("[*] Fuzzing for subdomains, please wait this can take sometime...", colour3))
+         remoteCOM("wfuzz -c -f subdomains.tmp -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " 2>&1 > dump.tmp")
+         catsFile("subdomains.tmp")
       prompt()
            
 # ------------------------------------------------------------------------------------- 
