@@ -690,17 +690,18 @@ def dispMenu():
       else: 
          if(loop == 10): print(colored(SID[:COL1],colour6), end=' ')
          
-      if (loop == 11) & (FIL[:5] == "EMPTY"):
+      if loop == 11 and EMPTY_1[:5] == "EMPTY": print (colored(EMPTY_1,colour7), end=' ')      
+         
+      if (loop == 12) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
       else:
-         if(loop == 11): print(colored(FIL[:COL1],colour6), end=' ')
+         if(loop == 12): print(colored(FIL[:COL1],colour6), end=' ')
          
-      if (loop == 12) & (TSH[:5] == "EMPTY"):
+      if (loop == 13) & (TSH[:5] == "EMPTY"):
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
-         if(loop == 12): print(colored(TSH[:COL1],colour6), end=' ')
+         if(loop == 13): print(colored(TSH[:COL1],colour6), end=' ')
       
-      if loop == 13 and EMPTY_1[:5] == "EMPTY": print (colored(EMPTY_1,colour7), end=' ')
       if loop == 14 and EMPTY_2[:5] == "EMPTY": print (colored(EMPTY_2,colour7), end=' ')
       if loop == 15 and EMPTY_3[:5] == "EMPTY": print (colored(EMPTY_3,colour7), end=' ')
       if loop == 16 and EMPTY_4[:5] == "EMPTY": print (colored(EMPTY_4,colour7), end=' ')
@@ -947,9 +948,9 @@ coloum_one_Labels[7]  = "NTLM   HASH"
 coloum_one_Labels[8]  = "TICKET NAME"
 coloum_one_Labels[9]  = "DOMAIN NAME"
 coloum_one_Labels[10] = "DOMAIN  SID"
-coloum_one_Labels[11] = "FILE   NAME"
-coloum_one_Labels[12] = "SHARE  NAME"
-coloum_one_Labels[13] = "UNALLOCATED"
+coloum_one_Labels[11] = "SUB  DOMAIN"
+coloum_one_Labels[12] = "FILE   NAME"
+coloum_one_Labels[13] = "SHARE  NAME"
 coloum_one_Labels[14] = "UNALLOCATED"
 coloum_one_Labels[15] = "UNALLOCATED"
 coloum_one_Labels[16] = "UNALLOCATED"
