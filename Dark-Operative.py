@@ -690,7 +690,10 @@ def dispMenu():
       else: 
          if(loop == 10): print(colored(SID[:COL1],colour6), end=' ')
          
-      if loop == 11 and EMPTY_1[:5] == "EMPTY": print (colored(EMPTY_1,colour7), end=' ')      
+      if loop == 11 and EMPTY_1[:5] == "EMPTY":
+         print (colored(EMPTY_1,colour7), end=' ') 
+      else:
+         if(loop == 11): print(colored(EMPTY_1[:COL1],colour6), end=' ')  
          
       if (loop == 12) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
@@ -757,16 +760,16 @@ def dispMenu():
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI OS Checker (   )           (    )                      " + '\u2551')
    
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set FILE NAME (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName, end= ' ')    
    print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) WP Plugin Scan (601) LFI   Wordlist (   )		(    )                      " + '\u2551')   
    
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set SHARENAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502)                (   )		(   )		(    )		            " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set ALT  SERV (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15)                  (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		            " + '\u2551')
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Nuclei T-Scan  (   )		(   )		(    )		            " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503)                (   )		(   )		(    )		            " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set ALT  SERV (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28)                  (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )		(   )		(    )		            " + '\u2551')
@@ -914,6 +917,7 @@ screenLength = 28
    
 SKEW = 0                                	# TIME-SKEW SWITCH
 DOMC = 0                                	# DOMAIN SWITCH
+DOMC2 = 0					# SUB DOMAIN SWITCH
 DNSC = 0                                	# DNS SWITCH
 HTTP = 0					# HTTP SERVER PORT
 
@@ -1557,11 +1561,37 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Change the File name.
+# Details : Menu option selected - Change the remote SUB DOMAIN name.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '12':
+      BAK = EMPTY_1
+      EMPTY_1 = input("[?] Please enter sub domain name: ")      
+      if EMPTY_1 == "":
+         EMPTY_1 = BAK
+      else:
+         EMPTY_1 = spacePadding(EMPTY_1, COL1)         
+         if DOMC2 == 1:
+            print("[+] Removing previous domain name " + BAK.rstrip(" ") + " from /etc/hosts...")
+            localCOM("sed -i '$d' /etc/hosts")
+            DOMC2 = 0            
+         if DOMC2 == 0:
+            if DOM[:5] != "EMPTY":
+               localCOM("echo '" + TIP.rstrip(" ") + "\t" + EMPTY_1.rstrip(" ") + "' >> /etc/hosts")
+               print("[+] Domain " + EMPTY_1.rstrip(" ") + " has been added to /etc/hosts...")
+               DOMC2 = 1
+      prompt()
+         
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Change the File name.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '13':
       BAK = FIL
       FIL = input("[?] Please enter file name: ")      
       if FIL != "":
@@ -1577,7 +1607,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '13':
+   if selection == '14':
       BAK = TSH
       TSH = input("[?] Please enter share name: ")      
       if TSH != "":
@@ -1593,7 +1623,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '14':
+   if selection == '15':
       dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
       checkParam = 0
       subChoice = input("[?] Please select an option: ")
@@ -4164,7 +4194,19 @@ while True:
 
    if selection == '501':
       remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
-      prompt()      
+      prompt()     
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected -NUCLEUI SCAN
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '501':
+      remoteCOM("nuclei --target " + WEB.rstrip(""))
+      prompt()         
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
