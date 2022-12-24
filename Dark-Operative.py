@@ -4204,7 +4204,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '501':
+   if selection == '502':
       remoteCOM("nuclei --target " + WEB.rstrip(""))
       prompt()         
       
