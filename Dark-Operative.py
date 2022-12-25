@@ -767,7 +767,7 @@ def options():
       print(menuName, end= ' ')    
    print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) WP Plugin Scan (601) LFI   Wordlist (   )		(    )                      " + '\u2551')   
    
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Nuclei T-Scan  (   )		(   )		(    )		            " + '\u2551')   
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Nuclei WP Scan (   )		(   )		(    )		            " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set ALT  SERV (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )		(   )		(    )		            " + '\u2551')
@@ -4205,7 +4205,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '502':
-      remoteCOM("nuclei --target " + WEB.rstrip(""))
+      remoteCOM("nuclei --target " + WEB.rstrip("") + " --TAG wordpress")
       prompt()         
       
 # ------------------------------------------------------------------------------------- 
