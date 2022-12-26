@@ -3144,6 +3144,7 @@ while True:
          localCOM("echo 'public' > community.tmp")
          localCOM("echo 'private' >> community.tmp")
          localCOM("echo 'manager' >> community.tmp")
+         localCOM("echo 'internal' >> community.tmp")
          remoteCOM("onesixtyone -c community.tmp " + TIP.rstrip(" ") + " > 161.tmp") 
          catsFile("161.tmp")      
          print(colored("[*] Enumerating public v2c communities only...", colour3))      
