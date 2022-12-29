@@ -716,7 +716,12 @@ def dispMenu():
       if loop == 22 and EMPTY_10[:5] == "EMPTY": print (colored(EMPTY_10,colour7), end=' ')
       if loop == 23 and EMPTY_11[:5] == "EMPTY": print (colored(EMPTY_11,colour7), end=' ')
       if loop == 24 and EMPTY_12[:5] == "EMPTY": print (colored(EMPTY_12,colour7), end=' ')
-      if loop == 25 and EMPTY_13[:5] == "EMPTY": print (colored(EMPTY_13,colour7), end=' ')
+      
+      if loop == 25 and communityString[:5] == "EMPTY": 
+        print (colored(communityString,colour7), end=' ')
+      else:
+         if loop ==25:
+             print(colored(communityString[:COL1],colour6), end=' ')
       
       if loop == 26 and FuzzRider[:5] == "EMPTY": 
          print (colored(FuzzRider,colour7), end=' ')
@@ -772,7 +777,7 @@ def options():
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set ALT  SERV (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28)                  (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )		(   )		(    )		            " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )		(   )		(    )		            " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )		(   )		(1000) Exit                 " + '\u2551')
    print('\u255A' + ('\u2550')*315 + '\u255D')
@@ -966,7 +971,7 @@ coloum_one_Labels[21] = "UNALLOCATED"
 coloum_one_Labels[22] = "UNALLOCATED"
 coloum_one_Labels[23] = "UNALLOCATED"
 coloum_one_Labels[24] = "UNALLOCATED"
-coloum_one_Labels[25] = "UNALLOCATED"
+coloum_one_Labels[25] = "COMMUNITY  "
 coloum_one_Labels[26] = "FUZZ  RIDER"
 coloum_one_Labels[27] = "WORD   LIST"
 #coloum_one_Labels[28] = "UNALLOCATED"
@@ -988,7 +993,7 @@ EMPTY_11 = "EMPTY                                   "
 EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
-EMPTY_15 = "EMPTY                                   "
+communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
 
@@ -1669,12 +1674,36 @@ while True:
             localCOM("xdotool type '" + choice + "'; xdotool key Return")
             localCOM("xdotool key Ctrl+Tab")         
       prompt()    
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - communityString
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '28':   
+      print("[+] Alternative community strings...\n")
+      print("\tpublic") 
+      print("\tprivate")
+      print("\tmanager")
+      print("\tinternal\n")        
+      BAK = communityString
+      communityString = input("[?] Please enter a new community string: ")      
+      if communityString == "":
+         communityString = BAK
+      else:
+         print("[+] Community string changed...")
+      if len(communityString) < COL1:
+         communityString = spacePadding(communityString, COL1)
+      prompt() 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected -
+# Details : Menu option selected - fuzzRider
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -3140,44 +3169,39 @@ while True:
    if selection =='77':
       checkParam = test_PRT("161")      
       if checkParam != 1:
-         localCOM("echo 'public' > community.tmp")
-         localCOM("echo 'private' >> community.tmp")
-         localCOM("echo 'manager' >> community.tmp")
-         localCOM("echo 'internal' >> community.tmp")
-         print(colored("[*] Enumerating v2c communities only...", colour3))   
-         with open('community.tmp', 'r') as community:
-            for checkCommunity in community:
-               checkCommunity=checkCommunity.rstrip("\n")               
-               print(colored("[*] Checking community string " + checkCommunity + "...", colour3))               
-               print("[+] Checking system processes...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking running processes...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking running systems...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking storage units...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking software names...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking user accounts...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Checking local ports...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > " + checkCommunity)
-               catsFile(checkCommunity)      
-               print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
-               remoteCOM("snmpwalk -v2c -c " + checkCommunity + " "  + TIP.rstrip(" ") + " > " + checkCommunity + ".txt")    
-               print("[+] Interesting finds...")
-               localCOM("grep password " + checkCommunity + ".txt > find.tmp")
-               localCOM("grep user " + checkCommunity + ".txt >> find.tmp")
-               catsFile("find.tmp")      
-               print("[+] Enumeration file temporary saved as " + checkCommunity + ".txt for manual perusal...")
-               prompt()
+         print(colored("[*] Checking SNMP version...", colour3))
+         remoteCOM("nmap -sU -sV -p 161 " + TIP.rstrip(" "))     
+         print(colored("[*] Enumerating 'v2c' " + communityString.rstrip(" ") + " communities only...", colour3))   
+         print(colored("[*] Checking community string " + communityString + "...", colour3))               
+         print("[+] Checking system processes...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.1.6.0 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking running processes...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.2 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking running systems...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.4.2.1.4 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking storage units...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.2.3.1.4 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking software names...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.25.6.3.1.2 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking user accounts...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.4.1.77.1.2.25 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Checking local ports...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " " + TIP.rstrip(" ") + " 1.3.6.1.2.1.6.13.1.3 > " + communityString.rstrip(" "))
+         catsFile(communityString.rstrip(" "))      
+         print("[+] Enumerating the entire MIB tree, please wait this may take sometime...")
+         remoteCOM("snmpwalk -v2c -c " + communityString.rstrip(" ") + " "  + TIP.rstrip(" ") + " > " + communityString.rstrip(" ") + ".txt")    
+         print("[+] Interesting finds...")
+         localCOM("grep password " + communityString.rstrip(" ") + ".txt > find.tmp")
+         localCOM("grep user " + communityString.rstrip(" ") + ".txt >> find.tmp")
+         catsFile("find.tmp")      
+         print("[+] Enumeration file temporary saved as " + communityString.rstrip(" ") + ".txt for manual perusal...")
+         prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
