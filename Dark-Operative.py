@@ -61,47 +61,6 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-def scanhost(filename, newWeb, port):
-   os.system("nmap -p " + str(port) + " --script=http-security-headers -oN " + filename + " " + newWeb + " 2>&1 > scan.tmp")
-   return   
-
-def parsehost(file):
-   a = 0
-   b = 0
-   c = 0
-   d = 0
-   with open(file) as search:
-      for line in search:
-         if ("Strict-Transport-Security".upper() in line.upper()): 
-            print(colored("Strict-Transport-Security: Found", "green"))
-            a = 1
-         if ("Content-Security-Policy".upper() in line.upper()): 
-            print(colored("Content-Security-Policy: Found", "green"))
-            b = 1
-         if ("X-Frame-Options".upper() in line.upper()): 
-            print(colored("X-Frame-Options: Found", "green"))
-            c = 1
-         if ("X-Content-Type-Options".upper() in line.upper()): 
-            print(colored("X-Content-Type-Options: Found", "green")) 
-            d =1
-   if a == 0:
-      print(colored("Strict-Transport-Security: Not Found", "red"))
-   if b == 0:
-      print(colored("Content-Security-Policy: Not Found", "red"))
-   if c ==  0:
-      print(colored("X-Frame-Options: Not Found", "red"))
-   if d == 0:
-      print(colored("X-Content-Type-Options: Not Found", "red"))  
-   return
-   
-def scanpage(host):
-   if "443" in POR:
-      page = requests.get("https://" + host)
-   else:
-      page = requests.get("http://" + host)   
-   os.system("echo " + str(page.headers) + " > securityheaders3.txt")
-   return
-
 def sort(string):
    localCOM("echo " + string + " > numbers.tmp")
    localCOM("cat numbers.tmp | uniq | sort > sorted.tmp")
@@ -674,10 +633,9 @@ def dispMenu():
       print(colored(COM.upper(),colour7), end=' ')
    else:
       print(colored(COM.upper(),colour6), end=' ')      
-   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP", end=' ')
-
-   print(colored(localIP[:15],colour6), end=' ') 
-   print((" ")*44 + '\u2551') 
+   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
+   print(colored(localIP[:11],colour6), end=' ') 
+   print((" ")*42 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*65 + '\u2563')   
   
 
@@ -888,7 +846,6 @@ if netWork not in str(up):
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
    localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
-   spacePadding(localIP,15)
       
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -923,7 +880,7 @@ print("[+] Using localhost IP address " + localIP + "...")
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Initialise program files and variables.'15'
+# Details : Initialise program files and variables.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
@@ -1452,28 +1409,17 @@ while True:
          WEB = spacePadding(WEB, COL1)
          if proxyChains != 1:   
            checkWAF()   
-           
-           newWeb=WEB.replace("http://","")
-           newWeb=newWeb.replace("https://","")
-           newWeb=newWeb.rstrip(" ")
-           
-           print(colored("\n[*] Enumerating URL for methods...", colour3))
-           if "80" in POR:
-              print("HOST CHECK PORT 80:")
-              scanhost("securityheaders1.txt", newWeb, 80)
-              parsehost("securityheaders1.txt")
-              print("WEBPAGE CHECK:")
-              scanpage(newWeb)
-              parsehost("securityheaders3.txt")
-              print("\n")
-           if "443" in POR:
-              print("HOST CHECK PORT 443:")
-              scanhost("securityheaders2.txt", newWeb , 443)
-              parsehost("securityheaders2.txt")
-              print("WEBPAGE CHECK:")
-              parsehost("securityheaders3.txt")           
-           
-           
+           print(colored("\n[*] Enumerating website url for verbs...", colour3))
+           remoteCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
+           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
+           cutLine("Target","verbs.tmp")
+           cutLine("Total requests","verbs.tmp")
+           cutLine("Total time","verbs.tmp")
+           cutLine("Processed Requests","verbs.tmp")
+           cutLine("Filtered Requests","verbs.tmp")
+           cutLine("Requests","verbs.tmp")
+           parsFile("verbs.tmp")
+           catsFile("verbs.tmp")
            if ".GIT" in WEB.upper():
               print(colored("[*] Attempting to enumerate .git repository...", colour3))
               localCOM("echo '" + Green + "'")
