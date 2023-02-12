@@ -1406,7 +1406,7 @@ while True:
       BAK = WEB
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
-         WEB = spacePadding(WEB, COL1)
+#         WEB = spacePadding(WEB, COL1) - removed as no sub directories are enumerated
          if proxyChains != 1:   
            checkWAF()   
            print(colored("\n[*] Enumerating website url for verbs...", colour3))
