@@ -1410,16 +1410,23 @@ while True:
          if proxyChains != 1:   
            checkWAF()   
            print(colored("\n[*] Enumerating website url for verbs...", colour3))
-           remoteCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
-           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
-           cutLine("Target","verbs.tmp")
-           cutLine("Total requests","verbs.tmp")
-           cutLine("Total time","verbs.tmp")
-           cutLine("Processed Requests","verbs.tmp")
-           cutLine("Filtered Requests","verbs.tmp")
-           cutLine("Requests","verbs.tmp")
-           parsFile("verbs.tmp")
-           catsFile("verbs.tmp")
+#           remoteCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
+#           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
+#           cutLine("Target","verbs.tmp")
+#           cutLine("Total requests","verbs.tmp")
+#           cutLine("Total time","verbs.tmp")
+#           cutLine("Processed Requests","verbs.tmp")
+#           cutLine("Filtered Requests","verbs.tmp")
+#           cutLine("Requests","verbs.tmp")
+#           parsFile("verbs.tmp")
+#           catsFile("verbs.tmp")
+
+           target = WEB.replace("http://","")
+           target = target.replace("https://","")
+           localCOM("python3 ./OUTCOME/insecure_methods.py " + target)
+           localCOM("python3 ./OUTCOME/depreciated_headers.py " + target)
+           localCOM("python3 ./OUTCOME/security_headers.py " + target)
+
            if ".GIT" in WEB.upper():
               print(colored("[*] Attempting to enumerate .git repository...", colour3))
               localCOM("echo '" + Green + "'")
@@ -1427,11 +1434,14 @@ while True:
               localCOM("echo '" + Reset + "'")
               if os.path.exists("repo"):
                  localCOM("mv ./repo ./" + workDir)
+     
          else:
             print("[-] Proxychains enabled, no verb enumeration available...")
       else:
          WEB = BAK
          print("[-] No action has been taken...")
+      if len (WEB) < COL1:
+         WEB = spacePadding(WEB, COL1)
       prompt()         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
