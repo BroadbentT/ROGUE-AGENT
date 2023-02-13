@@ -503,7 +503,8 @@ def catsFile(variable):
       localCOM("cat " + variable)
       localCOM("echo '" + Reset + "'")
    else:
-      print("[-] Empty File...")
+      # print("[-] Empty File...")
+      pass
    return   
    
 def timeSync(SKEW):
@@ -1365,8 +1366,8 @@ while True:
                TIP = spacePadding("EMPTY", COL1)                     
          if checkParam == 1:
             COM = checkInterface("TIP", COM)
-            networkSweep()
             checkBIOS()
+            networkSweep()
          else:
             print("[-] Unknown internet protocol...")
             TIP = spacePadding("EMPTY", COL1)                         

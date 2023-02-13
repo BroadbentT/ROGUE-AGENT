@@ -32,7 +32,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 | python3   | install.py            | 68c3e5dd7308811227beb4cab57d0d5a | Install Program     | TREADSTONE   |
 | python3   | exploits.py           | 7e1381abca8256af1392daeb68524746 | Install Exploits    | TREADSTONE   |
 | python3   | RogueAgent.py         | 1842c3c57a3038f6a546283191493f16 | Command Centre      | TREADSTONE   |
-| python3   | Dark-Operative.py     | 516c3d57844451d63dd85537fdd68a41 | Command Centre (WS) | LARX (BETA)  |
+| python3   | Dark-Operative.py     | 0ff14ca1fda1041b7d63bb3221310620 | Command Centre (WS) | LARX (BETA)  |
 | SQLite3   | RA.db                 | bcfd3cd2c5846250f9614c4c6b71b0b3 | Program Database    | TREADSTONE   |
        
 ## CONSOLE DISPLAY AND VIDEO LINK
