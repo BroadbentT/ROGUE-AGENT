@@ -458,8 +458,7 @@ def checkBIOS():
    
 def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
-      #bit1, bit2, bit3, bit4 = TIP.split(".")
-      remoteCOM("wafw00f -a https://" + TIP.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
+      remoteCOM("wafw00f -a " + WEB.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
@@ -1399,50 +1398,37 @@ while True:
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - Change the web address.
-# Modified: N/A
+# Modified: N/A++
 # -------------------------------------------------------------------------------------
 
    if selection == '5':
       BAK = WEB
       WEB = input("[?] Please enter the web address: ")      
       if WEB != "":
-#         WEB = spacePadding(WEB, COL1) - removed as no sub directories are enumerated
          if proxyChains != 1:   
            checkWAF()   
-           print(colored("\n[*] Enumerating website url for verbs...", colour3))
-#           remoteCOM("wfuzz -f verbs.tmp,raw -z list,PUT-DELETE-GET-HEAD-POST-TRACE-OPTIONS -X FUZZ " + WEB.rstrip(" ") + " > temp.tmp 2>&1")
-#           cutLine("Pycurl is not compiled against Openssl","verbs.tmp")
-#           cutLine("Target","verbs.tmp")
-#           cutLine("Total requests","verbs.tmp")
-#           cutLine("Total time","verbs.tmp")
-#           cutLine("Processed Requests","verbs.tmp")
-#           cutLine("Filtered Requests","verbs.tmp")
-#           cutLine("Requests","verbs.tmp")
-#           parsFile("verbs.tmp")
-#           catsFile("verbs.tmp")
-
+           print(colored("\n[*] Enumerating website url methods and securiy headers...", colour3))
            target = WEB.replace("http://","")
            target = target.replace("https://","")
-           localCOM("python3 ./OUTCOME/insecure_methods.py " + target)
-           localCOM("python3 ./OUTCOME/depreciated_headers.py " + target)
-           localCOM("python3 ./OUTCOME/security_headers.py " + target)
-
-           if ".GIT" in WEB.upper():
+           localCOM("python3 ./" + explDir + "/insecure_methods.py " + target)
+           localCOM("python3 ./" + explDir + "/depreciated_headers.py " + target)
+           localCOM("python3 ./" + explDir + "/security_headers.py " + target)
+           if "/.GIT" in WEB.upper():
               print(colored("[*] Attempting to enumerate .git repository...", colour3))
               localCOM("echo '" + Green + "'")
               remoteCOM("git-dumper " + WEB.rstrip(" ") + " repo")
               localCOM("echo '" + Reset + "'")
               if os.path.exists("repo"):
-                 localCOM("mv ./repo ./" + workDir)
-     
+                 localCOM("mv ./repo ./" + workDir)     
          else:
-            print("[-] Proxychains enabled, no verb enumeration available...")
+            print("[-] Proxychains enabled, no enumeration available...")
       else:
          WEB = BAK
          print("[-] No action has been taken...")
       if len (WEB) < COL1:
          WEB = spacePadding(WEB, COL1)
-      prompt()         
+      prompt()
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
