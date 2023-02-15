@@ -149,16 +149,22 @@ def banner():
 
 # os.system("clear")
 banner()
-print("HOST CHECK PORT 80:")
-scanhost("insecuremethods1.txt", host, 80)
-parsehost("insecuremethods1.txt")
-print("WEBPAGE CHECK:")
-scanhttp(host)
+try:
+   print("HOST CHECK PORT 80:")
+   scanhost("insecuremethods1.txt", host, 80)
+   parsehost("insecuremethods1.txt")
+   print("WEBPAGE CHECK:")
+   scanhttp(host)
+except:
+   print("Port 80 potentially not in use...?")   
 banner()
-print("HOST CHECK PORT 443:")
-scanhost("insecuremethods2.txt", host, 443)
-parsehost("insecuremethods2.txt")
-print("WEBPAGE CHECK:")
-scanhttps(host)
+try:
+   print("HOST CHECK PORT 443:")
+   scanhost("insecuremethods2.txt", host, 443)
+   parsehost("insecuremethods2.txt")
+   print("WEBPAGE CHECK:")
+   scanhttps(host)
+except:
+   print("Port 433 potentially not in use...?")
 print("\n")
 
