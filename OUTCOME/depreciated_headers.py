@@ -92,25 +92,27 @@ def banner():
 banner()
 try:
    print("HOST CHECK PORT 80:")
-   scanhost("securityheaders1.txt", host, 80)
+   scanhost("securityheaders1.txt", host, 80)   
    parsehost("securityheaders1.txt")
+except:
+   print("Port 80 potentially not in use...")
+try:   
    print("WEBPAGE CHECK:")
    scanpage(host)
    parsehost("securityheaders3.txt")
-   print("\n")
 except:
-   print("Port 80 potentially not in use...?")
+   print("Port 80 potentially not in use...")
+print("\n")
 banner()
 try:
    print("HOST CHECK PORT 443:")
    scanhost("securityheaders2.txt", host, 443)
    parsehost("securityheaders2.txt")
+except:
+   print("Port 433 potentially not in use...")   
+try:
    print("WEBPAGE CHECK:")
    parsehost("securityheaders3.txt")
 except:
-   print("Port 433 potentially not in use...?")
+   print("Port 433 potentially not in use...")
 print("\n")
-
-
-   
-

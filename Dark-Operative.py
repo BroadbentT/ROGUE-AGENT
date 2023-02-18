@@ -1408,7 +1408,7 @@ while True:
       if WEB != "":
          if proxyChains != 1:   
            checkWAF()   
-           print(colored("\n[*] Enumerating website url methods and securiy headers...", colour3))
+           print(colored("\n[*] Enumerating website url methods and security headers...", colour3))
            target = WEB.replace("http://","")
            target = target.replace("https://","")
            localCOM("python3 ./" + explDir + "/insecure_methods.py " + target)

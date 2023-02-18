@@ -153,18 +153,23 @@ try:
    print("HOST CHECK PORT 80:")
    scanhost("insecuremethods1.txt", host, 80)
    parsehost("insecuremethods1.txt")
+except:
+   print("Port 80 potentially not in use...")
+try:
    print("WEBPAGE CHECK:")
    scanhttp(host)
 except:
-   print("Port 80 potentially not in use...?")   
+   print("Port 80 potentially not in use...")   
 banner()
 try:
    print("HOST CHECK PORT 443:")
    scanhost("insecuremethods2.txt", host, 443)
    parsehost("insecuremethods2.txt")
+except:
+   print("Port 433 potentially not in use...")   
+try:
    print("WEBPAGE CHECK:")
    scanhttps(host)
 except:
-   print("Port 433 potentially not in use...?")
+   print("Port 433 potentially not in use...")
 print("\n")
-
