@@ -3152,7 +3152,7 @@ while True:
          target = TIP.rstrip(" ")
          print("[+] Using word list " + currentWordlist + "...") 
          print("[+] Using IP address " + target + "...")
-      remoteCOM("feroxbuster -u " + target + " -x " + fileExt + " -w " + currentWordlist + " -t 50 -o dir.tmp -q -k") # --silent
+      remoteCOM("feroxbuster -u " + target + " -x " + fileExt + " -w " + currentWordlist + " -e -t 50 -o dir.tmp -q -k") # --silent
       prompt()
       
 # ------------------------------------------------------------------------------------- 
