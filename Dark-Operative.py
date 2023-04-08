@@ -634,8 +634,8 @@ def dispMenu():
    else:
       print(colored(COM.upper(),colour6), end=' ')      
    print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
-   print(colored(localIP[:11],colour6), end=' ') 
-   print((" ")*42 + '\u2551') 
+   print(colored(localIP2,colour6), end=' ') 
+   print((" ")*38 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*65 + '\u2563')   
   
 
@@ -846,6 +846,7 @@ if netWork not in str(up):
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
    localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
+   localIP2 = spacePadding(localIP, 15)
       
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
