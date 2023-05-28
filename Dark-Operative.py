@@ -763,7 +763,7 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI OS Checker (   )           (    )                      " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI OS Checker (700) gRPClient (    )                      " + '\u2551')
    
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
    if proxyChains == 1:
@@ -4343,6 +4343,18 @@ while True:
       print(colored("[*] Scanning webpage...", colour3))   
       remoteCOM("nuclei -target " + WEB.rstrip("") + " --tags LFI")
       prompt()    
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - gRPC client
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '700':
+      remoteCOM("/root/go/bin/grpcui -plaintext " + TIP.rstrip(" ") + ":50051")
+      prompt()  
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    

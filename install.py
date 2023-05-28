@@ -120,6 +120,8 @@ os.system("mv windapsearch/windapsearch.py /usr/share/doc/python3-impacket/examp
 if os.path.exists("windapsearch"):
    shutil.rmtree("windapsearch")   
 
+os.system("go install github.com/fullstorydev/grpcui/cmd/grpcui@latest")
+
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
