@@ -763,24 +763,21 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81)             (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) WordPress Scan (600) LFI OS Checker (700) gRPClient (    )                      " + '\u2551')
-   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700)           (   )                       " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )           (   )                       " + '\u2551')      
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (   )           (   )                       " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (   )                (   )           (   )                       " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set ALT  SERV (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )                (   )           (   )                       " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )                (   )           (   )                       " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )                (   )           (   )                       " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )                (   )           (   )                       " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )                (   )           (999) Exit the Application  " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )                (   )           (000)", end= ' ')
    if proxyChains == 1:
-      print(colored(menuName,colour0, attrs=['blink']), end= ' ')
+      print(colored(menuName,colour0, attrs=['blink']), end= ' ' + '\u2551')
    else:
-      print(menuName, end= ' ')    
-   print("(92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) WP Plugin Scan (601) LFI   Wordlist (   )		(    )                      " + '\u2551')   
-   
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Nuclei WP Scan (602) Nuclei LFI	(   )		(    )		            " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) Nuclei Scanner (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set ALT  SERV (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )		(   )		(    )		            " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )		(   )		(1000) Exit                 " + '\u2551')
-   print('\u255A' + ('\u2550')*315 + '\u255D')
+      print(menuName, end= ' ' + '\u2551')
+   print('\u255A' + '\u2550'*315 + '\u255D')
    return
 
 # -------------------------------------------------------------------------------------
@@ -796,7 +793,7 @@ if os.geteuid() != 0:
    exit(1)
 else:
    proxyChains = 0
-   menuName = "ProxyChains"
+   menuName = "ProxyChains          "
     
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -3370,7 +3367,7 @@ while True:
 
    if selection =='80':          
       print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
-      prompt()   
+      prompt()         
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3381,24 +3378,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
 # - HERE 
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Proxychain ON/OFF [KEEP HERE]
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='82':        
-      if proxyChains == 0:
-         proxyChains = 1
-         print("[+] Proxychains activated...")
-      else:
-         proxyChains = 0
-         print("[-] Proxychains de-activated...")
-      prompt()
-
+ 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -4194,32 +4174,20 @@ while True:
          print(colored("[*] Fuzzing for subdomains, please wait this can take sometime...", colour3))
          remoteCOM("wfuzz -c -f subdomains.tmp -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " 2>&1 > dump.tmp")
          catsFile("subdomains.tmp")
-      prompt()
-           
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - WPSCAN
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '500':
-      remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
-      prompt()
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - WP PLUGIN SCAN
+# Details : Menu option selected -NUCLEUI TARGET
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '501':
-      print(colored("[*] Scanning webpage...", colour3))   
-      remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
-      prompt()     
+   if selection == '500':
+      print(colored("[*] Scanning Webpage with Nucleui...", colour3))   
+      remoteCOM("nuclei -target " + WEB.rstrip("") + " -silent")
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4229,23 +4197,36 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '502':
-      print(colored("[*] Scanning webpage...", colour3))   
+   if selection == '501':
+      print(colored("[*] Scanning Wordpress with Nucleui...", colour3))   
       remoteCOM("nuclei -target " + WEB.rstrip("") + " --tags wordpress -silent")
       prompt()         
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected -NUCLEUI TARGET
+# Details : Menu option selected - WPSCAN
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '502':
+      print(colored("[*] Wordpress Scanner...", colour3))   
+      remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,vp,vt,dbe --plugins-detection aggressive")
+      prompt()   
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - WP PLUGIN SCAN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '503':
-      print(colored("[*] Scanning webpage...", colour3))   
-      remoteCOM("nuclei -target " + WEB.rstrip("") + " -silent")
-      prompt()         
+      print(colored("[*] Scanning for Wordpress Plugins...", colour3))   
+      remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
+      prompt()          
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4342,19 +4323,7 @@ while True:
    if selection == '602':
       print(colored("[*] Scanning webpage...", colour3))   
       remoteCOM("nuclei -target " + WEB.rstrip("") + " --tags LFI")
-      prompt()    
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - gRPC client
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '700':
-      remoteCOM("/root/go/bin/grpcui -plaintext " + TIP.rstrip(" ") + ":50051")
-      prompt()  
+      prompt()     
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4364,7 +4333,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '1000':        
+   if selection == '999':        
       saveParams()
       localCOM("rm *.tmp")      
       if DOMC == 1:
@@ -4375,6 +4344,23 @@ while True:
          localCOM("sed -i '$d' /etc/resolv.conf")         
       connection.close()
       print(colored("[*] Program sucessfully terminated...", colour3))
-      exit(1)              
+      exit(1)       
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Proxychain ON/OFF [KEEP HERE]
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='000':        
+      if proxyChains == 0:
+         proxyChains = 1
+         print("[+] Proxychains activated...")
+      else:
+         proxyChains = 0
+         print("[-] Proxychains de-activated...")
+      prompt()       
       
 # Eof...
