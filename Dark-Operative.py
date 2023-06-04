@@ -4229,8 +4229,8 @@ while True:
       print(colored("[*] Activating SSH Port Forwarding Service...", colour3))   
       TPORT = input("[?] Please select the target port value: ")
       if TPORT.isnumeric():
-         remoteCOM("ssh -L 7777:" + TIP.rstrip(" ") + ":" + TPORT + " " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
-         localCOM("firefox localhost:7777")
+         print("[*] Use firefox 127.0.0.1:" + TPORT + " to run...")
+         remoteCOM("ssh -L " + TPORT + ":127.0.0.1:" + TPORT + " " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
          prompt()
       else:
          pass  
