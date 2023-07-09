@@ -777,6 +777,7 @@ def options():
       print(colored(menuName,colour0, attrs=['blink']), end= ' ' + '\u2551')
    else:
       print(menuName, end= ' ' + '\u2551')
+   print("")
    print('\u255A' + '\u2550'*315 + '\u255D')
    return
 
