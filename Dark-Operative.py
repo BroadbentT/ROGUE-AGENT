@@ -283,6 +283,13 @@ def privCheck():
       else:
          print("[-] Unable to find a valid ticket...")
       return spacePadding(ticket, COL1)
+      
+def iker(TIP):
+   TTIP = TIP.rstrip(" ")
+   localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
+   remoteCOM("ike-scan -MAv " + TTIP + " >> ike.tmp 2>&1 > temp.tmp")
+   catsFile("ike.tmp")
+   return
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -3772,9 +3779,7 @@ while True:
             parsFile("basic.tmp")
             catsFile("basic.tmp")
          if "500," in PTS:
-            localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
-            remoteCOM("ike-scan -MAv " + TIP.rstrip(" ") + " >> ike.tmp 2>&1 > temp.tmp")
-            catsFile("ike.tmp")
+            iker(TIP)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3827,8 +3832,7 @@ while True:
             parsFile("light.tmp")
             catsFile("light.tmp")
          if "500," in PTS:
-            remoteCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
-            catsFile("ike.tmp")
+            iker(TIP)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -3880,8 +3884,7 @@ while True:
             parsFile("heavy.tmp")
             catsFile("heavy.tmp")
          if "500," in PTS:
-            remoteCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
-            catsFile("ike.tmp")
+            iker(TIP)
       prompt()
       
 
