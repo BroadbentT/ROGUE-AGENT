@@ -287,7 +287,7 @@ def privCheck():
 def iker(TIP):
    TTIP = TIP.rstrip(" ")
    localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
-   remoteCOM("ike-scan -MAv " + TTIP + " >> ike.tmp 2>&1 > temp.tmp")
+   remoteCOM("ike-scan -M " + TTIP + " >> ike.tmp")
    catsFile("ike.tmp")
    return
 
@@ -315,7 +315,7 @@ def getTCPorts():
       this_Ports = this_Ports.replace('"','')                 
       if this_Ports[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
-         return "EMPTY"
+         return "0"
       else:
          print("[+] Found live ports...\n")      
          print(colored(this_Ports,colour6) + "\n")
@@ -357,7 +357,7 @@ def getUDPorts():
       this_Ports2 = this_Ports2.replace('"','')                 
       if this_Ports2[:1] == "":
          print("[-] Unable to enumerate any port information, good luck!!...")
-         return "EMPTY"
+         return "0"
       else:
          print("[+] Found live ports...\n")      
          print(colored(this_Ports2,colour6) + "\n")
@@ -3764,7 +3764,7 @@ while True:
             catsFile("basic.tmp")            
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
-            print("[+] Performing light scan...")
+            print("[+] Performing basic scan...")
             remoteCOM("nmap " + IP46 + " -p- " + TIP.rstrip(" ") + " -oN basic.tmp 2>&1 > temp.tmp")
             nmapTrim("basic.tmp")
             service = linecache.getline("service.tmp", 1)
@@ -3781,7 +3781,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...") 
             parsFile("basic.tmp")
             catsFile("basic.tmp")
-         if "500," in PTS:
+         if ",500" or "500," in PTS:
             iker(TIP)
       prompt()
       
@@ -3834,7 +3834,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")           
             parsFile("light.tmp")
             catsFile("light.tmp")
-         if "500," in PTS:
+         if ",500" or "500," in PTS:
             iker(TIP)
       prompt()
       
@@ -3886,7 +3886,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")               
             parsFile("heavy.tmp")
             catsFile("heavy.tmp")
-         if "500," in PTS:
+         if ",500" or "500," in PTS:
             iker(TIP)
       prompt()
       
