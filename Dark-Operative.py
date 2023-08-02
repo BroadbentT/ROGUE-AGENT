@@ -746,7 +746,10 @@ def dispMenu():
 #      if loop == 29 and currentWordlist[:5] == "EMPTY": print (colored(currentWordlist,colour7), end=' ')
 
       print('\u2551', end=' ')       
-      print(colored(SHAR[loop],colour6), end=' ')   
+      if TSH.rstrip(" ") in SHAR[loop]:
+         print(colored(SHAR[loop],colour2), end=' ')        
+      else:
+         print(colored(SHAR[loop],colour6), end=' ')   
       print('\u2551', end=' ')   
       print(colored(USER[loop],colour6), end=' ')
       print(colored(HASH[loop],colour6), end=' ')
