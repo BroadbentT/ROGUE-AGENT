@@ -747,7 +747,7 @@ def dispMenu():
 
       print('\u2551', end=' ')       
       if TSH.rstrip(" ") in SHAR[loop]:
-         print(colored(SHAR[loop],colour2), end=' ')        
+         print(colored(SHAR[loop],colour3), end=' ')        
       else:
          print(colored(SHAR[loop],colour6), end=' ')   
       print('\u2551', end=' ')   
