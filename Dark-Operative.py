@@ -3772,7 +3772,8 @@ while True:
             parsFile("basic.tmp")
             catsFile("basic.tmp")
          if "500," in PTS:
-            remoteCOM("ike-scan -M " + TIP.rstrip(" ") + " -oN ike.tmp 2>&1 > temp.tmp")
+            localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
+            remoteCOM("ike-scan -MAv " + TIP.rstrip(" ") + " >> ike.tmp 2>&1 > temp.tmp")
             catsFile("ike.tmp")
       prompt()
       
