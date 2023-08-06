@@ -36,14 +36,15 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 | python3   | shell.py              | 0ae617318d2c78a587ea2844733d1db0 | Auto Reverse Shell  | LARX         |
 | SQLite3   | RA.db                 | bcfd3cd2c5846250f9614c4c6b71b0b3 | Program Database    | TREADSTONE   |
        
-## CONSOLE DISPLAY AND VIDEO LINK
-
-[![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
+## NEW WIDE-SCREEN VERSION 2023 ##
 
 <p align="center">
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png">
 </p>
 
+## CONSOLE DISPLAY AND VIDEO LINK
+
+[![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
 
 ### COMPUTER MISUSE ACT 1990 - SECTION 3A
 This software program has been specifically written for the purpose of legitimate penetration testing and should not be used for any other unauthorised or nefarious reasons.
