@@ -1500,7 +1500,8 @@ while True:
       if FIL != "":
          FIL = spacePadding(FIL,COL1)
       else:
-         FIL = BAK    
+         FIL = BAK
+      prompt()    
  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1516,7 +1517,8 @@ while True:
       if TSH != "":
          TSH = spacePadding(TSH,COL1)
       else:
-         TSH = BAK    
+         TSH = BAK
+      prompt()    
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3121,7 +3123,7 @@ while True:
          localCOM("grep user " + communityString.rstrip(" ") + ".txt >> find.tmp")
          catsFile("find.tmp")      
          print("[+] Enumeration file temporary saved as " + communityString.rstrip(" ") + ".txt for manual perusal...")
-         prompt()
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
