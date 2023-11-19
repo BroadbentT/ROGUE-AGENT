@@ -272,9 +272,12 @@ def privCheck():
    localCOM("ls  | grep ccache > ticket.tmp")   
    count = lineCount("ticket.tmp")   
    if count > 1:
-      print("[i] More than one ticket was found...")            
-   for x in range(1, count):
+      print("[i] More than one ticket was found...")
+   else:
+      print("[i] One ticket was found...")               
+   for x in range(1, count+1):
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
+      print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
       if ticket != "":
          localCOM("export KRB5CCNAME=" + ticket)
@@ -1310,11 +1313,18 @@ while True:
          if proxyChains != 1:   
            checkWAF()   
            print(colored("\n[*] Enumerating website url methods and security headers...", colour3))
-           target = WEB.replace("http://","")
-           target = target.replace("https://","")
-           localCOM("python3 ./" + explDir + "/insecure_methods.py " + target)
-           localCOM("python3 ./" + explDir + "/depreciated_headers.py " + target)
-           localCOM("python3 ./" + explDir + "/security_headers.py " + target)
+           if ("http:") in WEB:
+              target = WEB.replace("http://","")
+           else:
+              target = WEB.replace("https://","")              
+           if (",80,") in PTS:   
+              localCOM("python3 ./" + explDir + "/insecure_methods_port_80.py " + target)
+              localCOM("python3 ./" + explDir + "/depreciated_headers_port_80.py " + target)
+              localCOM("python3 ./" + explDir + "/security_headers_port_80.py " + target)           
+           if (",433,") in PTS:   
+              localCOM("python3 ./" + explDir + "/insecure_methods_port_443.py " + target)
+              localCOM("python3 ./" + explDir + "/depreciated_headers_port_433.py " + target)
+              localCOM("python3 ./" + explDir + "/security_headers_port_433.py " + target)                      
            if "/.GIT" in WEB.upper():
               print(colored("[*] Attempting to enumerate .git repository...", colour3))
               localCOM("echo '" + Green + "'")
@@ -2101,12 +2111,12 @@ while True:
          print(colored("[*] Finding shares, please wait...", colour3))         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remoteCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
+            remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
             else:   
-               remoteCOM("smbmap -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
          catsFile("shares1.tmp")             
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
@@ -2336,8 +2346,10 @@ while True:
             found = 1
             USR,PAS = test1.split(":")
             USR = spacePadding(USR, COL1)
+            if PAS == "":
+               PAS = "'\'" 
             PAS = spacePadding(PAS, COL1)
-            TGT = privCheck()                         
+            TGT = privCheck()                      
          if found == 0:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
             remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
@@ -3601,7 +3613,7 @@ while True:
          checkParam = test_PRT("1433")               
       if checkParam != 1:
          if PAS[:1] != " ":
-            remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
+            remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
          else:
             if NTM[:1] != " ":
                print("[i] Using HASH value as password credential...")
