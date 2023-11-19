@@ -125,8 +125,9 @@ def test_SID():
       return 0
    
 def test_PRT(variable):
+   variable = "," + variable + ","
    if variable not in PTS:
-      print("[-] Port " + variable + " not found in live ports...")
+      print("[-] Port " + variable.replace(",","") + " not found in live ports...")
       return 1
    else:
       return 0
@@ -1321,7 +1322,7 @@ while True:
               localCOM("python3 ./" + explDir + "/insecure_methods_port_80.py " + target)
               localCOM("python3 ./" + explDir + "/depreciated_headers_port_80.py " + target)
               localCOM("python3 ./" + explDir + "/security_headers_port_80.py " + target)           
-           if (",433,") in PTS:   
+           if (",443,") in PTS:   
               localCOM("python3 ./" + explDir + "/insecure_methods_port_443.py " + target)
               localCOM("python3 ./" + explDir + "/depreciated_headers_port_433.py " + target)
               localCOM("python3 ./" + explDir + "/security_headers_port_433.py " + target)                      
@@ -3708,7 +3709,7 @@ while True:
    if selection == '231':
       PTS11 = getTCPorts()
       PTS22 = getUDPorts()     
-      ALLPORTS = PTS11 + "," + PTS22
+      ALLPORTS = "0," + PTS11 + "," + PTS22
       ALLPORTS = sort(ALLPORTS)    
       PTS = ALLPORTS        
       POR = spacePadding(ALLPORTS, COL1)
