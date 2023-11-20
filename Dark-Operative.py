@@ -283,10 +283,13 @@ def privCheck():
       if ticket != "":
          localCOM("export KRB5CCNAME=" + ticket)
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
-         remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
+         if ",443," in PTS:
+            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
+         else:
+            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -no-pass")         
       else:
          print("[-] Unable to find a valid ticket...")
-      return spacePadding(ticket, COL1)
+   return spacePadding(ticket, COL1)
       
 def iker(TIP):
    TTIP = TIP.rstrip(" ")
@@ -3363,10 +3366,10 @@ while True:
                if checkParam != 1:
                   remoteCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/usernames.txt " + TIP.rstrip(" ") + " 2>&1")
                   print("[+] Username list generated via ip address...")
-      else:
-         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
-         cutLine("# minimal list of very", dataDir + "/usernames.txt")
-         print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
+         else:
+            localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
+            cutLine("# minimal list of very", dataDir + "/usernames.txt")
+            print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
 
       for x in range (0, maxUser):
          USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
@@ -3395,10 +3398,10 @@ while True:
                if checkParam != 1:
                   remoteCOM("cewl --depth 5 --min_word_length 3 --email --with-numbers --write " + dataDir + "/passwords.txt " + TIP.rstrip(" ") + " 2>&1")
                   print("[+] Password list generated via ip address...")
-      else:
-         localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
-         cutLine("# minimal list of very", dataDir + "/passwords.txt")
-         print("[+] Password list generated via /usr/share/ncrack/minimal.usr...")
+         else:
+            localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/passwords.txt 2>&1")
+            cutLine("# minimal list of very", dataDir + "/passwords.txt")
+            print("[+] Password list generated via /usr/share/ncrack/minimal.usr...")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
