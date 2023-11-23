@@ -1011,7 +1011,7 @@ EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
-currentWordlist = "/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt"
+currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -3355,6 +3355,8 @@ while True:
 
    if selection =='84':
       checkParam = test_PRT("80")
+      if checkParam == 1:
+         checkParam = test_PRT("443")
       if checkParam != 1:
          checkParam = test_WEB()
          if checkParam != 1:
