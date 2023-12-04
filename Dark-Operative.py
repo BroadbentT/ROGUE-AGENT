@@ -63,7 +63,8 @@ else:
 
 def sort(string):
    localCOM("echo " + string + " > numbers.tmp")
-   localCOM("cat numbers.tmp | uniq | sort > sorted.tmp")
+   localCOM("cat numbers.tmp | uniq > unique.tmp")
+   localCOM("cat unique.tmp  | sort > sorted.tmp")
    revision = linecache.getline("sorted.tmp", 1).rstrip("\n")
    return revision
 
@@ -313,7 +314,7 @@ def getTCPorts():
    else:
       print(colored("[*] Attempting to enumerate live tcp ports, please wait...", colour3))
       nmap = nmap3.NmapScanTechniques()
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" ")) # Dict
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p0-65535") # Dict
       with open("tcp.json", "w") as outfile:
          json.dump(results, outfile, indent=4)         
       localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports1.tmp")
@@ -3719,7 +3720,7 @@ while True:
    if selection == '231':
       PTS11 = getTCPorts()
       PTS22 = getUDPorts()     
-      ALLPORTS = "0," + PTS11 + "," + PTS22
+      ALLPORTS = PTS11 + "," + PTS22
       ALLPORTS = sort(ALLPORTS)    
       PTS = ALLPORTS        
       POR = spacePadding(ALLPORTS, COL1)
