@@ -312,7 +312,7 @@ def getTCPorts():
    else:
       print(colored("[*] Attempting to enumerate all live tcp ports, please wait...", colour3))
       nmap = nmap3.NmapScanTechniques()
-      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 0-65535") # Dict
+      results = nmap.nmap_tcp_scan(TIP.rstrip(" "),args="-p 0-65535 -T4 --max-retries 0")
       with open("tcp.json", "w") as outfile:
          json.dump(results, outfile, indent=4)
       localCOM("cat tcp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports1.tmp")
@@ -331,8 +331,10 @@ def getTCPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
+      if loopMax > screenLength:
+         loopMax == screenLength
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
-      for loop1 in range(0, loopMax+1):
+      for loop1 in range(0, loopMax):
          for x1 in this_Ports1.split(","):
             portsTCP[loop1] = spacePadding(x1,5)
             loop1 = loop1 + 1
@@ -340,10 +342,10 @@ def getTCPorts():
       services = linecache.getline("service1.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop1 in range(0, loopMax+1):      
+      for loop1 in range(0, loopMax):      
          for y1 in services.split(","):
             servsTCP[loop1] = spacePadding(y1, COL4)
-            loop1 = loop1 + 1 
+            loop1 = loop1 + 1
          break      
    return this_Ports1
    
@@ -354,7 +356,7 @@ def getUDPorts():
    else:
       print(colored("[*] Attempting to enumerate live udp ports (top 200), please wait...", colour3))
       nmap = nmap3.NmapScanTechniques()
-      results2 = nmap.nmap_udp_scan(TIP.rstrip(" "), args="--top 200")
+      results2 = nmap.nmap_udp_scan(TIP.rstrip(" "), args="--top 200 -T4 --max-retries 0")
       with open("udp.json", "w") as outfile:
          json.dump(results2, outfile, indent=4)         
       localCOM("cat udp.json | grep 'portid' | cut -d ':' -f 2 | tr '\n' ' ' | tr -d '[:space:]' | sed 's/,$//' > ports2.tmp")
@@ -373,8 +375,10 @@ def getUDPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
+      if loopMax > screenLength:
+         loopMax == screenLength
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
-      for loop2 in range(0, loopMax+1):
+      for loop2 in range(0, loopMax):
          for x2 in this_Ports2.split(","):
             portsUDP[loop2] = spacePadding(x2,5)
             loop2 = loop2 + 1
@@ -382,7 +386,7 @@ def getUDPorts():
       services = linecache.getline("service2.tmp", 1).replace('"','')
       services = services.replace("[]","")
       services = services.rstrip("\n")            
-      for loop2 in range(0, loopMax+1):      
+      for loop2 in range(0, loopMax):      
          for y2 in services.split(","):
             servsUDP[loop2] = spacePadding(y2, COL4)
             loop2 = loop2 + 1 
@@ -950,7 +954,7 @@ SHAR = [" "*COL2]*maxUser			# SHARE NAMES
 USER = [" "*COL3]*maxUser			# USER NAMES
 HASH = [" "*COL4]*maxUser			# NTLM HASH
 VALD = ["0"*COL5]*maxUser			# USER TOKENS
-					# ALL UDP PORTS
+			
 portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
 portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
@@ -3718,7 +3722,7 @@ while True:
    if selection == '231':
       PTS11 = getTCPorts()
       PTS22 = getUDPorts()     
-      ALLPORTS = PTS11 + "," + PTS22
+      ALLPORTS = PTS11 + "," + PTS22 + ","
       ALLPORTS = sort(ALLPORTS)    
       PTS = ALLPORTS        
       POR = spacePadding(ALLPORTS, COL1)
