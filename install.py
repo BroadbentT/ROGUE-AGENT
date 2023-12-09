@@ -122,6 +122,10 @@ if os.path.exists("windapsearch"):
 
 os.system("go install github.com/fullstorydev/grpcui/cmd/grpcui@latest")
 
+print("\t[+] Installing passthecert...")
+os.system("wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/main/Python/passthecert.py")
+os.system("mv passthecert.py /usr/share/doc/python3-impacket/examples/passthecert.py")
+
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
