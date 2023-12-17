@@ -1854,19 +1854,17 @@ while True:
    if selection =='39':
       checkParam = test_TIP()      
       if checkParam != 1:
-         checkParam = test_PRT("2049")
-         if checkParam != 1:
-            remoteCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
-            localCOM("sed -i '/Export list for/d' mount.tmp")                  
-            if os.path.getsize("mount.tmp") > 0:
-               print("[+] NFS exports found...\n")            
-               with open("mount.tmp") as read:
-                  for mount in read:
-                     mount = mount.replace("/","")
-                     mount = mount.rstrip("\n")
-                     print(colored(mount,colour6))
-            else:
-               print("[-] No NFS exports were found...")
+         remoteCOM("showmount -e " + TIP.rstrip(" ") + " > mount.tmp")
+         localCOM("sed -i '/Export list for/d' mount.tmp")                  
+         if os.path.getsize("mount.tmp") > 0:
+            print("[+] NFS exports found...\n")            
+            with open("mount.tmp") as read:
+               for mount in read:
+                  mount = mount.replace("/"," ")
+                  mount = mount.rstrip("\n")
+                  print(colored(mount,colour6))
+         else:
+            print("[-] No NFS exports were found...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -1880,13 +1878,11 @@ while True:
    if selection == '40':
       checkParam = test_TIP()      
       if checkParam != 1:
-         checkParam = test_PRT("2049")
-         if checkParam != 1:
-            mount = input("[?] Please enter NFS name : ")         
-            if not os.path.exists(mount):
-               localCOM("mkdir " + mount)
-            remoteCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
-            print("[+] NFS " + mount + " mounted...")
+         mount = input("[?] Please enter NFS name : ")         
+         if not os.path.exists(mount):
+            localCOM("mkdir " + mount)
+         remoteCOM("mount -o nolock -t nfs " + TIP.rstrip(" ") + ":/" + mount + " " + mount + "/")
+         print("[+] NFS " + mount + " mounted...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
