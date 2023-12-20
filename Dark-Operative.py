@@ -3828,7 +3828,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...") 
             parsFile("basic.tmp")
             catsFile("basic.tmp")
-         if (",500" in PTS) or ("500," in PTS):
+         if (",500," in PTS):
             iker(TIP)
       prompt()
       
@@ -3881,7 +3881,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")           
             parsFile("light.tmp")
             catsFile("light.tmp")
-         if (",500" in PTS) or ("500," in PTS):
+         if (",500," in PTS):
             iker(TIP)
       prompt()
       
@@ -3933,7 +3933,7 @@ while True:
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")               
             parsFile("heavy.tmp")
             catsFile("heavy.tmp")
-         if (",500" in PTS) or ("500," in PTS):
+         if (",500," in PTS):
             iker(TIP)
       prompt()
       
