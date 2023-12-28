@@ -134,7 +134,7 @@ def scanhttps(host):
    return
    
 def banner():
-   print(colored("\nHTTP Insecure Methods Checker.", colour5))
+   print(colored("HTTP Insecure Methods Checker.", colour5))
    print("Target:", host)   
    print("- - - - - - - - - - - - - - - - - - - - - - - -")   
    return
@@ -160,4 +160,4 @@ try:
    scanhttps(host)
 except:
    print("Port 433 potentially not in use...")
-   print("\n")
+print("\n")

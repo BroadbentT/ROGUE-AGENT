@@ -101,4 +101,4 @@ try:
    parsehost("securityheaders3.tmp")
 except:
    print("Port 433 potentially not in use...")
-   print("\n")
+print("\n")

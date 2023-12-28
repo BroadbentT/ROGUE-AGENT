@@ -119,4 +119,4 @@ try:
    parsehost("securityheaders3.tmp")
 except:
    print("Port 80 potentially not in use...")
-   print("\n")
+print("\n")
