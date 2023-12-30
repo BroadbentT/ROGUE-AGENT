@@ -84,7 +84,7 @@ for x in range(0, len(dirList)):
 
 print("[*] Installing system requirements I, please wait...")
 
-list1 = ["libemail-outlook-message-perl", "libemail-sender-perl", "default-jdk", "gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists", "redis","feroxbuster"]
+list1 = ["libemail-outlook-message-perl", "libemail-sender-perl", "default-jdk", "gdb", "ghex", "snmp", "proxychains4", "bloodhound", "sqlite3", "hashcat", "python3-ldap", "gobuster", "crackmapexec", "exiftool", "rlwrap", "xdotool", "sshpass", "seclists", "redis","feroxbuster","libkrb5-dev"]
 
 for x in range(0, len(list1)):
    print("\t[+] Installing " + list1[x] + "...")
@@ -97,7 +97,7 @@ os.environ["DEBIAN_FRONTEND"] = "interactive"
 
 print("[*] Installing system requirements II, please wait...")
 
-list2 = ["2to3", "pwn", "bloodhound", "kerbrute", "smtp-user-enum", "python3-nmap==1.5.1", "simplejson==3.17.5", "git-dumper"]
+list2 = ["2to3", "pwn", "bloodhound", "kerbrute", "smtp-user-enum", "python3-nmap==1.5.1", "simplejson==3.17.5", "git-dumper", "bloodyAD"]
 
 for x in range(0, len(list2)):
    print("\t[+] Installing " + list2[x] + "...")
