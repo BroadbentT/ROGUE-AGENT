@@ -123,10 +123,12 @@ if os.path.exists("windapsearch"):
 os.system("go install github.com/fullstorydev/grpcui/cmd/grpcui@latest")
 
 print("\t[+] Installing others...")
-os.system("wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/main/Python/passthecert.py")
-os.system("mv passthecert.py /usr/share/doc/python3-impacket/examples/passthecert.py")
-os.system("wget https://raw.githubusercontent.com/borjmz/aspx-reverse-shell/master/shell.aspx")
-os.system("mv shell.aspx ./NEW/shell.aspx")
+os.system("wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/main/Python/passthecert.py >> log.txt 2>&1")
+os.system("mv passthecert.py /usr/share/doc/python3-impacket/examples/passthecert.py >> log.txt 2>&1")
+os.system("wget https://raw.githubusercontent.com/borjmz/aspx-reverse-shell/master/shell.aspx >> log.txt 2>&1")
+os.system("mv shell.aspx ./NEW/shell.aspx >> log.txt 2>&1")
+os.system("wget https://raw.githubusercontent.com/MzHmO/DescribeTicket/main/describeTicket.py >> log.txt 2>&1")
+os.system("mv describeTicket.py /usr/share/doc/python3-impacket/examples/describeTicket.py >> log.txt 2>&1")
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
