@@ -3185,7 +3185,7 @@ while True:
       localCOM("ssh-keygen -t rsa -b 4096 -N '' -f './id_rsa' >/dev/null 2>&1")
       localCOM("chmod 600 id_rsa")
       catsFile("id_rsa.pub")
-      print("[+] Now insert the above into authorized_Keys on the victim's machine...")            
+      print("[+] Now insert the above into authorized_keys on the victim's machine...")            
       if USR[:2] == "''":
          print("[+] Then ssh login with this command:- ssh -i id_rsa user@" + TIP.rstrip(" ") +"...")
       else:
