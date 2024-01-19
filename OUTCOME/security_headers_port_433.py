@@ -74,7 +74,7 @@ def parsehost(file):
             print(colored("X-Frame-Options: Found", colour1))
             c = 1
          if ("X-Content-Type-Options".upper() in line.upper()): 
-            print(colored("X-Content-Type-Options: Found", colour1)) 
+            print(colored("X-Content-Type-Options: Found", colour1))
             d =1
    if a == 0:
       print(colored("Strict-Transport-Security: Not Found", colour4))
@@ -109,8 +109,8 @@ def banner():
 banner()
 try:
    print("HOST CHECK PORT 443:")
-   scanhost("securityheaders2.tmp", host, 443)
-   parsehost("securityheaders2.tmp")
+   scanhost("securityheaders2.txt", host, 443)
+   parsehost("securityheaders2.txt")
 except:
    print("Port 433 potentially not in use...")
 try:
