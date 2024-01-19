@@ -679,57 +679,61 @@ def dispMenu():
          print(colored(WEB[:COL1],colour7), end=' ')
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
-      
-      if (loop == 5): print(colored(USR[:COL1],colour6), end=' ')
-
-      if (loop == 6): print(colored(PAS[:COL1],colour6), end=' ')
          
-      if (loop == 7) & (NTM[:5] == "EMPTY"):
+# NEW TEST AREA
+      if loop == 5 and EMPTY_5[:7] == "UNKNOWN": print (colored(EMPTY_5,colour7[:COL1]), end=' ')
+      if loop == 6 and EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')
+      if loop == 7 and EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
+      if loop == 8 and EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
+# NEW TEST AREA
+      
+      if (loop == 9): print(colored(USR[:COL1],colour6), end=' ')
+
+      if (loop == 10): print(colored(PAS[:COL1],colour6), end=' ')
+         
+      if (loop == 11) & (NTM[:5] == "EMPTY"):
          print(colored(NTM[:COL1],colour7), end=' ')
       else:
-         if(loop == 7): print(colored(NTM[:COL1],colour6), end=' ')
+         if(loop == 11): print(colored(NTM[:COL1],colour6), end=' ')
          
-      if (loop == 8) & (TGT[:5] == "EMPTY"):
+      if (loop == 12) & (TGT[:5] == "EMPTY"):
          print(colored(TGT[:COL1],colour7), end=' ')
       else:
-         if(loop == 8): print(colored(TGT[:COL1],colour6), end=' ')
+         if(loop == 12): print(colored(TGT[:COL1],colour6), end=' ')
          
-      if (loop == 9) & (DOM[:5] == "EMPTY"):
+      if (loop == 13) & (DOM[:5] == "EMPTY"):
          print(colored(DOM[:COL1],colour7), end=' ')
       else:
-         if(loop == 9): print(colored(DOM[:COL1],colour6), end=' ')
+         if(loop == 13): print(colored(DOM[:COL1],colour6), end=' ')
          
-      if (loop == 10) & (SID[:5] == "EMPTY"):
+      if (loop == 14) & (SID[:5] == "EMPTY"):
          print(colored(SID[:COL1],colour7), end=' ')            
       else: 
-         if(loop == 10): print(colored(SID[:COL1],colour6), end=' ')
+         if(loop == 14): print(colored(SID[:COL1],colour6), end=' ')
          
-      if loop == 11 and EMPTY_1[:5] == "EMPTY":
+      if loop == 15 and EMPTY_1[:5] == "EMPTY":
          print (colored(EMPTY_1,colour7), end=' ') 
       else:
-         if(loop == 11): print(colored(EMPTY_1[:COL1],colour6), end=' ')  
+         if(loop == 15): print(colored(EMPTY_1[:COL1],colour6), end=' ')  
          
-      if (loop == 12) & (FIL[:5] == "EMPTY"):
+      if (loop == 16) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
       else:
-         if(loop == 12): print(colored(FIL[:COL1],colour6), end=' ')
+         if(loop == 16): print(colored(FIL[:COL1],colour6), end=' ')
          
-      if (loop == 13) & (TSH[:5] == "EMPTY"):
+      if (loop == 17) & (TSH[:5] == "EMPTY"):
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
-         if(loop == 13): print(colored(TSH[:COL1],colour6), end=' ')
+         if(loop == 17): print(colored(TSH[:COL1],colour6), end=' ')
       
-      if loop == 14 and EMPTY_2[:5] == "EMPTY": print (colored(EMPTY_2,colour7), end=' ')
-      if loop == 15 and EMPTY_3[:5] == "EMPTY": print (colored(EMPTY_3,colour7), end=' ')
-      if loop == 16 and EMPTY_4[:5] == "EMPTY": print (colored(EMPTY_4,colour7), end=' ')
-      if loop == 17 and EMPTY_5[:5] == "EMPTY": print (colored(EMPTY_5,colour7), end=' ')
-      if loop == 18 and EMPTY_6[:5] == "EMPTY": print (colored(EMPTY_6,colour7), end=' ')
-      if loop == 19 and EMPTY_7[:5] == "EMPTY": print (colored(EMPTY_7,colour7), end=' ')      
-      if loop == 20 and EMPTY_8[:5] == "EMPTY": print (colored(EMPTY_8,colour7), end=' ')
-      if loop == 21 and EMPTY_9[:5] == "EMPTY": print (colored(EMPTY_9,colour7), end=' ')
-      if loop == 22 and EMPTY_10[:5] == "EMPTY": print (colored(EMPTY_10,colour7), end=' ')
-      if loop == 23 and EMPTY_11[:5] == "EMPTY": print (colored(EMPTY_11,colour7), end=' ')
-      if loop == 24 and EMPTY_12[:5] == "EMPTY": print (colored(EMPTY_12,colour7), end=' ')
+
+      if loop == 18 and EMPTY_18[:5] == "EMPTY": print (colored(EMPTY_18,colour1), end=' ')
+      if loop == 19 and EMPTY_19[:5] == "EMPTY": print (colored(EMPTY_19,colour1), end=' ')      
+      if loop == 20 and EMPTY_20[:5] == "EMPTY": print (colored(EMPTY_20,colour1), end=' ')
+      if loop == 21 and EMPTY_21[:5] == "EMPTY": print (colored(EMPTY_21,colour1), end=' ')
+      if loop == 22 and EMPTY_22[:5] == "EMPTY": print (colored(EMPTY_22,colour1), end=' ')
+      if loop == 23 and EMPTY_23[:5] == "EMPTY": print (colored(EMPTY_23,colour1), end=' ')
+      if loop == 24 and EMPTY_24[:5] == "EMPTY": print (colored(EMPTY_24,colour1), end=' ')
       
       if loop == 25 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
@@ -965,19 +969,19 @@ coloum_one_Labels[1]  = "DNS ADDRESS"
 coloum_one_Labels[2]  = "IP  ADDRESS"
 coloum_one_Labels[3]  = "LIVE  PORTS"
 coloum_one_Labels[4]  = "WEBSITE URL"
-coloum_one_Labels[5]  = "USER   NAME"
-coloum_one_Labels[6]  = "PASS   NAME"
-coloum_one_Labels[7]  = "NTLM   HASH"
-coloum_one_Labels[8]  = "TICKET NAME"
-coloum_one_Labels[9]  = "DOMAIN NAME"
-coloum_one_Labels[10] = "DOMAIN  SID"
-coloum_one_Labels[11] = "SUB  DOMAIN"
-coloum_one_Labels[12] = "FILE   NAME"
-coloum_one_Labels[13] = "SHARE  NAME"
-coloum_one_Labels[14] = "UNALLOCATED"
-coloum_one_Labels[15] = "UNALLOCATED"
-coloum_one_Labels[16] = "UNALLOCATED"
-coloum_one_Labels[17] = "UNALLOCATED"
+coloum_one_Labels[5]  = "HSTS HEADER"
+coloum_one_Labels[6]  = "CSP  HEADER"
+coloum_one_Labels[7]  = "XOPT HEADER"
+coloum_one_Labels[8]  = "CONT HEADER"
+coloum_one_Labels[9]  = "USER   NAME"
+coloum_one_Labels[10] = "PASS   NAME"
+coloum_one_Labels[11] = "NTLM   HASH"
+coloum_one_Labels[12] = "TICKET NAME"
+coloum_one_Labels[13] = "DOMAIN NAME"
+coloum_one_Labels[14] = "DOMAIN  SID"
+coloum_one_Labels[15] = "SUB  DOMAIN"
+coloum_one_Labels[16] = "FILE   NAME"
+coloum_one_Labels[17] = "SHARE  NAME"
 coloum_one_Labels[18] = "UNALLOCATED"
 coloum_one_Labels[19] = "UNALLOCATED"
 coloum_one_Labels[20] = "UNALLOCATED"
@@ -997,16 +1001,26 @@ EMPTY_1 = "EMPTY                                   "
 EMPTY_2 = "EMPTY                                   "
 EMPTY_3 = "EMPTY                                   "
 EMPTY_4 = "EMPTY                                   "
-EMPTY_5 = "EMPTY                                   "
-EMPTY_6 = "EMPTY                                   "
-EMPTY_7 = "EMPTY                                   "
-EMPTY_8 = "EMPTY                                   "
+EMPTY_5 = "UNKNOWN                                 "
+EMPTY_6 = "UNKNOWN                                 "
+EMPTY_7 = "UNKNOWN                                 "
+EMPTY_8 = "UNKNOWN                                 "
 EMPTY_9 = "EMPTY                                   "
 EMPTY_10 = "EMPTY                                   "
 EMPTY_11 = "EMPTY                                   "
 EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
+
+EMPTY_18 = "EMPTY                                   "
+EMPTY_19 = "EMPTY                                   "
+EMPTY_20 = "EMPTY                                   "
+EMPTY_21 = "EMPTY                                   "
+EMPTY_22 = "EMPTY                                   "
+EMPTY_23 = "EMPTY                                   "
+EMPTY_24 = "EMPTY                                   "
+
+
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
