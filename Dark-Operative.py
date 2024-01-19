@@ -680,12 +680,25 @@ def dispMenu():
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
          
-# NEW TEST AREA
-      if loop == 5 and EMPTY_5[:7] == "UNKNOWN": print (colored(EMPTY_5,colour7[:COL1]), end=' ')
-      if loop == 6 and EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')
-      if loop == 7 and EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
-      if loop == 8 and EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
-# NEW TEST AREA
+      if loop == 5:
+         if (EMPTY_5[:7] == "FOUND  "): print (colored(EMPTY_5,colour6[:COL1]), end=' ')
+         if (EMPTY_5[:7] == "UNKNOWN"): print (colored(EMPTY_5,colour7[:COL1]), end=' ')  
+         if (EMPTY_5[:7] == "NOT FOU"): print (colored(EMPTY_5,colour0[:COL1]), end=' ')                
+         
+      if loop == 6:
+         if EMPTY_6[:7] == "FOUND  ": print (colored(EMPTY_6,colour6[:COL1]), end=' ')
+         if EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')         
+         if EMPTY_6[:7] == "NOT FOU": print (colored(EMPTY_6,colour0[:COL1]), end=' ')         
+               
+      if loop == 7:
+         if EMPTY_7[:7] == "FOUND  ": print (colored(EMPTY_7,colour6[:COL1]), end=' ')
+         if EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
+         if EMPTY_7[:7] == "NOT FOU": print (colored(EMPTY_7,colour0[:COL1]), end=' ')                                    
+      
+      if loop == 8:
+         if EMPTY_8[:7] == "FOUND  ": print (colored(EMPTY_8,colour6[:COL1]), end=' ')
+         if EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
+         if EMPTY_8[:7] == "NOT FOU": print (colored(EMPTY_8,colour0[:COL1]), end=' ')         
       
       if (loop == 9): print(colored(USR[:COL1],colour6), end=' ')
 
@@ -1355,7 +1368,30 @@ while True:
          WEB = BAK
          print("[-] No action has been taken...")
       if len (WEB) < COL1:
-         WEB = spacePadding(WEB, COL1)
+         WEB = spacePadding(WEB, COL1)         
+      with open("securityheaders2.txt") as search:
+         a = 0
+         b = 0
+         c = 0
+         d = 0
+         for check in search: 
+            if ("Strict-Transport-Security".upper() in check.upper()):               
+               a = 1
+            if ("Content-Security-Policy".upper() in check.upper()):
+               b = 1
+            if ("X-Frame-Options".upper() in check.upper()):               
+               c = 1
+            if ("X-Content-Type-Options".upper() in check.upper()):
+               d = 1
+            if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
+            if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
+            if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
+            if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
+            if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
+            if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
+            if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
+            if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
+      localCOM("rm securityheaders2.txt")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
