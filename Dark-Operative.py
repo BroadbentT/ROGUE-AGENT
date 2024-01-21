@@ -979,7 +979,7 @@ coloum_one_Labels[21] = "UNALLOCATED"
 coloum_one_Labels[22] = "UNALLOCATED"
 coloum_one_Labels[23] = "COMMUNITY  "
 coloum_one_Labels[24] = "FUZZ  RIDER"
-coloum_one_Labels[25] = "WORD   LIST"" 
+coloum_one_Labels[25] = "WORD   LIST" 
 
 # TEMP ASSIGNGED VALUES - CHECK STILL REQUIRED
 
