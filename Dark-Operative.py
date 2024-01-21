@@ -331,7 +331,7 @@ def getTCPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
-      if loopMax > screenLength:
+      if loopMax >= screenLength:
          loopMax == screenLength-1
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
       for loop1 in range(0, loopMax):
@@ -375,7 +375,7 @@ def getUDPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
-      if loopMax > screenLength:
+      if loopMax >= screenLength:
          loopMax == screenLength-1
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
       for loop2 in range(0, loopMax):
@@ -653,7 +653,7 @@ def dispMenu():
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*63 + '\u2563')   
   
 
-   for loop in range(0,screenLength):
+   for loop in range(0,screenLength-1):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
@@ -1129,7 +1129,7 @@ else:
    IP46 = "-4"      
 time.sleep(5)
 
-for loop in range(0, screenLength):
+for loop in range(0, screenLength-1):
    for x in POR.split(","):
       portsTCP[loop] = spacePadding(x,5)
       loop = loop + 1
