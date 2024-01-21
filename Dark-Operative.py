@@ -332,7 +332,7 @@ def getTCPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
       if loopMax >= screenLength:
-         loopMax == screenLength-1
+         loopMax == screenLength - 2
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
       for loop1 in range(0, loopMax):
          for x1 in this_Ports1.split(","):
@@ -376,7 +376,7 @@ def getUDPorts():
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
       if loopMax >= screenLength:
-         loopMax == screenLength-1
+         loopMax == screenLength - 2
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
       for loop2 in range(0, loopMax):
          for x2 in this_Ports2.split(","):
@@ -653,7 +653,7 @@ def dispMenu():
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*63 + '\u2563')   
   
 
-   for loop in range(0,screenLength-1):
+   for loop in range(0,screenLength - 2):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
@@ -678,96 +678,73 @@ def dispMenu():
       if (loop == 4) & (WEB[:5] == "EMPTY"):
          print(colored(WEB[:COL1],colour7), end=' ')
       else: 
-         if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
-         
+         if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')         
       if loop == 5:
          if (EMPTY_5[:7] == "FOUND  "): print (colored(EMPTY_5,colour6[:COL1]), end=' ')
          if (EMPTY_5[:7] == "UNKNOWN"): print (colored(EMPTY_5,colour7[:COL1]), end=' ')  
-         if (EMPTY_5[:7] == "NOT FOU"): print (colored(EMPTY_5,colour0[:COL1]), end=' ')                
-         
+         if (EMPTY_5[:7] == "NOT FOU"): print (colored(EMPTY_5,colour0[:COL1]), end=' ')         
       if loop == 6:
          if EMPTY_6[:7] == "FOUND  ": print (colored(EMPTY_6,colour6[:COL1]), end=' ')
          if EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')         
-         if EMPTY_6[:7] == "NOT FOU": print (colored(EMPTY_6,colour0[:COL1]), end=' ')         
-               
+         if EMPTY_6[:7] == "NOT FOU": print (colored(EMPTY_6,colour0[:COL1]), end=' ')               
       if loop == 7:
          if EMPTY_7[:7] == "FOUND  ": print (colored(EMPTY_7,colour6[:COL1]), end=' ')
          if EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
-         if EMPTY_7[:7] == "NOT FOU": print (colored(EMPTY_7,colour0[:COL1]), end=' ')                                    
-      
+         if EMPTY_7[:7] == "NOT FOU": print (colored(EMPTY_7,colour0[:COL1]), end=' ')      
       if loop == 8:
          if EMPTY_8[:7] == "FOUND  ": print (colored(EMPTY_8,colour6[:COL1]), end=' ')
          if EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
-         if EMPTY_8[:7] == "NOT FOU": print (colored(EMPTY_8,colour0[:COL1]), end=' ')         
-      
+         if EMPTY_8[:7] == "NOT FOU": print (colored(EMPTY_8,colour0[:COL1]), end=' ')      
       if (loop == 9): print(colored(USR[:COL1],colour6), end=' ')
-
-      if (loop == 10): print(colored(PAS[:COL1],colour6), end=' ')
-         
+      if (loop == 10): print(colored(PAS[:COL1],colour6), end=' ')         
       if (loop == 11) & (NTM[:5] == "EMPTY"):
          print(colored(NTM[:COL1],colour7), end=' ')
       else:
-         if(loop == 11): print(colored(NTM[:COL1],colour6), end=' ')
-         
+         if(loop == 11): print(colored(NTM[:COL1],colour6), end=' ')         
       if (loop == 12) & (TGT[:5] == "EMPTY"):
          print(colored(TGT[:COL1],colour7), end=' ')
       else:
-         if(loop == 12): print(colored(TGT[:COL1],colour6), end=' ')
-         
+         if(loop == 12): print(colored(TGT[:COL1],colour6), end=' ')         
       if (loop == 13) & (DOM[:5] == "EMPTY"):
          print(colored(DOM[:COL1],colour7), end=' ')
       else:
-         if(loop == 13): print(colored(DOM[:COL1],colour6), end=' ')
-         
+         if(loop == 13): print(colored(DOM[:COL1],colour6), end=' ')         
       if (loop == 14) & (SID[:5] == "EMPTY"):
          print(colored(SID[:COL1],colour7), end=' ')            
       else: 
-         if(loop == 14): print(colored(SID[:COL1],colour6), end=' ')
-         
+         if(loop == 14): print(colored(SID[:COL1],colour6), end=' ')         
       if loop == 15 and EMPTY_1[:5] == "EMPTY":
          print (colored(EMPTY_1,colour7), end=' ') 
       else:
-         if(loop == 15): print(colored(EMPTY_1[:COL1],colour6), end=' ')  
-         
+         if(loop == 15): print(colored(EMPTY_1[:COL1],colour6), end=' ')           
       if (loop == 16) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
       else:
-         if(loop == 16): print(colored(FIL[:COL1],colour6), end=' ')
-         
+         if(loop == 16): print(colored(FIL[:COL1],colour6), end=' ')         
       if (loop == 17) & (TSH[:5] == "EMPTY"):
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
          if(loop == 17): print(colored(TSH[:COL1],colour6), end=' ')
-      
-
       if loop == 18 and EMPTY_18[:5] == "EMPTY": print (colored(EMPTY_18,colour1), end=' ')
       if loop == 19 and EMPTY_19[:5] == "EMPTY": print (colored(EMPTY_19,colour1), end=' ')      
       if loop == 20 and EMPTY_20[:5] == "EMPTY": print (colored(EMPTY_20,colour1), end=' ')
       if loop == 21 and EMPTY_21[:5] == "EMPTY": print (colored(EMPTY_21,colour1), end=' ')
-      if loop == 22 and EMPTY_22[:5] == "EMPTY": print (colored(EMPTY_22,colour1), end=' ')
-      if loop == 23 and EMPTY_23[:5] == "EMPTY": print (colored(EMPTY_23,colour1), end=' ')
-      if loop == 24 and EMPTY_24[:5] == "EMPTY": print (colored(EMPTY_24,colour1), end=' ')
-      
-      if loop == 25 and communityString[:5] == "EMPTY": 
+      if loop == 22 and EMPTY_22[:5] == "EMPTY": print (colored(EMPTY_22,colour1), end=' ')      
+      if loop == 23 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
       else:
-         if loop ==25:
-             print(colored(communityString[:COL1],colour6), end=' ')
-      
-      if loop == 26 and FuzzRider[:5] == "EMPTY": 
+         if loop ==23:
+             print(colored(communityString[:COL1],colour6), end=' ')      
+      if loop == 24 and FuzzRider[:5] == "EMPTY": 
          print (colored(FuzzRider,colour7), end=' ')
       else:
-         if loop == 26: 
-            print(colored(FuzzRider[:COL1],colour6), end=' ')
-      
-      if loop == 27 and currentWordlist[:5] == "EMPTY":
+         if loop == 24: 
+            print(colored(FuzzRider[:COL1],colour6), end=' ')      
+      if loop == 25 and currentWordlist[:5] == "EMPTY":
          print (colored(currentWordlist,colour7), end=' ')
       else:
-         if loop == 27:
+         if loop == 25:
             print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')
-      
-#      if loop == 28 and EMPTY_16[:5] == "EMPTY": print (colored(EMPTY_16,colour7), end=' ')
-#      if loop == 29 and currentWordlist[:5] == "EMPTY": print (colored(currentWordlist,colour7), end=' ')
 
       print('\u2551', end=' ')       
       if TSH.rstrip(" ") in SHAR[loop]:
@@ -1000,15 +977,11 @@ coloum_one_Labels[19] = "UNALLOCATED"
 coloum_one_Labels[20] = "UNALLOCATED"
 coloum_one_Labels[21] = "UNALLOCATED"
 coloum_one_Labels[22] = "UNALLOCATED"
-coloum_one_Labels[23] = "UNALLOCATED"
-coloum_one_Labels[24] = "UNALLOCATED"
-coloum_one_Labels[25] = "COMMUNITY  "
-coloum_one_Labels[26] = "FUZZ  RIDER"
-coloum_one_Labels[27] = "WORD   LIST"
-#coloum_one_Labels[28] = "UNALLOCATED"
-#coloum_one_Labels[29] = "UNALLOCATED" 
+coloum_one_Labels[23] = "COMMUNITY  "
+coloum_one_Labels[24] = "FUZZ  RIDER"
+coloum_one_Labels[25] = "WORD   LIST"" 
 
-# TEMP ASSIGNGED VALUES
+# TEMP ASSIGNGED VALUES - CHECK STILL REQUIRED
 
 EMPTY_1 = "EMPTY                                   "
 EMPTY_2 = "EMPTY                                   "
@@ -1024,7 +997,6 @@ EMPTY_11 = "EMPTY                                   "
 EMPTY_12 = "EMPTY                                   "
 EMPTY_13 = "EMPTY                                   "
 EMPTY_14 = "EMPTY                                   "
-
 EMPTY_18 = "EMPTY                                   "
 EMPTY_19 = "EMPTY                                   "
 EMPTY_20 = "EMPTY                                   "
@@ -1032,7 +1004,6 @@ EMPTY_21 = "EMPTY                                   "
 EMPTY_22 = "EMPTY                                   "
 EMPTY_23 = "EMPTY                                   "
 EMPTY_24 = "EMPTY                                   "
-
 
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
@@ -1129,7 +1100,7 @@ else:
    IP46 = "-4"      
 time.sleep(5)
 
-for loop in range(0, screenLength-1):
+for loop in range(0, screenLength - 2):
    for x in POR.split(","):
       portsTCP[loop] = spacePadding(x,5)
       loop = loop + 1
@@ -1368,30 +1339,57 @@ while True:
          WEB = BAK
          print("[-] No action has been taken...")
       if len (WEB) < COL1:
-         WEB = spacePadding(WEB, COL1)         
-      with open("securityheaders2.txt") as search:
-         a = 0
-         b = 0
-         c = 0
-         d = 0
-         for check in search: 
-            if ("Strict-Transport-Security".upper() in check.upper()):               
-               a = 1
-            if ("Content-Security-Policy".upper() in check.upper()):
-               b = 1
-            if ("X-Frame-Options".upper() in check.upper()):               
-               c = 1
-            if ("X-Content-Type-Options".upper() in check.upper()):
-               d = 1
-            if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
-            if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
-            if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
-            if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
-            if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
-            if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
-            if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
-            if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
-      localCOM("rm securityheaders2.txt")
+         WEB = spacePadding(WEB, COL1) 
+         
+      if os.path.isfile("securityheaders1.txt"): # Port 80
+         with open("securityheaders1.txt") as search:
+            a = 0
+            b = 0
+            c = 0
+            d = 0
+            for check in search: 
+               if ("Strict-Transport-Security".upper() in check.upper()):               
+                  a = 1
+               if ("Content-Security-Policy".upper() in check.upper()):
+                  b = 1
+               if ("X-Frame-Options".upper() in check.upper()):               
+                  c = 1
+               if ("X-Content-Type-Options".upper() in check.upper()):
+                  d = 1
+               if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
+               if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
+               if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
+               if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
+               if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
+               if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
+               if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
+               if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
+         localCOM("rm securityheaders1.txt")
+      
+      if os.path.isfile("securityheaders2.txt"): # Port 443
+         with open("securityheaders2.txt") as search:
+            a = 0
+            b = 0
+            c = 0
+            d = 0
+            for check in search: 
+               if ("Strict-Transport-Security".upper() in check.upper()):               
+                  a = 1
+               if ("Content-Security-Policy".upper() in check.upper()):
+                  b = 1
+               if ("X-Frame-Options".upper() in check.upper()):               
+                  c = 1
+               if ("X-Content-Type-Options".upper() in check.upper()):
+                  d = 1
+               if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
+               if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
+               if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
+               if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
+               if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
+               if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
+               if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
+               if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
+         localCOM("rm securityheaders2.txt")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
