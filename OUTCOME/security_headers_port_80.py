@@ -1,3 +1,4 @@
+DARK OPERATIVE
 #!/usr/bin/python3
 # coding:UTF-8
 
@@ -109,8 +110,8 @@ def banner():
 banner()
 try:
    print("HOST CHECK PORT 80:")
-   scanhost("securityheaders1.tmp", host, 80)
-   parsehost("securityheaders1.tmp")
+   scanhost("securityheaders1.txt", host, 80)
+   parsehost("securityheaders1.txt")
 except:
    print("Port 80 potentially not in use...")
 try:   
