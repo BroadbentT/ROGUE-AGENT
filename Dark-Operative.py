@@ -381,7 +381,7 @@ def getUDPorts():
       for loop2 in range(0, loopMax):
          for x2 in this_Ports2.split(","):
             portsUDP[loop2] = spacePadding(x2,5)
-            loop2 = loop2 + 1
+            loop2 = loop2 + 1 
          break               
       services = linecache.getline("service2.tmp", 1).replace('"','')
       services = services.replace("[]","")
@@ -774,8 +774,8 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) gRPClient   (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82)             (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504) LFI OS Checker (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
@@ -881,7 +881,7 @@ else:
 # -------------------------------------------------------------------------------------
 
 localCOM("xdotool key Alt+Shift+S; xdotool type 'DARK OPERATIVE'; xdotool key Return")
-dispBanner("DARKOPERATIVE",1)
+dispBanner("DARK OPERATIVE",1)
 print(colored("\t\t\t  L A R X  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
@@ -1292,11 +1292,16 @@ while True:
       if POR != "":
          POR = sort(POR)
          PTS = POR
-         POR = spacePadding(POR, COL1)
+         POR = spacePadding(POR, COL1)         
+      if POR[:5] == "EMPTY":
+         for loop in range(0, screenLength):
+            portsTCP[loop] = spacePadding("EMPTY", 5)
+            servsTCP[loop] = spacePadding("EMPTY", COL4)
       else:
          POR = BAK
-      squidCheck()
-      SKEW = timeSync(SKEW)
+      if POR[:5] != "EMPTY":
+         squidCheck()
+         SKEW = timeSync(SKEW)
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -3210,11 +3215,28 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - GRPCurl
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='81':
+      print(colored("[*] Grpcurl plaintext...", colour3))      
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list")
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - GRPCurl
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='82':
+      print(colored("[*] Grpcurl list and describe...", colour3))      
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list " + TSH.rstrip(" "))
+      print(" ")
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 describe " + TSH.rstrip(" "))
       prompt() 
  
 # ------------------------------------------------------------------------------------- 
@@ -3631,7 +3653,7 @@ while True:
 
    if selection == '232':
       PTS1 = getTCPorts()
-      PTS1 = PTS1 + ","
+      PTS1 = "0," + PTS1 + ","
       PTS1 = sort(PTS1)
       POR = spacePadding(PTS1,COL1)
       prompt()      
@@ -3646,7 +3668,7 @@ while True:
 
    if selection == '233':
       PTS2 = getUDPorts()      
-      PTS2 = PTS2 + ","
+      PTS2 = "0," + PTS2 + ","
       PTS2 = sort(PTS2)
       POR = spacePadding(PTS2,COL1)
       prompt()      
