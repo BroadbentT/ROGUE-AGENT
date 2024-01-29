@@ -394,7 +394,7 @@ def getUDPorts():
    return this_Ports2
    
 def squidCheck():
-   print(colored("[*] Attempting to enumerate squid proxy for hidden ports...", colour3))
+   print(colored("[*] Checking squid proxy for hidden ports...", colour3))
    checkParam = test_PRT("3128")   
    if checkParam == 1:
       return
@@ -404,6 +404,18 @@ def squidCheck():
          catsFile("squid.tmp | grep '\"'")
       else:
          print("[-] Unable to enumerate hidden ports, proxychains enabled...")
+   return
+   
+   
+def grp():
+   print(colored("[*] Checkimg grp list...", colour3))
+   checkParam = test_PRT("50051")   
+   if checkParam == 1:
+      return
+   else:
+      print("[+] Found the following services...")      
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list >> grp.tmp")
+      catsFile("grp.tmp")
    return
    
 def checkInterface(variable, COM):
@@ -1246,6 +1258,10 @@ while True:
       if TIP[:5] == "EMPTY":
          print("[+] Remote IP address reset...")
          COM = spacePadding("UNKNOWN", COL0)
+         POR = spacePadding("EMPTY", COL1)
+         for loop in range(0, screenLength):
+            portsTCP[loop] = spacePadding("EMPTY", 5)
+            servsTCP[loop] = spacePadding("EMPTY", COL4)
       else:
          checkParam = 0
          count = TIP.count(':')            
@@ -1292,16 +1308,19 @@ while True:
       if POR != "":
          POR = sort(POR)
          PTS = POR
-         POR = spacePadding(POR, COL1)         
+         POR = spacePadding(POR, COL1)   
+      else:
+         POR = BAK      
       if POR[:5] == "EMPTY":
+         print("[+] Remote ports reset...")
+         POR = spacePadding("EMPTY", COL1)
          for loop in range(0, screenLength):
             portsTCP[loop] = spacePadding("EMPTY", 5)
             servsTCP[loop] = spacePadding("EMPTY", COL4)
       else:
-         POR = BAK
-      if POR[:5] != "EMPTY":
-         squidCheck()
          SKEW = timeSync(SKEW)
+         squidCheck()
+         grp()
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -3221,7 +3240,8 @@ while True:
 
    if selection =='81':
       print(colored("[*] Grpcurl plaintext...", colour3))      
-      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list")
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list >> grp.tmp")
+      catsFile("grp.tmp")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -3233,10 +3253,15 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      print(colored("[*] Grpcurl list and describe...", colour3))      
-      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list " + TSH.rstrip(" "))
-      print(" ")
-      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 describe " + TSH.rstrip(" "))
+      print(colored("[*] Grpcurl list and describe...", colour3))
+      checkParam = test_TSH()
+      if checkParam != 1:
+         remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list " + TSH.rstrip(" ") + " >> grp1.tmp")
+         catsFile("grp1.tmp")
+         remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 describe " + TSH.rstrip(" ") + " >> grp2.tmp")
+         catsFile("grp2.tmp")
+      else:
+         print("[-] No service provided...")
       prompt() 
  
 # ------------------------------------------------------------------------------------- 
@@ -3636,12 +3661,13 @@ while True:
       PTS11 = getTCPorts()
       PTS22 = getUDPorts()     
       ALLPORTS = "0," + PTS11 + "," + PTS22 + ","
-      ALLPORTS = sort(ALLPORTS)    
-      PTS = ALLPORTS        
+      ALLPORTS = sort(ALLPORTS)
+      PTS = ALLPORTS
       POR = spacePadding(ALLPORTS, COL1)
-      squidCheck()      
-      SKEW = timeSync(SKEW)      
-      prompt()     
+      SKEW = timeSync(SKEW)
+      squidCheck()
+      grp()
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4336,8 +4362,8 @@ while True:
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
                remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute 20000")
-      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")         
-      prompt()     
+      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
