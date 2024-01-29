@@ -130,6 +130,19 @@ os.system("mv shell.aspx ./NEW/shell.aspx >> log.txt 2>&1")
 os.system("wget https://raw.githubusercontent.com/MzHmO/DescribeTicket/main/describeTicket.py >> log.txt 2>&1")
 os.system("mv describeTicket.py /usr/share/doc/python3-impacket/examples/describeTicket.py >> log.txt 2>&1")
 
+print("\t[+] Installing GO installations, requires SDK to be installed...")
+os.system("go version")
+os.system("go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest >> log.txt 2>&1")
+os.system("go install github.com/projectdiscovery/cvemap/cmd/cvemap@latest >> log.txt 2>&1")
+
+print("\t[+] Installing Wine...")
+os.system("dpkg --add-architecture i386")
+os.system("apt-get install wine:i386 >> log.txt 2>&1")
+os.system("apt-get install wine-binfmt >> log.txt 2>&1")
+os.system("apt-get install winetricks:i386 >> log.txt 2>&1")
+os.system("winetricks dotnet45 >> log.txt 2>&1")
+print("\t[+] Remember to use 'winecfg' to set the windows version to 7...")
+
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
