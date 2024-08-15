@@ -20,6 +20,10 @@ import requests
 
 from termcolor import colored # pip3 install termcolor  
 
+# Supress only InsecureRequestWarning
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 colour1 = 'green'
 colour2 = 'yellow'
 colour3 = 'blue'
@@ -70,7 +74,7 @@ def parsehost(file):
    return
    
 def scanpage(host):
-   page = requests.get("http://" + host)
+   page = requests.get("http://" + host, verify=False)
    os.system("echo " + str(page.headers) + " > securityheaders3.tmp")
    return
    
