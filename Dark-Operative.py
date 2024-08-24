@@ -1689,23 +1689,37 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start local linux chisel server
+# Details : Menu option selected - Start local linux/windows chisel server
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '17':   
-      portChoice = input("[?] Please select a port number: ")
-      if portChoice.isnumeric():
-         print(colored("[*] Starting local chisel server...", colour3))
-         print("[!] Use the command: ./chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:target_port:127.0.0.1:target_port on the remote machine...")
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'CHISEL SERVER'; xdotool key Return")
-         dispBanner("CHISEL SERVER",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")
+   if selection == '17':
+      if OSF[:5] == "LINUX":      
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local linux chisel server...", colour3))
+               print("[!] Use the command: ./lin_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
+               dispBanner("LINUX CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
       else:
-         pass
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local windows chisel server...", colour3))
+               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
+               dispBanner("WINDOWS CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
       prompt() 
          
 # ------------------------------------------------------------------------------------- 
