@@ -1713,7 +1713,7 @@ while True:
             targetChoice = input("[?] Please enter the target port number: ")
             if targetChoice.isnumeric():
                print(colored("[*] Starting local windows chisel server...", colour3))
-               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
                localCOM("xdotool key Ctrl+Shift+T")
                localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
                dispBanner("WINDOWS CHISEL SERVER",0) 
