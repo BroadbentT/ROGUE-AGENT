@@ -3970,10 +3970,13 @@ while True:
 # -------------------------------------------------------------------------------------        
 
    if selection == '350':
-      print(colored("[*] Populating usernames with Active Directory listing...\n", colour3))            
+      print(colored("[*] Populating 13000 usernames into a Active Directory listing...\n", colour3))            
       localCOM("cp ./" + explDir + "/kerberosnames.txt ./" + dataDir + "/usernames.txt")
+      apend = str("@" +  DOM.rstrip(" "))
+      localCOM("sed -e 's/$/" + apend + "/' -i " + dataDir + "/usernames.txt")
       for x in range (0, maxUser):
          USER[x] = linecache.getline(dataDir + "/usernames.txt", x + 1).rstrip(" ")
+         USER[x] = USER[x].lower()
          USER[x] = spacePadding(USER[x], COL3)         
       wipeTokens(VALD)
       prompt()    
