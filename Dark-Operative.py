@@ -2388,8 +2388,8 @@ while True:
                username, null = username.split("@")
                if username != "":
                   parse.write(username + "\n")                  
-         count = lineCount("validusers.tmp");print("error=" + count)
-         if count > 0:
+         count = lineCount("validusers.tmp")
+         if count != 0:
             print("[+] Found " + str(count) + " valid usernames...\n")                                         
             with open("validusers.tmp", "r") as read:
                for loop in range(0, count):
