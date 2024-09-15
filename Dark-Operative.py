@@ -2388,7 +2388,7 @@ while True:
                username, null = username.split("@")
                if username != "":
                   parse.write(username + "\n")                  
-         count = lineCount("validusers.tmp")
+         count = lineCount("validusers.tmp");print("error=" + count)
          if count > 0:
             print("[+] Found " + str(count) + " valid usernames...\n")                                         
             with open("validusers.tmp", "r") as read:
@@ -2508,7 +2508,7 @@ while True:
          count = lineCount("authorised.tmp")      
          if count == 0:
             print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
-            localCOM("cp" + dataDir + "/usernames.txt authorised.tmp")
+            localCOM("cp " + dataDir + "/usernames.txt authorised.tmp")
          countName = lineCount("authorised.tmp")
          print("[+] Checking " + str(countName) + " usernames...")
          remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp 2>&1 > temp.tmp")
