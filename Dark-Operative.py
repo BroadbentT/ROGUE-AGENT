@@ -499,6 +499,7 @@ def checkWAF():
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
+         wafStatus = "WEB APPLICATION FIREWALL DETECTED       "
       else:
          print(colored("\nHttps not detected...", colour6))
       return
@@ -705,59 +706,67 @@ def dispMenu():
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
          
-# ADD THE WAF STATUS HERE         
+# ADD THE WAF STATUS HERE FROM (5)
+
+      if loop == 5 and wafStatus[:7] == "UNKNOWN":
+         print (colored(wafStatus,colour7), end=' ')
+      else:
+         if(loop == 5): print (colored(wafStatus,colour6), end=' ')      
+           
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                   
-      if loop == 5:
+      if loop == 6:
          if (EMPTY_5[:7] == "FOUND  "): print (colored(EMPTY_5,colour6[:COL1]), end=' ')
          if (EMPTY_5[:7] == "UNKNOWN"): print (colored(EMPTY_5,colour7[:COL1]), end=' ')  
          if (EMPTY_5[:7] == "NOT FOU"): print (colored(EMPTY_5,colour0[:COL1]), end=' ')         
-      if loop == 6:
+      if loop == 7:
          if EMPTY_6[:7] == "FOUND  ": print (colored(EMPTY_6,colour6[:COL1]), end=' ')
          if EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')         
          if EMPTY_6[:7] == "NOT FOU": print (colored(EMPTY_6,colour0[:COL1]), end=' ')               
-      if loop == 7:
+      if loop == 8:
          if EMPTY_7[:7] == "FOUND  ": print (colored(EMPTY_7,colour6[:COL1]), end=' ')
          if EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
          if EMPTY_7[:7] == "NOT FOU": print (colored(EMPTY_7,colour0[:COL1]), end=' ')      
-      if loop == 8:
+      if loop == 9:
          if EMPTY_8[:7] == "FOUND  ": print (colored(EMPTY_8,colour6[:COL1]), end=' ')
          if EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
          if EMPTY_8[:7] == "NOT FOU": print (colored(EMPTY_8,colour0[:COL1]), end=' ')      
-      if (loop == 9): print(colored(USR[:COL1],colour6), end=' ')
-      if (loop == 10): print(colored(PAS[:COL1],colour6), end=' ')         
-      if (loop == 11) & (NTM[:5] == "EMPTY"):
+      if (loop == 10): print(colored(USR[:COL1],colour6), end=' ')
+      if (loop == 11): print(colored(PAS[:COL1],colour6), end=' ')         
+      if (loop == 12) & (NTM[:5] == "EMPTY"):
          print(colored(NTM[:COL1],colour7), end=' ')
       else:
-         if(loop == 11): print(colored(NTM[:COL1],colour6), end=' ')         
-      if (loop == 12) & (TGT[:5] == "EMPTY"):
+         if(loop == 12): print(colored(NTM[:COL1],colour6), end=' ')         
+      if (loop == 13) & (TGT[:5] == "EMPTY"):
          print(colored(TGT[:COL1],colour7), end=' ')
       else:
-         if(loop == 12): print(colored(TGT[:COL1],colour6), end=' ')         
-      if (loop == 13) & (DOM[:5] == "EMPTY"):
+         if(loop == 13): print(colored(TGT[:COL1],colour6), end=' ')         
+      if (loop == 14) & (DOM[:5] == "EMPTY"):
          print(colored(DOM[:COL1],colour7), end=' ')
       else:
-         if(loop == 13): print(colored(DOM[:COL1],colour6), end=' ')         
-      if (loop == 14) & (SID[:5] == "EMPTY"):
+         if(loop == 14): print(colored(DOM[:COL1],colour6), end=' ')         
+      if (loop == 15) & (SID[:5] == "EMPTY"):
          print(colored(SID[:COL1],colour7), end=' ')            
       else: 
-         if(loop == 14): print(colored(SID[:COL1],colour6), end=' ')         
-      if loop == 15 and EMPTY_1[:5] == "EMPTY":
+         if(loop == 15): print(colored(SID[:COL1],colour6), end=' ')         
+      if loop == 16 and EMPTY_1[:5] == "EMPTY":
          print (colored(EMPTY_1,colour7), end=' ') 
       else:
-         if(loop == 15): print(colored(EMPTY_1[:COL1],colour6), end=' ')           
-      if (loop == 16) & (FIL[:5] == "EMPTY"):
+         if(loop == 16): print(colored(EMPTY_1[:COL1],colour6), end=' ')           
+      if (loop == 17) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
       else:
-         if(loop == 16): print(colored(FIL[:COL1],colour6), end=' ')         
-      if (loop == 17) & (TSH[:5] == "EMPTY"):
+         if(loop == 17): print(colored(FIL[:COL1],colour6), end=' ')         
+      if (loop == 18) & (TSH[:5] == "EMPTY"):
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
-         if(loop == 17): print(colored(TSH[:COL1],colour6), end=' ')
-      if loop == 18 and EMPTY_18[:5] == "EMPTY": print (colored(EMPTY_18,colour1), end=' ')
-      if loop == 19 and EMPTY_19[:5] == "EMPTY": print (colored(EMPTY_19,colour1), end=' ')      
-      if loop == 20 and EMPTY_20[:5] == "EMPTY": print (colored(EMPTY_20,colour1), end=' ')
-      if loop == 21 and EMPTY_21[:5] == "EMPTY": print (colored(EMPTY_21,colour1), end=' ')
-      if loop == 22 and EMPTY_22[:5] == "EMPTY": print (colored(EMPTY_22,colour1), end=' ')      
+         if(loop == 18): print(colored(TSH[:COL1],colour6), end=' ')
+      if loop == 19 and EMPTY_18[:5] == "EMPTY": print (colored(EMPTY_18,colour1), end=' ')
+      if loop == 20 and EMPTY_19[:5] == "EMPTY": print (colored(EMPTY_19,colour1), end=' ')      
+      if loop == 21 and EMPTY_20[:5] == "EMPTY": print (colored(EMPTY_20,colour1), end=' ')
+      if loop == 22 and EMPTY_21[:5] == "EMPTY": print (colored(EMPTY_21,colour1), end=' ')
+
       if loop == 23 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
       else:
@@ -987,20 +996,20 @@ coloum_one_Labels[1]  = "DNS ADDRESS"
 coloum_one_Labels[2]  = "IP  ADDRESS"
 coloum_one_Labels[3]  = "LIVE  PORTS"
 coloum_one_Labels[4]  = "WEBSITE URL"
-coloum_one_Labels[5]  = "HSTS HEADER"
-coloum_one_Labels[6]  = "CSP  HEADER"
-coloum_one_Labels[7]  = "XOPT HEADER"
-coloum_one_Labels[8]  = "CONT HEADER"
-coloum_one_Labels[9]  = "USER   NAME"
-coloum_one_Labels[10] = "PASS   NAME"
-coloum_one_Labels[11] = "NTLM   HASH"
-coloum_one_Labels[12] = "TICKET NAME"
-coloum_one_Labels[13] = "DOMAIN NAME"
-coloum_one_Labels[14] = "DOMAIN  SID"
-coloum_one_Labels[15] = "SUB  DOMAIN"
-coloum_one_Labels[16] = "FILE   NAME"
-coloum_one_Labels[17] = "SHARE  NAME"
-coloum_one_Labels[18] = "UNALLOCATED"
+coloum_one_Labels[5]  = "WEBFIREWALL"
+coloum_one_Labels[6]  = "HSTS HEADER"
+coloum_one_Labels[7]  = "CSP  HEADER"
+coloum_one_Labels[8]  = "XOPT HEADER"
+coloum_one_Labels[9]  = "CONT HEADER"
+coloum_one_Labels[10] = "USER   NAME"
+coloum_one_Labels[11] = "PASS   NAME"
+coloum_one_Labels[12] = "NTLM   HASH"
+coloum_one_Labels[13] = "TICKET NAME"
+coloum_one_Labels[14] = "DOMAIN NAME"
+coloum_one_Labels[15] = "DOMAIN  SID"
+coloum_one_Labels[16] = "SUB  DOMAIN"
+coloum_one_Labels[17] = "FILE   NAME"
+coloum_one_Labels[18] = "SHARE  NAME"
 coloum_one_Labels[19] = "UNALLOCATED"
 coloum_one_Labels[20] = "UNALLOCATED"
 coloum_one_Labels[21] = "UNALLOCATED"
@@ -1029,7 +1038,7 @@ EMPTY_18 = "EMPTY                                   "
 EMPTY_19 = "EMPTY                                   "
 EMPTY_20 = "EMPTY                                   "
 EMPTY_21 = "EMPTY                                   "
-EMPTY_22 = "EMPTY                                   "
+wafStatus ="UNKNOWN                                 "
 EMPTY_23 = "EMPTY                                   "
 EMPTY_24 = "EMPTY                                   "
 
