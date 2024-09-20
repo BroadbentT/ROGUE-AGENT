@@ -499,7 +499,7 @@ def checkWAF():
       waf = linecache.getline("waf.tmp", 1).rstrip("\n")
       if waf != "":
          print(colored("\n" + waf.lstrip(" "), colour6))
-         wafStatus = "WEB APPLICATION FIREWALL DETECTED       "
+         wafStatus = spacePadding(waf, COL1)
       else:
          print(colored("\nHttps not detected...", colour6))
       return
