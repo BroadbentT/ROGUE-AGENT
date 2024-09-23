@@ -826,7 +826,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237)                 (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (506)                (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238)                 (348)                  (448) HTTP GitDump (507)                (607) Neo4j  Console (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239)                 (349)                  (449)              (508)                (608) Neo4j Database (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) ADD AD Usernames (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70) Enum4Linux  (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) ADD AD Usernames (450)              (509)                (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
    else:
@@ -2820,6 +2820,25 @@ while True:
       if checkParam != 1:
          print(colored("[*] Trying user " + USR.rstrip(" ") + " with NTLM HASH " + NTM.rstrip("\n") + "...\n", colour3))
          remoteCOM(keyPath + "wmiexec.py -hashes :" + NTM.rstrip("\n") + " " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - enum4linux
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='70':
+      checkParam = test_TIP()
+      if checkParam != 1:
+         checkParam = test_DOM()
+      if checkParam != 1:
+         print(colored("[*] Attempting to enumerate pease wait...", colour3))
+         localCOM("enum4linux " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ")) 
+      else:
+         localCOM("enum4linux " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" "))       
       prompt()
       
 # ------------------------------------------------------------------------------------- 
