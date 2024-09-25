@@ -34,7 +34,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 | python3   | RogueAgent.py         | 1842c3c57a3038f6a546283191493f16 | Command Centre      | TREADSTONE   |
 | python3   | Dark-Operative.py     | 3024559f39c85b0d6794b4ef390b52db | Command Centre (WS) | LARX         |
 | python3   | shell.py              | 0ae617318d2c78a587ea2844733d1db0 | Auto Reverse Shell  | LARX         |
-| SQLite3   | RA.db                 | 9266ebaf8b11fed4506383f5b31944c9 | Program Database    | TREADSTONE   |
+| SQLite3   | RA.db                 | 9266ebaf8b11fed4506383f5b31944c9 | Program Database    | LARX   |
        
 ## NEW WIDE-SCREEN LARX VERSION 2024 ##
 
