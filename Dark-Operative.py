@@ -156,7 +156,6 @@ def lineCount(variable):
 def extract_numbers(input_string):
     return re.sub(r'\D', '', input_string)
 
-
 def spacePadding(variable,value):
    variable = variable.rstrip("\n")
    variable = variable[:value]
@@ -236,52 +235,87 @@ def nmapTrim(variable):
    cutLine("Service detection performed", variable)   
    return
    
-# NEED TO EXPAND THE SAVE DATABASE   
-   
 def saveParams():
-   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp") 
    localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
+   localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + POR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + WAF + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + HST + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + CSP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + XOP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + CON + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
+   localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")   
-   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")    
-   parsFile("base64.tmp")    
+   localCOM("echo '" + SDM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN1 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN2 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN3 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN4 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+     
+   parsFile("base64.tmp")
+   
    OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
    DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
    TIP2 = linecache.getline("base64.tmp", 4).rstrip("\n")
-   PTS2 = linecache.getline("base64.tmp", 5).rstrip("\n")
-   WEB2 = linecache.getline("base64.tmp", 6).rstrip("\n")
-   USR2 = linecache.getline("base64.tmp", 7).rstrip("\n")
-   PAS2 = linecache.getline("base64.tmp", 8).rstrip("\n")
-   NTM2 = linecache.getline("base64.tmp", 9).rstrip("\n")
-   TGT2 = linecache.getline("base64.tmp", 10).rstrip("\n")
-   DOM2 = linecache.getline("base64.tmp", 11).rstrip("\n")
-   SID2 = linecache.getline("base64.tmp", 12).rstrip("\n")
-   FIL2 = linecache.getline("base64.tmp", 13).rstrip("\n")
-   TSH2 = linecache.getline("base64.tmp", 14).rstrip("\n")   
+   POR2 = linecache.getline("base64.tmp", 5).rstrip("\n")
+   PTS2 = linecache.getline("base64.tmp", 6).rstrip("\n")
+   WEB2 = linecache.getline("base64.tmp", 7).rstrip("\n")
+   WAF2 = linecache.getline("base64.tmp", 8).rstrip("\n")
+   HST2 = linecache.getline("base64.tmp", 9).rstrip("\n")
+   CSP2 = linecache.getline("base64.tmp", 10).rstrip("\n")
+   XOP2 = linecache.getline("base64.tmp", 11).rstrip("\n")
+   CON2 = linecache.getline("base64.tmp", 12).rstrip("\n")   
+   USR2 = linecache.getline("base64.tmp", 13).rstrip("\n")
+   PAS2 = linecache.getline("base64.tmp", 14).rstrip("\n")
+   NTM2 = linecache.getline("base64.tmp", 15).rstrip("\n")
+   TGT2 = linecache.getline("base64.tmp", 16).rstrip("\n")
+   DOM2 = linecache.getline("base64.tmp", 17).rstrip("\n")
+   SID2 = linecache.getline("base64.tmp", 18).rstrip("\n")
+   SDM2 = linecache.getline("base64.tmp", 19).rstrip("\n")      
+   FIL2 = linecache.getline("base64.tmp", 20).rstrip("\n")
+   TSH2 = linecache.getline("base64.tmp", 21).rstrip("\n")
+   UN12 = linecache.getline("base64.tmp", 22).rstrip("\n")  
+   UN22 = linecache.getline("base64.tmp", 23).rstrip("\n")
+   UN32 = linecache.getline("base64.tmp", 24).rstrip("\n")
+   UN42 = linecache.getline("base64.tmp", 25).rstrip("\n")       
+   
    cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + OSF2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + DNS2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + TIP2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET POR = \"" + POR2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET PTS = \"" + PTS2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + WEB2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + WEB2 + "\" WHERE IDS = 1"); connection.commit() 
+   cursor.execute("UPDATE REMOTETARGET SET WAF = \"" + WAF2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET HST = \"" + HST2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET CSP = \"" + CSP2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET XOP = \"" + XOP2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET CON = \"" + CON2 + "\" WHERE IDS = 1"); connection.commit()          
    cursor.execute("UPDATE REMOTETARGET SET USR = \"" + USR2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + PAS2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + NTM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + DOM2 + "\" WHERE IDS = 1"); connection.commit()
    cursor.execute("UPDATE REMOTETARGET SET SID = \"" + SID2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET SDM = \"" + SDM2 + "\" WHERE IDS = 1"); connection.commit()          
    cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit()   
+   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit() 
+   cursor.execute("UPDATE REMOTETARGET SET UN1 = \"" + UN12 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN2 = \"" + UN22 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN3 = \"" + UN32 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN4 = \"" + UN42 + "\" WHERE IDS = 1"); connection.commit()          
+    
    return
      
 def privCheck():
@@ -502,10 +536,10 @@ def checkBIOS():
 def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
       remoteCOM("wafw00f -a " + WEB.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
-      waf = linecache.getline("waf.tmp", 1).rstrip("\n")
-      if waf != "":
-         print(colored("\n" + waf.lstrip(" "), colour6))
-         wafStatus = spacePadding(waf, COL1)
+      wafStatus = linecache.getline("waf.tmp", 1).rstrip("\n")
+      if wafStatus != "":
+         print(colored("\n" + wafStatus.lstrip(" "), colour6))
+         WAF = spacePadding(wafStatus, COL1)
       else:
          print(colored("\nHttps not detected...", colour6))
       return
@@ -712,32 +746,27 @@ def dispMenu():
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
          
-# ADD THE WAF STATUS HERE FROM (5)
-
-      if loop == 5 and wafStatus[:7] == "UNKNOWN":
-         print (colored(wafStatus,colour7), end=' ')
+      if loop == 5 and WAF[:7] == "UNKNOWN":
+         print (colored(WAF[:COL1],colour7), end=' ')
       else:
-         if(loop == 5): print (colored(wafStatus,colour6), end=' ')      
-           
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         if(loop == 5): print (colored(WAF[:COL1],colour6), end=' ')                 
                   
       if loop == 6:
-         if (EMPTY_5[:7] == "FOUND  "): print (colored(EMPTY_5,colour6[:COL1]), end=' ')
-         if (EMPTY_5[:7] == "UNKNOWN"): print (colored(EMPTY_5,colour7[:COL1]), end=' ')  
-         if (EMPTY_5[:7] == "NOT FOU"): print (colored(EMPTY_5,colour0[:COL1]), end=' ')         
+         if (HST[:7] == "FOUND  "): print (colored(HST,colour6[:COL1]), end=' ')
+         if (HST[:7] == "UNKNOWN"): print (colored(HST,colour7[:COL1]), end=' ')  
+         if (HST[:7] == "NOT FOU"): print (colored(HST,colour0[:COL1]), end=' ')         
       if loop == 7:
-         if EMPTY_6[:7] == "FOUND  ": print (colored(EMPTY_6,colour6[:COL1]), end=' ')
-         if EMPTY_6[:7] == "UNKNOWN": print (colored(EMPTY_6,colour7[:COL1]), end=' ')         
-         if EMPTY_6[:7] == "NOT FOU": print (colored(EMPTY_6,colour0[:COL1]), end=' ')               
+         if CSP[:7] == "FOUND  ": print (colored(CSP,colour6[:COL1]), end=' ')
+         if CSP[:7] == "UNKNOWN": print (colored(CSP,colour7[:COL1]), end=' ')         
+         if CSP[:7] == "NOT FOU": print (colored(CSP,colour0[:COL1]), end=' ')               
       if loop == 8:
-         if EMPTY_7[:7] == "FOUND  ": print (colored(EMPTY_7,colour6[:COL1]), end=' ')
-         if EMPTY_7[:7] == "UNKNOWN": print (colored(EMPTY_7,colour7[:COL1]), end=' ')
-         if EMPTY_7[:7] == "NOT FOU": print (colored(EMPTY_7,colour0[:COL1]), end=' ')      
+         if XOP[:7] == "FOUND  ": print (colored(XOP,colour6[:COL1]), end=' ')
+         if XOP[:7] == "UNKNOWN": print (colored(XOP,colour7[:COL1]), end=' ')
+         if XOP[:7] == "NOT FOU": print (colored(XOP,colour0[:COL1]), end=' ')      
       if loop == 9:
-         if EMPTY_8[:7] == "FOUND  ": print (colored(EMPTY_8,colour6[:COL1]), end=' ')
-         if EMPTY_8[:7] == "UNKNOWN": print (colored(EMPTY_8,colour7[:COL1]), end=' ')
-         if EMPTY_8[:7] == "NOT FOU": print (colored(EMPTY_8,colour0[:COL1]), end=' ')      
+         if CON[:7] == "FOUND  ": print (colored(CON,colour6[:COL1]), end=' ')
+         if CON[:7] == "UNKNOWN": print (colored(CON,colour7[:COL1]), end=' ')
+         if CON[:7] == "NOT FOU": print (colored(CON,colour0[:COL1]), end=' ')      
       if (loop == 10): print(colored(USR[:COL1],colour6), end=' ')
       if (loop == 11): print(colored(PAS[:COL1],colour6), end=' ')         
       if (loop == 12) & (NTM[:5] == "EMPTY"):
@@ -756,10 +785,10 @@ def dispMenu():
          print(colored(SID[:COL1],colour7), end=' ')            
       else: 
          if(loop == 15): print(colored(SID[:COL1],colour6), end=' ')         
-      if loop == 16 and EMPTY_1[:5] == "EMPTY":
-         print (colored(EMPTY_1,colour7), end=' ') 
+      if loop == 16 and SDM[:5] == "EMPTY":
+         print (colored(SDM,colour7), end=' ') 
       else:
-         if(loop == 16): print(colored(EMPTY_1[:COL1],colour6), end=' ')           
+         if(loop == 16): print(colored(SDM[:COL1],colour6), end=' ')           
       if (loop == 17) & (FIL[:5] == "EMPTY"):
          print(colored(FIL[:COL1],colour7), end=' ')
       else:
@@ -768,10 +797,10 @@ def dispMenu():
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
          if(loop == 18): print(colored(TSH[:COL1],colour6), end=' ')
-      if loop == 19 and EMPTY_18[:5] == "EMPTY": print (colored(EMPTY_18,colour1), end=' ')
-      if loop == 20 and EMPTY_19[:5] == "EMPTY": print (colored(EMPTY_19,colour1), end=' ')      
-      if loop == 21 and EMPTY_20[:5] == "EMPTY": print (colored(EMPTY_20,colour1), end=' ')
-      if loop == 22 and EMPTY_21[:5] == "EMPTY": print (colored(EMPTY_21,colour1), end=' ')
+      if loop == 19 and UN1[:5] == "EMPTY": print (colored(UN1,colour1), end=' ')
+      if loop == 20 and UN2[:5] == "EMPTY": print (colored(UN2,colour1), end=' ')      
+      if loop == 21 and UN3[:5] == "EMPTY": print (colored(UN3,colour1), end=' ')
+      if loop == 22 and UN4[:5] == "EMPTY": print (colored(UN4,colour1), end=' ')
 
       if loop == 23 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
@@ -1024,29 +1053,19 @@ coloum_one_Labels[23] = "COMMUNITY  "
 coloum_one_Labels[24] = "FUZZ  RIDER"
 coloum_one_Labels[25] = "WORD   LIST" 
 
-# TEMP ASSIGNGED VALUES - CHECK STILL REQUIRED
-
-EMPTY_1 = "EMPTY                                   "
-EMPTY_2 = "EMPTY                                   "
-EMPTY_3 = "EMPTY                                   "
-EMPTY_4 = "EMPTY                                   "
-EMPTY_5 = "UNKNOWN                                 "
-EMPTY_6 = "UNKNOWN                                 "
-EMPTY_7 = "UNKNOWN                                 "
-EMPTY_8 = "UNKNOWN                                 "
-EMPTY_9 = "EMPTY                                   "
-EMPTY_10 = "EMPTY                                   "
-EMPTY_11 = "EMPTY                                   "
-EMPTY_12 = "EMPTY                                   "
-EMPTY_13 = "EMPTY                                   "
-EMPTY_14 = "EMPTY                                   "
-EMPTY_18 = "EMPTY                                   "
-EMPTY_19 = "EMPTY                                   "
-EMPTY_20 = "EMPTY                                   "
-EMPTY_21 = "EMPTY                                   "
-wafStatus ="UNKNOWN                                 "
-EMPTY_23 = "EMPTY                                   "
-EMPTY_24 = "EMPTY                                   "
+HST = "UNKNOWN                                 "
+CSP = "UNKNOWN                                 "
+XOP = "UNKNOWN                                 "
+CON = "UNKNOWN                                 "
+SDM = "EMPTY                                   "
+UN1 = "EMPTY                                   "
+UN2 = "EMPTY                                   "
+UN3 = "EMPTY                                   "
+UN4 = "EMPTY                                   "
+UN5 = "EMPTY                                   "
+UN6 = "EMPTY                                   "
+UN7 = "EMPTY                                   "
+WAF = "UNKNOWN                                 "
 
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
@@ -1062,55 +1081,90 @@ currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 print("[+] Configuration database found - restoring saved data....")
 col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1").fetchone()
+
 localCOM("echo " + col[1]  + " | base64 -d >  ascii.tmp")
-localCOM("echo " + col[2]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[3]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[4]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[5]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[6]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[7]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[8]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[9]  + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[10] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[11] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[12] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[13] + " | base64 -d >> ascii.tmp")
-localCOM("echo " + col[14] + " | base64 -d >> ascii.tmp")
+localCOM("echo " + col[2]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[3]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[4]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[5]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[6]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[7]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[8]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[9]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[10]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[11]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[12]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[13]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[14]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[15]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[16]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[17]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[18]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[19]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[20]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[21]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[22]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[23]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[24]  + " | base64 -d >>  ascii.tmp")
+localCOM("echo " + col[25]  + " | base64 -d >>  ascii.tmp")
 
 OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
 COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
 DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
 TIP = linecache.getline("ascii.tmp", 4).rstrip("\n")
-PTS = linecache.getline("ascii.tmp", 5).rstrip("\n")
-WEB = linecache.getline("ascii.tmp", 6).rstrip("\n")
-USR = linecache.getline("ascii.tmp", 7).rstrip("\n")
-PAS = linecache.getline("ascii.tmp", 8).rstrip("\n")
-NTM = linecache.getline("ascii.tmp", 9).rstrip("\n")
-TGT = linecache.getline("ascii.tmp", 10).rstrip("\n")
-DOM = linecache.getline("ascii.tmp", 11).rstrip("\n")
-SID = linecache.getline("ascii.tmp", 12).rstrip("\n")
-FIL = linecache.getline("ascii.tmp", 13).rstrip("\n")
-TSH = linecache.getline("ascii.tmp", 14).rstrip("\n")
+POR = linecache.getline("ascii.tmp", 5).rstrip("\n")
+PTS = linecache.getline("ascii.tmp", 6).rstrip("\n")
+WEB = linecache.getline("ascii.tmp", 7).rstrip("\n")
+WAF = linecache.getline("ascii.tmp", 8).rstrip("\n")
+HST = linecache.getline("ascii.tmp", 9).rstrip("\n")
+CSP = linecache.getline("ascii.tmp", 10).rstrip("\n")
+XOP = linecache.getline("ascii.tmp", 11).rstrip("\n")
+CON = linecache.getline("ascii.tmp", 12).rstrip("\n")
+USR = linecache.getline("ascii.tmp", 13).rstrip("\n")
+PAS = linecache.getline("ascii.tmp", 14).rstrip("\n")
+NTM = linecache.getline("ascii.tmp", 15).rstrip("\n")
+TGT = linecache.getline("ascii.tmp", 16).rstrip("\n")
+DOM = linecache.getline("ascii.tmp", 17).rstrip("\n")
+SID = linecache.getline("ascii.tmp", 18).rstrip("\n")
+SDM = linecache.getline("ascii.tmp", 19).rstrip("\n")
+FIL = linecache.getline("ascii.tmp", 20).rstrip("\n")
+TSH = linecache.getline("ascii.tmp", 21).rstrip("\n")
+UN1 = linecache.getline("ascii.tmp", 22).rstrip("\n")
+UN2 = linecache.getline("ascii.tmp", 23).rstrip("\n")
+UN3 = linecache.getline("ascii.tmp", 24).rstrip("\n")
+UN4 = linecache.getline("ascii.tmp", 25).rstrip("\n")
 
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
 if PAS.rstrip(" ") == '':
    PAS = "\'\'"
 POR = PTS
+
 OSF = spacePadding(OSF, COL1)
 COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
 TIP = spacePadding(TIP, COL1)
 POR = spacePadding(POR, COL1)
+PTS = spacePadding(PTS, COL1)
 WEB = spacePadding(WEB, COL1)
+WAF = spacePadding(WAF, COL1)
+HST = spacePadding(HST, COL1)
+CSP = spacePadding(CSP, COL1)
+XOP = spacePadding(XOP, COL1)
+CON = spacePadding(CON, COL1)
 USR = spacePadding(USR, COL1)
 PAS = spacePadding(PAS, COL1)
 NTM = spacePadding(NTM, COL1)
 TGT = spacePadding(TGT, COL1)
 DOM = spacePadding(DOM, COL1)
 SID = spacePadding(SID, COL1)
+SDM = spacePadding(SDM, COL1)
 FIL = spacePadding(FIL, COL1)
 TSH = spacePadding(TSH, COL1)
+UN1 = spacePadding(UN1, COL1)
+UN2 = spacePadding(UN2, COL1)
+UN3 = spacePadding(UN3, COL1)
+UN4 = spacePadding(UN4, COL1)
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -1411,14 +1465,14 @@ while True:
                   c = 1
                if ("X-Content-Type-Options".upper() in check.upper()):
                   d = 1
-               if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
-               if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
-               if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
-               if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
-               if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
-               if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
-               if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
-               if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
+               if a == 1: HST = spacePadding("FOUND", COL1)
+               if b == 1: CSP = spacePadding("FOUND", COL1)
+               if c == 1: XOP = spacePadding("FOUND", COL1)
+               if d == 1: CON = spacePadding("FOUND", COL1)            
+               if a == 0: HST = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
+               if b == 0: CSP = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
+               if c == 0: XOP = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
+               if d == 0: CON = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
          localCOM("rm securityheaders1.txt")
       
       if os.path.isfile("securityheaders2.txt"): # Port 443
@@ -1436,14 +1490,14 @@ while True:
                   c = 1
                if ("X-Content-Type-Options".upper() in check.upper()):
                   d = 1
-               if a == 1: EMPTY_5 = spacePadding("FOUND", COL1)
-               if b == 1: EMPTY_6 = spacePadding("FOUND", COL1)
-               if c == 1: EMPTY_7 = spacePadding("FOUND", COL1)
-               if d == 1: EMPTY_8 = spacePadding("FOUND", COL1)            
-               if a == 0: EMPTY_5 = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
-               if b == 0: EMPTY_6 = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
-               if c == 0: EMPTY_7 = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
-               if d == 0: EMPTY_8 = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
+               if a == 1: HST = spacePadding("FOUND", COL1)
+               if b == 1: CSP = spacePadding("FOUND", COL1)
+               if c == 1: XOP = spacePadding("FOUND", COL1)
+               if d == 1: CON = spacePadding("FOUND", COL1)            
+               if a == 0: HST = spacePadding("NOT FOUND - POSSIBLE MAN IN THE MIDDLE", COL1)
+               if b == 0: CSP = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
+               if c == 0: XOP = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
+               if d == 0: CON = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
          localCOM("rm securityheaders2.txt")
       prompt()
       
@@ -1588,20 +1642,20 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '12':
-      BAK = EMPTY_1
-      EMPTY_1 = input("[?] Please enter sub domain name: ")      
-      if EMPTY_1 == "":
-         EMPTY_1 = BAK
+      BAK = SDM
+      SDM = input("[?] Please enter sub domain name: ")      
+      if SDM == "":
+         SDM = BAK
       else:
-         EMPTY_1 = spacePadding(EMPTY_1, COL1)         
+         SDM = spacePadding(SDM, COL1)         
          if DOMC2 == 1:
             print("[+] Removing previous domain name " + BAK.rstrip(" ") + " from /etc/hosts...")
             localCOM("sed -i '$d' /etc/hosts")
             DOMC2 = 0            
          if DOMC2 == 0:
             if DOM[:5] != "EMPTY":
-               localCOM("echo '" + TIP.rstrip(" ") + "\t" + EMPTY_1.rstrip(" ") + "' >> /etc/hosts")
-               print("[+] Domain " + EMPTY_1.rstrip(" ") + " has been added to /etc/hosts...")
+               localCOM("echo '" + TIP.rstrip(" ") + "\t" + SDM.rstrip(" ") + "' >> /etc/hosts")
+               print("[+] Domain " + SDM.rstrip(" ") + " has been added to /etc/hosts...")
                DOMC2 = 1
       prompt()
          
