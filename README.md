@@ -2,7 +2,7 @@
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture0.png">
 </p>
 
-## TREADSTONE 2023 EDITION
+## TREADSTONE 2024 EDITION
 
 **INSTALLATION INSTRUCTIONS**
 
@@ -24,15 +24,15 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 </p>
 
 **TESTED: Kali Linux 2019** <br>
-**USAGE : python3 RogueAgent.py eth0** <br>
-**USAGE : python3 Dark-Operative.py eth0** <br>
+**USAGE : python3 RogueAgent.py** <br>
+**USAGE : python3 Dark-Operative.py** <br>
 
 | LANGUAGE  | FILENAME              | MD5 Hash                         | Description         | Version      |
 |------     |-------                | -------                          | ----                |  ----        |
 | python3   | install.py            | 8b2c861444b7d2de95320e0c0b75ffc9 | Install Program     | TREADSTONE   |
 | python3   | exploits.py           | f3317d151bc480e843856a8deadf956e | Install Exploits    | TREADSTONE   |
 | python3   | RogueAgent.py         | 1842c3c57a3038f6a546283191493f16 | Command Centre      | TREADSTONE   |
-| python3   | Dark-Operative.py     | cf1664e385f6596177098aaac37f5439 | Command Centre (WS) | LARX         |
+| python3   | Dark-Operative.py     | aaf14ac79126e10401d81982db6c6297 | Command Centre (WS) | LARX         |
 | python3   | shell.py              | 0ae617318d2c78a587ea2844733d1db0 | Auto Reverse Shell  | LARX         |
 | SQLite3   | RA.db                 | 9266ebaf8b11fed4506383f5b31944c9 | Program Database    | LARX         |
        

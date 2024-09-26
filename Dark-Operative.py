@@ -64,7 +64,7 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-# CUT A LINE OUT OF FILE variable2 BASED ON STRING variable1
+# CUT A LINE OUT OF A FILE
 def cutLine(variable1, variable2):				
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
@@ -74,7 +74,7 @@ def parsFile(variable):
    localCOM("sed -i '/^$/d' ./" + variable)
    return
 
-# PERFORM A LINE COUNT ON THE FILE variable   
+# PERFORM A LINE COUNT
 def lineCount(variable):
    localCOM("cat " + variable + " | wc -l > count.tmp")
    count = (linecache.getline("count.tmp", 1).rstrip("\n"))
@@ -83,16 +83,22 @@ def lineCount(variable):
    count = int(count)
    return count
 
-# EXTRACT NUMBERS FROM A STRING   
+# CLEAR TMP FILES   
+def clearClutter():
+   localCOM("rm *.tmp")
+   linecache.clearcache()
+   return
+
+# EXTRACT A NUMBER FROM A STRING   
 def extract_numbers(input_string):
     return re.sub(r'\D', '', input_string)
 
-# SORT A STRING    
+# SORT STRING BY COMMA   
 def sort(string):
    revision = ",".join(OrderedDict.fromkeys(string.split(',')))
    return revision  
 
-# TRIM NMAP SCANS    
+# TRIM NMAP SCAN    
 def nmapTrim(variable):
    cutLine("# Nmap", variable)
    cutLine("Nmap scan report", variable)
@@ -123,15 +129,7 @@ def dispBanner(variable,flash):
       localCOM("clear")
       print(colored(ascii_banner,colour0, attrs=['bold']))
    localCOM("pyfiglet " + variable + " > banner.tmp")
-   return
-    
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create functional subroutines called from main.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------    
+   return 
 
 # CREATE THE localCOM COMMAND    
 def localCOM(variable):
@@ -166,13 +164,14 @@ def prompt():
    null = input("\nPress ENTER to continue...")
    return   
 
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create subfunctional routines called from main.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
+# CREATE THE PORT PROMPT COMMAND
+def getPort():
+   port = input("[?] Please enter the listening port number: ")
+   if port.isdigit():
+      return port
+   else:
+      print("[-] Sorry, I do not understand the value " + port + "...")
+      return 1
 
 # TEST IF DNS IS POPULATED
 def test_DNS():
@@ -262,15 +261,8 @@ def dotPadding(variable,value):
    while len(variable) < value:
       variable += "."
    return variable
-   
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create subfunctional routines called from main.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
 
+# PRIVILEGE CHECJ A TICKET
 def privCheck():
    localCOM("ls  | grep ccache > ticket.tmp")   
    count = lineCount("ticket.tmp")   
@@ -293,14 +285,7 @@ def privCheck():
          print("[-] Unable to find a valid ticket...")
    return spacePadding(ticket, COL1)
       
-def getPort():
-   port = input("[?] Please enter the listening port number: ")
-   if port.isdigit():
-      return port
-   else:
-      print("[-] Sorry, I do not understand the value " + port + "...")
-      return 1
- 
+# WIPE TOKENS ON NEW SEARCH
 def wipeTokens(VALD):
    localCOM("rm    " + dataDir + "/tokens.txt")
    localCOM("touch " + dataDir + "/tokens.txt") 
@@ -308,14 +293,7 @@ def wipeTokens(VALD):
       VALD[x] = "0"
    return
       
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : GetPorts - obtain all open ports on identified host.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-         
+# CHECK REMOTE INTERFACE
 def checkInterface(variable, COM):
    print(colored("[*] Checking network interface...", colour3))  
    try:      
@@ -363,6 +341,7 @@ def checkInterface(variable, COM):
    COM = spacePadding(COM, COL0)
    return COM       
 
+# GET REMOTE OPEN TCP PORTS
 def getTCPorts():
    checkParam = test_TIP()
    if checkParam == 1:
@@ -406,7 +385,8 @@ def getTCPorts():
             loop1 = loop1 + 1
          break      
    return this_Ports1
-   
+ 
+# GET REMOTE OPEN UDP PORTS
 def getUDPorts():
    checkParam = test_TIP()
    if checkParam == 1:
@@ -450,7 +430,8 @@ def getUDPorts():
             loop2 = loop2 + 1 
          break  
    return this_Ports2
-   
+
+# BYPASS SQUID FOR EXTRA PORTS
 def squidCheck():
    print(colored("[*] Checking squid proxy for hidden ports...", colour3))
    checkParam = test_PRT("3128")   
@@ -464,22 +445,15 @@ def squidCheck():
          print("[-] Unable to enumerate hidden ports, proxychains enabled...")
    return
    
+# IKER TEST
 def iker(TIP):
    TTIP = TIP.rstrip(" ")
    localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
    remoteCOM("ike-scan -M " + TTIP + " >> ike.tmp")
    catsFile("ike.tmp")
-   return
+   return  
    
-def getTime():
-   variable = str(datetime.datetime.now().time())
-   variable = variable.split(".")
-   variable = variable[0]
-   variable = variable.split(":")
-   variable = variable[0] + ":" + variable[1]
-   variable = spacePadding(variable, COL1)
-   return variable   
-   
+# GET REMOTE BIOS INFORMATION
 def checkBIOS():
    if IP46 == "-6":
       return
@@ -497,7 +471,8 @@ def checkBIOS():
          print("[+] Found protocol...")
          catsFile("bios.tmp")
    return
-   
+
+# GET WAF INFO
 def checkWAF():
       print(colored("[*] Checking to see if a Web Application Firewall (WAF) has been installed...", colour3))
       remoteCOM("wafw00f -a " + WEB.rstrip(" ") + " -o waf.tmp > tmp.tmp 2>&1")
@@ -509,6 +484,7 @@ def checkWAF():
          print(colored("\nHttps not detected...", colour6))
       return
    
+# PERFORM A NETWORK SWEEP
 def networkSweep():
    if IP46 == "-6":
       return
@@ -538,7 +514,8 @@ def networkSweep():
                   print("")        
    localCOM("echo '" + Reset + "'")
    return      
-   
+ 
+# GET REMOTE SERVER TIME   
 def timeSync(SKEW):
    print(colored("[*] Attempting to synchronise time with remote server...", colour3))
    checkParam = test_PRT("88")   
@@ -561,6 +538,17 @@ def timeSync(SKEW):
          print("[-] Server synchronisation did not occur...")
    return SKEW    
    
+# GET LOCAL TIME   
+def getTime():
+   variable = str(datetime.datetime.now().time())
+   variable = variable.split(".")
+   variable = variable[0]
+   variable = variable.split(":")
+   variable = variable[0] + ":" + variable[1]
+   variable = spacePadding(variable, COL1)
+   return variable    
+
+# ENUMERATE PORT 50051   
 def grp():
    print(colored("[*] Checkimg grp list...", colour3))
    checkParam = test_PRT("50051")   
@@ -570,21 +558,14 @@ def grp():
       print("[+] Found the following services...")      
       remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list >> grp.tmp")
       catsFile("grp.tmp")
-   return  
-  
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : GetPorts - obtain all open ports on identified host.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------                      
+   return                   
 
 # SSH INTO REMOTE SYSTEM      
 def ssh_command(string):
   ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(string)
   print(ssh_stdout.read().decode())  
 
+# DISPLAY REGISTRY KEYS
 def registryKeys():
    print("\tHKEY_CLASSES_ROOT   HKCR")
    print("\tHKEY_CURRENT_USER   HKCU")
@@ -592,6 +573,8 @@ def registryKeys():
    print("\tHKEY_USERS          HKU ")
    print("\tHKEY_CURRENT_CONFIG HKCC")
    return
+
+# EXPLOIT 
    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
@@ -646,14 +629,7 @@ def powershell(ip, port):
    payload = base64.b64encode(rev.encode('UTF-16LE')).decode()
    return payload
       
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : GetPorts - obtain all open ports on identified host.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------   
-  
+# DISPLAY SUB MENU
 def dispSubMenu(variable):
    variable = spacePadding(variable,163)
    localCOM("clear")
@@ -663,12 +639,8 @@ def dispSubMenu(variable):
    print('\u2551' + variable + '\u2551')
    print('\u255A' + ('\u2550')*163 + '\u255D')
    return
-   
-def clearClutter():
-   localCOM("rm *.tmp")
-   linecache.clearcache()
-   return
-   
+
+# BASE CREATOR      
 def base_creator(domain):
     search_base = ""
     base = domain.split(".")
@@ -676,6 +648,7 @@ def base_creator(domain):
         search_base += "DC=" + b + ","
     return search_base[:-1]
 
+# DISPLAY SCREEN 
 def dispMenu():
    print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*63 + '\u2557')
    print('\u2551' + " TIME ", end =' ')   
@@ -809,7 +782,8 @@ def dispMenu():
       print('\u2551' + " "*63 + '\u2551')
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*63 + '\u2563' )
    return
-   
+
+# DISPLAY MENU   
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (500) Nuclei Scanner (600)                (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (501) Nuclei WP Scan (601)                (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
@@ -829,14 +803,7 @@ def options():
    print('\u255A' + '\u2550'*313 + '\u255D')
    return
    
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create subfunctional routines called from main.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-   
+# SAVE THE APPLICATION VARIABLES
 def saveParams():
    localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp") 
    localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
@@ -935,11 +902,11 @@ else:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Create local user-friendly variables.
+# Details : Create local user-friendly variables - Part one.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-netWork = "tun0"							# LOCAL INTERFACE
+netWork = "tun0"							# HACKTHEBOX
 maxUser = 13000								# UNLIMITED VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
@@ -974,7 +941,7 @@ os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' 
 with open("up.tmp","r") as localInterface:
    up = localInterface.readlines()
 if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 774 of the rogue-agent.py file...", colour0))
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 942 within this file...", colour0))
    exit(1)
 else:
    os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
@@ -1051,6 +1018,14 @@ if not os.path.exists(dataDir + "/tokens.txt"):
    print("[+] File tokens.txt created...")
 else:
    print("[+] File tokens.txt already exists...")   
+   
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create local user-friendly variables - Part two.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
    
 screenLength = 28
 
@@ -1253,7 +1228,7 @@ for loop in range(0, screenLength - 2):
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Start the main menu controller.
+# Details : Start the main menu controller!!!
 # Modified: N/A                                                               	
 # -------------------------------------------------------------------------------------
 
@@ -1293,7 +1268,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Select the OS format.
 # Details : 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
