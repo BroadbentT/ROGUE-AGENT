@@ -270,7 +270,7 @@ def privCheck():
       print("[i] More than one ticket was found...")
    else:
       print("[i] One ticket was found...")               
-   for x in range(1, count+1):
+   for x in range(0, count): # 1 count+1
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
@@ -995,6 +995,9 @@ for x in range(0, len(dirList)):
 print("[+] Populating system variables...")
 if not os.path.exists(dataDir + "/usernames.txt"):			
    localCOM("touch " + dataDir + "/usernames.txt")
+   localCOM("echo 'Administrator' > " + dataDir + "/usernames.txt")
+   localCOM("echo 'Guest' >> " + dataDir + "/usernames.txt")
+   localCOM("echo 'Root' >> " + dataDir + "/usernames.txt")
    print("[+] File usernames.txt created...")
 else:
    print("[+] File usernames.txt already exists...")       
