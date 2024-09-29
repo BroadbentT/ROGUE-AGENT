@@ -2300,6 +2300,7 @@ while True:
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
             else:   
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+         cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares1.tmp")      
          catsFile("shares1.tmp")             
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
