@@ -574,8 +574,7 @@ def registryKeys():
    print("\tHKEY_CURRENT_CONFIG HKCC")
    return
 
-# EXPLOIT 
-   
+# EXPLOIT    
 def idGenerator(size=6, chars=string.ascii_uppercase + string.digits):
    return ''.join(random.choice(chars) for _ in range(size))
    
@@ -926,7 +925,7 @@ httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat"	# FILE EXTENSIONS
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1"	# FILE EXTENSIONS
 keyPath = "python3 /usr/share/doc/python3-impacket/examples/"		# PATH 2 IMPACKET
 
 # -------------------------------------------------------------------------------------
@@ -1031,7 +1030,6 @@ else:
 # -------------------------------------------------------------------------------------
    
 screenLength = 28
-
 HST = "UNKNOWN                                 "
 CSP = "UNKNOWN                                 "
 XOP = "UNKNOWN                                 "
@@ -1044,8 +1042,7 @@ UN4 = "EMPTY                                   "
 UN5 = "EMPTY                                   "
 UN6 = "EMPTY                                   "
 UN7 = "EMPTY                                   "
-WAF = "UNKNOWN                                 "
-   
+WAF = "UNKNOWN                                 "   
 SKEW = 0                                	# TIME-SKEW SWITCH
 DOMC = 0                                	# DOMAIN SWITCH
 DOMC2 = 0					# SUB DOMAIN SWITCH
@@ -1061,12 +1058,10 @@ SHAR = [" "*COL2]*maxUser			# SHARE NAMES
 USER = [" "*COL3]*maxUser			# USER NAMES
 HASH = [" "*COL4]*maxUser			# NTLM HASH
 VALD = ["0"*COL5]*maxUser			# USER TOKENS
-
 portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
 portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
 servsUDP = [" "*COL4]*screenLength 		# UDP SERVICE BANNER
-
 coloum_one_Labels = [" "*COL1]*screenLength	# LABELS
 coloum_one_Labels[0]  = "O/S  FORMAT"
 coloum_one_Labels[1]  = "DNS ADDRESS"
@@ -1094,7 +1089,6 @@ coloum_one_Labels[22] = "UNALLOCATED"
 coloum_one_Labels[23] = "COMMUNITY  "
 coloum_one_Labels[24] = "FUZZ  RIDER"
 coloum_one_Labels[25] = "WORD   LIST" 
-
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
@@ -3957,8 +3951,7 @@ while True:
             catsFile("heavy.tmp")
          if (",500," in PTS):
             iker(TIP)
-      prompt()
-      
+      prompt()      
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
