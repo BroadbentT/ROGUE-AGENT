@@ -22,9 +22,9 @@ import os.path
 
 os.system("apt-get install python3-pip -y > log.txt 2>&1")
 
-os.system("pip3 install pyfiglet  >> log.txt 2>&1")
-os.system("pip3 install termcolor >> log.txt 2>&1")
-os.system("pip3 install shutil    >> log.txt 2>&1")
+os.system("pip3 install pyfiglet --break-system-packages >> log.txt 2>&1")
+os.system("pip3 install termcolor --break-system-packages >> log.txt 2>&1")
+os.system("pip3 install shutil --break-system-packages >> log.txt 2>&1")
 
 import time
 import shutil
@@ -101,7 +101,7 @@ list2 = ["2to3", "pwn", "bloodhound", "kerbrute", "smtp-user-enum", "python3-nma
 
 for x in range(0, len(list2)):
    print("\t[+] Installing " + list2[x] + "...")
-   os.system("pip3 install " + list2[x] + " >> log.txt 2>&1")   
+   os.system("pip3 install " + list2[x] + " --break-system-packages >> log.txt 2>&1")   
 
 print("[*] Installing system requirements III, please wait...")
 
@@ -109,7 +109,7 @@ list3 = ["'neo4j-driver==1.7.0' --force-reinstall","'neo4j==1.7.0' --force-reins
 
 for x in range(0, len(list3)):
    print("\t[+] Installing " + list3[x] + "...")
-   os.system("python3 -m pip install " + list3[x] + " >> log.txt 2>&1")
+   os.system("python3 -m pip install " + list3[x] + " --break-system-packages >> log.txt 2>&1")
    
 print("\t[+] Installing evil-winrm...")
 os.system("gem install evil-winrm >> log.txt 2>&1")
@@ -120,7 +120,7 @@ os.system("mv windapsearch/windapsearch.py /usr/share/doc/python3-impacket/examp
 if os.path.exists("windapsearch"):
    shutil.rmtree("windapsearch")   
 
-os.system("go install github.com/fullstorydev/grpcui/cmd/grpcui@latest")
+os.system("go install github.com/fullstorydev/grpcui/cmd/grpcui@latest >> log.txt 2>&1")
 
 print("\t[+] Installing others...")
 os.system("wget https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/main/Python/passthecert.py >> log.txt 2>&1")
@@ -131,7 +131,7 @@ os.system("wget https://raw.githubusercontent.com/MzHmO/DescribeTicket/main/desc
 os.system("mv describeTicket.py /usr/share/doc/python3-impacket/examples/describeTicket.py >> log.txt 2>&1")
 
 print("\t[+] Installing GO installations, requires SDK to be installed...")
-os.system("go version")
+# os.system("go version")
 os.system("go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest >> log.txt 2>&1")
 os.system("go install github.com/projectdiscovery/cvemap/cmd/cvemap@latest >> log.txt 2>&1")
 
