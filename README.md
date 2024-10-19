@@ -30,7 +30,7 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 | LANGUAGE  | FILENAME              | MD5 Hash                         | Description         | Version      |
 |------     |-------                | -------                          | ----                |  ----        |
 | python3   | install.py            | feaa2d0b9db1a293498e5b354283bffd | Install Program     | TREADSTONE   |
-| python3   | exploits.py           | 3921484591eef23ccd39c048ceef674b | Install Exploits    | TREADSTONE   |
+| python3   | exploits.py           | 5d5f80d54287c7bbb006782595b545c0 | Install Exploits    | TREADSTONE   |
 | python3   | RogueAgent.py         | 1842c3c57a3038f6a546283191493f16 | Command Centre      | TREADSTONE   |
 | python3   | Dark-Operative.py     | 9f33d8b431a28e8f50b50c1c2c18f77d | Command Centre (WS) | LARX         |
 | python3   | shell.py              | 0ae617318d2c78a587ea2844733d1db0 | Auto Reverse Shell  | LARX         |
