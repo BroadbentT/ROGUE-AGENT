@@ -151,7 +151,7 @@ print("\t[+] Remember to use 'winecfg' to set the windows version to 7...")
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-os.system("mv exploits.py ./TREADSTONE/install_exploits.py")
+os.system("mv exploits.py ./TREADSTONE/exploits.py")
 os.system("mv RA.db ./ROGUEAGENT/RA.db")
 os.system("sed -i 's/#quiet_mode/quiet_mode/' /etc/proxychains.conf")
 os.system("sed -i 's/proxy_dns/#proxy_dns/' /etc/proxychains.conf")
