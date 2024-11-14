@@ -784,7 +784,7 @@ def dispMenu():
 
 # DISPLAY MENU   
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (600)                (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (600) RUNCOMMANDLINE (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (601)                (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
@@ -4336,6 +4336,21 @@ while True:
       if checkParam != 1:
          print(colored("[*] Dumping the git repositiry, please wait...", colour3))
          remoteCOM("git-dumper '" + WEB.rstrip(" ") + "' " + workDir)         
+      prompt() 
+      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected run a command line 
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '600':
+      print("[?] Please enter the command to run:")
+      lineCommand = input("\n")
+      remoteCOM(lineCommand)
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
