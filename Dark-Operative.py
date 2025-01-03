@@ -368,8 +368,8 @@ def getTCPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
-      if loopMax >= screenLength:
-         loopMax == screenLength - 2
+      if loopMax > scrnLen:
+         loopMax == scrnLen
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
       for loop1 in range(0, loopMax):
          for x1 in this_Ports1.split(","):
@@ -413,8 +413,8 @@ def getUDPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
-      if loopMax >= screenLength:
-         loopMax == screenLength - 2
+      if loopMax > scrnLen:
+         loopMax == scrnLen
       this_Ports2 = linecache.getline("sorted2.tmp", 1).rstrip("\n")        
       for loop2 in range(0, loopMax):
          for x2 in this_Ports2.split(","):
@@ -665,7 +665,7 @@ def dispMenu():
    print(colored(localIP2,colour6), end=' ') 
    print((" ")*15 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*42 + '\u2563')   
-   for loop in range(0,screenLength - 2):
+   for loop in range(0,scrnLen - 2):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
@@ -907,6 +907,7 @@ else:
 
 netWork = "tun0"							# HACKTHEBOX
 maxUser = 13000								# UNLIMITED VALUE
+scrnLen = 28								# ITERATION VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "cyan"
@@ -1027,9 +1028,8 @@ else:
 # Version : TREADSTONE                                                             
 # Details : Create local user-friendly variables - Part two.
 # Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-   
-screenLength = 28
+# -------------------------------------------------------------------------------------   
+
 HST = "UNKNOWN                                 "
 CSP = "UNKNOWN                                 "
 XOP = "UNKNOWN                                 "
@@ -1058,11 +1058,11 @@ SHAR = [" "*COL2]*maxUser			# SHARE NAMES
 USER = [" "*COL3]*maxUser			# USER NAMES
 HASH = [" "*COL4]*maxUser			# NTLM HASH
 VALD = ["0"*COL5]*maxUser			# USER TOKENS
-portsTCP = ["EMPTY"]*screenLength		# TCP PORTS [x]
-portsUDP = ["EMPTY"]*screenLength		# UDP PORTS [x] 
-servsTCP = [" "*COL4]*screenLength      	# TCP SERVICE BANNER
-servsUDP = [" "*COL4]*screenLength 		# UDP SERVICE BANNER
-coloum_one_Labels = [" "*COL1]*screenLength	# LABELS
+portsTCP = ["EMPTY"]*scrnLen		# TCP PORTS [x]
+portsUDP = ["EMPTY"]*scrnLen		# UDP PORTS [x] 
+servsTCP = [" "*COL4]*scrnLen      	# TCP SERVICE BANNER
+servsUDP = [" "*COL4]*scrnLen 		# UDP SERVICE BANNER
+coloum_one_Labels = [" "*COL1]*scrnLen	# LABELS
 coloum_one_Labels[0]  = "O/S  FORMAT"
 coloum_one_Labels[1]  = "DNS ADDRESS"
 coloum_one_Labels[2]  = "IP  ADDRESS"
@@ -1215,7 +1215,7 @@ else:
    IP46 = "-4"      
 time.sleep(5)
 
-for loop in range(0, screenLength - 2):
+for loop in range(0, scrnLen - 2):
    for x in POR.split(","):
       portsTCP[loop] = spacePadding(x,5)
       loop = loop + 1
@@ -1354,7 +1354,7 @@ while True:
          print("[+] Remote IP address reset...")
          COM = spacePadding("UNKNOWN", COL0)
          POR = spacePadding("EMPTY", COL1)
-         for loop in range(0, screenLength):
+         for loop in range(0, scrnLen):
             portsTCP[loop] = spacePadding("EMPTY", 5)
             servsTCP[loop] = spacePadding("EMPTY", COL4)
       else:
@@ -1409,7 +1409,7 @@ while True:
       if POR[:5] == "EMPTY":
          print("[+] Remote ports reset...")
          POR = spacePadding("EMPTY", COL1)
-         for loop in range(0, screenLength):
+         for loop in range(0, scrnLen):
             portsTCP[loop] = spacePadding("EMPTY", 5)
             servsTCP[loop] = spacePadding("EMPTY", COL4)
       else:
