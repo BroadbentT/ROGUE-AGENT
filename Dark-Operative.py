@@ -785,7 +785,7 @@ def dispMenu():
 # DISPLAY MENU   
 def options():
    print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (600) RUNCOMMANDLINE (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (601)                (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (601) Enum4Linux     (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
@@ -793,7 +793,7 @@ def options():
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) HTTP GitDump (607)                (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449)              (608)                (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70) Enum4Linux  (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) LFI     Wordlist (450)              (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) LFI     Wordlist (450)              (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
    else:
@@ -2904,19 +2904,11 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - enum4linux
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='70':
-      checkParam = test_TIP()
-      if checkParam != 1:
-         checkParam = test_DOM()
-      if checkParam != 1:
-         print(colored("[*] Attempting to enumerate pease wait...", colour3))
-         localCOM("enum4linux " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ")) 
-      else:
-         localCOM("enum4linux " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" "))       
+   if selection =='70':    
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -4352,6 +4344,25 @@ while True:
       lineCommand = input("\n")
       remoteCOM(lineCommand)
       prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - enum4linux
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='601':
+      checkParam = test_TIP()
+      if checkParam != 1:
+         checkParam = test_DOM()
+      if checkParam != 1:
+         print(colored("[*] Attempting to enumerate pease wait...", colour3))
+         localCOM("enum4linux " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ")) 
+      else:
+         localCOM("enum4linux " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" "))       
+      prompt()
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
