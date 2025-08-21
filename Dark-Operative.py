@@ -2291,9 +2291,9 @@ while True:
             remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp") # No --no-pass setting
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp")
             else:   
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%" + PAS.rstrip(" ") + " > shares1.tmp")
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp")
          catsFile("shares1.tmp")         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
