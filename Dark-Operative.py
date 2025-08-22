@@ -4642,8 +4642,15 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='700':
-      print(colored("[*] Checking ADCS misconfigurations...", colour3))     
-      remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+      checkParam = test_TIP()      
+      if checkParam != 1:
+         checkParam = test_DOM()               
+      if checkParam != 1:
+         print(colored("[*] Checking ADCS misconfigurations...", colour3))         
+         if PAS[:2] != "''":      
+            remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+         else:
+            remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
