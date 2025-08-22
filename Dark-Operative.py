@@ -2362,18 +2362,18 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print(colored("[*] Checking OS...", colour3))
-            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
+            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + ":'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
             print(colored("[*] Checking command privilege...", colour3))
-            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
+            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + ":'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))      
             print(colored("[*] Mapping Shares...", colour3))
-            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15")      
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + ":'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15")      
          else:
             print(colored("[*] Checking OS...", colour3))
-            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))
+            remoteCOM("smbmap --no-banner -v --admin -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))
             print(colored("[*] Checking command privilege...", colour3))
-            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))         
+            remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
-            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
             cutLine("[+]","mapped.tmp")
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
@@ -2403,10 +2403,10 @@ while True:
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             print("[+] Downloading any found files...")
-            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%:'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -r " + TSH.rstrip(" ") + " --depth 15")
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + ":'" + NTM.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + " -r " + TSH.rstrip(" ") + " --depth 15")
          else:
             print("[+] Downloading any found files...")
-            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + "%'" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + "  -r " + TSH.rstrip(" ") + " --depth 15") 
+            remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -A " + exTensions + "  -r " + TSH.rstrip(" ") + " --depth 15") 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
