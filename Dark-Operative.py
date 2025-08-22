@@ -4572,7 +4572,7 @@ while True:
    if selection == '607':
       AD1 = input("[?] Please enter new users name: ")
       AD2 = input("[?] Please enter new users password: ")
-      localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p :" + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
+      localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
       prompt()
 
 #      print(colored("[*] Starting Neo4j Console...", colour3))         
