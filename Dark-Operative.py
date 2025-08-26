@@ -67,7 +67,7 @@ else:
 
 # CUT A LINE OUT OF A FILE
 def cutLine(variable1, variable2):				
-   localCOM("sed -i '/" + variable1 + "/d' ./" + variable2)
+   localCOM("sed -i -E '/" + variable1 + "/d' ./" + variable2)
    return
 
 # REMOVE SPACE AND EXTRA LINES   
@@ -113,13 +113,16 @@ def nmapTrim(variable):
 
 # OUTPUT THE FILE CONTENTS IN GREEN   
 def catsFile(variable):
-   count = lineCount(variable)
-   if count != 0:
-      localCOM("echo '" + Green + "'")
-      localCOM("cat " + variable)
-      localCOM("echo '" + Reset + "'")
-   else:
-      pass
+   CHAR_DELAY = 0.05 
+   filename = variable
+   localCOM("echo '" + Green + "'")
+   with open(filename, 'r') as f:
+      for line in f:
+         for char in line:
+            print(char, end='', flush=True)
+            time.sleep(CHAR_DELAY)
+         time.sleep(0.2)
+   localCOM("echo '" + Reset + "'")
    return 
 
 # OUTPUT A BANNER BASED ON variable
@@ -361,11 +364,12 @@ def getTCPorts():
          print("[-] Unable to enumerate any port information, good luck!!...")
          return "0"
       else:
-         print("[+] Found live ports...\n")      
-         print(colored(this_Ports,colour6) + "\n")
+         print("[+] Found live ports...")      
+#         print(colored(this_Ports,colour6) + "\n")
          localCOM("echo " + this_Ports + " > list1.tmp")
          localCOM("cat list1.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted1.tmp" )
          catsFile("sorted1.tmp")          
+         print(" ")
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
@@ -406,11 +410,12 @@ def getUDPorts():
          print("[-] Unable to enumerate any port information, good luck!!...")
          return "0"
       else:
-         print("[+] Found live ports...\n")      
-         print(colored(this_Ports2,colour6) + "\n")
+         print("[+] Found live ports...")      
+#         print(colored(this_Ports2,colour6) + "\n")
          localCOM("echo " + this_Ports2 + " > list2.tmp")
          localCOM("cat list2.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted2.tmp" )
-         catsFile("sorted2.tmp")     
+         catsFile("sorted2.tmp") 
+         print(" ")    
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted2.tmp > num2.tmp")
       loopMax = int(linecache.getline("num2.tmp", 1).rstrip("\n"))
@@ -2295,7 +2300,9 @@ while True:
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp")
             else:   
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp")
-         catsFile("shares1.tmp")         
+            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares1.tmp')
+            catsFile('shares1.tmp')
+    
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
             remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp")
@@ -2306,7 +2313,9 @@ while True:
                remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp")               
          cutLine("Enter WORKGROUP", "shares2.tmp")
          cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
-         catsFile("shares2.tmp")         
+         cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')
+         catsFile('shares2.tmp')
+         
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
@@ -2534,7 +2543,7 @@ while True:
                PAS = "'\'" 
             PAS = spacePadding(PAS, COL1)
             TGT = privCheck()                      
-         if found <= 1:
+         if found == 0:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
             remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")                       
             if os.path.getsize("password2.tmp") == 0:
@@ -4742,16 +4751,35 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '608':
-      print(colored("[*] Reactivating disabled account...", colour3))   
+      AD1 = input("[?] Please enter account user's name: ").strip()
+      SKEW = timeSync(SKEW)
+      print(colored("[*] Checking current account status...", colour3)) 
+      temp = DOM[:-4]
+      domain_parts = temp.strip().split('.')
+      dc_string = ','.join(f'DC={part}' for part in domain_parts)
+      user_dn = f'{dc_string}'
+      remoteCOM("ldapsearch -x -H ldap://" + TIP.rstrip(" ") + " -D '" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "' -w '" + PAS.rstrip(" ") + "' -b '" + user_dn + "' '(sAMAccountName=" + AD1.rstrip(" ") + ")' > credentials.tmp") 
+#      catsFile("credentials.tmp")   
+      foundText=""
+      try:
+         with open("credentials.tmp", 'r') as file:
+            for line_number, line in enumerate(file, 1):
+                if "displayName" in line:
+                    foundText=line.strip()
+      except FileNotFoundError:
+         print(f"[-] File '{file_path}' not found.")    
+      print("[+] " + foundText)
+      cleanText = foundText.replace("displayName: ", "").rstrip(" ")
+      print(colored("[*] Reactivating disabled account...", colour3))  
+      AD1 = cleanText
       BAK = TIP
       try:
          TIP = TIP.strip()
          if not TIP.startswith('ldap://'):
             TIP = 'ldap://' + TIP
-         tserver = Server(TIP, get_info=ALL)
-         AD1 = input("[?] Please enter account user's name: ").strip()
-         tUsername = DOM.rstrip(" ") + "\\" + USR.strip()
-         tPassword = PAS.strip()
+         tserver = Server(TIP, get_info=ALL)         
+         tUsername = DOM.rstrip(" ") + "\\" + USR.rstrip(" ")
+         tPassword = PAS.rstrip(" ")
          tconn = Connection(
             tserver,
             user=tUsername,
@@ -4760,10 +4788,7 @@ while True:
             auto_bind=True,
             auto_referrals=False
          )
-         if DOM.endswith('.htb'):
-            temp = DOM[:-4]
-         else:
-            temp = DOM
+         temp = DOM[:-4]
          domain_parts = temp.strip().split('.')
          dc_string = ','.join(f'DC={part}' for part in domain_parts)
          user_dn = f'CN={AD1},CN=Users,{dc_string}'
