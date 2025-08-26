@@ -534,7 +534,7 @@ def timeSync(SKEW):
          print("[+] Synchronised with remote server...")
          date, time = dateTime.split(" ")
          time = time.rstrip(")")
-         localCOM("echo '" + Green + "'")
+         localCOM("echo '" + Yellow + "'")
          localCOM("timedatectl set-time " + date)
          localCOM("date --set=" + time)
          localCOM("echo '" + Reset + "'")
@@ -798,13 +798,13 @@ def options():
    print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy ESC5 (715) Certify   ESC15  " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy ESC6 (716) Certify   ESC16  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) BloodyADdGroup (707) Certipy ESC7 (717) Certify   ESC17  " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy ESC8 (718)                  " + '\u2551')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy ESC8 (718) BloodHound  GUI  " + '\u2551')
    print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609) BloodHound GUI (709) Certipy ESC9 (719)                  " + '\u2551')
+   print("(609)                (709) Certipy ESC9 (719) AD-Miner    GUI  " + '\u2551')
    print('\u255A' + '\u2550'*292 + '\u255D')
    return
    
@@ -2294,25 +2294,26 @@ while True:
          print(colored("[*] Finding shares, please wait...", colour3))         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp")
+            remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp 2>&1")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp")
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp 2>&1")
             else:   
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp")
+               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
             cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares1.tmp')
             catsFile('shares1.tmp')
     
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
-            remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp")
+            remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp 2>&1")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " -no-pass > shares2.tmp")
+               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " -no-pass > shares2.tmp 2>&1")
             else:
-               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp")               
+               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")               
          cutLine("Enter WORKGROUP", "shares2.tmp")
          cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
+         cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")         
          cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')
          catsFile('shares2.tmp')
          
@@ -4679,7 +4680,8 @@ while True:
       if checkParam != 1:
          checkParam = test_DOM()                     
       if checkParam != 1:
-         print ("[*] Enumerating, please wait...\n")                       
+         SKEW = timeSync(SKEW)
+         print (colored("[*] Enumerating, please wait...\n",colour3))                       
          if PAS[:2] != "''":
             remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
          else:
@@ -4688,9 +4690,10 @@ while True:
                remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
             else:
                print("[-] Both, password and ntlm hash values are invalid...")
-      print("\n[*] Checking downloaded files...\n")
+      print(colored("\n[*] Checking downloaded files...",colour3))
       localCOM("mv *.json ./" + workDir)
-      localCOM("ls -la ./" + workDir + "/*.*")            
+      localCOM("ls -la ./" + workDir + "/*.* > files.tmp") 
+      catsFile("files.tmp")           
       prompt() 
                
 # ------------------------------------------------------------------------------------- 
@@ -4838,25 +4841,6 @@ while True:
          print(f"[-] An unexpected error occurred: {e}")
       TIP = BAK
       prompt()
-            
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Bloodhound Community GUI
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '609':
-      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
-      dispBanner("BLOODHOUND GUI",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
-      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab") 
-      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5160,6 +5144,44 @@ while True:
    if selection =='717':
       print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
       SKEW = timeSync(SKEW)
+      prompt()         
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Bloodhound Community GUI
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '718':
+      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
+      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
+      prompt()   
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - AD-Miner GUI
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '719':
+      print(colored("[*] Starting AD-Miner GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
+      localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
       prompt()         
                
 # Eof...
