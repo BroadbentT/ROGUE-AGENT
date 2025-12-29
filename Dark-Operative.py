@@ -547,24 +547,20 @@ def networkSweep():
 # GET REMOTE SERVER TIME   
 def timeSync(SKEW):
    print(colored("[*] Attempting to synchronise time with remote server...", colour3))
-   checkParam = test_PRT("88")   
-   if checkParam == 1:
-      return
+   remoteCOM("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
+   dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
+   if dateTime != "":
+      print("[+] Synchronised with remote server...")
+      date, time = dateTime.split(" ")
+      time = time.rstrip(")")
+      localCOM("echo '" + Yellow + "'")
+      localCOM("timedatectl set-time " + date)
+      localCOM("date --set=" + time)
+      localCOM("echo '" + Reset + "'")
+      LTM = time
+      SKEW = 1
    else:
-      remoteCOM("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
-      dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
-      if dateTime != "":
-         print("[+] Synchronised with remote server...")
-         date, time = dateTime.split(" ")
-         time = time.rstrip(")")
-         localCOM("echo '" + Yellow + "'")
-         localCOM("timedatectl set-time " + date)
-         localCOM("date --set=" + time)
-         localCOM("echo '" + Reset + "'")
-         LTM = time
-         SKEW = 1
-      else:
-         print("[-] Server synchronisation did not occur...")
+      print("[-] Server synchronisation did not occur...")
    return SKEW    
    
 # GET LOCAL TIME   
@@ -1762,8 +1758,15 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '17':
+      checkParam = test_PRT("88")   
+   if checkParam == 1:
+      print("[+] Manually updating time...\n") 
+      manNewTime = input("[?] Please enter HH:MM:SS: ") 
+      localCOM("timedatectl set-time " + manNewTime)
+      SKEW = 1         
+   else:   
       SKEW = timeSync(SKEW)
-      prompt()
+   prompt()
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
