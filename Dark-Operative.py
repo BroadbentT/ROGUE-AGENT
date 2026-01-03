@@ -2274,6 +2274,8 @@ while True:
             else:   
                remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
             cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares1.tmp')
+            cutLine("Authenticating...", 'shares1.tmp')
+            cutLine("Enumerating shares...", 'shares1.tmp')
             catsFile('shares1.tmp')
     
          if NTM[:5] != "EMPTY":
@@ -2288,6 +2290,9 @@ while True:
          cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
          cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")         
          cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')
+         cutLine("Authenticating...", 'shares2.tmp')
+         cutLine("Enumerating shares...", 'shares2.tmp')
+         cutLine("Closing connections..", 'shares2.tmp')
          catsFile('shares2.tmp')
          
          bonusCheck = linecache.getline("shares2.tmp", 1)
@@ -2306,6 +2311,10 @@ while True:
             cutLine("Sharename","shares2.tmp")
             cutLine("---------","shares2.tmp")
             cutLine("^$","shares2.tmp")
+            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')  #NEW
+            cutLine("Authenticating...", 'shares2.tmp')
+            cutLine("Enumerating shares...", 'shares2.tmp')
+            cutLine("Closing connections..", 'shares2.tmp')
             remoteCOM("sed -i 's/^[ \t]*//' shares2.tmp")
             remoteCOM("cp shares2.tmp " + dataDir + "/shares.txt")
          with open(dataDir + "/shares.txt", "r") as shares:
@@ -4314,17 +4323,6 @@ while True:
          print(colored("[*] Checking DNS Server...", colour3))
          remoteCOM("dig axfr @" + TIP.rstrip(" ") + " " + DOM.rstrip(" "))         
       prompt()  
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Modified: N/A
-# -------------------------------------------------------------------------------------      
-      
-   if selection == '442':
-      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
