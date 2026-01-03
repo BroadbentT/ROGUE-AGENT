@@ -547,7 +547,7 @@ def networkSweep():
 # GET REMOTE SERVER TIME   
 def timeSync(SKEW):
    checkParam = test_PRT("88")   
-   if checkParam == 1:
+   if checkParam == 0:
       print(colored("[*] Attempting to synchronise time with remote server...", colour3))
       remoteCOM("nmap " + IP46 + " -sV -p 88 " + TIP.rstrip(" ") + " | grep 'server time' | sed 's/^.*: //' > time.tmp")
       dateTime = linecache.getline("time.tmp", 1).rstrip("\n")
@@ -561,8 +561,8 @@ def timeSync(SKEW):
          localCOM("echo '" + Reset + "'")
          LTM = time
          SKEW = 1
-      else:
-         print("[-] Server synchronisation did not occur...")
+   else:
+      print("[-] Server synchronisation did not occur...")
    return SKEW    
    
 # GET LOCAL TIME   

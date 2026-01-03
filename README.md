@@ -32,11 +32,11 @@ A comprehensive, yet sleek and portable python script file that enables cyber se
 | python3   | install.py            | 1308801d23d07210c07b38af764db8a0 | Install Program     | TREADSTONE   |
 | python3   | exploits.py           | b2de8bb948b7aa1bfe77613a06597e99 | Install Exploits    | TREADSTONE   |
 | python3   | RogueAgent.py         | 1842c3c57a3038f6a546283191493f16 | Command Centre      | TREADSTONE   |
-| python3   | Dark-Operative.py     | 2f25a7324c038145c5fe21cea568d1ce | Command Centre (WS) | LARX         |
+| python3   | Dark-Operative.py     | d0424b935f9984e2819b9051ee0c6d29 | Command Centre (WS) | LARX         |
 | python3   | shell.py              | 0ae617318d2c78a587ea2844733d1db0 | Auto Reverse Shell  | LARX         |
 | SQLite3   | RA.db                 | bd47bafed06142a10a00a635de180854 | Program Database    | LARX         |
        
-## NEW WIDE-SCREEN LARX VERSION 2024 ##
+## NEW WIDE-SCREEN LARX VERSION 2026 ##
 
 <p align="center">
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png">
