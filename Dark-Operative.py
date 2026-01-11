@@ -267,7 +267,7 @@ def dotPadding(variable,value):
       variable += "."
    return variable
 
-# PRIVILEGE CHECJ A TICKET
+# PRIVILEGE CHECK A TICKET
 def privCheck():
    localCOM("ls  | grep ccache > ticket.tmp")   
    count = lineCount("ticket.tmp")   
@@ -365,8 +365,7 @@ def getTCPorts():
          print("[-] Unable to enumerate any port information, good luck!!...")
          return "0"
       else:
-         print("[+] Found live ports...")      
-#         print(colored(this_Ports,colour6) + "\n")
+         print("[+] Found live ports...") 
          localCOM("echo " + this_Ports + " > list1.tmp")
          localCOM("cat list1.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted1.tmp" )
          catsFile("sorted1.tmp")          
@@ -411,8 +410,7 @@ def getUDPorts():
          print("[-] Unable to enumerate any port information, good luck!!...")
          return "0"
       else:
-         print("[+] Found live ports...")      
-#         print(colored(this_Ports2,colour6) + "\n")
+         print("[+] Found live ports...")
          localCOM("echo " + this_Ports2 + " > list2.tmp")
          localCOM("cat list2.tmp | sed -e $'s/,/\\\n/g' | sort -un | tr '\n' ',' | sed 's/.$//' > sorted2.tmp" )
          catsFile("sorted2.tmp") 
@@ -692,7 +690,7 @@ def dispMenu():
    print(colored(localIP2,colour6), end=' ') 
    print((" ")*3 + '\u2551') 
    print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*30 + '\u2563')   
-   for loop in range(0,scrnLen - 2):
+   for loop in range(0,scrnLen - 4):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
          print(colored(OSF[:COL1],colour7), end=' ') 
@@ -821,11 +819,11 @@ def options():
    print('\u2551' + "(03) Set IP  ADDRESS (13) Set FILE  NAME (33) Services (43) Sam Dump Users (53) Kerberos Brute (63) Gold  Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Crack-Map-Dump (702) Certipy 2 (712) Certipy 12 " + '\u2551')   
    print('\u2551' + "(04) Set LIVE  PORTS (14) Set SHARE NAME (34) AT  Exec (44) REGistry Hives (54) Kerbe Roasting (64) Gold  DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Domain  Dumper (703) Certipy 3 (713) Certipy 13 " + '\u2551')
    print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
-   print('\u2551' + "(06) Set USER   NAME (16)                (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
-   print('\u2551' + "(07) Set PASS   WORD (17) Set SERVERTIME (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
-   print('\u2551' + "(08) Set NTLM   HASH (28) Set  COMMUNITY (38) WMI Exec (48) Smb Map SHARES (58) Over Pass HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
-   print('\u2551' + "(09) Set TICKET NAME (29) Set FUZZ RIDER (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy 8 (718) BloodH GUI " + '\u2551')
-   print('\u2551' + "(10) Set DOMAIN NAME (30) Set WORD  LIST (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
+   print('\u2551' + "(06) Set USER   NAME (16) UNALLOCATED    (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
+   print('\u2551' + "(07) Set PASS   WORD (17) Set  COMMUNITY (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
+   print('\u2551' + "(08) Set NTLM   HASH (18) Set FUZZ RIDER (38) WMI Exec (48) Smb Map SHARES (58) Over Pass HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
+   print('\u2551' + "(09) Set TICKET NAME (19) Set WORD  LIST (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy 8 (718) BloodH GUI " + '\u2551')
+   print('\u2551' + "(10) Set DOMAIN NAME (20) Set SERVERTIME (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
@@ -1116,11 +1114,11 @@ coloum_one_Labels[17] = "FILE   NAME"
 coloum_one_Labels[18] = "SHARE  NAME"
 coloum_one_Labels[19] = "KERB   AUTH"
 coloum_one_Labels[20] = "UNALLOCATED"
-coloum_one_Labels[21] = "UNALLOCATED"
-coloum_one_Labels[22] = "UNALLOCATED"
-coloum_one_Labels[23] = "COMMUNITY  "
-coloum_one_Labels[24] = "FUZZ  RIDER"
-coloum_one_Labels[25] = "WORD   LIST" 
+# coloum_one_Labels[21] = "UNALLOCATED"
+# coloum_one_Labels[22] = "UNALLOCATED"
+coloum_one_Labels[21] = "COMMUNITY  "
+coloum_one_Labels[22] = "FUZZ  RIDER"
+coloum_one_Labels[23] = "WORD   LIST" 
 communityString = "public                                  "
 FuzzRider = "--hl 0                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
@@ -1732,8 +1730,7 @@ while True:
          TSH = spacePadding(TSH,COL1)
       else:
          TSH = BAK
-      prompt()    
-      
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1755,20 +1752,12 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Set server time
+# Details : Menu option selected - 
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '17':
-      checkParam = test_PRT("88")   
-      if checkParam == 1:
-         print("[+] Manually updating time...\n") 
-         manNewTime = input("[?] Please enter HH:MM:SS: ") 
-         localCOM("timedatectl set-time " + manNewTime)
-         SKEW = 1         
-      else:   
-         SKEW = timeSync(SKEW)
-      prompt()
+   if selection == '16':
+      prompt()        
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -1778,7 +1767,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '28':   
+   if selection == '17':   
       print("[+] Alternative community strings...\n")
       print("\tpublic") 
       print("\tprivate")
@@ -1802,7 +1791,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '29':   
+   if selection == '18':   
       BAK = FuzzRider
       FuzzRider = input("[?] Please enter a new fuzz rider command: ")      
       if FuzzRider == "":
@@ -1821,7 +1810,7 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection == '30':   
+   if selection == '19':   
       print("[+] Alternative word lists...\n")
       print("\t/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt") 
       print("\t/usr/share/seclists/Discovery/Web-Content/raft-small-words.txt")
@@ -1839,6 +1828,26 @@ while True:
          currentWordlist = spacePadding(currentWordlist, COL1)
       # ADD CHECK EXSITS AT SOME STAGE!
       prompt()      
+      
+      
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - Set server time
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '20':
+      checkParam = test_PRT("88")   
+      if checkParam == 1:
+         print("[+] Manually updating time...\n") 
+         manNewTime = input("[?] Please enter HH:MM:SS: ") 
+         localCOM("timedatectl set-time " + manNewTime)
+         SKEW = 1         
+      else:   
+         SKEW = timeSync(SKEW)
+      prompt()     
                   
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4769,7 +4778,6 @@ while True:
       dc_string = ','.join(f'DC={part}' for part in domain_parts)
       user_dn = f'{dc_string}'
       remoteCOM("ldapsearch -x -H ldap://" + TIP.rstrip(" ") + " -D '" + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + "' -w '" + PAS.rstrip(" ") + "' -b '" + user_dn + "' '(sAMAccountName=" + AD1.rstrip(" ") + ")' > credentials.tmp") 
-#      catsFile("credentials.tmp")   
       foundText=""
       try:
          with open("credentials.tmp", 'r') as file:
