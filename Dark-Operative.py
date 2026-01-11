@@ -761,31 +761,28 @@ def dispMenu():
       if (loop == 18) & (TSH[:5] == "EMPTY"):
          print(colored(TSH[:COL1],colour7), end=' ')      
       else:
-         if(loop == 18): print(colored(TSH[:COL1],colour6), end=' ')
-         
+         if(loop == 18): print(colored(TSH[:COL1],colour6), end=' ')         
       if loop == 19 and UN1[:5] == "EMPTY":
          print (colored(UN1,colour7), end=' ')
       else:
-         if loop == 19: print (colored(UN1[:COL1],colour6), end=' ')      
-      
-      if loop == 20 and UN2[:5] == "EMPTY": print (colored(UN2,colour1), end=' ')      
-      if loop == 21 and UN3[:5] == "EMPTY": print (colored(UN3,colour1), end=' ')
-      if loop == 22 and UN4[:5] == "EMPTY": print (colored(UN4,colour1), end=' ')
-      if loop == 23 and communityString[:5] == "EMPTY": 
+         if loop == 19: print (colored(UN1[:COL1],colour6), end=' ')            
+      if loop == 20 and UN2[:5] == "EMPTY": print (colored(UN2,colour7), end=' ')    
+      if loop == 21 and communityString[:5] == "EMPTY": 
         print (colored(communityString,colour7), end=' ')
       else:
-         if loop ==23:
-             print(colored(communityString[:COL1],colour6), end=' ')      
-      if loop == 24 and FuzzRider[:5] == "EMPTY": 
+         if loop ==21:
+             print(colored(communityString[:COL1],colour6), end=' ')                         
+      if loop == 22 and FuzzRider[:5] == "EMPTY": 
          print (colored(FuzzRider,colour7), end=' ')
       else:
-         if loop == 24: 
-            print(colored(FuzzRider[:COL1],colour6), end=' ')      
-      if loop == 25 and currentWordlist[:5] == "EMPTY":
+         if loop == 22: 
+            print(colored(FuzzRider[:COL1],colour6), end=' ')     
+             
+      if loop == 23 and currentWordlist[:5] == "EMPTY":
          print (colored(currentWordlist,colour7), end=' ')
       else:
-         if loop == 25:
-            print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')
+         if loop == 23:
+            print (colored(currentWordlist[-COL1:][:COL1],colour6), end=' ')      
       print('\u2551', end=' ')       
       if TSH.rstrip(" ") in SHAR[loop]:
          print(colored(SHAR[loop],colour3), end=' ')        
