@@ -373,6 +373,7 @@ def getTCPorts():
       print("[+] Grabbing services...")        
       localCOM("awk -F ',' '{print NF-1}' sorted1.tmp > num1.tmp")
       loopMax = int(linecache.getline("num1.tmp", 1).rstrip("\n"))
+      if loopMax == 0: loopMax =1
       if loopMax > scrnLen:
          loopMax == scrnLen
       this_Ports1 = linecache.getline("sorted1.tmp", 1).rstrip("\n")        
@@ -3979,7 +3980,7 @@ while True:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))          
             print("[+] Performing a light scan...")            
-            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sCV --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")                      
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -3998,7 +3999,7 @@ while True:
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
             print("[+] Performing light scan...")
-            remoteCOM("nmap " + IP46 + " -p- -SCV --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p- -sT -sU  --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
