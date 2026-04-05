@@ -673,6 +673,29 @@ def base_creator(domain):
     for b in base:
         search_base += "DC=" + b + ","
     return search_base[:-1]
+    
+# SMB PARSER   
+def smbParser(smbfile):
+    cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', smbfile)
+    cutLine("Authenticating...", smbfile)
+    cutLine("Enumerating shares...", smbfile)
+    cutLine("Enter WORKGROUP", smbfile)
+    cutLine("Password for [WORKGROUP\\]", smbfile) 
+    cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND",smbfile)         
+    cutLine("Closing connections..", smbfile)    
+    cutLine("is an IPv6 address",smbfile)
+    cutLine("no workgroup",smbfile)
+    cutLine("NT_STATUS_LOGON_FAILURE",smbfile)
+    cutLine("NT_STATUS_ACCESS_DENIED",smbfile)
+    cutLine("NT_STATUS_ACCOUNT_DISABLED",smbfile)
+    cutLine("NT_STATUS_CONNECTION_RESET",smbfile)
+    cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND",smbfile)
+    cutLine("Reconnecting with SMB1",smbfile)
+    cutLine("Sharename",smbfile)
+    cutLine("---------",smbfile)
+    cutLine("^$",smbfile)
+    cutLine("[+]",smbfile)
+    return
 
 # DISPLAY SCREEN 
 def dispMenu():
@@ -1118,14 +1141,14 @@ coloum_one_Labels[22] = "FUZZ  RIDER"
 coloum_one_Labels[23] = "WORD   LIST"
 coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
 coloum_nine_Labels[0]  = "............................"
-coloum_nine_Labels[1]  = "............█████..........."
-coloum_nine_Labels[2]  = "..........██     ██........."
-coloum_nine_Labels[3]  = ".........█         █........"
-coloum_nine_Labels[4]  = "........█..................."
-coloum_nine_Labels[5]  = "........█..................."
-coloum_nine_Labels[6]  = ".........█         █........"
-coloum_nine_Labels[7]  = "..........██     ██........."
-coloum_nine_Labels[8]  = "............█████..........."
+coloum_nine_Labels[1]  = "...........█████............"
+coloum_nine_Labels[2]  = ".........██     ██.........."
+coloum_nine_Labels[3]  = "........█         █........."
+coloum_nine_Labels[4]  = ".......█...................."
+coloum_nine_Labels[5]  = ".......█...................."
+coloum_nine_Labels[6]  = "........█         █........."
+coloum_nine_Labels[7]  = ".........██     ██.........."
+coloum_nine_Labels[8]  = "...........█████............"
 coloum_nine_Labels[9]  = "............................"
 coloum_nine_Labels[10] = ".............█.............."
 coloum_nine_Labels[11] = ".............█.............."
@@ -2304,11 +2327,8 @@ while True:
                remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp 2>&1")
             else:   
                remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
-            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares1.tmp')
-            cutLine("Authenticating...", 'shares1.tmp')
-            cutLine("Enumerating shares...", 'shares1.tmp')
-            catsFile('shares1.tmp')
-    
+            smbParser("shares1.tmp")
+            catsFile('shares1.tmp')    
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
             remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp 2>&1")
@@ -2317,13 +2337,7 @@ while True:
                remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " --no-pass > shares2.tmp 2>&1")
             else:
                remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")               
-         cutLine("Enter WORKGROUP", "shares2.tmp")
-         cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
-         cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")         
-         cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')
-         cutLine("Authenticating...", 'shares2.tmp')
-         cutLine("Enumerating shares...", 'shares2.tmp')
-         cutLine("Closing connections..", 'shares2.tmp')
+         smbParser("shares2.tmp")
          catsFile('shares2.tmp')
          
          bonusCheck = linecache.getline("shares2.tmp", 1)
@@ -2331,23 +2345,9 @@ while True:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
             remoteCOM("smbpasswd -r " + TIP.rstrip(" ") + " -U " + USR.rstrip(" "))                                            
          if os.path.getsize("shares2.tmp") != 0: 
-            cutLine("is an IPv6 address","shares2.tmp")
-            cutLine("no workgroup","shares2.tmp")
-            cutLine("NT_STATUS_LOGON_FAILURE","shares2.tmp")
-            cutLine("NT_STATUS_ACCESS_DENIED","shares2.tmp")
-            cutLine("NT_STATUS_ACCOUNT_DISABLED","shares2.tmp")
-            cutLine("NT_STATUS_CONNECTION_RESET","shares2.tmp")
-            cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")
-            cutLine("Reconnecting with SMB1","shares2.tmp")
-            cutLine("Sharename","shares2.tmp")
-            cutLine("---------","shares2.tmp")
-            cutLine("^$","shares2.tmp")
-            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares2.tmp')  #NEW
-            cutLine("Authenticating...", 'shares2.tmp')
-            cutLine("Enumerating shares...", 'shares2.tmp')
-            cutLine("Closing connections..", 'shares2.tmp')
-            remoteCOM("sed -i 's/^[ \t]*//' shares2.tmp")
-            remoteCOM("cp shares2.tmp " + dataDir + "/shares.txt")
+            smbParser("shares2.tmp")
+            localCOM("sed -i 's/^[ \t]*//' shares2.tmp")
+            localCOM("cp shares2.tmp " + dataDir + "/shares.txt")
          with open(dataDir + "/shares.txt", "r") as shares:
             for x in range(0, maxUser):
                 SHAR[x] = shares.readline().rstrip(" ")
@@ -2398,18 +2398,13 @@ while True:
             remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
             remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
-            cutLine("[+]","mapped.tmp")
-            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'mapped.tmp')
-            cutLine("Authenticating...", 'mapped.tmp')
-            cutLine("Closing connections..", 'mapped.tmp')
+            smbParser("mapped.tmo")
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
       prompt()
-
-# NEEDS A SMB PARSING CALL. 
       
 # ------------------------------------------------------------------------------------- 
- AUTHOR  : Terence Broadbent                                                    
+# AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - smbmap -u USER -p PASSWORD -d DOMAIN -H IP -R sharename
@@ -5217,6 +5212,7 @@ while True:
       dispBanner("BLOODHOUND GUI",0) 
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
+      print("Use Tester1234& as the reset password")
       localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
       prompt()  
@@ -5235,7 +5231,7 @@ while True:
       localCOM("xdotool key Alt+Shift+S; xdotool type 'AD-MINER GUI'; xdotool key Return")
       dispBanner("BLOODHOUND GUI",0) 
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
-      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p bloodhoundcommunityedition -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
+      localCOM("xdotool type 'AD-miner -c -cf My_Report -u neo4j -p Tester1234& -b bolt://localhost:7687 --evolution EVOLUTION'; xdotool key Return")
       localCOM("xdotool type 'firefox ./My_Report/index.html'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
       prompt() 
