@@ -109,7 +109,8 @@ def nmapTrim(variable):
    cutLine("Nmap done", variable)
    localCOM("awk '/Service Info/' " + variable + " > service.tmp")
    cutLine("Service Info", variable)
-   cutLine("Service detection performed", variable)   
+   cutLine("Service detection performed", variable) 
+   localCOM("sed -i '/If you know the service/,$d' variable > output.tmp; mv output.tmp variable")  
    return
 
 # OUTPUT THE FILE CONTENTS IN GREEN   
@@ -122,7 +123,7 @@ def catsFile(variable):
          for char in line:
             print(char, end='', flush=True)
             time.sleep(CHAR_DELAY)
-         time.sleep(0.2)
+         time.sleep(0.1)
    localCOM("echo '" + Reset + "'")
    return 
 
@@ -806,7 +807,7 @@ def dispMenu():
          print(colored(portsUDP[loop], colour6), end=' ')
       print('\u2551', end=' ')   
       print(colored(servsUDP[loop], colour6), end=' ')              
-      print('\u2551' + " "*30+ '\u2551')
+      print('\u2551' + " " + coloum_nine_Labels[loop] + " " + '\u2551')
    print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*30+ '\u2563' )
    return
 
@@ -1112,13 +1113,36 @@ coloum_one_Labels[17] = "FILE   NAME"
 coloum_one_Labels[18] = "SHARE  NAME"
 coloum_one_Labels[19] = "KERB   AUTH"
 coloum_one_Labels[20] = "UNALLOCATED"
-# coloum_one_Labels[21] = "UNALLOCATED"
-# coloum_one_Labels[22] = "UNALLOCATED"
 coloum_one_Labels[21] = "COMMUNITY  "
 coloum_one_Labels[22] = "FUZZ  RIDER"
-coloum_one_Labels[23] = "WORD   LIST" 
+coloum_one_Labels[23] = "WORD   LIST"
+coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
+coloum_nine_Labels[0]  = "............................"
+coloum_nine_Labels[1]  = "............█████..........."
+coloum_nine_Labels[2]  = "..........██     ██........."
+coloum_nine_Labels[3]  = ".........█         █........"
+coloum_nine_Labels[4]  = "........█..................."
+coloum_nine_Labels[5]  = "........█..................."
+coloum_nine_Labels[6]  = ".........█         █........"
+coloum_nine_Labels[7]  = "..........██     ██........."
+coloum_nine_Labels[8]  = "............█████..........."
+coloum_nine_Labels[9]  = "............................"
+coloum_nine_Labels[10] = ".............█.............."
+coloum_nine_Labels[11] = ".............█.............."
+coloum_nine_Labels[12] = ".............█.............."
+coloum_nine_Labels[13] = ".............█.............."
+coloum_nine_Labels[14] = ".............█.............."
+coloum_nine_Labels[15] = "............................"
+coloum_nine_Labels[16] = ".............█.............."
+coloum_nine_Labels[17] = "............█ █............."
+coloum_nine_Labels[18] = "...........█   █............"
+coloum_nine_Labels[19] = "..........███████..........."
+coloum_nine_Labels[20] = ".........█       █.........."
+coloum_nine_Labels[21] = "........█         █........."
+coloum_nine_Labels[22] = ".......█           █........"
+coloum_nine_Labels[23] = "............................"
 communityString = "public                                  "
-FuzzRider = "--hl 0                                  "
+FuzzRider = "--hl 7                                  "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 # -------------------------------------------------------------------------------------
@@ -2476,7 +2500,8 @@ while True:
                username = username.replace("|_    ","")
                username, null = username.split("@")
                if username != "":
-                  parse.write(username + "\n")                  
+                  parse.write(username + "\n") 
+         parsFile("validusers.tmp")                                                     
          count = lineCount("validusers.tmp")
          if count != 0:
             print("[+] Found " + str(count) + " valid usernames...\n")                                         
@@ -2484,7 +2509,7 @@ while True:
                for loop in range(0, count):
                   checkname = read.readline().rstrip("\n")
                   checkname = spacePadding(checkname, COL3)               
-                  for x in range(0, maxUser):
+                  for x in range(0, count):
                      if checkname == USER[x]:
                         print(colored((USER[x]), colour6))
                         VALD[x] = "1"
@@ -2492,7 +2517,7 @@ while True:
                         HASH.insert(0, HASH.pop(x))
                         VALD.insert(0, VALD.pop(x))
                         break                        
-                  for x in range(0, maxUser):
+                  for x in range(0, count):
                      if (USER[x][:1] != " ") and (HASH[x][:1] == " "):
                         HASH[x] = "."*COL4                        
             with open(dataDir + "/usernames.txt", "w") as write1, open(dataDir + "/hashes.txt", "w") as write2, open(dataDir + "/tokens.txt", "w") as write3:            
@@ -3917,7 +3942,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - BASIC SCAN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 # 
@@ -3970,17 +3995,17 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - LIGHT SCAN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
-# 
+ 
    if selection == '235':
       checkParam = test_TIP()      
       if checkParam != 1:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))          
             print("[+] Performing a light scan...")            
-            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sT -sU --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -T4 -sTUV --script=banner --reason " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")                      
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -3999,7 +4024,7 @@ while True:
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
             print("[+] Performing light scan...")
-            remoteCOM("nmap " + IP46 + " -p- -sT -sU  --script=banner " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p- -T4 -sTUV --script=banner --reason " + TIP.rstrip(" ") + " -oN light.tmp 2>&1 > temp.tmp")
             nmapTrim("light.tmp")
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -4023,7 +4048,7 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - 
+# Details : Menu option selected - HEAVY SCAN
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
@@ -4033,7 +4058,7 @@ while True:
          if POR[:5] != "EMPTY":
             print(colored("[*] Scanning specified live ports only, please wait...", colour3))        
             print("[+] Performing heavy scan...")
-            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p " + PTS.rstrip(" ") + " -sTUV -O -A -T4 --script=external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             nmapTrim("heavy.tmp")                      
             service = linecache.getline("service.tmp", 1)
             if "WINDOWS" in service.upper():
@@ -4052,7 +4077,7 @@ while True:
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
             print("[+] Performing heavy scan...")
-            remoteCOM("nmap " + IP46 + " -p- -sTUV -O -A -T4 --script=discovery,external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
+            remoteCOM("nmap " + IP46 + " -p- -sTUV -O -A -T4 --script=external,auth " + TIP.rstrip(" ") + " -oN heavy.tmp 2>&1 > temp.tmp")
             nmapTrim("heavy.tmp")
             if "WINDOWS" in service.upper():
                OSF = spacePadding("WINDOWS", COL1)
