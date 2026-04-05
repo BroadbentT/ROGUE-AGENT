@@ -110,7 +110,7 @@ def nmapTrim(variable):
    localCOM("awk '/Service Info/' " + variable + " > service.tmp")
    cutLine("Service Info", variable)
    cutLine("Service detection performed", variable) 
-   localCOM("sed -i '/If you know the service/,$d' variable > output.tmp; mv output.tmp variable")  
+   localCOM("sed -i '/If you know the service/,$d' " + variable)  
    return
 
 # OUTPUT THE FILE CONTENTS IN GREEN   
@@ -2298,12 +2298,12 @@ while True:
          print(colored("[*] Finding shares, please wait...", colour3))         
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
-            remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp 2>&1")
+            remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp 2>&1")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp 2>&1")
+               remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp 2>&1")
             else:   
-               remoteCOM("smbmap --no-banner -H" + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
+               remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
             cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'shares1.tmp')
             cutLine("Authenticating...", 'shares1.tmp')
             cutLine("Enumerating shares...", 'shares1.tmp')
@@ -2311,12 +2311,12 @@ while True:
     
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
-            remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp 2>&1")
+            remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp 2>&1")
          else:
             if PAS.rstrip(" ") == "''":
-               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " -no-pass > shares2.tmp 2>&1")
+               remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " --no-pass > shares2.tmp 2>&1")
             else:
-               remoteCOM("smbclient -L \\\\\\\\" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")               
+               remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")               
          cutLine("Enter WORKGROUP", "shares2.tmp")
          cutLine("Password for [WORKGROUP\\]", "shares2.tmp") 
          cutLine("NT_STATUS_RESOURCE_NAME_NOT_FOUND","shares2.tmp")         
@@ -2399,12 +2399,17 @@ while True:
             print(colored("[*] Mapping Shares...", colour3))
             remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
             cutLine("[+]","mapped.tmp")
+            cutLine(r'^\[[\\/|\-\+* !]\] .*$|^\s*$', 'mapped.tmp')
+            cutLine("Authenticating...", 'mapped.tmp')
+            cutLine("Closing connections..", 'mapped.tmp')
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
       prompt()
+
+# NEEDS A SMB PARSING CALL. 
       
 # ------------------------------------------------------------------------------------- 
-# AUTHOR  : Terence Broadbent                                                    
+ AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - smbmap -u USER -p PASSWORD -d DOMAIN -H IP -R sharename
