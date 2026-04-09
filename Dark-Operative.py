@@ -1427,12 +1427,14 @@ while True:
       if TIP[:1] == " ":
          TIP = BAK         
       if TIP[:5] == "EMPTY":
-         print("[+] Remote IP address reset...")
+         print("[+] Permorming remote IP and ports reset...")
          COM = spacePadding("UNKNOWN", COL0)
          POR = spacePadding("EMPTY", COL1)
          for loop in range(0, scrnLen):
             portsTCP[loop] = spacePadding("EMPTY", 5)
             servsTCP[loop] = spacePadding("EMPTY", COL4)
+            portsUDP[loop] = spacePadding("EMPTY", 5)
+            servsUDP[loop] = spacePadding("EMPTY", COL4)
       else:
          checkParam = 0
          count = TIP.count(':')            
@@ -1483,11 +1485,13 @@ while True:
       else:
          POR = BAK      
       if POR[:5] == "EMPTY":
-         print("[+] Remote ports reset...")
+         print("[+] Permorming remote ports reset...")
          POR = spacePadding("EMPTY", COL1)
          for loop in range(0, scrnLen):
             portsTCP[loop] = spacePadding("EMPTY", 5)
+            portsUDP[loop] = spacePadding("EMPTY", 5)
             servsTCP[loop] = spacePadding("EMPTY", COL4)
+            servsUDP[loop] = spacePadding("EMPTY", COL4)
       else:
          SKEW = timeSync(SKEW)
          squidCheck()
