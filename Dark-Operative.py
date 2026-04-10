@@ -838,7 +838,7 @@ def dispMenu():
 # DISPLAY MENU   
 def options():
    print('\u2551' + "(01) Set O/S  FORMAT (11) Set DOMAIN SID (31) Get Arch (41) WinLDAP Search (51) Kerberos  Info (61) Kerb  Ticket (71) ServScanner (81) GRP Scanner (91 ) FTP      (231) Scan Live PORTS (341) Edit   Usernames (441) Whois DigDNS (600) LAPS    Dumper (700) Cert VULN (710) Certipy 10 " + '\u2551')   
-   print('\u2551' + "(02) Set DNS ADDRESS (12) Set SUB-DOMAIN (32) Net View (42) Lookup Sec IDs (52) Kerberos  Auth (62) Silv  Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) Enum  DOMAIN (601) Secrets Dumper (701) Certipy 1 (711) Certipy 11 " + '\u2551')      
+   print('\u2551' + "(02) Set DNS ADDRESS (12) Set SUB-DOMAIN (32) Net View (42) Lookup Sec IDs (52) Kerberos  Auth (62) Silv  Ticket (72) VulnScanner (82) GRP  SHARES (92 ) SSH      (232) TCP PORTS  Scan (342) Edit   Passwords (442) DNSEnum  DOM (601) Secrets Dumper (701) Certipy 1 (711) Certipy 11 " + '\u2551')      
    print('\u2551' + "(03) Set IP  ADDRESS (13) Set FILE  NAME (33) Services (43) Sam Dump Users (53) Kerberos Brute (63) Gold  Ticket (73) ExplScanner (83) GenSSHKeyID (93 ) SSHKeyID (233) UDP PORTS  Scan (343) Edit NTLM Hashes (443) Recon DOMAIN (602) Crack-Map-Dump (702) Certipy 2 (712) Certipy 12 " + '\u2551')   
    print('\u2551' + "(04) Set LIVE  PORTS (14) Set SHARE NAME (34) AT  Exec (44) REGistry Hives (54) Kerbe Roasting (64) Gold  DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Domain  Dumper (703) Certipy 3 (713) Certipy 13 " + '\u2551')
    print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
@@ -3039,7 +3039,7 @@ while True:
          choice = "rlwrap nc -nvlp " + HTTP
          checkParam = 1
       if subChoice == "7":
-         choice = "responder -I " + netWork + " -w On -r ONn -f On -v"
+         choice = "responder -I " + netWork
          checkParam = 1
       if subChoice == "8":
          pass
@@ -5235,7 +5235,6 @@ while True:
       dispBanner("BLOODHOUND GUI",0) 
       localCOM("xdotool type 'clear; cat banner.tmp'; xdotool key Return")
       localCOM("xdotool type '/usr/local/bin/Bloodhound/bloodhound-cli up'; xdotool key Return")
-      print("Use Tester1234& as the reset password")
       localCOM("xdotool type 'firefox http://localhost:8080'; xdotool key Return")
       localCOM("xdotool key Ctrl+Tab") 
       prompt()  
