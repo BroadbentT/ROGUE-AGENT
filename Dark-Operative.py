@@ -71,12 +71,6 @@ def cutLine(variable1, variable2):
    localCOM("sed -i -E '/" + variable1 + "/d' ./" + variable2)
    return
 
-# REMOVE SPACE AND EXTRA LINES   
-def parsFile(variable):
-   localCOM("sed -i '/^$/d' ./" + variable)
-   cutLine("Impacket", variable)
-   return
-
 # PERFORM A PROPER LINE COUNT
 def lineCount(variable):
     with open(variable, "r") as f:
@@ -116,7 +110,8 @@ def catsFile(variable):
    if not os.path.exists(variable):
       print("[-] File not found...")
       return
-   parsFile(variable)
+   localCOM("sed -i '/^$/d' ./" + variable)
+   cutLine("Impacket", variable)
    CHAR_DELAY = 0.05 
    filename = variable
    localCOM("echo '" + Green + "'")
@@ -885,7 +880,7 @@ def saveParams():
    localCOM("echo '" + UN2 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + UN3 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
    localCOM("echo '" + UN4 + "' | base64 --wrap=0 >> base64.tmp"); localCOM("echo '\n' >> base64.tmp")
-   parsFile("base64.tmp")   
+   localCOM("sed -i '/^$/d' ./" + "base64.tmp")
    OSF2 = linecache.getline("base64.tmp", 1).rstrip("\n")  
    COM2 = linecache.getline("base64.tmp", 2).rstrip("\n")
    DNS2 = linecache.getline("base64.tmp", 3).rstrip("\n")
@@ -2513,8 +2508,8 @@ while True:
                username = username.replace("|_    ","")
                username, null = username.split("@")
                if username != "":
-                  parse.write(username + "\n") 
-         parsFile("validusers.tmp")                                                     
+                  parse.write(username + "\n")
+         localCOM("sed -i '/^$/d' ./" + "validusers.tmp")                                                   
          count = lineCount("validusers.tmp")
          if count != 0:
             print("[+] Found " + str(count) + " valid usernames...\n")                                         
@@ -3455,7 +3450,7 @@ while True:
                      sender = USR.rstrip(" ")
                   catsFile("body.tmp")
                   print(colored("[*] Phishing the valid username list...", colour3))
-                  parsFile("valid.tmp")
+                  localCOM("sed -i '/^$/d' ./" + "valid.tmp")
                   with open("valid.tmp", "r") as list:
                      for phish in list:
                         phish = phish.rstrip("\n")
@@ -4771,11 +4766,11 @@ while True:
          SKEW = timeSync(SKEW)
          print (colored("[*] Enumerating, please wait...\n",colour3))                       
          if PAS[:2] != "''":
-            remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" "))
+            remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -c all -ns " + TIP.rstrip(" ")) # NO NEED FOR OUTPUT FOR CATSFILE - SYSTEM ONLY
          else:
             if NTM[:5].upper() != "EMPTY":
                print("[i] Using HASH value as password credential...")
-               remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" "))            
+               remoteCOM("bloodhound-python -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " --hashes " + NTM.rstrip(" ") + " -c all -ns " + TIP.rstrip(" ")) # NO NEED FOR OUTPUT FOR CATSFILE - SYSTEM ONLY
             else:
                print("[-] Both, password and ntlm hash values are invalid...")
       print(colored("\n[*] Checking downloaded files...",colour3))
