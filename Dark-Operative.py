@@ -977,7 +977,7 @@ httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
-fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1"	# FILE EXTENSIONS
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1,log"	# FILE EXTENSIONS
 keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
 
 # -------------------------------------------------------------------------------------
