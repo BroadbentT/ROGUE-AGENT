@@ -2933,8 +2933,12 @@ while True:
       localCOM("echo " + hashTicket + " > " + userAD + ".kirbi") 
       localCOM("cat " + userAD + ".kirbi | tr -d '\n' | base64 -d > " + userAD + "_raw.kirbi")
       localCOM("impacket-ticketConverter " + userAD + "_raw.kirbi " + userAD + ".ccache")
-      print("[i] Type this command into anther console windows....\n")
-      print("export KRB5CCNAME=$PWD/" + userAD + ".ccache")
+
+      os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{" + userAD + "}.ccache"
+      print(os.environ["KRB5CCNAME"])
+
+#      print("[i] Type this command into anther console windows....\n")
+#      print("export KRB5CCNAME=$PWD/" + userAD + ".ccache")
       TGT = spacePadding(userAD + ".ccache", COL1)
       prompt()
       
