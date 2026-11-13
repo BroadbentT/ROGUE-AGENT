@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture0.png">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent_%20Treadstone%20Edition-1.png">
 </p>
 
 ## TREADSTONE 2026 EDITION
