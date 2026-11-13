@@ -1,8 +1,7 @@
-<p align="center">
-  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture0.png">
-</p>
+# 🛰️ THREADSTONE 2026
 
-## TREADSTONE 2026 EDITION
+**ALPHA RELEASE | Cybersecurity Research Toolkit**
+
 
 <p align="center">
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent_%20Treadstone%20Under%20Surveillance.png">
