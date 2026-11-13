@@ -1,4 +1,4 @@
-# 🛰️ THREADSTONE 2026
+# 🛰️ THREADSTONE EDITION 2026
 
 **ALPHA RELEASE | Cybersecurity Research Toolkit**
 
