@@ -4,6 +4,10 @@
 
 ## TREADSTONE 2026 EDITION
 
+<p align="center">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent_%20Treadstone%20Under%20Surveillance.png">
+</p>
+
 **INSTALLATION INSTRUCTIONS**
 
         ROGUE AGENT (ALPHA)
@@ -12,10 +16,6 @@
         https://github.com/BroadbentT/ROGUE-AGENT.git
         python3 install.py
 <br>
-
-<p align="center">
-  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent_%20Treadstone%20Under%20Surveillance.png">
-</p>
 
 ## COMMAND CENTRE FOR REMOTE COMPUTER NETWORK ANALYSIS
 
