@@ -143,7 +143,7 @@ ROGUE AGENT aims to provide a practical toolkit for authorised network and direc
 - Project dependencies installed through the supplied installer.
 - SQLite support for the included `RA.db` component.
 - An authorised test network or isolated laboratory.
-- 
+  
 ---
 
 ## INSTALLATION & USAGE
@@ -185,8 +185,6 @@ The available commands, options and supported workflows depend on the current im
 
 ## PROJECT FILES & METADATA
 
-The following inventory is reproduced from the repository's existing README. MD5 values are included as published project metadata; they are not a security guarantee.
-
 | Language / Type | Filename | MD5 Hash | Description | Edition |
 |---|---|---|---|---|
 | Python 3 | `install.py` | `1308801d23d07210c07b38af764db8a0` | Install Program | TREADSTONE |
@@ -209,10 +207,6 @@ The following inventory is reproduced from the repository's existing README. MD5
 ## TREADSTONE CONSOLE DISPLAY AND VIDEO LINK
 
 [![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
-
-The repository also identifies a wide-screen DARK OPERATIVE edition under the LARX name.
-
-The feature descriptions in this README summarise the project's stated scope. They should not be interpreted as confirmation that every capability is implemented, enabled or suitable for production use in the current release.
 
 ---
 
