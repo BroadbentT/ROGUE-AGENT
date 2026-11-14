@@ -4,7 +4,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent_%20Treadstone%20Under%20Surveillance.png">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue_Agent_Treadstone_Under_Surveillance_1672x940.png">
 </p>
 
 ## COMMAND CENTRE FOR REMOTE COMPUTER NETWORK ANALYSIS
