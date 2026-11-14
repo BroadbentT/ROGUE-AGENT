@@ -1,4 +1,4 @@
-# 🛰️ ROGUE AGENT — TREADSTONE EDITION 2026
+# 🛰️ ROGUE AGENT - TREADSTONE EDITION 2026
 
 **ALPHA RELEASE | Cybersecurity Research & Network Assessment Toolkit**
 
@@ -137,17 +137,13 @@ ROGUE AGENT aims to provide a practical toolkit for authorised network and direc
 
 ## REQUIREMENTS
 
-The original project README identifies the following environment and components:
-
 - Python 3.
 - Kali Linux (the original README states Kali Linux 2019 was tested).
 - Git.
 - Project dependencies installed through the supplied installer.
 - SQLite support for the included `RA.db` component.
 - An authorised test network or isolated laboratory.
-
-**Compatibility note:** The original README identifies Kali Linux 2019 as the tested platform. Compatibility with current Kali Linux releases and other distributions should be verified before use.
-
+- 
 ---
 
 ## INSTALLATION & USAGE
@@ -204,10 +200,6 @@ The following inventory is reproduced from the repository's existing README. MD5
 
 ## RELEASE NOTES & DEVELOPMENT STATUS
 
-**TREADSTONE — Alpha**
-
-The repository identifies TREADSTONE as the ROGUE AGENT alpha release.
-
 ## NEW WIDE-SCREEN LARX VERSION 2026 ##
 
 <p align="center">
@@ -217,9 +209,6 @@ The repository identifies TREADSTONE as the ROGUE AGENT alpha release.
 ## TREADSTONE CONSOLE DISPLAY AND VIDEO LINK
 
 [![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
-
-[![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
-
 
 The repository also identifies a wide-screen DARK OPERATIVE edition under the LARX name.
 
