@@ -1,0 +1,1024 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+python3-pip is already the newest version (26.2.2+dfsg-1).
+python3-pip set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Requirement already satisfied: pyfiglet in /usr/lib/python3/dist-packages (1.0.4)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Requirement already satisfied: termcolor in /usr/lib/python3/dist-packages (2.4.0)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+ERROR: Could not find a version that satisfies the requirement shutil (from versions: none)
+ERROR: No matching distribution found for shutil
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following additional packages will be installed:
+  libcapture-tiny-perl libconvert-binhex-perl libemail-abstract-perl
+  libemail-address-perl libemail-address-xs-perl libemail-date-format-perl
+  libemail-messageid-perl libemail-mime-contenttype-perl
+  libemail-mime-encodings-perl libemail-mime-perl libemail-sender-perl
+  libemail-simple-perl libio-string-perl libmime-tools-perl libmime-types-perl
+  libmodule-pluggable-perl libmoox-types-mooselike-perl
+  libsys-hostname-long-perl libtext-unidecode-perl libthrowable-perl
+Suggested packages:
+  libmojolicious-perl libmoox-types-mooselike-numeric-perl
+  libmoox-types-setobject-perl
+The following NEW packages will be installed:
+  libcapture-tiny-perl libconvert-binhex-perl libemail-abstract-perl
+  libemail-address-perl libemail-address-xs-perl libemail-date-format-perl
+  libemail-messageid-perl libemail-mime-contenttype-perl
+  libemail-mime-encodings-perl libemail-mime-perl
+  libemail-outlook-message-perl libemail-sender-perl libemail-simple-perl
+  libio-string-perl libmime-tools-perl libmime-types-perl
+  libmodule-pluggable-perl libmoox-types-mooselike-perl
+  libsys-hostname-long-perl libtext-unidecode-perl libthrowable-perl
+0 upgraded, 21 newly installed, 0 to remove and 44 not upgraded.
+Need to get 796 kB of archives.
+After this operation, 2620 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 libcapture-tiny-perl all 0.50-1 [24.6 kB]
+Get:2 http://kali.download/kali kali-rolling/main amd64 libconvert-binhex-perl all 1.125-3 [27.4 kB]
+Get:3 http://kali.download/kali kali-rolling/main amd64 libemail-date-format-perl all 1.008-1 [7356 B]
+Get:4 http://kali.download/kali kali-rolling/main amd64 libemail-simple-perl all 2.218-1 [23.4 kB]
+Get:5 http://kali.download/kali kali-rolling/main amd64 libmodule-pluggable-perl all 6.4-1 [33.4 kB]
+Get:6 http://kali.download/kali kali-rolling/main amd64 libemail-abstract-perl all 3.010-1 [22.7 kB]
+Get:7 http://kali.download/kali kali-rolling/main amd64 libemail-address-perl all 1.913-1 [28.4 kB]
+Get:8 http://kali.download/kali kali-rolling/main amd64 libemail-address-xs-perl amd64 1.05-1+b5 [29.5 kB]
+Get:9 http://kali.download/kali kali-rolling/main amd64 libemail-messageid-perl all 1.408-1 [8060 B]
+Get:10 http://kali.download/kali kali-rolling/main amd64 libtext-unidecode-perl all 1.30-3 [101 kB]
+Get:11 http://kali.download/kali kali-rolling/main amd64 libemail-mime-contenttype-perl all 1.028-1 [13.1 kB]
+Get:12 http://kali.download/kali kali-rolling/main amd64 libemail-mime-encodings-perl all 1.317-1 [6988 B]
+Get:13 http://kali.download/kali kali-rolling/main amd64 libmime-types-perl all 2.30-1 [70.5 kB]
+Get:14 http://kali.download/kali kali-rolling/main amd64 libemail-mime-perl all 1.954-1 [39.2 kB]
+Get:15 http://kali.download/kali kali-rolling/main amd64 libmoox-types-mooselike-perl all 0.29-2 [18.4 kB]
+Get:16 http://kali.download/kali kali-rolling/main amd64 libthrowable-perl all 1.001-2 [15.7 kB]
+Get:17 http://kali.download/kali kali-rolling/main amd64 libemail-sender-perl all 2.601-1 [67.3 kB]
+Get:18 http://kali.download/kali kali-rolling/main amd64 libio-string-perl all 1.08-4 [12.1 kB]
+Get:19 http://kali.download/kali kali-rolling/main amd64 libemail-outlook-message-perl all 0.921-1 [28.7 kB]
+Get:20 http://kali.download/kali kali-rolling/main amd64 libmime-tools-perl all 5.519-1 [206 kB]
+Get:21 http://kali.download/kali kali-rolling/main amd64 libsys-hostname-long-perl all 1.5-3 [11.6 kB]
+Fetched 796 kB in 0s (1803 kB/s)
+Selecting previously unselected package libcapture-tiny-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 839656 files and directories currently installed.)
+Preparing to unpack .../00-libcapture-tiny-perl_0.50-1_all.deb ...
+Unpacking libcapture-tiny-perl (0.50-1) ...
+Selecting previously unselected package libconvert-binhex-perl.
+Preparing to unpack .../01-libconvert-binhex-perl_1.125-3_all.deb ...
+Unpacking libconvert-binhex-perl (1.125-3) ...
+Selecting previously unselected package libemail-date-format-perl.
+Preparing to unpack .../02-libemail-date-format-perl_1.008-1_all.deb ...
+Unpacking libemail-date-format-perl (1.008-1) ...
+Selecting previously unselected package libemail-simple-perl.
+Preparing to unpack .../03-libemail-simple-perl_2.218-1_all.deb ...
+Unpacking libemail-simple-perl (2.218-1) ...
+Selecting previously unselected package libmodule-pluggable-perl.
+Preparing to unpack .../04-libmodule-pluggable-perl_6.4-1_all.deb ...
+Unpacking libmodule-pluggable-perl (6.4-1) ...
+Selecting previously unselected package libemail-abstract-perl.
+Preparing to unpack .../05-libemail-abstract-perl_3.010-1_all.deb ...
+Unpacking libemail-abstract-perl (3.010-1) ...
+Selecting previously unselected package libemail-address-perl.
+Preparing to unpack .../06-libemail-address-perl_1.913-1_all.deb ...
+Unpacking libemail-address-perl (1.913-1) ...
+Selecting previously unselected package libemail-address-xs-perl.
+Preparing to unpack .../07-libemail-address-xs-perl_1.05-1+b5_amd64.deb ...
+Unpacking libemail-address-xs-perl (1.05-1+b5) ...
+Selecting previously unselected package libemail-messageid-perl.
+Preparing to unpack .../08-libemail-messageid-perl_1.408-1_all.deb ...
+Unpacking libemail-messageid-perl (1.408-1) ...
+Selecting previously unselected package libtext-unidecode-perl.
+Preparing to unpack .../09-libtext-unidecode-perl_1.30-3_all.deb ...
+Unpacking libtext-unidecode-perl (1.30-3) ...
+Selecting previously unselected package libemail-mime-contenttype-perl.
+Preparing to unpack .../10-libemail-mime-contenttype-perl_1.028-1_all.deb ...
+Unpacking libemail-mime-contenttype-perl (1.028-1) ...
+Selecting previously unselected package libemail-mime-encodings-perl.
+Preparing to unpack .../11-libemail-mime-encodings-perl_1.317-1_all.deb ...
+Unpacking libemail-mime-encodings-perl (1.317-1) ...
+Selecting previously unselected package libmime-types-perl.
+Preparing to unpack .../12-libmime-types-perl_2.30-1_all.deb ...
+Unpacking libmime-types-perl (2.30-1) ...
+Selecting previously unselected package libemail-mime-perl.
+Preparing to unpack .../13-libemail-mime-perl_1.954-1_all.deb ...
+Unpacking libemail-mime-perl (1.954-1) ...
+Selecting previously unselected package libmoox-types-mooselike-perl.
+Preparing to unpack .../14-libmoox-types-mooselike-perl_0.29-2_all.deb ...
+Unpacking libmoox-types-mooselike-perl (0.29-2) ...
+Selecting previously unselected package libthrowable-perl.
+Preparing to unpack .../15-libthrowable-perl_1.001-2_all.deb ...
+Unpacking libthrowable-perl (1.001-2) ...
+Selecting previously unselected package libemail-sender-perl.
+Preparing to unpack .../16-libemail-sender-perl_2.601-1_all.deb ...
+Unpacking libemail-sender-perl (2.601-1) ...
+Selecting previously unselected package libio-string-perl.
+Preparing to unpack .../17-libio-string-perl_1.08-4_all.deb ...
+Unpacking libio-string-perl (1.08-4) ...
+Selecting previously unselected package libemail-outlook-message-perl.
+Preparing to unpack .../18-libemail-outlook-message-perl_0.921-1_all.deb ...
+Unpacking libemail-outlook-message-perl (0.921-1) ...
+Selecting previously unselected package libmime-tools-perl.
+Preparing to unpack .../19-libmime-tools-perl_5.519-1_all.deb ...
+Unpacking libmime-tools-perl (5.519-1) ...
+Selecting previously unselected package libsys-hostname-long-perl.
+Preparing to unpack .../20-libsys-hostname-long-perl_1.5-3_all.deb ...
+Unpacking libsys-hostname-long-perl (1.5-3) ...
+Setting up libmodule-pluggable-perl (6.4-1) ...
+Setting up libemail-address-perl (1.913-1) ...
+Setting up libthrowable-perl (1.001-2) ...
+Setting up libmime-types-perl (2.30-1) ...
+Setting up libconvert-binhex-perl (1.125-3) ...
+Setting up libemail-messageid-perl (1.408-1) ...
+Setting up libmime-tools-perl (5.519-1) ...
+Setting up libio-string-perl (1.08-4) ...
+Setting up libemail-date-format-perl (1.008-1) ...
+Setting up libcapture-tiny-perl (0.50-1) ...
+Setting up libemail-mime-encodings-perl (1.317-1) ...
+Setting up libmoox-types-mooselike-perl (0.29-2) ...
+Setting up libtext-unidecode-perl (1.30-3) ...
+Setting up libsys-hostname-long-perl (1.5-3) ...
+Setting up libemail-address-xs-perl (1.05-1+b5) ...
+Setting up libemail-simple-perl (2.218-1) ...
+Setting up libemail-mime-contenttype-perl (1.028-1) ...
+Setting up libemail-mime-perl (1.954-1) ...
+Setting up libemail-abstract-perl (3.010-1) ...
+Setting up libemail-sender-perl (2.601-1) ...
+Setting up libemail-outlook-message-perl (0.921-1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libemail-sender-perl is already the newest version (2.601-1).
+libemail-sender-perl set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+default-jdk is already the newest version (2:1.25-77).
+default-jdk set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gdb is already the newest version (18.1-3).
+gdb set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following additional packages will be installed:
+  libgtkhex-4-1
+The following NEW packages will be installed:
+  ghex libgtkhex-4-1
+0 upgraded, 2 newly installed, 0 to remove and 44 not upgraded.
+Need to get 437 kB of archives.
+After this operation, 2807 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 libgtkhex-4-1 amd64 50.4-1 [59.4 kB]
+Get:2 http://kali.download/kali kali-rolling/main amd64 ghex amd64 50.4-1 [378 kB]
+Fetched 437 kB in 0s (8047 kB/s)
+Selecting previously unselected package libgtkhex-4-1:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840250 files and directories currently installed.)
+Preparing to unpack .../libgtkhex-4-1_50.4-1_amd64.deb ...
+Unpacking libgtkhex-4-1:amd64 (50.4-1) ...
+Selecting previously unselected package ghex.
+Preparing to unpack .../archives/ghex_50.4-1_amd64.deb ...
+Unpacking ghex (50.4-1) ...
+Setting up libgtkhex-4-1:amd64 (50.4-1) ...
+Setting up ghex (50.4-1) ...
+Processing triggers for hicolor-icon-theme (0.18-2) ...
+Processing triggers for libc-bin (2.43-7) ...
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for libglib2.0-0t64:amd64 (2.90.1-2) ...
+Processing triggers for mailcap (3.77) ...
+Processing triggers for desktop-file-utils (0.28-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+snmp is already the newest version (5.9.5.2+dfsg-3).
+snmp set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+proxychains4 is already the newest version (4.17-4).
+proxychains4 set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+bloodhound is already the newest version (9.8.0~rc3-0kali1).
+bloodhound set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+sqlite3 is already the newest version (3.53.4-2).
+sqlite3 set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat is already the newest version (7.1.2+ds1-4).
+hashcat set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+python3-ldap is already the newest version (3.4.8-1+b1).
+python3-ldap set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gobuster is already the newest version (3.8.2-1).
+gobuster set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+crackmapexec is already the newest version (5.4.0-0kali7).
+crackmapexec set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libimage-exiftool-perl is already the newest version (13.55+dfsg-1).
+libimage-exiftool-perl set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following additional packages will be installed:
+  libptytty0
+The following NEW packages will be installed:
+  libptytty0 rlwrap
+0 upgraded, 2 newly installed, 0 to remove and 44 not upgraded.
+Need to get 150 kB of archives.
+After this operation, 471 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 libptytty0 amd64 2.0-1+b3 [42.6 kB]
+Get:2 http://kali.download/kali kali-rolling/main amd64 rlwrap amd64 0.47.1-0.1 [107 kB]
+Fetched 150 kB in 0s (2781 kB/s)
+Selecting previously unselected package libptytty0:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840630 files and directories currently installed.)
+Preparing to unpack .../libptytty0_2.0-1+b3_amd64.deb ...
+Unpacking libptytty0:amd64 (2.0-1+b3) ...
+Selecting previously unselected package rlwrap.
+Preparing to unpack .../rlwrap_0.47.1-0.1_amd64.deb ...
+Unpacking rlwrap (0.47.1-0.1) ...
+Setting up libptytty0:amd64 (2.0-1+b3) ...
+Setting up rlwrap (0.47.1-0.1) ...
+update-alternatives: using /usr/bin/rlwrap to provide /usr/bin/readline-editor (readline-editor) in auto mode
+Processing triggers for man-db (2.13.1-1) ...
+Processing triggers for libc-bin (2.43-7) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+xdotool is already the newest version (1:3.20160805.1-5.1+b2).
+xdotool set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following NEW packages will be installed:
+  sshpass
+0 upgraded, 1 newly installed, 0 to remove and 44 not upgraded.
+Need to get 12.7 kB of archives.
+After this operation, 41.0 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 sshpass amd64 1.10-0.1 [12.7 kB]
+Fetched 12.7 kB in 0s (337 kB/s)
+Selecting previously unselected package sshpass.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840686 files and directories currently installed.)
+Preparing to unpack .../sshpass_1.10-0.1_amd64.deb ...
+Unpacking sshpass (1.10-0.1) ...
+Setting up sshpass (1.10-0.1) ...
+Processing triggers for man-db (2.13.1-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+seclists is already the newest version (2025.3-0kali1).
+seclists set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following NEW packages will be installed:
+  redis
+0 upgraded, 1 newly installed, 0 to remove and 44 not upgraded.
+Need to get 15.0 kB of archives.
+After this operation, 26.6 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 redis all 5:8.0.6-3 [15.0 kB]
+Fetched 15.0 kB in 0s (487 kB/s)
+Selecting previously unselected package redis.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840692 files and directories currently installed.)
+Preparing to unpack .../redis_5%3a8.0.6-3_all.deb ...
+Unpacking redis (5:8.0.6-3) ...
+Setting up redis (5:8.0.6-3) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+feroxbuster is already the newest version (2.13.1-0kali3).
+feroxbuster set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libkrb5-dev is already the newest version (1.22.1-3).
+libkrb5-dev set to manually installed.
+Solving dependencies...
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+Suggested packages:
+  krb5-k5tls
+The following NEW packages will be installed:
+  krb5-user
+0 upgraded, 1 newly installed, 0 to remove and 44 not upgraded.
+Need to get 119 kB of archives.
+After this operation, 422 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 krb5-user amd64 1.22.1-3 [119 kB]
+Fetched 119 kB in 0s (3314 kB/s)
+Selecting previously unselected package krb5-user.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840697 files and directories currently installed.)
+Preparing to unpack .../krb5-user_1.22.1-3_amd64.deb ...
+Unpacking krb5-user (1.22.1-3) ...
+Setting up krb5-user (1.22.1-3) ...
+update-alternatives: using /usr/bin/kinit.mit to provide /usr/bin/kinit (kinit) in auto mode
+update-alternatives: using /usr/bin/klist.mit to provide /usr/bin/klist (klist) in auto mode
+update-alternatives: using /usr/bin/kswitch.mit to provide /usr/bin/kswitch (kswitch) in auto mode
+update-alternatives: using /usr/bin/ksu.mit to provide /usr/bin/ksu (ksu) in auto mode
+update-alternatives: using /usr/bin/kpasswd.mit to provide /usr/bin/kpasswd (kpasswd) in auto mode
+update-alternatives: using /usr/bin/kdestroy.mit to provide /usr/bin/kdestroy (kdestroy) in auto mode
+update-alternatives: using /usr/bin/kadmin.mit to provide /usr/bin/kadmin (kadmin) in auto mode
+update-alternatives: using /usr/bin/ktutil.mit to provide /usr/bin/ktutil (ktutil) in auto mode
+Processing triggers for man-db (2.13.1-1) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+Collecting 2to3
+  Downloading 2to3-1.0-py3-none-any.whl.metadata (225 bytes)
+Downloading 2to3-1.0-py3-none-any.whl (1.7 kB)
+Installing collected packages: 2to3
+  WARNING: The script 2to3 is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed 2to3-1.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting pwn
+  Downloading pwn-1.0.tar.gz (1.1 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: pwntools in /usr/lib/python3/dist-packages (from pwn) (4.15.0)
+Requirement already satisfied: paramiko>=1.15.2 in /usr/lib/python3/dist-packages (from pwntools->pwn) (5.0.0)
+Requirement already satisfied: mako>=1.0.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (1.3.10.dev0)
+Requirement already satisfied: pyelftools>=0.29 in /usr/lib/python3/dist-packages (from pwntools->pwn) (0.33)
+Requirement already satisfied: capstone>=3.0.5rc2 in /usr/lib/python3/dist-packages (from pwntools->pwn) (5.0.9)
+Requirement already satisfied: ropgadget>=5.3 in /usr/lib/python3/dist-packages (from pwntools->pwn) (7.7)
+Requirement already satisfied: pyserial>=2.7 in /usr/lib/python3/dist-packages (from pwntools->pwn) (3.5)
+Requirement already satisfied: requests>=2.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (2.34.2)
+Requirement already satisfied: pip>=6.0.8 in /usr/local/lib/python3.14/dist-packages (from pwntools->pwn) (26.2.2)
+Requirement already satisfied: pygments>=2.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (2.20.0)
+Requirement already satisfied: pysocks in /usr/lib/python3/dist-packages (from pwntools->pwn) (1.7.1)
+Requirement already satisfied: python-dateutil in /usr/lib/python3/dist-packages (from pwntools->pwn) (2.9.0)
+Requirement already satisfied: packaging in /usr/local/lib/python3.14/dist-packages (from pwntools->pwn) (26.3)
+Requirement already satisfied: psutil>=3.3.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (7.1.0)
+Requirement already satisfied: intervaltree>=3.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (3.0.2)
+Requirement already satisfied: sortedcontainers in /usr/lib/python3/dist-packages (from pwntools->pwn) (2.4.0)
+Collecting unicorn!=2.1.3,!=2.1.4,>=2.0.1 (from pwntools->pwn)
+  Downloading unicorn-2.1.2.tar.gz (2.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.9/2.9 MB 40.2 MB/s  0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: six>=1.12.0 in /usr/lib/python3/dist-packages (from pwntools->pwn) (1.17.0)
+Requirement already satisfied: rpyc in /usr/lib/python3/dist-packages (from pwntools->pwn) (6.0.2)
+Requirement already satisfied: colored_traceback in /usr/lib/python3/dist-packages (from pwntools->pwn) (0.4.2)
+Collecting unix-ar (from pwntools->pwn)
+  Downloading unix_ar-0.2.1-py2.py3-none-any.whl.metadata (1.9 kB)
+Requirement already satisfied: zstandard in /usr/lib/python3/dist-packages (from pwntools->pwn) (0.25.0)
+Requirement already satisfied: MarkupSafe>=0.9.2 in /usr/lib/python3/dist-packages (from mako>=1.0.0->pwntools->pwn) (3.0.3)
+Requirement already satisfied: bcrypt>=3.2 in /usr/lib/python3/dist-packages (from paramiko>=1.15.2->pwntools->pwn) (5.0.0)
+Requirement already satisfied: cryptography>=3.3 in /usr/lib/python3/dist-packages (from paramiko>=1.15.2->pwntools->pwn) (49.0.0)
+Requirement already satisfied: invoke>=2.0 in /usr/lib/python3/dist-packages (from paramiko>=1.15.2->pwntools->pwn) (3.0.3)
+Requirement already satisfied: pynacl>=1.5 in /usr/lib/python3/dist-packages (from paramiko>=1.15.2->pwntools->pwn) (1.6.2)
+Requirement already satisfied: cffi>=2.0.0 in /usr/lib/python3/dist-packages (from pynacl>=1.5->paramiko>=1.15.2->pwntools->pwn) (2.1.1)
+Requirement already satisfied: pycparser in /usr/lib/python3/dist-packages (from cffi>=2.0.0->pynacl>=1.5->paramiko>=1.15.2->pwntools->pwn) (3.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/lib/python3/dist-packages (from requests>=2.0->pwntools->pwn) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in /usr/lib/python3/dist-packages (from requests>=2.0->pwntools->pwn) (3.20)
+Requirement already satisfied: urllib3<3,>=1.26 in /usr/lib/python3/dist-packages (from requests>=2.0->pwntools->pwn) (2.8.0)
+Requirement already satisfied: certifi>=2023.5.7 in /usr/lib/python3/dist-packages (from requests>=2.0->pwntools->pwn) (2026.7.22)
+Requirement already satisfied: plumbum in /usr/lib/python3/dist-packages (from rpyc->pwntools->pwn) (2.0.2)
+Downloading unix_ar-0.2.1-py2.py3-none-any.whl (6.5 kB)
+Building wheels for collected packages: pwn, unicorn
+  Building wheel for pwn (pyproject.toml): started
+  Building wheel for pwn (pyproject.toml): finished with status 'done'
+  Created wheel for pwn: filename=pwn-1.0-py3-none-any.whl size=1249 sha256=6748dfda252b538b778621eae4d578606556aec2b1047f42896eee85c398a483
+  Stored in directory: /root/.cache/pip/wheels/56/3c/94/a653fdd1ff36d94decfaa039c4c015b8400bcfa2b3779bf21b
+  Building wheel for unicorn (pyproject.toml): started
+  Building wheel for unicorn (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Building wheel for unicorn (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [45 lines of output]
+      /tmp/pip-build-env-4uyptwey/overlay/local/lib/python3.14/dist-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+      !!
+      
+              ********************************************************************************
+              Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+      
+              By 2027-Feb-18, you need to update your project and remove deprecated calls
+              or your builds will no longer be supported.
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        corresp(dist, value, root_dir)
+      /tmp/pip-build-env-4uyptwey/overlay/local/lib/python3.14/dist-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: BSD License
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        dist._finalize_license_expression()
+      /tmp/pip-build-env-4uyptwey/overlay/local/lib/python3.14/dist-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+      
+              ********************************************************************************
+              Please consider removing the following classifiers in favor of a SPDX license expression:
+      
+              License :: OSI Approved :: BSD License
+      
+              See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+              ********************************************************************************
+      
+      !!
+        self._finalize_license_expression()
+      running bdist_wheel
+      running build
+      running build_py
+      Building C extensions
+      error: [Errno 2] No such file or directory: 'cmake'
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for unicorn
+Successfully built pwn
+Failed to build unicorn
+error: failed-wheel-build-for-install
+
+× Failed to build installable wheels for some pyproject.toml based projects
+╰─> unicorn
+Requirement already satisfied: bloodhound in /usr/lib/python3/dist-packages (1.9.0)
+Requirement already satisfied: dnspython in /usr/lib/python3/dist-packages (from bloodhound) (2.8.0)
+Requirement already satisfied: impacket>=0.9.17 in /usr/lib/python3/dist-packages (from bloodhound) (0.13.1)
+Requirement already satisfied: ldap3!=2.5.0,!=2.5.2,!=2.6,>=2.5 in /usr/lib/python3/dist-packages (from bloodhound) (2.9.1)
+Requirement already satisfied: pyasn1>=0.4 in /usr/lib/python3/dist-packages (from bloodhound) (0.6.4)
+Collecting pycryptodome (from bloodhound)
+  Downloading pycryptodome-4.4.0-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.1 kB)
+Requirement already satisfied: pyasn1_modules in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (0.4.1)
+Requirement already satisfied: pycryptodomex in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (3.20.0)
+Requirement already satisfied: pyOpenSSL in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (26.4.0)
+Requirement already satisfied: six in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (1.17.0)
+Requirement already satisfied: ldapdomaindump>=0.9.0 in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (0.9.4)
+Requirement already satisfied: flask>=1.0 in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (3.1.3)
+Requirement already satisfied: charset_normalizer in /usr/lib/python3/dist-packages (from impacket>=0.9.17->bloodhound) (3.4.7)
+Requirement already satisfied: blinker>=1.9.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (8.3.3)
+Requirement already satisfied: itsdangerous>=2.2.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (3.0.3)
+Requirement already satisfied: werkzeug>=3.1.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket>=0.9.17->bloodhound) (3.1.9)
+Requirement already satisfied: cryptography<51,>=49.0.0 in /usr/lib/python3/dist-packages (from pyOpenSSL->impacket>=0.9.17->bloodhound) (49.0.0)
+Downloading pycryptodome-4.4.0-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (3.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 76.5 MB/s  0:00:00
+Installing collected packages: pycryptodome
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+ldeep 2.0.3 requires pycryptodome<4,>=3.19.0, but you have pycryptodome 4.4.0 which is incompatible.
+ldeep 2.0.3 requires termcolor>3, but you have termcolor 2.4.0 which is incompatible.
+Successfully installed pycryptodome-4.4.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting kerbrute
+  Downloading kerbrute-0.0.2-py3-none-any.whl.metadata (2.7 kB)
+Requirement already satisfied: impacket in /usr/lib/python3/dist-packages (from kerbrute) (0.13.1)
+Requirement already satisfied: pyasn1>=0.2.3 in /usr/lib/python3/dist-packages (from impacket->kerbrute) (0.6.4)
+Requirement already satisfied: pyasn1_modules in /usr/lib/python3/dist-packages (from impacket->kerbrute) (0.4.1)
+Requirement already satisfied: pycryptodomex in /usr/lib/python3/dist-packages (from impacket->kerbrute) (3.20.0)
+Requirement already satisfied: pyOpenSSL in /usr/lib/python3/dist-packages (from impacket->kerbrute) (26.4.0)
+Requirement already satisfied: six in /usr/lib/python3/dist-packages (from impacket->kerbrute) (1.17.0)
+Requirement already satisfied: ldap3!=2.5.0,!=2.5.2,!=2.6,>=2.5 in /usr/lib/python3/dist-packages (from impacket->kerbrute) (2.9.1)
+Requirement already satisfied: ldapdomaindump>=0.9.0 in /usr/lib/python3/dist-packages (from impacket->kerbrute) (0.9.4)
+Requirement already satisfied: flask>=1.0 in /usr/lib/python3/dist-packages (from impacket->kerbrute) (3.1.3)
+Requirement already satisfied: charset_normalizer in /usr/lib/python3/dist-packages (from impacket->kerbrute) (3.4.7)
+Requirement already satisfied: blinker>=1.9.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (8.3.3)
+Requirement already satisfied: itsdangerous>=2.2.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (3.0.3)
+Requirement already satisfied: werkzeug>=3.1.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->kerbrute) (3.1.9)
+Requirement already satisfied: cryptography<51,>=49.0.0 in /usr/lib/python3/dist-packages (from pyOpenSSL->impacket->kerbrute) (49.0.0)
+Downloading kerbrute-0.0.2-py3-none-any.whl (17 kB)
+Installing collected packages: kerbrute
+  WARNING: The script kerbrute is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed kerbrute-0.0.2
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting smtp-user-enum
+  Downloading smtp_user_enum-0.7.0-py2.py3-none-any.whl.metadata (26 kB)
+Collecting argparse (from smtp-user-enum)
+  Downloading argparse-1.4.0-py2.py3-none-any.whl.metadata (2.8 kB)
+Downloading smtp_user_enum-0.7.0-py2.py3-none-any.whl (12 kB)
+Downloading argparse-1.4.0-py2.py3-none-any.whl (23 kB)
+Installing collected packages: argparse, smtp-user-enum
+
+Successfully installed argparse-1.4.0 smtp-user-enum-0.7.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting python3-nmap==1.5.1
+  Downloading python3_nmap-1.5.1-py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: simplejson in /usr/lib/python3/dist-packages (from python3-nmap==1.5.1) (4.1.2)
+Downloading python3_nmap-1.5.1-py3-none-any.whl (25 kB)
+Installing collected packages: python3-nmap
+Successfully installed python3-nmap-1.5.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting simplejson==3.17.5
+  Downloading simplejson-3.17.5.tar.gz (83 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: simplejson
+  Building wheel for simplejson (pyproject.toml): started
+  Building wheel for simplejson (pyproject.toml): finished with status 'done'
+  Created wheel for simplejson: filename=simplejson-3.17.5-cp314-cp314-linux_x86_64.whl size=138523 sha256=9253618ecdf2463c3a5028aeea860fc9c41a059c90d03bad65f8ff755d2e5727
+  Stored in directory: /root/.cache/pip/wheels/e9/fa/fe/8b66b0dae0c48fe881e7148ad3057178d4a34b04b16db79b9a
+Successfully built simplejson
+Installing collected packages: simplejson
+  Attempting uninstall: simplejson
+    Found existing installation: simplejson 4.1.2
+    Uninstalling simplejson-4.1.2:
+      Successfully uninstalled simplejson-4.1.2
+Successfully installed simplejson-3.17.5
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting git-dumper
+  Using cached git_dumper-1.0.9-py3-none-any.whl.metadata (3.1 kB)
+Requirement already satisfied: PySocks in /usr/lib/python3/dist-packages (from git-dumper) (1.7.1)
+Requirement already satisfied: requests in /usr/lib/python3/dist-packages (from git-dumper) (2.34.2)
+Requirement already satisfied: beautifulsoup4 in /usr/lib/python3/dist-packages (from git-dumper) (4.15.0)
+Collecting dulwich (from git-dumper)
+  Downloading dulwich-1.2.21-cp314-cp314-manylinux_2_28_x86_64.whl.metadata (6.2 kB)
+Collecting requests-pkcs12 (from git-dumper)
+  Using cached requests_pkcs12-1.27-py3-none-any.whl.metadata (3.8 kB)
+Requirement already satisfied: soupsieve>=1.6.1 in /usr/lib/python3/dist-packages (from beautifulsoup4->git-dumper) (2.8.4)
+Requirement already satisfied: typing-extensions>=4.0.0 in /usr/lib/python3/dist-packages (from beautifulsoup4->git-dumper) (4.16.0)
+Requirement already satisfied: urllib3>=2.2.2 in /usr/lib/python3/dist-packages (from dulwich->git-dumper) (2.8.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /usr/lib/python3/dist-packages (from requests->git-dumper) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in /usr/lib/python3/dist-packages (from requests->git-dumper) (3.20)
+Requirement already satisfied: certifi>=2023.5.7 in /usr/lib/python3/dist-packages (from requests->git-dumper) (2026.7.22)
+Requirement already satisfied: cryptography>=42.0.0 in /usr/lib/python3/dist-packages (from requests-pkcs12->git-dumper) (49.0.0)
+Using cached git_dumper-1.0.9-py3-none-any.whl (9.5 kB)
+Downloading dulwich-1.2.21-cp314-cp314-manylinux_2_28_x86_64.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 41.2 MB/s  0:00:00
+Using cached requests_pkcs12-1.27-py3-none-any.whl (6.1 kB)
+Installing collected packages: dulwich, requests-pkcs12, git-dumper
+  WARNING: The script dulwich is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script git-dumper is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+
+Successfully installed dulwich-1.2.21 git-dumper-1.0.9 requests-pkcs12-1.27
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting bloodyAD
+  Downloading bloodyad-2.5.7-py3-none-any.whl.metadata (3.3 kB)
+Requirement already satisfied: asn1crypto==1.5.1 in /usr/lib/python3/dist-packages (from bloodyAD) (1.5.1)
+Collecting badldap>=0.7.7 (from bloodyAD)
+  Downloading badldap-0.7.7-py3-none-any.whl.metadata (1.1 kB)
+Collecting cryptography==44.0.2 (from bloodyAD)
+  Downloading cryptography-44.0.2-cp39-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+Collecting kerbad>=0.5.12 (from bloodyAD)
+  Downloading kerbad-0.5.12-py3-none-any.whl.metadata (885 bytes)
+Requirement already satisfied: winacl==0.1.9 in /usr/lib/python3/dist-packages (from bloodyAD) (0.1.9)
+Requirement already satisfied: cffi>=1.12 in /usr/lib/python3/dist-packages (from cryptography==44.0.2->bloodyAD) (2.1.1)
+Requirement already satisfied: unicrypto>=0.0.12 in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (0.0.12)
+Collecting badauth>=0.1.7 (from badldap>=0.7.7->bloodyAD)
+  Downloading badauth-0.1.7-py3-none-any.whl.metadata (855 bytes)
+Collecting asysocks>=0.2.18 (from badldap>=0.7.7->bloodyAD)
+  Downloading asysocks-0.2.19-py3-none-any.whl.metadata (433 bytes)
+Requirement already satisfied: prompt-toolkit>=3.0.2 in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (3.0.53)
+Requirement already satisfied: tqdm in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (4.70.1)
+Requirement already satisfied: wcwidth in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (0.8.3)
+Requirement already satisfied: tabulate in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (0.10.0)
+Collecting unidns>=0.0.3 (from badldap>=0.7.7->bloodyAD)
+  Downloading unidns-0.0.4-py3-none-any.whl.metadata (468 bytes)
+Requirement already satisfied: dnspython>=2.7.0 in /usr/lib/python3/dist-packages (from badldap>=0.7.7->bloodyAD) (2.8.0)
+Requirement already satisfied: h11>=0.14.0 in /usr/lib/python3/dist-packages (from asysocks>=0.2.18->badldap>=0.7.7->bloodyAD) (0.16.0)
+Requirement already satisfied: pycparser in /usr/lib/python3/dist-packages (from cffi>=1.12->cryptography==44.0.2->bloodyAD) (3.0)
+Requirement already satisfied: six in /usr/lib/python3/dist-packages (from kerbad>=0.5.12->bloodyAD) (1.17.0)
+Requirement already satisfied: pycryptodomex in /usr/lib/python3/dist-packages (from unicrypto>=0.0.12->badldap>=0.7.7->bloodyAD) (3.20.0)
+Downloading bloodyad-2.5.7-py3-none-any.whl (118 kB)
+Downloading cryptography-44.0.2-cp39-abi3-manylinux_2_34_x86_64.whl (4.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 31.8 MB/s  0:00:00
+Downloading badldap-0.7.7-py3-none-any.whl (369 kB)
+Downloading asysocks-0.2.19-py3-none-any.whl (160 kB)
+Downloading badauth-0.1.7-py3-none-any.whl (116 kB)
+Downloading kerbad-0.5.12-py3-none-any.whl (164 kB)
+Downloading unidns-0.0.4-py3-none-any.whl (15 kB)
+Installing collected packages: cryptography, asysocks, unidns, kerbad, badauth, badldap, bloodyAD
+  Attempting uninstall: cryptography
+    Found existing installation: cryptography 49.0.0
+error: uninstall-no-record-file
+
+× Cannot uninstall cryptography 49.0.0
+╰─> The package's contents are unknown: no RECORD file was found for cryptography.
+
+hint: The package was installed by debian. You should check if it can uninstall the package.
+
+Collecting ssh-audit
+  Downloading ssh_audit-3.9.0-py3-none-any.whl.metadata (38 kB)
+Downloading ssh_audit-3.9.0-py3-none-any.whl (131 kB)
+Installing collected packages: ssh-audit
+  WARNING: The script ssh-audit is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed ssh-audit-3.9.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Requirement already satisfied: pycryptodome in /usr/local/lib/python3.14/dist-packages (4.4.0)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Collecting neo4j-driver==1.7.0
+  Downloading neo4j-driver-1.7.0.tar.gz (23 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [25 lines of output]
+      Traceback (most recent call last):
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+          main()
+          ~~~~^^
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+          json_out["return_val"] = hook(**hook_input["kwargs"])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+          return hook(config_settings)
+        File "/tmp/pip-build-env-ghghdz6d/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-ghghdz6d/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-ghghdz6d/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 520, in run_setup
+          super().run_setup(setup_script=setup_script)
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-ghghdz6d/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 317, in run_setup
+          exec(code, locals())  # noqa: S102 # exec is intentional here
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 30, in <module>
+        File "/tmp/pip-install-xd6t26nc/neo4j-driver_8f927300afaa432899d8652bb61480ef/neo4j/__init__.py", line 68, in <module>
+          from collections import deque, namedtuple, Mapping
+      ImportError: cannot import name 'Mapping' from 'collections' (/usr/lib/python3.14/collections/__init__.py)
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+ERROR: Failed to build 'neo4j-driver' when getting requirements to build wheel
+Collecting neo4j==1.7.0
+  Downloading neo4j-1.7.0.tar.gz (23 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [25 lines of output]
+      Traceback (most recent call last):
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+          main()
+          ~~~~^^
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+          json_out["return_val"] = hook(**hook_input["kwargs"])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/usr/local/lib/python3.14/dist-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
+          return hook(config_settings)
+        File "/tmp/pip-build-env-xq6oftr_/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-xq6oftr_/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-xq6oftr_/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 520, in run_setup
+          super().run_setup(setup_script=setup_script)
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-xq6oftr_/overlay/local/lib/python3.14/dist-packages/setuptools/build_meta.py", line 317, in run_setup
+          exec(code, locals())  # noqa: S102 # exec is intentional here
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 30, in <module>
+        File "/tmp/pip-install-8ybfl1j0/neo4j_ddd6839a848940698358f8c0f74e03c6/neo4j/__init__.py", line 68, in <module>
+          from collections import deque, namedtuple, Mapping
+      ImportError: cannot import name 'Mapping' from 'collections' (/usr/lib/python3.14/collections/__init__.py)
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+ERROR: Failed to build 'neo4j' when getting requirements to build wheel
+Collecting aclpwn
+  Downloading aclpwn-1.0.0-py3-none-any.whl.metadata (732 bytes)
+Requirement already satisfied: impacket in /usr/lib/python3/dist-packages (from aclpwn) (0.13.1)
+Requirement already satisfied: ldap3>=2.5 in /usr/lib/python3/dist-packages (from aclpwn) (2.9.1)
+Collecting neo4j-driver (from aclpwn)
+  Downloading neo4j_driver-5.28.8-py3-none-any.whl.metadata (6.2 kB)
+Requirement already satisfied: requests in /usr/lib/python3/dist-packages (from aclpwn) (2.34.2)
+Requirement already satisfied: pyasn1>=0.2.3 in /usr/lib/python3/dist-packages (from impacket->aclpwn) (0.6.4)
+Requirement already satisfied: pyasn1_modules in /usr/lib/python3/dist-packages (from impacket->aclpwn) (0.4.1)
+Requirement already satisfied: pycryptodomex in /usr/lib/python3/dist-packages (from impacket->aclpwn) (3.20.0)
+Requirement already satisfied: pyOpenSSL in /usr/lib/python3/dist-packages (from impacket->aclpwn) (26.4.0)
+Requirement already satisfied: six in /usr/lib/python3/dist-packages (from impacket->aclpwn) (1.17.0)
+Requirement already satisfied: ldapdomaindump>=0.9.0 in /usr/lib/python3/dist-packages (from impacket->aclpwn) (0.9.4)
+Requirement already satisfied: flask>=1.0 in /usr/lib/python3/dist-packages (from impacket->aclpwn) (3.1.3)
+Requirement already satisfied: charset_normalizer in /usr/lib/python3/dist-packages (from impacket->aclpwn) (3.4.7)
+Requirement already satisfied: blinker>=1.9.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (8.3.3)
+Requirement already satisfied: itsdangerous>=2.2.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (3.0.3)
+Requirement already satisfied: werkzeug>=3.1.0 in /usr/lib/python3/dist-packages (from flask>=1.0->impacket->aclpwn) (3.1.9)
+Requirement already satisfied: pytz in /usr/lib/python3/dist-packages (from neo4j-driver->aclpwn) (2026.5)
+Requirement already satisfied: cryptography<51,>=49.0.0 in /usr/lib/python3/dist-packages (from pyOpenSSL->impacket->aclpwn) (49.0.0)
+Requirement already satisfied: idna<4,>=2.5 in /usr/lib/python3/dist-packages (from requests->aclpwn) (3.20)
+Requirement already satisfied: urllib3<3,>=1.26 in /usr/lib/python3/dist-packages (from requests->aclpwn) (2.8.0)
+Requirement already satisfied: certifi>=2023.5.7 in /usr/lib/python3/dist-packages (from requests->aclpwn) (2026.7.22)
+Downloading aclpwn-1.0.0-py3-none-any.whl (17 kB)
+Downloading neo4j_driver-5.28.8-py3-none-any.whl (314 kB)
+Installing collected packages: neo4j-driver, aclpwn
+  WARNING: The script aclpwn is installed in '/usr/local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+
+Successfully installed aclpwn-1.0.0 neo4j-driver-5.28.8
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Requirement already satisfied: ldap3 in /usr/lib/python3/dist-packages (2.9.1)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+The io-wait gem is deprecated; all functionality ships with Ruby 3.2 and higher.
+Happy hacking! :)
+Successfully installed evil-winrm-4.1
+Parsing documentation for evil-winrm-4.1
+Installing ri documentation for evil-winrm-4.1
+Done installing documentation for evil-winrm after 0 seconds
+1 gem installed
+Cloning into 'windapsearch'...
+go: downloading github.com/fullstorydev/grpcui v1.5.4
+go: downloading github.com/fullstorydev/grpcurl v1.9.3
+go: downloading github.com/jhump/protoreflect v1.18.1
+go: downloading github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
+go: downloading golang.org/x/term v0.45.0
+go: downloading google.golang.org/grpc v1.83.2
+go: downloading github.com/golang/protobuf v1.5.4
+go: downloading google.golang.org/protobuf v1.36.12
+go: downloading golang.org/x/sys v0.47.0
+go: downloading golang.org/x/net v0.58.0
+go: downloading github.com/envoyproxy/go-control-plane/envoy v1.39.0
+go: downloading google.golang.org/genproto/googleapis/rpc v0.0.0-20260825221802-da73d73af1c5
+go: downloading github.com/jhump/protoreflect/v2 v2.0.0-beta.2
+go: downloading github.com/cespare/xxhash/v2 v2.3.0
+go: downloading github.com/cncf/xds/go v0.0.0-20260202195803-dba9d589def2
+go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20260526163538-3dc84a4a5aaa
+go: downloading golang.org/x/sync v0.22.0
+go: downloading github.com/spiffe/go-spiffe/v2 v2.8.1
+go: downloading github.com/envoyproxy/protoc-gen-validate v1.3.3
+go: downloading cel.dev/expr v0.25.2
+go: downloading golang.org/x/text v0.41.0
+go: downloading github.com/go-jose/go-jose/v4 v4.1.4
+go: downloading cloud.google.com/go/auth v0.18.2
+go: downloading cloud.google.com/go/compute/metadata v0.9.0
+go: downloading github.com/googleapis/gax-go/v2 v2.17.0
+go: downloading golang.org/x/oauth2 v0.36.0
+go: downloading go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.61.0
+go: downloading github.com/googleapis/enterprise-certificate-proxy v0.3.11
+go: downloading github.com/google/s2a-go v0.1.9
+go: downloading github.com/felixge/httpsnoop v1.0.4
+go: downloading go.opentelemetry.io/otel v1.44.0
+go: downloading go.opentelemetry.io/otel/metric v1.44.0
+go: downloading go.opentelemetry.io/otel/trace v1.44.0
+go: downloading github.com/go-logr/logr v1.4.3
+go: downloading github.com/go-logr/stdr v1.2.2
+go: downloading go.opentelemetry.io/auto/sdk v1.2.1
+go: downloading golang.org/x/crypto v0.55.0
+--2026-11-14 19:32:43--  https://raw.githubusercontent.com/AlmondOffSec/PassTheCert/main/Python/passthecert.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.108.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 39619 (39K) [text/plain]
+Saving to: ‘passthecert.py’
+
+     0K .......... .......... .......... ........             100% 71.1M=0.001s
+
+2026-11-14 19:32:43 (71.1 MB/s) - ‘passthecert.py’ saved [39619/39619]
+
+--2026-11-14 19:32:43--  https://raw.githubusercontent.com/borjmz/aspx-reverse-shell/master/shell.aspx
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.109.133, 185.199.111.133, 185.199.108.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 15968 (16K) [text/plain]
+Saving to: ‘shell.aspx’
+
+     0K .......... .....                                      100% 90.4M=0s
+
+2026-11-14 19:32:44 (90.4 MB/s) - ‘shell.aspx’ saved [15968/15968]
+
+mv: cannot move 'shell.aspx' to './NEW/shell.aspx': No such file or directory
+--2026-11-14 19:32:44--  https://raw.githubusercontent.com/MzHmO/DescribeTicket/main/describeTicket.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 31529 (31K) [text/plain]
+Saving to: ‘describeTicket.py’
+
+     0K .......... .......... ..........                      100% 73.7M=0s
+
+2026-11-14 19:32:44 (73.7 MB/s) - ‘describeTicket.py’ saved [31529/31529]
+
+go: downloading github.com/fullstorydev/grpcurl v1.9.4
+go: downloading github.com/envoyproxy/go-control-plane/envoy v1.37.0
+go: downloading github.com/jhump/protoreflect/v2 v2.0.0-beta.1
+go: downloading github.com/spiffe/go-spiffe/v2 v2.7.0
+go: downloading github.com/projectdiscovery/cvemap v1.0.0
+go: downloading github.com/projectdiscovery/gologger v1.1.54
+go: downloading github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
+go: downloading github.com/jedib0t/go-pretty/v6 v6.6.7
+go: downloading github.com/projectdiscovery/goflags v0.1.74
+go: downloading github.com/projectdiscovery/utils v0.4.17
+go: downloading golang.org/x/sys v0.33.0
+go: downloading github.com/projectdiscovery/retryablehttp-go v1.0.101
+go: downloading github.com/cnf/structhash v0.0.0-20201127153200-e1b16c1ebc08
+go: downloading github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
+go: downloading github.com/pkg/errors v0.9.1
+go: downloading golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading golang.org/x/term v0.29.0
+go: downloading github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+go: downloading github.com/mattn/go-isatty v0.0.20
+go: downloading github.com/projectdiscovery/blackrock v0.0.1
+go: downloading github.com/Masterminds/semver/v3 v3.2.1
+go: downloading github.com/charmbracelet/glamour v0.8.0
+go: downloading github.com/cheggaaa/pb/v3 v3.1.5
+go: downloading github.com/google/go-github/v30 v30.1.0
+go: downloading github.com/google/uuid v1.6.0
+go: downloading github.com/logrusorgru/aurora v2.0.3+incompatible
+go: downloading github.com/minio/selfupdate v0.6.1-0.20230907112617-f11e74f84ca7
+go: downloading github.com/projectdiscovery/machineid v0.0.0-20240226150047-2e2c51e35983
+go: downloading github.com/zcalusic/sysinfo v1.0.2
+go: downloading golang.org/x/oauth2 v0.27.0
+go: downloading github.com/json-iterator/go v1.1.12
+go: downloading github.com/mholt/archives v0.1.0
+go: downloading gopkg.in/djherbis/times.v1 v1.3.0
+go: downloading github.com/Mzack9999/go-http-digest-auth-client v0.6.1-0.20220414142836-eb8883508809
+go: downloading github.com/projectdiscovery/fastdialer v0.3.0
+go: downloading golang.org/x/net v0.33.0
+go: downloading github.com/mattn/go-runewidth v0.0.16
+go: downloading golang.org/x/text v0.22.0
+go: downloading github.com/miekg/dns v1.1.58
+go: downloading github.com/tidwall/gjson v1.17.0
+go: downloading github.com/microcosm-cc/bluemonday v1.0.27
+go: downloading github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d
+go: downloading github.com/muesli/termenv v0.15.3-0.20240618155329-98d742f6907a
+go: downloading github.com/yuin/goldmark v1.7.4
+go: downloading github.com/yuin/goldmark-emoji v1.0.3
+go: downloading github.com/google/go-querystring v1.1.0
+go: downloading golang.org/x/crypto v0.31.0
+go: downloading github.com/VividCortex/ewma v1.2.0
+go: downloading github.com/fatih/color v1.16.0
+go: downloading github.com/mattn/go-colorable v0.1.13
+go: downloading aead.dev/minisign v0.2.1
+go: downloading github.com/shirou/gopsutil/v3 v3.23.7
+go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+go: downloading github.com/modern-go/reflect2 v1.0.2
+go: downloading github.com/STARRY-S/zip v0.2.1
+go: downloading github.com/andybalholm/brotli v1.1.1
+go: downloading github.com/bodgit/sevenzip v1.6.0
+go: downloading github.com/dsnet/compress v0.0.2-0.20230904184137-39efe44ab707
+go: downloading github.com/klauspost/compress v1.17.11
+go: downloading github.com/klauspost/pgzip v1.2.6
+go: downloading github.com/nwaples/rardecode/v2 v2.0.0-beta.4.0.20241112120701-034e449c6e78
+go: downloading github.com/pierrec/lz4/v4 v4.1.21
+go: downloading github.com/sorairolake/lzip-go v0.3.5
+go: downloading github.com/therootcompany/xz v1.0.1
+go: downloading github.com/ulikunitz/xz v0.5.12
+go: downloading github.com/docker/go-units v0.5.0
+go: downloading github.com/Mzack9999/gcache v0.0.0-20230410081825-519e28eab057
+go: downloading github.com/dimchansky/utfbom v1.1.1
+go: downloading github.com/projectdiscovery/hmap v0.0.81
+go: downloading github.com/projectdiscovery/networkpolicy v0.1.1
+go: downloading github.com/projectdiscovery/retryabledns v1.0.94
+go: downloading github.com/refraction-networking/utls v1.6.7
+go: downloading github.com/zmap/zcrypto v0.0.0-20231219022726-a1f61fb1661c
+go: downloading golang.org/x/sync v0.11.0
+go: downloading github.com/rivo/uniseg v0.4.7
+go: downloading github.com/tidwall/match v1.1.1
+go: downloading github.com/tidwall/pretty v1.2.1
+go: downloading github.com/aymerick/douceur v0.2.0
+go: downloading github.com/alecthomas/chroma/v2 v2.14.0
+go: downloading github.com/charmbracelet/lipgloss v0.13.0
+go: downloading github.com/charmbracelet/x/ansi v0.3.2
+go: downloading github.com/muesli/reflow v0.3.0
+go: downloading github.com/aymanbagabas/go-osc52/v2 v2.0.1
+go: downloading github.com/lucasb-eyer/go-colorful v1.2.0
+go: downloading github.com/tklauser/go-sysconf v0.3.12
+go: downloading github.com/bodgit/plumbing v1.3.0
+go: downloading github.com/bodgit/windows v1.0.1
+go: downloading github.com/hashicorp/go-multierror v1.1.1
+go: downloading go4.org v0.0.0-20230225012048-214862532bf5
+go: downloading github.com/gaissmai/bart v0.9.5
+go: downloading go.uber.org/multierr v1.11.0
+go: downloading github.com/cloudflare/circl v1.6.1
+go: downloading github.com/zmap/rc2 v0.0.0-20190804163417-abaa70531248
+go: downloading github.com/gorilla/css v1.0.1
+go: downloading github.com/dlclark/regexp2 v1.11.4
+go: downloading github.com/tklauser/numcpus v0.6.1
+go: downloading github.com/hashicorp/golang-lru/v2 v2.0.7
+go: downloading github.com/hashicorp/errwrap v1.1.0
+go: downloading github.com/akrylysov/pogreb v0.10.2
+go: downloading github.com/syndtr/goleveldb v1.0.0
+go: downloading github.com/tidwall/buntdb v1.3.0
+go: downloading go.etcd.io/bbolt v1.3.8
+go: downloading github.com/bits-and-blooms/bitset v1.13.0
+go: downloading github.com/weppos/publicsuffix-go v0.30.2-0.20230730094716-a20f9abcc222
+go: downloading github.com/tidwall/btree v1.7.0
+go: downloading github.com/tidwall/grect v0.1.4
+go: downloading github.com/tidwall/rtred v0.1.2
+go: downloading github.com/golang/snappy v0.0.4
+go: downloading github.com/tidwall/tinyqueue v0.1.1
+Reading package lists...
+Building dependency tree...
+Reading state information...
+E: Unable to locate package wine:i386
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Solving dependencies...
+The following NEW packages will be installed:
+  wine-binfmt
+0 upgraded, 1 newly installed, 0 to remove and 44 not upgraded.
+Need to get 24.7 kB of archives.
+After this operation, 48.1 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 wine-binfmt all 10.0~repack-11 [24.7 kB]
+debconf: unable to initialize frontend: Interactive
+debconf: (Can't locate Debconf/FrontEnd/Interactive.pm in @INC (you may need to install the Debconf::FrontEnd::Interactive module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.42.3 /usr/local/share/perl/5.42.3 /usr/lib/x86_64-linux-gnu/perl5/5.42 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.42 /usr/share/perl/5.42 /usr/local/lib/site_perl) at (eval 17) line 2, <STDIN> line 1.)
+debconf: falling back to frontend: Noninteractive
+Fetched 24.7 kB in 0s (157 kB/s)
+Selecting previously unselected package wine-binfmt.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 840723 files and directories currently installed.)
+Preparing to unpack .../wine-binfmt_10.0~repack-11_all.deb ...
+Unpacking wine-binfmt (10.0~repack-11) ...
+Setting up wine-binfmt (10.0~repack-11) ...
+Processing triggers for systemd (262-1) ...
+debconf: unable to initialize frontend: Interactive
+debconf: (Can't locate Debconf/FrontEnd/Interactive.pm in @INC (you may need to install the Debconf::FrontEnd::Interactive module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.42.3 /usr/local/share/perl/5.42.3 /usr/lib/x86_64-linux-gnu/perl5/5.42 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.42 /usr/share/perl/5.42 /usr/local/lib/site_perl) at (eval 15) line 2.)
+debconf: falling back to frontend: Noninteractive
+Reading package lists...
+Building dependency tree...
+Reading state information...
+E: Unable to locate package winetricks:i386
+sh: 1: winetricks: not found

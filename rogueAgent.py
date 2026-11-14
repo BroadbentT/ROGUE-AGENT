@@ -4471,9 +4471,29 @@ while True:
    if selection == '446':
       checkParam = test_WEB()
       if checkParam != 1:
+         ride = 0
+         print(colored("[*] Calculating fuzz rider value...", colour3))
+         localCOM("echo kdfhjdgfjdf > rider.tmp")
+         localCOM("echo ggdsdjgkdhf >> rider.tmp")
+         localCOM("echo djfgdjfgdsf >> rider.tmp")
+         localCOM("echo sdjhsgdfghf >> rider.tmp")
+         localCOM("echo skhdkdshfff >> rider.tmp")
+         remoteCOM("wfuzz -c -f calibration.tmp -w rider.tmp -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " > dump.tmp 2>&1")
+         with open("calibration.tmp", "r", encoding="utf-8") as f:
+             content = f.read()
+         content = re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', content)
+         matches = re.findall(r'(\d+)\s*L\b', content)
+         if matches:
+             ride = int(matches[0])
+             print("\n[+] Found : " + str(ride) + "\n")
+         else:
+             print("\n[-] No match found...\n")
+             print(repr(content[:1000]))
+         FuzzRider = "--hl " + str(ride)
          print(colored("[*] Fuzzing for subdomains, please wait this can take sometime...", colour3))
-         remoteCOM("wfuzz -c -f subdomains.tmp -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " 2>&1 > dump.tmp")
+         remoteCOM("wfuzz -c -f subdomains.tmp,raw -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " --hc 400 > dump.tmp 2>&1")
          catsFile("subdomains.tmp")
+         FuzzRider = spacePadding(FuzzRider, COL1)
       prompt() 
       
 # ------------------------------------------------------------------------------------- 

@@ -1,0 +1,73 @@
+{
+    "10.129.207.179": {
+        "osmatch": {},
+        "ports": [
+            {
+                "protocol": "tcp",
+                "portid": "22",
+                "state": "open",
+                "reason": "syn-ack",
+                "reason_ttl": "0",
+                "service": {
+                    "name": "ssh",
+                    "method": "table",
+                    "conf": "3"
+                },
+                "scripts": []
+            },
+            {
+                "protocol": "tcp",
+                "portid": "80",
+                "state": "open",
+                "reason": "syn-ack",
+                "reason_ttl": "0",
+                "service": {
+                    "name": "http",
+                    "method": "table",
+                    "conf": "3"
+                },
+                "scripts": []
+            },
+            {
+                "protocol": "tcp",
+                "portid": "443",
+                "state": "open",
+                "reason": "syn-ack",
+                "reason_ttl": "0",
+                "service": {
+                    "name": "https",
+                    "method": "table",
+                    "conf": "3"
+                },
+                "scripts": []
+            }
+        ],
+        "hostname": [
+            {
+                "name": "laboratory.htb",
+                "type": "PTR"
+            }
+        ],
+        "macaddress": null,
+        "state": {
+            "state": "up",
+            "reason": "echo-reply",
+            "reason_ttl": "63"
+        }
+    },
+    "stats": {
+        "scanner": "nmap",
+        "args": "/usr/lib/nmap/nmap -oX - -sT -p 1-65535 -T4 --max-retries 0 10.129.207.179",
+        "start": "1794689046",
+        "startstr": "Sat Nov 14 20:44:06 2026",
+        "version": "7.991",
+        "xmloutputversion": "1.05"
+    },
+    "runtime": {
+        "time": "1794689109",
+        "timestr": "Sat Nov 14 20:45:09 2026",
+        "summary": "Nmap done at Sat Nov 14 20:45:09 2026; 1 IP address (1 host up) scanned in 62.54 seconds",
+        "elapsed": "62.54",
+        "exit": "success"
+    }
+}
