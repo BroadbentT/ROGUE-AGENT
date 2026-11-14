@@ -170,13 +170,7 @@ python3 install.py
 Launch the ROGUE AGENT command centre:
 
 ```bash
-python3 RogueAgent.py
-```
-
-Launch the DARK OPERATIVE command centre:
-
-```bash
-python3 Dark-Operative.py
+python3 rogueAgent.py
 ```
 
 The available commands, options and supported workflows depend on the current implementation. Review the source code and installer before execution.
@@ -189,8 +183,7 @@ The available commands, options and supported workflows depend on the current im
 |---|---|---|---|---|
 | Python 3 | `install.py` | `1308801d23d07210c07b38af764db8a0` | Install Program | TREADSTONE |
 | Python 3 | `exploits.py` | `b2de8bb948b7aa1bfe77613a06597e99` | Install Exploits | TREADSTONE |
-| Python 3 | `RogueAgent.py` | `144704f94687b84cdacbefef26b7cb6a` | Command Centre | TREADSTONE |
-| Python 3 | `Dark-Operative.py` | `48923f2f05df049fb445523abcfd3d01` | Command Centre (WS) | LARX |
+| Python 3 | `rogueAgent.py` | `ec0a69d883db5702bd2b112f04a3ba5f` | Command Centre | TREADSTONE |
 | Python 3 | `shell.py` | `0ae617318d2c78a587ea2844733d1db0` | Auto Reverse Shell | LARX |
 | SQLite 3 | `RA.db` | `bd47bafed06142a10a00a635de180854` | Program Database | LARX |
 
@@ -198,13 +191,13 @@ The available commands, options and supported workflows depend on the current im
 
 ## RELEASE NOTES & DEVELOPMENT STATUS
 
-## NEW WIDE-SCREEN LARX VERSION 2026 ##
+## NEW WIDE-SCREEN TREADSTONE VERSION 2026 ##
 
 <p align="center">
   <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture3.png">
 </p>
 
-## TREADSTONE CONSOLE DISPLAY AND VIDEO LINK
+## ROGUE AGENT CONSOLE DISPLAY AND VIDEO LINK
 
 [![WinMaster](https://github.com/BroadbentT/ROGUE-AGENT/blob/main/picture2.png)](https://youtu.be/fx6gZ2zYQ68 "RogueAgent")
 
