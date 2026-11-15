@@ -66,6 +66,29 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
+# Find FUZZ rider value to ignore
+def rider():
+   ride = 0
+   print(colored("[*] Calculating fuzz rider value...", colour3))
+   localCOM("echo kdfhjdgfjdf > rider.tmp")
+   localCOM("echo ggdsdjgkdhf >> rider.tmp")
+   localCOM("echo djfgdjfgdsf >> rider.tmp")
+   localCOM("echo sdjhsgdfghf >> rider.tmp")
+   localCOM("echo skhdkdshfff >> rider.tmp")
+   remoteCOM("wfuzz -c -f calibration.tmp -w rider.tmp -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " > dump.tmp 2>&1")
+   with open("calibration.tmp", "r", encoding="utf-8") as f:
+      content = f.read()
+   content = re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', content)
+   matches = re.findall(r'(\d+)\s*L\b', content)
+   if matches:
+      ride = int(matches[0])
+      print("\n[+] Found : " + str(ride) + "\n")
+   else:
+      print("\n[-] No match found...\n")
+      print(repr(content[:1000]))
+   value = "--hl " + str(ride)
+   return(value)
+
 # CUT A LINE OUT OF A FILE
 def cutLine(variable1, variable2):				
    localCOM("sed -i -E '/" + variable1 + "/d' ./" + variable2)
@@ -112,7 +135,7 @@ def catsFile(variable):
       return
    localCOM("sed -i '/^$/d' ./" + variable)
    cutLine("Impacket", variable)
-   CHAR_DELAY = 0.05 
+   CHAR_DELAY = 0.005 
    filename = variable
    localCOM("echo '" + Green + "'")
    with open(filename, 'r') as f:
@@ -843,7 +866,7 @@ def options():
    print('\u2551' + "(04) Set LIVE  PORTS (14) Set SHARE NAME (34) AT  Exec (44) REGistry Hives (54) Kerbe Roasting (64) Gold  DC PAC (74) Expl Finder (84) GenListUser (94 ) Telnet   (234) Basic Serv Scan (344) Edit   Host.conf (444) Enum Sub-DOM (603) Domain  Dumper (703) Certipy 3 (713) Certipy 13 " + '\u2551')
    print('\u2551' + "(05) Set WEBSITE URL (15) Set KERB  AUTH (35) DComExec (45) Enum EndPoints (55) ASREP Roasting (65) HASH2TICKET  (75) ExplCreator (85) GenListPass (95 ) Netcat   (235) Light Serv Scan (345) Edit Resolv.conf (445) EnumVirtHOST (604) BloodHoundDump (704) Certipy 4 (714) Certipy 14 " + '\u2551')
    print('\u2551' + "(06) Set USER   NAME (16) UNALLOCATED    (36) PS  Exec (46) Rpc ClientServ (56) TARGD Roasting (66) Disp  Ticket (76) Dir Listing (86) NTDSDECRYPT (96 ) MSSQL    (236) Heavy Serv Scan (346) Edit ProxyChains (446) FUZZ Sub-DOM (605) BloodyADdGroup (705) Certipy 5 (715) Certipy 15 " + '\u2551')
-   print('\u2551' + "(07) Set PASS   WORD (17) Set  COMMUNITY (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87)             (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
+   print('\u2551' + "(07) Set PASS   WORD (17) Set  COMMUNITY (37) SMB Exec (47) Smb ClientServ (57) Pass the  HASH (67) PSExec  HASH (77) SNMP Walker (87) RESERVED    (97 ) MySQL    (237) WordPress  Scan (347) Edit  Kerb5.conf (447) MAN CHISEL64 (606) BloodyADd User (706) Certipy 6 (716) Certipy 16 " + '\u2551')
    print('\u2551' + "(08) Set NTLM   HASH (18) Set FUZZ RIDER (38) WMI Exec (48) Smb Map SHARES (58) GenTicket HASH (68) SmbExec HASH (78) ManPhishCod (88) RedisClient (98 ) WinRm    (238) WP Plugin  Scan (348) ADD AD Usernames (448) AUTOCHISEL64 (607) ReactivateUser (707) Certipy 7 (717) Certipy 17 " + '\u2551')
    print('\u2551' + "(09) Set TICKET NAME (19) Set WORD  LIST (39) NFS List (49) Smb Dump Files (59) PASSWORD2HASH  (69) WmiExec HASH (79) AutoPhisher (89) Remote Sync (99 ) RemDesk  (239) Nuclei  Scanner (349) LFI OS   Checker (449) SSHPort4Ward (608) Patch MSA User (708) Certipy 8 (718) BloodH GUI " + '\u2551')
    print('\u2551' + "(10) Set DOMAIN NAME (20) Set SERVERTIME (40) NFSMount (50) Smb MountSHARE (60) Enum4Linux     (70) STARTSERVERS (80) RemoteShell (90) Rsync Dumps (100) RDPBrute (240) Run LineCommand (350) HTTP Git  Dumper (450)", end= ' ')
@@ -4471,25 +4494,7 @@ while True:
    if selection == '446':
       checkParam = test_WEB()
       if checkParam != 1:
-         ride = 0
-         print(colored("[*] Calculating fuzz rider value...", colour3))
-         localCOM("echo kdfhjdgfjdf > rider.tmp")
-         localCOM("echo ggdsdjgkdhf >> rider.tmp")
-         localCOM("echo djfgdjfgdsf >> rider.tmp")
-         localCOM("echo sdjhsgdfghf >> rider.tmp")
-         localCOM("echo skhdkdshfff >> rider.tmp")
-         remoteCOM("wfuzz -c -f calibration.tmp -w rider.tmp -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " > dump.tmp 2>&1")
-         with open("calibration.tmp", "r", encoding="utf-8") as f:
-             content = f.read()
-         content = re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', content)
-         matches = re.findall(r'(\d+)\s*L\b', content)
-         if matches:
-             ride = int(matches[0])
-             print("\n[+] Found : " + str(ride) + "\n")
-         else:
-             print("\n[-] No match found...\n")
-             print(repr(content[:1000]))
-         FuzzRider = "--hl " + str(ride)
+         FuzzRider = rider()
          print(colored("[*] Fuzzing for subdomains, please wait this can take sometime...", colour3))
          remoteCOM("wfuzz -c -f subdomains.tmp,raw -w " + currentWordlist + " -u '" + WEB.rstrip(" ") + "' -H 'Host:FUZZ." + DOM.rstrip(" ")+"' " + FuzzRider.rstrip(" ") + " --hc 400 > dump.tmp 2>&1")
          catsFile("subdomains.tmp")

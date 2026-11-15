@@ -1,10 +1,10 @@
 {
-    "10.129.207.179": {
+    "10.129.151.78": {
         "osmatch": {},
         "ports": [],
         "hostname": [
             {
-                "name": "laboratory.htb",
+                "name": "ip-10-129-151-78.eu-west-2.compute.internal",
                 "type": "PTR"
             }
         ],
@@ -17,17 +17,17 @@
     },
     "stats": {
         "scanner": "nmap",
-        "args": "/usr/lib/nmap/nmap -oX - -sU --top 200 -T4 --max-retries 0 10.129.207.179",
-        "start": "1794689109",
-        "startstr": "Sat Nov 14 20:45:09 2026",
+        "args": "/usr/lib/nmap/nmap -oX - -sU --top 200 -T4 --max-retries 0 10.129.151.78",
+        "start": "1794738706",
+        "startstr": "Sun Nov 15 10:31:46 2026",
         "version": "7.991",
         "xmloutputversion": "1.05"
     },
     "runtime": {
-        "time": "1794689112",
-        "timestr": "Sat Nov 14 20:45:12 2026",
-        "summary": "Nmap done at Sat Nov 14 20:45:12 2026; 1 IP address (1 host up) scanned in 2.21 seconds",
-        "elapsed": "2.21",
+        "time": "1794738708",
+        "timestr": "Sun Nov 15 10:31:48 2026",
+        "summary": "Nmap done at Sun Nov 15 10:31:48 2026; 1 IP address (1 host up) scanned in 2.20 seconds",
+        "elapsed": "2.20",
         "exit": "success"
     }
 }
