@@ -3,7 +3,7 @@
 **ALPHA RELEASE | Cybersecurity Research & Network Assessment Toolkit**
 
 <p align="center">
-  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue_Agent_Treadstone_Under_Surveillance_1672x940.png">
+  <img src="https://github.com/BroadbentT/ROGUE-AGENT/blob/main/Rogue%20Agent%20Logo.png">
 </p>
 
 ## COMMAND CENTRE FOR AUTHORISED NETWORK SECURITY ANALYSIS
