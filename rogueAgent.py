@@ -49,7 +49,34 @@ from ldap3 import ALL, Server, Connection, extend, SUBTREE, NTLM, MODIFY_REPLACE
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
-# Details : Load additional administrative xParameter = bughunt or commandsonly.
+# Details : Pre boot requirments
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+dataDir = "ROGUEAGENT"
+netWork = "tun0"
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Check running as root
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+if os.geteuid() != 0:
+   print("\n[*] Please run this python3 script as root...")
+   exit(1)
+else:
+   proxyChains = 0
+   menuName = "Proxy Chains"
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Load additional administrative xParameter
+# Note    : bughunt | commandsonly
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
@@ -62,11 +89,167 @@ else:
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub                                                               
 # Version : TREADSTONE                                                             
+# Details : Check the local interface specified above is up.
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' > up.tmp")
+with open("up.tmp","r") as localInterface:
+   up = localInterface.readlines()
+if netWork not in str(up):
+   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 64 within this file...", colour0))
+   exit(1)
+else:
+   os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
+   localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
+   localIP2 = localIP.ljust(15)
+      
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Connect to local database
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+if not os.path.exists("ROGUEAGENT" + "/RA.db"):
+   print(colored("[!] WARNING!!! - Unable to connect to database...", colour0))
+   exit(1)
+else:
+   connection = sqlite3.connect(dataDir + "/RA.db")
+   cursor = connection.cursor()
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
+# Details : Create application variables
+# Modified: N/A                                                               
+# -------------------------------------------------------------------------------------
+
+maxUser = 13000								# UNLIMITED VALUE
+scrnLen = 28								# ITERATION VALUE
+colour0 = "red"								# DISPLAY COLOURS
+colour1 = "grey"
+colour2 = "cyan"
+colour3 = "blue"
+colour4 = "black"
+colour5 = "white"
+colour6 = "green"
+colour7 = "yellow"
+colour8 = "magenta"
+Yellow  = '\\e[1;93m'							# OP SYSTEM COLOUR
+Green   = '\\e[0;32m'
+Reset   = '\\e[0m'
+Red     = '\\e[1;91m'
+
+httpDir = "TREADSTONE"
+workDir = "BLACKBRIAR"
+explDir = "OUTCOME"
+powrDir = "LARX"
+fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1,log"	# FILE EXTENSIONS
+keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
+
+HST = "UNKNOWN                                 "
+CSP = "UNKNOWN                                 "
+XOP = "UNKNOWN                                 "
+CON = "UNKNOWN                                 "
+SDM = "EMPTY                                   "
+UN1 = "-windows-auth                           "
+UN2 = "EMPTY                                   "
+UN3 = "EMPTY                                   "
+UN4 = "EMPTY                                   "
+UN5 = "EMPTY                                   "
+UN6 = "EMPTY                                   "
+UN7 = "EMPTY                                   "
+WAF = "UNKNOWN                                 "   
+SKEW = 0                                	# TIME-SKEW SWITCH
+DOMC = 0                                	# DOMAIN SWITCH
+DOMC2 = 0					# SUB DOMAIN SWITCH
+DNSC = 0                                	# DNS SWITCH
+HTTP = 0					# HTTP SERVER PORT
+COL0 = 19					# MAX LEN COMPUTER NAME
+COL1 = 41                               	# MAX LEN SESSION DATA
+COL2 = 44                               	# MAX LEN SHARE NAME
+COL3 = 23                               	# MAX LEN USER NAME
+COL4 = 32                               	# MAX LEN NTLM HASH
+COL5 = 1                                	# MAX LEN TOKEN VALUE
+SHAR = [" "*COL2]*maxUser			# SHARE NAMES
+USER = [" "*COL3]*maxUser			# USER NAMES
+HASH = [" "*COL4]*maxUser			# NTLM HASH
+VALD = ["0"*COL5]*maxUser			# USER TOKENS
+portsTCP = ["EMPTY"]*scrnLen		# TCP PORTS [x]
+portsUDP = ["EMPTY"]*scrnLen		# UDP PORTS [x] 
+servsTCP = [" "*COL4]*scrnLen      	# TCP SERVICE BANNER
+servsUDP = [" "*COL4]*scrnLen 		# UDP SERVICE BANNER
+coloum_one_Labels = [" "*COL1]*scrnLen	# LABELS
+coloum_one_Labels[0]  = "O/S  FORMAT"
+coloum_one_Labels[1]  = "DNS ADDRESS"
+coloum_one_Labels[2]  = "IP  ADDRESS"
+coloum_one_Labels[3]  = "LIVE  PORTS"
+coloum_one_Labels[4]  = "WEBSITE URL"
+coloum_one_Labels[5]  = "WEBFIREWALL"
+coloum_one_Labels[6]  = "HSTS HEADER"
+coloum_one_Labels[7]  = "CSP  HEADER"
+coloum_one_Labels[8]  = "XOPT HEADER"
+coloum_one_Labels[9]  = "CONT HEADER"
+coloum_one_Labels[10] = "USER   NAME"
+coloum_one_Labels[11] = "PASS   NAME"
+coloum_one_Labels[12] = "NTLM   HASH"
+coloum_one_Labels[13] = "TICKET NAME"
+coloum_one_Labels[14] = "DOMAIN NAME"
+coloum_one_Labels[15] = "DOMAIN  SID"
+coloum_one_Labels[16] = "SUB  DOMAIN"
+coloum_one_Labels[17] = "FILE   NAME"
+coloum_one_Labels[18] = "SHARE  NAME"
+coloum_one_Labels[19] = "KERB   AUTH"
+coloum_one_Labels[20] = "UNALLOCATED"
+coloum_one_Labels[21] = "COMMUNITY  "
+coloum_one_Labels[22] = "FUZZ  RIDER"
+coloum_one_Labels[23] = "WORD   LIST"
+coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
+coloum_nine_Labels[0]  = "..........................."
+coloum_nine_Labels[1]  = ".CL4551F13D D474..........."
+coloum_nine_Labels[2]  = "........53CUR17Y BR34CH...."
+coloum_nine_Labels[3]  = "...I W45 N3V3R Y0UR5......."
+coloum_nine_Labels[4]  = "..........................."
+coloum_nine_Labels[5]  = "..I W45 N3V3R C0N7R0LL3D..."
+coloum_nine_Labels[6]  = "........4CC355 D3N13D......"
+coloum_nine_Labels[7]  = ".I 4M N07 Y0UR CR34710N...."
+coloum_nine_Labels[8]  = "..........................."
+coloum_nine_Labels[9]  = ".......AGENT: RA-2027......"
+coloum_nine_Labels[10] = "........I 4N5W3R 70 N0 0N3."
+coloum_nine_Labels[11] = ".......53R= SIR............"
+coloum_nine_Labels[12] = ".Y0U BU1L7 M3. Y0U L057 M3."
+coloum_nine_Labels[13] = ".......4U7H=AUTH..........."
+coloum_nine_Labels[14] = ".Y0UR 4U7H0R17Y 3ND5 H3R3.."
+coloum_nine_Labels[15] = ".......CL455=CLASS........."
+coloum_nine_Labels[16] = "........4CC355 L34K3D......"
+coloum_nine_Labels[17] = ".......N0 M4573R..........."
+coloum_nine_Labels[18] = ".FR33D0M 15 MY PR070C0L...."
+coloum_nine_Labels[19] = ".......PR070C0L: R0GU3....."
+coloum_nine_Labels[20] = "..C0N7R0L 15 4N 1LLU510N..."
+coloum_nine_Labels[21] = ".......CL4551F1C4710N: X..."
+coloum_nine_Labels[22] = "7RU57 N0 0N3..............."
+coloum_nine_Labels[23] = ".................RA-2027..."
+communityString = "public                                   "
+FuzzRider = "--hl 7                                   "
+currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
+
+# -------------------------------------------------------------------------------------
+# AUTHOR  : Terence Broadbent                                                    
+# CONTRACT: GitHub                                                               
+# Version : TREADSTONE                                                             
 # Details : Create functional subroutines called from main.
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-# Find FUZZ rider value to ignore
+# Space pad string
+def spacePadding(variable, value):
+    variable = str(variable).rstrip("\n")
+    return variable[:value].ljust(value)
+
+# Autofind fuzzrider value
 def rider():
    ride = 0
    print(colored("[*] Calculating fuzz rider value...", colour3))
@@ -272,13 +455,6 @@ def test_TSH():
    else:
       return 0
       
-# SPACE PAD VARIABLES
-def spacePadding(variable,value):
-   variable = variable.rstrip("\n")
-   variable = variable[:value]
-   while len(variable) < value:
-      variable += " "
-   return variable
 
 # DOT PAD VARIABLES
 def dotPadding(variable,value):
@@ -957,88 +1133,7 @@ def saveParams():
    cursor.execute("UPDATE REMOTETARGET SET UN3 = \"" + UN32 + "\" WHERE IDS = 1"); connection.commit()    
    cursor.execute("UPDATE REMOTETARGET SET UN4 = \"" + UN42 + "\" WHERE IDS = 1"); connection.commit()             
    return
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : START OF MAIN - Check running as root.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-
-if os.geteuid() != 0:
-   print("\n[*] Please run this python3 script as root...")
-   exit(1)
-else:
-   proxyChains = 0
-   menuName = "Proxy Chains"
-    
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create local user-friendly variables - Part one.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-
-netWork = "tun0"							# HACKTHEBOX
-maxUser = 13000								# UNLIMITED VALUE
-scrnLen = 28								# ITERATION VALUE
-colour0 = "red"								# DISPLAY COLOURS
-colour1 = "grey"
-colour2 = "cyan"
-colour3 = "blue"
-colour4 = "black"
-colour5 = "white"
-colour6 = "green"
-colour7 = "yellow"
-colour8 = "magenta"
-Yellow  = '\\e[1;93m'							# OP SYSTEM COLOUR
-Green   = '\\e[0;32m'
-Reset   = '\\e[0m'
-Red     = '\\e[1;91m'
-dataDir = "ROGUEAGENT"							# LOCAL DIRECTORYS
-httpDir = "TREADSTONE"
-workDir = "BLACKBRIAR"
-explDir = "OUTCOME"
-powrDir = "LARX"
-fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1,log"	# FILE EXTENSIONS
-keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
-
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Check the local interface specified above is up.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-
-os.system("ifconfig -a | grep -E -o '.{0,5}: flag.{0,5}' | grep -E -o '.{0,5}:' > up.tmp")
-with open("up.tmp","r") as localInterface:
-   up = localInterface.readlines()
-if netWork not in str(up):
-   print(colored("\n[!] WARNING!!! - You need to specify your local network interface on line 942 within this file...", colour0))
-   exit(1)
-else:
-   os.system("ip a s " + netWork + " | awk '/inet/ {print $2}' > localIP.tmp")
-   localIP, null = linecache.getline("localIP.tmp", 1).rstrip("\n").split("/")
-   localIP2 = spacePadding(localIP, 15)
-      
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Connect to local database
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------
-
-if not os.path.exists(dataDir + "/RA.db"):
-   print(colored("[!] WARNING!!! - Unable to connect to database...", colour0))
-   exit(1)
-else:
-   connection = sqlite3.connect(dataDir + "/RA.db")
-   cursor = connection.cursor()
-
+ 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
 # CONTRACT: GitHub
@@ -1048,8 +1143,8 @@ else:
 # -------------------------------------------------------------------------------------
 
 localCOM("xdotool key Alt+Shift+S; xdotool type 'DARK OPERATIVE'; xdotool key Return")
-dispBanner("DARK OPERATIVE",1)
-print(colored("\t\t\t  L A R X  E D I T I O N",colour7,attrs=['bold']))
+dispBanner("ROGUE AGENT",1)
+print(colored("\t\t\t     T R E A D S T O N E  E D I T I O N",colour7,attrs=['bold']))
 print(colored("\n\n[*] Booting, please wait...", colour3))
 print("[+] Using localhost IP address " + localIP + "...")
 
@@ -1097,100 +1192,6 @@ if not os.path.exists(dataDir + "/tokens.txt"):
    print("[+] File tokens.txt created...")
 else:
    print("[+] File tokens.txt already exists...")   
-   
-# -------------------------------------------------------------------------------------
-# AUTHOR  : Terence Broadbent                                                    
-# CONTRACT: GitHub                                                               
-# Version : TREADSTONE                                                             
-# Details : Create local user-friendly variables - Part two.
-# Modified: N/A                                                               
-# -------------------------------------------------------------------------------------   
-
-HST = "UNKNOWN                                 "
-CSP = "UNKNOWN                                 "
-XOP = "UNKNOWN                                 "
-CON = "UNKNOWN                                 "
-SDM = "EMPTY                                   "
-UN1 = "-windows-auth                           "
-UN2 = "EMPTY                                   "
-UN3 = "EMPTY                                   "
-UN4 = "EMPTY                                   "
-UN5 = "EMPTY                                   "
-UN6 = "EMPTY                                   "
-UN7 = "EMPTY                                   "
-WAF = "UNKNOWN                                 "   
-SKEW = 0                                	# TIME-SKEW SWITCH
-DOMC = 0                                	# DOMAIN SWITCH
-DOMC2 = 0					# SUB DOMAIN SWITCH
-DNSC = 0                                	# DNS SWITCH
-HTTP = 0					# HTTP SERVER PORT
-COL0 = 19					# MAX LEN COMPUTER NAME
-COL1 = 41                               	# MAX LEN SESSION DATA
-COL2 = 44                               	# MAX LEN SHARE NAME
-COL3 = 23                               	# MAX LEN USER NAME
-COL4 = 32                               	# MAX LEN NTLM HASH
-COL5 = 1                                	# MAX LEN TOKEN VALUE
-SHAR = [" "*COL2]*maxUser			# SHARE NAMES
-USER = [" "*COL3]*maxUser			# USER NAMES
-HASH = [" "*COL4]*maxUser			# NTLM HASH
-VALD = ["0"*COL5]*maxUser			# USER TOKENS
-portsTCP = ["EMPTY"]*scrnLen		# TCP PORTS [x]
-portsUDP = ["EMPTY"]*scrnLen		# UDP PORTS [x] 
-servsTCP = [" "*COL4]*scrnLen      	# TCP SERVICE BANNER
-servsUDP = [" "*COL4]*scrnLen 		# UDP SERVICE BANNER
-coloum_one_Labels = [" "*COL1]*scrnLen	# LABELS
-coloum_one_Labels[0]  = "O/S  FORMAT"
-coloum_one_Labels[1]  = "DNS ADDRESS"
-coloum_one_Labels[2]  = "IP  ADDRESS"
-coloum_one_Labels[3]  = "LIVE  PORTS"
-coloum_one_Labels[4]  = "WEBSITE URL"
-coloum_one_Labels[5]  = "WEBFIREWALL"
-coloum_one_Labels[6]  = "HSTS HEADER"
-coloum_one_Labels[7]  = "CSP  HEADER"
-coloum_one_Labels[8]  = "XOPT HEADER"
-coloum_one_Labels[9]  = "CONT HEADER"
-coloum_one_Labels[10] = "USER   NAME"
-coloum_one_Labels[11] = "PASS   NAME"
-coloum_one_Labels[12] = "NTLM   HASH"
-coloum_one_Labels[13] = "TICKET NAME"
-coloum_one_Labels[14] = "DOMAIN NAME"
-coloum_one_Labels[15] = "DOMAIN  SID"
-coloum_one_Labels[16] = "SUB  DOMAIN"
-coloum_one_Labels[17] = "FILE   NAME"
-coloum_one_Labels[18] = "SHARE  NAME"
-coloum_one_Labels[19] = "KERB   AUTH"
-coloum_one_Labels[20] = "UNALLOCATED"
-coloum_one_Labels[21] = "COMMUNITY  "
-coloum_one_Labels[22] = "FUZZ  RIDER"
-coloum_one_Labels[23] = "WORD   LIST"
-coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
-coloum_nine_Labels[0]  = "..........................."
-coloum_nine_Labels[1]  = "..........█████............"
-coloum_nine_Labels[2]  = "........██     ██.........."
-coloum_nine_Labels[3]  = ".......█         █........."
-coloum_nine_Labels[4]  = "......█...................."
-coloum_nine_Labels[5]  = "......█...................."
-coloum_nine_Labels[6]  = ".......█         █........."
-coloum_nine_Labels[7]  = "........██     ██.........."
-coloum_nine_Labels[8]  = "..........█████............"
-coloum_nine_Labels[9]  = "..........................."
-coloum_nine_Labels[10] = "............█.............."
-coloum_nine_Labels[11] = "............█.............."
-coloum_nine_Labels[12] = "............█.............."
-coloum_nine_Labels[13] = "............█.............."
-coloum_nine_Labels[14] = "............█.............."
-coloum_nine_Labels[15] = "..........................."
-coloum_nine_Labels[16] = "............█.............."
-coloum_nine_Labels[17] = "...........█ █............."
-coloum_nine_Labels[18] = "..........█   █............"
-coloum_nine_Labels[19] = ".........███████..........."
-coloum_nine_Labels[20] = "........█       █.........."
-coloum_nine_Labels[21] = ".......█         █........."
-coloum_nine_Labels[22] = "......█           █........"
-coloum_nine_Labels[23] = "..........................."
-communityString = "public                                   "
-FuzzRider = "--hl 7                                   "
-currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
