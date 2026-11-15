@@ -183,7 +183,7 @@ The available commands, options and supported workflows depend on the current im
 |---|---|---|---|---|
 | Python 3 | `install.py` | `1308801d23d07210c07b38af764db8a0` | Install Program | TREADSTONE |
 | Python 3 | `exploits.py` | `b2de8bb948b7aa1bfe77613a06597e99` | Install Exploits | TREADSTONE |
-| Python 3 | `rogueAgent.py` | `ec0a69d883db5702bd2b112f04a3ba5f` | Command Centre | TREADSTONE |
+| Python 3 | `rogueAgent.py` | `de64e0f78ed434995d20bd959a698ae9` | Command Centre | TREADSTONE |
 | Python 3 | `shell.py` | `0ae617318d2c78a587ea2844733d1db0` | Auto Reverse Shell | LARX |
 | SQLite 3 | `RA.db` | `bd47bafed06142a10a00a635de180854` | Program Database | LARX |
 
