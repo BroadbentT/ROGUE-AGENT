@@ -87,8 +87,7 @@ The project covers network reconnaissance, SMB and LDAP analysis, identity and c
 ### 07. 🖥️ Command Centre & Operator Workflows
 
 - Python command-line entry points for the ROGUE AGENT toolkit.
-- Companion DARK OPERATIVE command-centre interface.
-- Wide-screen LARX edition.
+- Wide-screen TREADSTONE edition.
 - Shared installation and supporting utility scripts.
 - Structured operator workflows for assessment activities.
 - Further interface and usability development.
@@ -97,7 +96,7 @@ The project covers network reconnaissance, SMB and LDAP analysis, identity and c
 
 - Automated setup through the project installation script.
 - Supporting exploit and utility installation through the supplied installer workflow.
-- SQLite database component identified as `RA.db`.
+- SQLite assessment database storage via `RA.db`.
 - Python-based project structure.
 - Dependency installation and environment preparation.
 - Compatibility validation for the selected Linux distribution.
@@ -108,8 +107,6 @@ The project covers network reconnaissance, SMB and LDAP analysis, identity and c
 - Documentation of SMB, LDAP and directory-service observations.
 - Organisation of identity and authentication findings.
 - Evidence capture to support reproducible assessment results.
-- Clear separation of confirmed findings from unverified observations.
-- Remediation guidance focused on reducing exposure.
 
 ---
 
