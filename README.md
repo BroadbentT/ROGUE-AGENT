@@ -237,4 +237,4 @@ Found this project useful, or would like to support further development?
 
 **ROGUE AGENT — TREADSTONE / DARK OPERATIVE — LARX**
 
-*Discover. Assess. Validate. Defend.*
+*Discover. Assess. Validate. Exploit.*
