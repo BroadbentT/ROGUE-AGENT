@@ -131,8 +131,8 @@ maxUser = 13000								# UNLIMITED VALUE
 scrnLen = 28								# ITERATION VALUE
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
-colour2 = "cyan"
-colour3 = "blue"
+colour2 = "blue"
+colour3 = "cyan"
 colour4 = "black"
 colour5 = "white"
 colour6 = "green"
@@ -587,9 +587,10 @@ def getTCPorts():
       services = services.rstrip("\n")            
       for loop1 in range(0, loopMax):      
          for y1 in services.split(","):
-            servsTCP[loop1] = spacePadding(y1, COL4)
+            if y1[:1]!="[":
+               servsTCP[loop1] = spacePadding(y1, COL4)
             loop1 = loop1 + 1
-         break      
+         break    
    return this_Ports1
  
 # GET REMOTE OPEN UDP PORTS
@@ -727,7 +728,6 @@ def networkSweep():
       else:
          print("[+] Found live hosts...")         
          the_list = []
-         localCOM("echo '" + Green + "'")         
          with open("hosts.tmp") as file:
             for line in file:
                line = line.rstrip("\n")
@@ -737,10 +737,10 @@ def networkSweep():
                the_list.append("255.255.255.255")
             for count,item in enumerate(sorted(the_list), 1):
                if item != "255.255.255.255":
-                  print(item.ljust(18), end =' ')
+                  print(item.ljust(18), end=' ', file=open('filter.tmp', 'a'))
                if count % num_columns == 0:
-                  print("")        
-   localCOM("echo '" + Reset + "'")
+                  print("", file=open("filter.tmp", "a"))
+   catsFile("filter.tmp")
    return      
  
 # GET REMOTE SERVER TIME   
