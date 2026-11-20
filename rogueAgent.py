@@ -20,7 +20,7 @@ import sys
 import time
 import json
 import nmap3
-import getopt
+# import getopt
 import base64
 import string
 import random
@@ -34,7 +34,7 @@ import datetime
 import requests
 import paramiko
 import linecache
-import itertools
+# import itertools
 
 from pathlib import Path
 from termcolor import colored
@@ -43,7 +43,8 @@ from impacket.dcerpc.v5 import transport
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 from ldap3.core.exceptions import LDAPBindError
-from ldap3 import ALL, Server, Connection, extend, SUBTREE, NTLM, MODIFY_REPLACE
+from ldap3 import ALL, Server, Connection, NTLM, MODIFY_REPLACE
+# from ldap3 import ALL, Server, Connection, extend, SUBTREE, NTLM, MODIFY_REPLACE
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -129,6 +130,7 @@ else:
 
 maxUser = 13000								# UNLIMITED VALUE
 scrnLen = 28								# ITERATION VALUE
+
 colour0 = "red"								# DISPLAY COLOURS
 colour1 = "grey"
 colour2 = "blue"
@@ -147,8 +149,12 @@ httpDir = "TREADSTONE"
 workDir = "BLACKBRIAR"
 explDir = "OUTCOME"
 powrDir = "LARX"
+
 fileExt = "py,sh,js,xlsx,docx,doc,txt,xml,bak,zip,php,html,pdf,dat,ps1,log"	# FILE EXTENSIONS
 keyPath = "python3 /usr/local/bin/" #/usr/share/doc/python3-impacket/examples/"  IMPACKET
+communityString = "public                                   "
+FuzzRider = "--hl 7                                   "
+currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 HST = "UNKNOWN                                 "
 CSP = "UNKNOWN                                 "
@@ -182,6 +188,7 @@ portsTCP = ["EMPTY"]*scrnLen		# TCP PORTS [x]
 portsUDP = ["EMPTY"]*scrnLen		# UDP PORTS [x] 
 servsTCP = [" "*COL4]*scrnLen      	# TCP SERVICE BANNER
 servsUDP = [" "*COL4]*scrnLen 		# UDP SERVICE BANNER
+
 coloum_one_Labels = [" "*COL1]*scrnLen	# LABELS
 coloum_one_Labels[0]  = "O/S  FORMAT"
 coloum_one_Labels[1]  = "DNS ADDRESS"
@@ -207,6 +214,7 @@ coloum_one_Labels[20] = "UNALLOCATED"
 coloum_one_Labels[21] = "COMMUNITY  "
 coloum_one_Labels[22] = "FUZZ  RIDER"
 coloum_one_Labels[23] = "WORD   LIST"
+
 coloum_nine_Labels = [" "*COL1]*scrnLen	# LABELS
 coloum_nine_Labels[0]  = "..........................."
 coloum_nine_Labels[1]  = ".CL4551F13D D474..........."
@@ -232,9 +240,6 @@ coloum_nine_Labels[20] = "..C0N7R0L 15 4N 1LLU510N..."
 coloum_nine_Labels[21] = ".......CL4551F1C4710N: X..."
 coloum_nine_Labels[22] = "7RU57 N0 0N3..............."
 coloum_nine_Labels[23] = ".................RA-2027..."
-communityString = "public                                   "
-FuzzRider = "--hl 7                                   "
-currentWordlist = "/usr/share/seclists/Discovery/Web-Content/common.txt"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -288,10 +293,6 @@ def clearClutter():
    localCOM("rm *.tmp")
    linecache.clearcache()
    return
-
-# EXTRACT A NUMBER FROM A STRING   
-def extract_numbers(input_string):
-    return re.sub(r'\D', '', input_string)
 
 # SORT STRING BY COMMA   
 def sort(string):
@@ -426,14 +427,6 @@ def test_USR():
 def test_PAS():
    if PAS == "":
       print("[-] PASSWORD has not been specified...")
-      return 1
-   else:
-      return 0
-
-# TEST IF SID IS POPULATED      
-def test_SID():
-   if SID[:5] == "EMPTY":
-      print("[-] Domain SID has not been specified...")
       return 1
    else:
       return 0
@@ -1898,7 +1891,7 @@ while True:
       BAK = currentWordlist
       currentWordlist = input("[?] Please enter a new word list: ")      
       if currentWordlist == "":
-         curentWordlist = BAK
+         currentWordlist = BAK
       else:
          print("[+]  Wordlist succesfully changed...")
       if len(currentWordlist) < COL1:
@@ -1959,7 +1952,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='32':
-      checkParama = test_TIP()
+      checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()      
       if checkParam != 1:
@@ -2450,7 +2443,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '49':
-      checkParama = test_TIP()
+      checkParam = test_TIP()
       if checkParam != 1:
          checkParam = test_DOM()             
       if checkParam != 1:
@@ -4915,7 +4908,8 @@ while True:
       foundText=""
       try:
          with open("credentials.tmp", 'r') as file:
-            for line_number, line in enumerate(file, 1):
+#            for line_number, line in enumerate(file, 1):
+            for line in enumerate(file, 1):
                 if "displayName" in line:
                     foundText=line.strip()
       except FileNotFoundError:
